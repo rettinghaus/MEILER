@@ -16,11 +16,23 @@
   <!-- MEI header -->
   <xsl:template match="mei:meiHead">
     <xsl:text>\header {&#10;</xsl:text>
-    <xsl:value-of select="concat('  title = &quot;',normalize-space(mei:workDesc/mei:work/mei:titleStmt/mei:title[1]),'&quot;&#10;')"/>
-    <xsl:for-each select="mei:workDesc//mei:persName">
+    <xsl:apply-templates/>
+    <xsl:text>}&#10;&#10;</xsl:text>
+  </xsl:template>
+  <!-- MEI fileDesc -->
+  <xsl:template match="mei:fileDesc">
+    <xsl:value-of select="concat('  copyright = &quot;',normalize-space(descendant::mei:pubStmt[1]/mei:respStmt[1]),'&quot;&#10;')"/>
+  </xsl:template>
+  <!-- MEI workDesc -->
+  <xsl:template match="mei:workDesc">
+    <xsl:value-of select="concat('  title = &quot;',normalize-space(descendant::mei:title[not(@type) or @type='main'][1]),'&quot;&#10;')"/>
+    <xsl:if test="descendant::mei:title[@type='subordinate']">
+      <xsl:value-of select="concat('  subtitle = &quot;',normalize-space(descendant::mei:title[@type='subordinate'][1]),'&quot;&#10;')"/>
+      <xsl:value-of select="concat('  subsubtitle = &quot;',normalize-space(descendant::mei:title[@type='subordinate'][2]),'&quot;&#10;')"/>
+    </xsl:if>
+    <xsl:for-each select="descendant::mei:persName[@role]">
       <xsl:value-of select="concat('  ',@role,' = &quot;',normalize-space(.),'&quot;&#10;')"/>
     </xsl:for-each>
-    <xsl:text>}&#10;&#10;</xsl:text>
   </xsl:template>
   <!-- MEI body element -->
   <xsl:template match="mei:body">
@@ -33,12 +45,12 @@
       <xsl:value-of select="concat('Staff',codepoints-to-string(xs:integer(64 + $staffNumber)),' = {&#10;')"/>
       <xsl:for-each select="/mei:mei/mei:music//mei:staff[@n=$staffNumber]">
         <xsl:text>&#32;&#32;</xsl:text>
-        <xsl:if test="ancestor::mei:measure/preceding-sibling::mei:staffDef/preceding-sibling::mei:measure[1]/@n = ancestor::mei:measure/preceding-sibling::mei:measure[1]/@n">
+        <xsl:if test="ancestor::mei:measure/preceding-sibling::mei:staffDef[@n = $staffNumber][@clef.shape]/preceding-sibling::mei:measure[1]/@n = ancestor::mei:measure/preceding-sibling::mei:measure[1]/@n">
           <xsl:call-template name="setClef">
-            <xsl:with-param name="clefShape" select="preceding::mei:staffDef[@n = $staffNumber][1]/@clef.shape"/>
-            <xsl:with-param name="clefLine" select="preceding::mei:staffDef[@n = $staffNumber][1]/@clef.line"/>
-            <xsl:with-param name="clefDis" select="preceding::mei:staffDef[@n = $staffNumber][1]/@clef.dis"/>
-            <xsl:with-param name="clefDisPlace" select="preceding::mei:staffDef[@n = $staffNumber][1]/@clef.dis.place"/>
+            <xsl:with-param name="clefShape" select="preceding::mei:staffDef[@n = $staffNumber][@clef.shape][1]/@clef.shape"/>
+            <xsl:with-param name="clefLine" select="preceding::mei:staffDef[@n = $staffNumber][@clef.shape][1]/@clef.line"/>
+            <xsl:with-param name="clefDis" select="preceding::mei:staffDef[@n = $staffNumber][@clef.shape][1]/@clef.dis"/>
+            <xsl:with-param name="clefDisPlace" select="preceding::mei:staffDef[@n = $staffNumber][@clef.shape][1]/@clef.dis.place"/>
           </xsl:call-template>
           <xsl:text>&#10;&#32;&#32;</xsl:text>
         </xsl:if>
@@ -355,6 +367,8 @@
   <!-- MEI chords -->
   <xsl:template match="mei:chord">
     <xsl:variable name="chordKey" select="concat('#',./@xml:id)"/>
+    <xsl:variable name="subChordKeys" select="descendant-or-self::*/concat('#',./@xml:id)"/>
+    <xsl:variable name="chordSubIDs" select="descendant-or-self::*/@xml:id"/>
     <xsl:if test="@visible='false'">
       <xml:text>\once \hideNotes </xml:text>
     </xsl:if>
@@ -365,6 +379,11 @@
     <xsl:if test="(starts-with(@tuplet,'i') or (//mei:tupletSpan/@startid = $chordKey)) and not(ancestor::mei:tuplet)">
       <xsl:value-of select="concat('\tuplet ',//mei:tupletSpan[@startid = $chordKey]/@num,'/',//mei:tupletSpan[@startid = $chordKey]/@numbase,' {')"/>
     </xsl:if>
+    <xsl:if test="//mei:arpeg[tokenize(@plist,' ') = $subChordKeys or @startid = $chordKey]/@order">
+      <xsl:call-template name="setArpegStyle">
+        <xsl:with-param name="arpegStyle" select="//mei:arpeg[tokenize(@plist,' ') = $subChordKeys or @startid = $chordKey]/@order"/>
+      </xsl:call-template>
+    </xsl:if>
     <xml:text>&lt; </xml:text>
     <xsl:apply-templates select="mei:note"/>
     <xml:text>&gt;</xml:text>
@@ -372,7 +391,7 @@
     <xsl:if test="contains(@tie,'i') or contains(@tie,'m') or (//mei:tie/@startid = $chordKey)">
       <xml:text>~</xml:text>
     </xsl:if>
-    <xsl:if test="../name() = 'beam'">
+    <xsl:if test="parent::mei:beam">
       <xsl:if test="position()=1">
         <xml:text>[</xml:text>
       </xsl:if>
@@ -385,6 +404,9 @@
     </xsl:if>
     <xsl:if test="contains(@slur,'i') or (//mei:slur/@startid = $chordKey)">
       <xml:text>(</xml:text>
+    </xsl:if>
+    <xsl:if test="//mei:arpeg[tokenize(@plist,' ') = $subChordKeys or @startid = $chordKey]">
+      <xml:text>\arpeggio</xml:text>
     </xsl:if>
     <xsl:if test="//mei:hairpin/@endid = $chordKey">
       <xml:text>\!</xml:text>
@@ -661,15 +683,33 @@
   <xsl:template name="setTempo" match="mei:tempo">
     <xsl:value-of select="concat('\tempo &quot;',normalize-space(.),'&quot;&#10;  ')"/>
   </xsl:template>
+  <!-- MEI rend -->
+  <xsl:template match="mei:rend">
+    <xsl:if test="@color">
+      <xsl:value-of select="concat('\with-color #',@color)"/>
+    </xsl:if>
+    <xsl:if test="@fontweight">
+      <xsl:value-of select="concat('\',@fontweight)"/>
+    </xsl:if>
+    <xsl:if test="@fontstyle">
+      <xsl:value-of select="concat('\',@fontstyle)"/>
+    </xsl:if>
+    <xsl:text> {</xsl:text>
+    <xsl:apply-templates/>
+    <xsl:text>} </xsl:text>
+  </xsl:template>
   <!-- excluded elements -->
   <xsl:template match="mei:app"/>
   <xsl:template match="mei:dir"/>
   <xsl:template match="mei:dynam"/>
+  <xsl:template match="mei:encodingDesc"/>
   <xsl:template match="mei:label"/>
   <xsl:template match="mei:lyr"/>
   <xsl:template match="mei:ornam"/>
   <xsl:template match="mei:pgHead"/>
   <xsl:template match="mei:pgFoot"/>
+  <xsl:template match="mei:revisionDesc"/>
+  <xsl:template match="mei:sourceDesc"/>
   <xsl:template match="mei:syl"/>
   <xsl:template match="mei:symbol"/>
   <xsl:template match="mei:verse"/>
@@ -996,6 +1036,21 @@
       </xsl:otherwise>
     </xsl:choose>
     <xsl:text>" </xsl:text>
+  </xsl:template>
+  <!-- set arpeggio style -->
+  <xsl:template name="setArpegStyle">
+    <xsl:param name="arpegStyle" select="@order"/>
+    <xsl:choose>
+      <xsl:when test="$arpegStyle = 'up'">
+        <xml:text>\once \arpeggioArrowUp </xml:text>
+      </xsl:when>
+      <xsl:when test="$arpegStyle = 'down'">
+        <xml:text>\once \arpeggioArrowDown </xml:text>
+      </xsl:when>
+      <xsl:when test="$arpegStyle = 'nonarp'">
+        <xml:text>\once \arpeggioBracket </xml:text>
+      </xsl:when>
+    </xsl:choose>
   </xsl:template>
   <!-- set simple markup diections -->
   <xsl:template name="setMarkupDirection">
