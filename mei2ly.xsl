@@ -2,7 +2,7 @@
 <!--        -->
 <!-- MEILER -->
 <!-- mei2ly -->
-<!-- v0.5.0 -->
+<!-- v0.5.2 -->
 <!-- programmed by Klaus Rettinghaus -->
 <!--        -->
 <xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:m="http://www.bach-digital.de/m" xmlns:saxon="http://saxon.sf.net/" exclude-result-prefixes="saxon">
@@ -247,19 +247,66 @@
     </xsl:if>
   </xsl:template>
   <!-- MEI clefs -->
-  <xsl:template match="mei:clef">
-    <xsl:call-template name="setClef">
-      <xsl:with-param name="clefShape" select="@shape"/>
-      <xsl:with-param name="clefLine" select="@line"/>
-      <xsl:with-param name="clefDis" select="@dis"/>
-      <xsl:with-param name="clefDisPlace" select="@dis.place"/>
-    </xsl:call-template>
+  <xsl:template name="setClef" match="mei:clef">
+    <xsl:param name="clefColor" select="@color"/>
+    <xsl:param name="clefDis" select="@dis"/>
+    <xsl:param name="clefDisPlace" select="@dis.place"/>
+    <xsl:param name="clefLine" select="@line"/>
+    <xsl:param name="clefShape" select="@shape"/>
+    <xsl:variable name="clefTrans">
+      <xsl:choose>
+        <xsl:when test="$clefDis = 8">
+          <xsl:choose>
+            <xsl:when test="$clefDisPlace='below'">
+              <xsl:value-of select="-7"/>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:value-of select="7"/>
+            </xsl:otherwise>
+          </xsl:choose>
+        </xsl:when>
+        <xsl:when test="$clefDis != 8 and $clefDisPlace='below'">
+          <xsl:value-of select="-1 * clefDis"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="0"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+    <xsl:variable name="clefPos" select="2 * number($clefLine) - 6"/>
+    <xsl:variable name="cOffset">
+      <xsl:choose>
+        <xsl:when test="$clefShape='F'">
+          <xsl:value-of select="4"/>
+        </xsl:when>
+        <xsl:when test="contains($clefShape,'G')">
+          <xsl:value-of select="-4"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="0"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+    <xsl:if test="$clefColor">
+      <xsl:if test="name()='clef'">
+        <xsl:value-of select="'\once '"/>
+      </xsl:if>
+      <xsl:value-of select="concat('\override Staff.Clef.color = #(x11-color &quot;',$clefColor,'&quot;) ')"/>
+    </xsl:if>
+    <xsl:value-of select="concat('\set Staff.clefGlyph = #','&quot;clefs.',$clefShape,'&quot; ')"/>
+    <xsl:value-of select="concat('\set Staff.clefPosition = #',$clefPos,' ')"/>
+    <xsl:value-of select="concat('\set Staff.clefTransposition = #',$clefTrans,' ')"/>
+    <xsl:value-of select="concat('\set Staff.middleCPosition = #',$clefPos + $cOffset - $clefTrans,' ')"/>
+    <xsl:value-of select="concat('\set Staff.middleCClefPosition = #',$clefPos + $cOffset - $clefTrans,' ')"/>
   </xsl:template>
   <!-- MEI notes -->
   <xsl:template match="mei:note[@pname]">
     <xsl:variable name="noteKey" select="concat('#',./@xml:id)"/>
     <xsl:if test="@visible='false'">
       <xml:text>\once \hideNotes </xml:text>
+    </xsl:if>
+    <xsl:if test="@head.color">
+      <xsl:value-of select="concat('\once \override NoteHead.color = #(x11-color &quot;',@head.color,'&quot;) ')"/>
     </xsl:if>
     <xsl:if test="//mei:octave[@dis='8']/@startid = $noteKey">
       <xml:text>\set Staff.ottavation = #"8va" </xml:text>
@@ -322,19 +369,11 @@
     <xsl:if test="@grace and parent::mei:beam and position()=last()">
       <xml:text>}</xml:text>
     </xsl:if>
-    <xsl:if test="//mei:hairpin/@endid = $noteKey">
+    <xsl:if test="//mei:hairpin/@endid = $noteKey or //mei:dynam/@endid = $noteKey">
       <xml:text>\!</xml:text>
     </xsl:if>
-    <xsl:if test="//mei:hairpin/@startid = $noteKey">
-      <xsl:choose>
-        <xsl:when test="//mei:hairpin[@startid = $noteKey]/@form = 'cres'">
-          <xml:text>\&lt;</xml:text>
-        </xsl:when>
-        <xsl:when test="//mei:hairpin[@startid = $noteKey]/@form = 'dim'">
-          <xml:text>\&gt;</xml:text>
-        </xsl:when>
-      </xsl:choose>
-    </xsl:if>
+    <xsl:apply-templates select="ancestor::mei:measure/mei:dynam[@startid = $noteKey]"/>
+    <xsl:apply-templates select="ancestor::mei:measure/mei:hairpin[@startid = $noteKey]"/>
     <xsl:apply-templates/>
     <xsl:if test="@artic">
       <xsl:call-template name="artic"/>
@@ -353,6 +392,7 @@
         </xsl:otherwise>
       </xsl:choose>
     </xsl:if>
+    <xsl:apply-templates select="ancestor::mei:measure/mei:pedal[@startid = $noteKey]"/>
     <xsl:if test="@fermata or (//mei:fermata/@startid = $noteKey)">
       <xsl:call-template name="fermata"/>
     </xsl:if>
@@ -408,19 +448,11 @@
     <xsl:if test="//mei:arpeg[tokenize(@plist,' ') = $subChordKeys or @startid = $chordKey]">
       <xml:text>\arpeggio</xml:text>
     </xsl:if>
-    <xsl:if test="//mei:hairpin/@endid = $chordKey">
+    <xsl:if test="//mei:hairpin/@endid = $chordKey or //mei:dynam/@endid = $chordKey">
       <xml:text>\!</xml:text>
     </xsl:if>
-    <xsl:if test="//mei:hairpin/@startid = $chordKey">
-      <xsl:choose>
-        <xsl:when test="//mei:hairpin[@startid = $chordKey]/@form = 'cresc'">
-          <xml:text>\&lt;</xml:text>
-        </xsl:when>
-        <xsl:when test="//mei:hairpin[@startid = $chordKey]/@form = 'dim'">
-          <xml:text>\&gt;</xml:text>
-        </xsl:when>
-      </xsl:choose>
-    </xsl:if>
+    <xsl:apply-templates select="ancestor::mei:measure/mei:dynam[@startid = $chordKey]"/>
+    <xsl:apply-templates select="ancestor::mei:measure/mei:hairpin[@startid = $chordKey]"/>
     <xsl:apply-templates select="mei:artic[1]"/>
     <xsl:if test="@artic">
       <xsl:call-template name="artic"/>
@@ -448,6 +480,11 @@
     </xsl:if>
     <xml:text>r</xml:text>
     <xsl:call-template name="setDuration"/>
+    <xsl:if test="//mei:hairpin/@endid = $restKey or //mei:dynam/@endid = $restKey">
+      <xml:text>\!</xml:text>
+    </xsl:if>
+    <xsl:apply-templates select="ancestor::mei:measure/mei:dynam[@startid = $restKey]"/>
+    <xsl:apply-templates select="ancestor::mei:measure/mei:hairpin[@startid = $restKey]"/>
     <xsl:if test="@fermata or (//mei:fermata/@startid = $restKey)">
       <xsl:call-template name="fermata"/>
     </xsl:if>
@@ -573,8 +610,8 @@
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
-  <!-- MEI ornament attributes -->
-  <xsl:template name="mei:octave">
+  <!-- MEI octave -->
+  <xsl:template match="mei:octave">
   </xsl:template>
   <!-- MEI ornament attributes -->
   <xsl:template name="ornam">
@@ -620,6 +657,40 @@
     <xsl:value-of select="concat('\tuplet ',@num,'/',@numbase,' {')"/>
     <xsl:apply-templates/>
     <xsl:text>} </xsl:text>
+  </xsl:template>
+  <!-- MEI dynamic -->
+  <xsl:template match="mei:dynam">
+    <xsl:call-template name="setMarkupDirection">
+      <xsl:with-param name="direction" select="@place"/>
+    </xsl:call-template>
+    <xsl:value-of select="concat('\',.)"/>
+  </xsl:template>
+  <!-- MEI hairpin -->
+  <xsl:template match="mei:hairpin">
+    <xsl:choose>
+      <xsl:when test="@form = 'cres'">
+        <xml:text>\&lt;</xml:text>
+      </xsl:when>
+      <xsl:when test="@form = 'dim'">
+        <xml:text>\&gt;</xml:text>
+      </xsl:when>
+    </xsl:choose>
+  </xsl:template>
+  <!-- MEI pedal -->
+  <xsl:template match="mei:pedal">
+    <xsl:choose>
+      <xsl:when test="@dir = 'down'">
+        <xml:text>\sustainOn</xml:text>
+      </xsl:when>
+      <xsl:when test="@dir = 'up'">
+        <xml:text>\sustainOff</xml:text>
+      </xsl:when>
+      <xsl:when test="@dir = 'half'">
+      </xsl:when>
+      <xsl:when test="@dir = 'bounce'">
+        <xml:text>\sustainOff\sustainOn</xml:text>
+      </xsl:when>
+    </xsl:choose>
   </xsl:template>
   <!-- MEI harmony -->
   <xsl:template match="mei:harm[mei:fb]">
@@ -686,22 +757,21 @@
   <!-- MEI rend -->
   <xsl:template match="mei:rend">
     <xsl:if test="@color">
-      <xsl:value-of select="concat('\with-color #',@color)"/>
+      <xsl:value-of select="concat('\with-color #(x11-color &quot;',@color,'&quot;) ')"/>
     </xsl:if>
     <xsl:if test="@fontweight">
-      <xsl:value-of select="concat('\',@fontweight)"/>
+      <xsl:value-of select="concat('\',@fontweight,' ')"/>
     </xsl:if>
     <xsl:if test="@fontstyle">
-      <xsl:value-of select="concat('\',@fontstyle)"/>
+      <xsl:value-of select="concat('\',@fontstyle),' '"/>
     </xsl:if>
-    <xsl:text> {</xsl:text>
+    <xsl:text>{</xsl:text>
     <xsl:apply-templates/>
     <xsl:text>} </xsl:text>
   </xsl:template>
   <!-- excluded elements -->
   <xsl:template match="mei:app"/>
   <xsl:template match="mei:dir"/>
-  <xsl:template match="mei:dynam"/>
   <xsl:template match="mei:encodingDesc"/>
   <xsl:template match="mei:label"/>
   <xsl:template match="mei:lyr"/>
@@ -831,52 +901,6 @@
     </xsl:if>
     <xsl:text>} </xsl:text>
   </xsl:template>
-  <!-- set clefs -->
-  <xsl:template name="setClef">
-    <xsl:param name="clefShape" />
-    <xsl:param name="clefLine" />
-    <xsl:param name="clefDis" />
-    <xsl:param name="clefDisPlace" />
-    <xsl:variable name="clefTrans">
-      <xsl:choose>
-        <xsl:when test="$clefDis = 8">
-          <xsl:choose>
-            <xsl:when test="$clefDisPlace='below'">
-              <xsl:value-of select="-7"/>
-            </xsl:when>
-            <xsl:otherwise>
-              <xsl:value-of select="7"/>
-            </xsl:otherwise>
-          </xsl:choose>
-        </xsl:when>
-        <xsl:when test="$clefDis != 8 and $clefDisPlace='below'">
-          <xsl:value-of select="-1 * clefDis"/>
-        </xsl:when>
-        <xsl:otherwise>
-          <xsl:value-of select="0"/>
-        </xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
-    <xsl:variable name="clefPos" select="2 * number($clefLine) - 6"/>
-    <xsl:variable name="cOffset">
-      <xsl:choose>
-        <xsl:when test="$clefShape='F'">
-          <xsl:value-of select="4"/>
-        </xsl:when>
-        <xsl:when test="contains($clefShape,'G')">
-          <xsl:value-of select="-4"/>
-        </xsl:when>
-        <xsl:otherwise>
-          <xsl:value-of select="0"/>
-        </xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
-    <xsl:value-of select="concat('\set Staff.clefGlyph = #','&quot;clefs.',$clefShape,'&quot; ')"/>
-    <xsl:value-of select="concat('\set Staff.clefPosition = #',$clefPos,' ')"/>
-    <xsl:value-of select="concat('\set Staff.clefTransposition = #',$clefTrans,' ')"/>
-    <xsl:value-of select="concat('\set Staff.middleCPosition = #',$clefPos + $cOffset - $clefTrans,' ')"/>
-    <xsl:value-of select="concat('\set Staff.middleCClefPosition = #',$clefPos + $cOffset - $clefTrans,' ')"/>
-  </xsl:template>
   <!-- set key -->
   <xsl:template name="setKeySignature">
     <xsl:param name="accidentals"/>
@@ -954,7 +978,7 @@
         </xsl:choose>
       </xsl:when>
       <xsl:when test="$meterCount or $meterUnit">
-        <xsl:if test="$meterCount = $meterUnit">
+        <xsl:if test="($meterCount = $meterUnit) and not($meterSymbol)">
           <xsl:text>\once \numericTimeSignature </xsl:text>
         </xsl:if>
         <xsl:choose>
