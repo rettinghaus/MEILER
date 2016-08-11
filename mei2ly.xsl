@@ -368,6 +368,11 @@
       <xsl:call-template name="setDuration"/>
     </xsl:if>
     <xsl:if test="contains(@tie,'i') or contains(@tie,'m') or (//mei:tie/@startid = $noteKey)">
+      <xsl:if test="not(@tie)">
+        <xsl:call-template name="setMarkupDirection">
+          <xsl:with-param name="direction" select="//mei:tie[@startid = $noteKey]/@curvedir"/>
+        </xsl:call-template>
+      </xsl:if>
       <xml:text>~</xml:text>
     </xsl:if>
     <xsl:if test="contains(@beam,'i') or (parent::mei:beam and position()=1)">
@@ -380,9 +385,11 @@
       <xml:text>)</xml:text>
     </xsl:if>
     <xsl:if test="contains(@slur,'i') or (//mei:slur/@startid = $noteKey)">
-      <xsl:call-template name="setMarkupDirection">
-        <xsl:with-param name="direction" select="//mei:slur[@startid = $noteKey]/@curvedir"/>
-      </xsl:call-template>
+      <xsl:if test="not(@slur)">
+        <xsl:call-template name="setMarkupDirection">
+          <xsl:with-param name="direction" select="//mei:slur[@startid = $noteKey]/@curvedir"/>
+        </xsl:call-template>
+      </xsl:if>
       <xml:text>(</xml:text>
     </xsl:if>
     <xsl:if test="@grace and parent::mei:beam and position()=last()">
@@ -455,6 +462,11 @@
     <xml:text>&gt;</xml:text>
     <xsl:call-template name="setDuration"/>
     <xsl:if test="contains(@tie,'i') or contains(@tie,'m') or (//mei:tie/@startid = $chordKey)">
+      <xsl:if test="not(@tie)">
+        <xsl:call-template name="setMarkupDirection">
+          <xsl:with-param name="direction" select="//mei:tie[@startid = $chordKey]/@curvedir"/>
+        </xsl:call-template>
+      </xsl:if>
       <xml:text>~</xml:text>
     </xsl:if>
     <xsl:if test="contains(@beam,'i') or (parent::mei:beam and position()=1)">
@@ -467,9 +479,11 @@
       <xml:text>)</xml:text>
     </xsl:if>
     <xsl:if test="contains(@slur,'i') or (//mei:slur/@startid = $chordKey)">
-      <xsl:call-template name="setMarkupDirection">
-        <xsl:with-param name="direction" select="//mei:slur[@startid = $chordKey]/@curvedir"/>
-      </xsl:call-template>
+      <xsl:if test="not(@slur)">
+        <xsl:call-template name="setMarkupDirection">
+          <xsl:with-param name="direction" select="//mei:slur[@startid = $chordKey]/@curvedir"/>
+        </xsl:call-template>
+      </xsl:if>
       <xml:text>(</xml:text>
     </xsl:if>
     <xsl:if test="//mei:arpeg[tokenize(@plist,' ') = $subChordKeys or @startid = $chordKey]">
@@ -566,7 +580,7 @@
   <xsl:template match="mei:accid"/>
   <!-- MEI articulation -->
   <xsl:template name="artic" match="mei:artic">
-    <xsl:if test="name()='artic' and @place">
+    <xsl:if test="self::mei:artic">
       <xsl:call-template name="setMarkupDirection">
         <xsl:with-param name="direction" select="@place"/>
       </xsl:call-template>
@@ -626,11 +640,9 @@
   </xsl:template>
   <!-- MEI mordent -->
   <xsl:template name="mordent" match="mei:mordent">
-    <xsl:if test="@place">
-      <xsl:call-template name="setMarkupDirection">
-        <xsl:with-param name="direction" select="@place"/>
-      </xsl:call-template>
-    </xsl:if>
+    <xsl:call-template name="setMarkupDirection">
+      <xsl:with-param name="direction" select="@place"/>
+    </xsl:call-template>
     <xsl:choose>
       <xsl:when test="@form = 'inv'">
         <xsl:text>\prall</xsl:text>
@@ -710,20 +722,16 @@
   </xsl:template>
   <!-- MEI dynamic -->
   <xsl:template match="mei:dynam">
-    <xsl:if test="@place">
-      <xsl:call-template name="setMarkupDirection">
-        <xsl:with-param name="direction" select="@place"/>
-      </xsl:call-template>
-    </xsl:if>
+    <xsl:call-template name="setMarkupDirection">
+      <xsl:with-param name="direction" select="@place"/>
+    </xsl:call-template>
     <xsl:value-of select="concat('\',.)"/>
   </xsl:template>
   <!-- MEI hairpin -->
   <xsl:template match="mei:hairpin">
-    <xsl:if test="@place">
-      <xsl:call-template name="setMarkupDirection">
-        <xsl:with-param name="direction" select="@place"/>
-      </xsl:call-template>
-    </xsl:if>
+    <xsl:call-template name="setMarkupDirection">
+      <xsl:with-param name="direction" select="@place"/>
+    </xsl:call-template>
     <xsl:choose>
       <xsl:when test="@form = 'cres'">
         <xml:text>\&lt;</xml:text>
