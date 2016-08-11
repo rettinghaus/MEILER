@@ -45,6 +45,12 @@
       <xsl:value-of select="concat('Staff',codepoints-to-string(xs:integer(64 + $staffNumber)),' = {&#10;')"/>
       <xsl:for-each select="/mei:mei/mei:music//mei:staff[@n=$staffNumber]">
         <xsl:text>&#32;&#32;</xsl:text>
+        <!-- add volta brackets -->
+        <xsl:if test="ancestor::mei:ending and not(ancestor::mei:measure/preceding-sibling::mei:measure)">
+          <xsl:text>\set Score.repeatCommands = #'((volta "</xsl:text>
+          <xsl:value-of select="concat(ancestor::mei:ending/@n[1],'.')"/>
+          <xsl:text>"))&#10;&#32;&#32;</xsl:text>
+        </xsl:if>
         <xsl:if test="ancestor::mei:measure/preceding-sibling::mei:staffDef[@n = $staffNumber][@clef.shape]/preceding-sibling::mei:measure[1]/@n = ancestor::mei:measure/preceding-sibling::mei:measure[1]/@n">
           <xsl:call-template name="setClef">
             <xsl:with-param name="clefShape" select="preceding::mei:staffDef[@n = $staffNumber][@clef.shape][1]/@clef.shape"/>
@@ -77,6 +83,10 @@
         </xsl:if>
         <!-- print bar number -->
         <xsl:value-of select="concat('%',ancestor::mei:measure/@n,'&#10;')"/>
+        <!-- close volta brackets -->
+        <xsl:if test="ancestor::mei:ending and not(ancestor::mei:ending/following-sibling::*[1][self::mei:ending])">
+          <xsl:text>&#32;&#32;\set Score.repeatCommands = #'((volta #f))&#10;</xsl:text>
+        </xsl:if>
         <!-- add breaks -->
         <xsl:apply-templates select="following::mei:sb[following::mei:measure[1]/@n = current()/ancestor::mei:measure/@n + 1]"/>
         <xsl:apply-templates select="following::mei:pb[following::mei:measure[1]/@n = current()/ancestor::mei:measure/@n + 1]"/>
@@ -175,12 +185,24 @@
     <xsl:if test="@label or @label.abbr">
       <xsl:call-template name="setInstrumentName"/>
     </xsl:if>
+    <!-- add figured bass -->
     <xsl:if test="//mei:harm[descendant::mei:fb]/@staff = $staffNumber">
       <xsl:value-of select="concat('&#10;  \Staff',codepoints-to-string(xs:integer(64 + $staffNumber)),'_fb')"/>
       <xsl:value-of select="concat('&#10;  \context Staff = &quot;Staff ',$staffNumber,'&quot;&#32;')"/>
     </xsl:if>
     <xsl:text>{&#10;    </xsl:text>
     <xsl:apply-templates select="mei:instrDef"/>
+    <xsl:if test="@lines and @lines != '5'">
+      <xsl:value-of select="concat('\override Staff.StaffSymbol.line-count = #',@lines,'&#10;    ')"/>
+    </xsl:if>
+    <xsl:choose>
+      <xsl:when test="@lines.visible = 'true'">
+        <xsl:value-of select="'\override Staff.StaffSymbol.transparent = ##f&#10;    '"/>
+      </xsl:when>
+      <xsl:when test="@lines.visible = 'false'">
+        <xsl:value-of select="'\override Staff.StaffSymbol.transparent = ##t&#10;    '"/>
+      </xsl:when>
+    </xsl:choose>
     <xsl:text>\autoBeamOff \set tieWaitForNote = ##t&#10;    </xsl:text>
     <xsl:call-template name="setClef">
       <xsl:with-param name="clefShape" select="@clef.shape"/>
@@ -317,6 +339,9 @@
     <xsl:if test="(starts-with(@tuplet,'i') or (//mei:tupletSpan/@startid = $noteKey)) and not(ancestor::mei:tuplet)">
       <xsl:value-of select="concat('\tuplet ',//mei:tupletSpan[@startid = $noteKey]/@num,'/',//mei:tupletSpan[@startid = $noteKey]/@numbase,' {')"/>
     </xsl:if>
+    <xsl:if test="//mei:slur[@startid = $noteKey]/@lform">
+      <xsl:value-of select="concat('\once \slur',translate(substring(//mei:slur[@startid = $noteKey]/@lform,1,1),'ds','DS'),substring(//mei:slur[@startid = $noteKey]/@lform,2),' ')"/>
+    </xsl:if>
     <xsl:if test="@head.shape = 'x'">
       <xml:text>\xNote </xml:text>
     </xsl:if>
@@ -345,13 +370,11 @@
     <xsl:if test="contains(@tie,'i') or contains(@tie,'m') or (//mei:tie/@startid = $noteKey)">
       <xml:text>~</xml:text>
     </xsl:if>
-    <xsl:if test="parent::mei:beam">
-      <xsl:if test="position()=1">
-        <xml:text>[</xml:text>
-      </xsl:if>
-      <xsl:if test="position()=last()">
-        <xml:text>]</xml:text>
-      </xsl:if>
+    <xsl:if test="contains(@beam,'i') or (parent::mei:beam and position()=1)">
+      <xml:text>[</xml:text>
+    </xsl:if>
+    <xsl:if test="contains(@beam,'t') or (parent::mei:beam and position()=last())">
+      <xml:text>]</xml:text>
     </xsl:if>
     <xsl:if test="contains(@slur,'t') or (//mei:slur/@endid = $noteKey)">
       <xml:text>)</xml:text>
@@ -375,7 +398,10 @@
     <xsl:if test="@artic">
       <xsl:call-template name="artic"/>
     </xsl:if>
-    <xsl:call-template name="ornam"/>
+    <xsl:if test="@ornam">
+      <xsl:call-template name="ornam"/>
+    </xsl:if>
+    <xsl:apply-templates select="ancestor::mei:measure/mei:mordent[@startid = $noteKey]"/>
     <xsl:if test="//mei:trill/@endid = $noteKey">
       <xml:text>\stopTrillSpan</xml:text>
     </xsl:if>
@@ -389,10 +415,10 @@
         </xsl:otherwise>
       </xsl:choose>
     </xsl:if>
-    <xsl:apply-templates select="ancestor::mei:measure/mei:pedal[@startid = $noteKey]"/>
     <xsl:if test="@fermata or (//mei:fermata/@startid = $noteKey)">
       <xsl:call-template name="fermata"/>
     </xsl:if>
+    <xsl:apply-templates select="ancestor::mei:measure/mei:pedal[@startid = $noteKey]"/>
     <xsl:if test="(starts-with(@tuplet,'t') or (//mei:tupletSpan/@endid = $noteKey)) and not(ancestor::mei:tuplet)">
       <xsl:value-of select="'}'"/>
     </xsl:if>
@@ -416,6 +442,9 @@
     <xsl:if test="(starts-with(@tuplet,'i') or (//mei:tupletSpan/@startid = $chordKey)) and not(ancestor::mei:tuplet)">
       <xsl:value-of select="concat('\tuplet ',//mei:tupletSpan[@startid = $chordKey]/@num,'/',//mei:tupletSpan[@startid = $chordKey]/@numbase,' {')"/>
     </xsl:if>
+    <xsl:if test="//mei:slur[@startid = $chordKey]/@lform">
+      <xsl:value-of select="concat('\once \slur',translate(substring(//mei:slur[@startid = $chordKey]/@lform,1,1),'ds','DS'),substring(//mei:slur[@startid = $chordKey]/@lform,2),' ')"/>
+    </xsl:if>
     <xsl:if test="//mei:arpeg[tokenize(@plist,' ') = $subChordKeys or @startid = $chordKey]/@order">
       <xsl:call-template name="setArpegStyle">
         <xsl:with-param name="arpegStyle" select="//mei:arpeg[tokenize(@plist,' ') = $subChordKeys or @startid = $chordKey]/@order"/>
@@ -428,18 +457,19 @@
     <xsl:if test="contains(@tie,'i') or contains(@tie,'m') or (//mei:tie/@startid = $chordKey)">
       <xml:text>~</xml:text>
     </xsl:if>
-    <xsl:if test="parent::mei:beam">
-      <xsl:if test="position()=1">
-        <xml:text>[</xml:text>
-      </xsl:if>
-      <xsl:if test="position()=last()">
-        <xml:text>]</xml:text>
-      </xsl:if>
+    <xsl:if test="contains(@beam,'i') or (parent::mei:beam and position()=1)">
+      <xml:text>[</xml:text>
+    </xsl:if>
+    <xsl:if test="contains(@beam,'t') or (parent::mei:beam and position()=last())">
+      <xml:text>]</xml:text>
     </xsl:if>
     <xsl:if test="contains(@slur,'t') or (//mei:slur/@endid = $chordKey)">
       <xml:text>)</xml:text>
     </xsl:if>
     <xsl:if test="contains(@slur,'i') or (//mei:slur/@startid = $chordKey)">
+      <xsl:call-template name="setMarkupDirection">
+        <xsl:with-param name="direction" select="//mei:slur[@startid = $chordKey]/@curvedir"/>
+      </xsl:call-template>
       <xml:text>(</xml:text>
     </xsl:if>
     <xsl:if test="//mei:arpeg[tokenize(@plist,' ') = $subChordKeys or @startid = $chordKey]">
@@ -450,14 +480,18 @@
     </xsl:if>
     <xsl:apply-templates select="ancestor::mei:measure/mei:dynam[@startid = $chordKey]"/>
     <xsl:apply-templates select="ancestor::mei:measure/mei:hairpin[@startid = $chordKey]"/>
-    <xsl:apply-templates select="mei:artic[1]"/>
+    <xsl:apply-templates select="mei:artic"/>
     <xsl:if test="@artic">
       <xsl:call-template name="artic"/>
     </xsl:if>
+    <xsl:if test="@ornam">
+      <xsl:call-template name="ornam"/>
+    </xsl:if>
+    <xsl:apply-templates select="ancestor::mei:measure/mei:mordent[@startid = $chordKey]"/>
     <xsl:if test="@fermata or (//mei:fermata/@startid = $chordKey)">
       <xsl:call-template name="fermata"/>
     </xsl:if>
-    <xsl:call-template name="ornam"/>
+    <xsl:apply-templates select="ancestor::mei:measure/mei:pedal[@startid = $chordKey]"/>
     <xsl:if test="(starts-with(@tuplet,'t') or (//mei:tupletSpan/@endid = $chordKey)) and not(ancestor::mei:tuplet)">
       <xsl:value-of select="'}'"/>
     </xsl:if>
@@ -532,7 +566,7 @@
   <xsl:template match="mei:accid"/>
   <!-- MEI articulation -->
   <xsl:template name="artic" match="mei:artic">
-    <xsl:if test="name()='artic'">
+    <xsl:if test="name()='artic' and @place">
       <xsl:call-template name="setMarkupDirection">
         <xsl:with-param name="direction" select="@place"/>
       </xsl:call-template>
@@ -592,9 +626,11 @@
   </xsl:template>
   <!-- MEI mordent -->
   <xsl:template name="mordent" match="mei:mordent">
-    <xsl:call-template name="setMarkupDirection">
-      <xsl:with-param name="direction" select="@place"/>
-    </xsl:call-template>
+    <xsl:if test="@place">
+      <xsl:call-template name="setMarkupDirection">
+        <xsl:with-param name="direction" select="@place"/>
+      </xsl:call-template>
+    </xsl:if>
     <xsl:choose>
       <xsl:when test="@form = 'inv'">
         <xsl:text>\prall</xsl:text>
@@ -611,6 +647,10 @@
   <xsl:template match="mei:octave" mode="start">
     <xsl:if test="@color">
       <xsl:value-of select="concat('\once \override Staff.OttavaBracket.color = #(x11-color &quot;',@color,'&quot;) ')"/>
+    </xsl:if>
+    <xsl:if test="@lform">
+      <xsl:text>\once \override Staff.OttavaBracket.style = #'</xsl:text>
+      <xsl:value-of select="concat(@lform,'-line ')"/>
     </xsl:if>
     <xsl:choose>
       <xsl:when test="@dis.place = 'above'">
@@ -670,13 +710,20 @@
   </xsl:template>
   <!-- MEI dynamic -->
   <xsl:template match="mei:dynam">
-    <xsl:call-template name="setMarkupDirection">
-      <xsl:with-param name="direction" select="@place"/>
-    </xsl:call-template>
+    <xsl:if test="@place">
+      <xsl:call-template name="setMarkupDirection">
+        <xsl:with-param name="direction" select="@place"/>
+      </xsl:call-template>
+    </xsl:if>
     <xsl:value-of select="concat('\',.)"/>
   </xsl:template>
   <!-- MEI hairpin -->
   <xsl:template match="mei:hairpin">
+    <xsl:if test="@place">
+      <xsl:call-template name="setMarkupDirection">
+        <xsl:with-param name="direction" select="@place"/>
+      </xsl:call-template>
+    </xsl:if>
     <xsl:choose>
       <xsl:when test="@form = 'cres'">
         <xml:text>\&lt;</xml:text>
@@ -716,7 +763,7 @@
       <xsl:value-of select="concat('s',$meterUnit)"/>
       <xsl:if test="@tstamp != 2">
         <xsl:text>*</xsl:text>
-        <xsl:call-template name="decimal-to-fraction">
+        <xsl:call-template name="durationMultiplier">
           <xsl:with-param name="decimalnum" select="@tstamp - 1"/>
         </xsl:call-template>
       </xsl:if>
@@ -727,7 +774,7 @@
     <xsl:choose>
       <xsl:when test="not(following-sibling::mei:harm[@staff = current()/@staff][mei:fb]) and @tstamp != $meterCount">
         <xsl:variable name="meterFactor">
-          <xsl:call-template name="decimal-to-fraction">
+          <xsl:call-template name="durationMultiplier">
             <xsl:with-param name="decimalnum" select="$meterCount - @tstamp + 1"/>
           </xsl:call-template>
         </xsl:variable>
@@ -735,7 +782,7 @@
       </xsl:when>
       <xsl:when test="following-sibling::mei:harm[@staff = current()/@staff]/mei:fb and (following-sibling::mei:harm[@staff = current()/@staff][mei:fb][1]/@tstamp - @tstamp != 1)">
         <xsl:variable name="meterFactor">
-          <xsl:call-template name="decimal-to-fraction">
+          <xsl:call-template name="durationMultiplier">
             <xsl:with-param name="decimalnum" select="following-sibling::mei:harm[@staff = current()/@staff][mei:fb][1]/@tstamp - @tstamp"/>
           </xsl:call-template>
         </xsl:variable>
@@ -750,7 +797,9 @@
   </xsl:template>
   <!-- MEI finger -->
   <xsl:template match="mei:fing">
-    <xsl:text>-</xsl:text>
+    <xsl:call-template name="setMarkupDirection">
+      <xsl:with-param name="direction" select="@place"/>
+    </xsl:call-template>
     <xsl:apply-templates/>
   </xsl:template>
   <!-- MEI figured bass -->
@@ -801,6 +850,18 @@
     <xsl:text>{</xsl:text>
     <xsl:apply-templates/>
     <xsl:text>} </xsl:text>
+  </xsl:template>
+  <!-- MEI system break -->
+  <xsl:template match="mei:key">
+    <xsl:if test="@pname and @mode">
+      <xsl:value-of select="@key.pname"/>
+      <xsl:if test="@accid">
+        <xsl:call-template name="setAccidental">
+          <xsl:with-param name="accidental" select="@accid"/>
+        </xsl:call-template>
+      </xsl:if>
+      <xsl:value-of select="concat(' \',@key.mode,' ')"/>
+    </xsl:if>
   </xsl:template>
   <!-- MEI system break -->
   <xsl:template match="mei:sb">
@@ -1139,10 +1200,10 @@
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
-  <!--                -->
-  <!-- Bruch erzeuger -->
-  <!--                -->
-  <xsl:template name="decimal-to-fraction">
+  <!--               -->
+  <!-- Make fraction -->
+  <!--               -->
+  <xsl:template name="durationMultiplier">
     <xsl:param name="decimalnum"/>
     <xsl:param name="num" select="round($decimalnum * 1000)"/>
     <!-- numerator -->
@@ -1155,7 +1216,14 @@
         <xsl:with-param name="dom" select="$dom"/>
       </xsl:call-template>
     </xsl:param>
-    <xsl:value-of select="$num div $gcd"/>/<xsl:value-of select="$dom div $gcd"/>
+    <xsl:choose>
+      <xsl:when test="$decimalnum = floor($decimalnum)">
+        <xsl:value-of select="$decimalnum"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="concat($num div $gcd,'/',$dom div $gcd)"/>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
   <xsl:template name="greatest-common-divisor">
     <xsl:param name="num"/>
@@ -1184,8 +1252,7 @@
         </xsl:call-template>
       </xsl:when>
       <xsl:otherwise>
-        <!-- Error, both parameters zero -->
-        <xsl:text>error</xsl:text>
+        <xsl:text>1</xsl:text>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
