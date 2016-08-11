@@ -140,8 +140,8 @@ List of supported MEI elements and attributes
 * `<tuplet>`
   * `@bracket.place`
   * `@bracket.visible`
-  *__`@num`__
-  *__`@num.base`__
+  * __`@num`__
+  * __`@num.base`__
   * `@num.format`
   * `@num.visible`
   * `@lform`
