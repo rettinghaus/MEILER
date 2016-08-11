@@ -2,7 +2,7 @@
 <!--        -->
 <!-- MEILER -->
 <!-- mei2ly -->
-<!-- v0.5.3 -->
+<!-- v0.5.4 -->
 <!-- programmed by Klaus Rettinghaus -->
 <!--        -->
 <xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:m="http://www.bach-digital.de/m" xmlns:saxon="http://saxon.sf.net/" exclude-result-prefixes="saxon">
@@ -368,7 +368,7 @@
       <xsl:call-template name="setDuration"/>
     </xsl:if>
     <xsl:if test="contains(@tie,'i') or contains(@tie,'m') or (//mei:tie/@startid = $noteKey)">
-      <xsl:if test="not(@tie)">
+      <xsl:if test="//mei:tie/@startid = $noteKey">
         <xsl:call-template name="setMarkupDirection">
           <xsl:with-param name="direction" select="//mei:tie[@startid = $noteKey]/@curvedir"/>
         </xsl:call-template>
@@ -385,7 +385,7 @@
       <xml:text>)</xml:text>
     </xsl:if>
     <xsl:if test="contains(@slur,'i') or (//mei:slur/@startid = $noteKey)">
-      <xsl:if test="not(@slur)">
+      <xsl:if test="//mei:slur/@startid = $noteKey">
         <xsl:call-template name="setMarkupDirection">
           <xsl:with-param name="direction" select="//mei:slur[@startid = $noteKey]/@curvedir"/>
         </xsl:call-template>
@@ -462,7 +462,7 @@
     <xml:text>&gt;</xml:text>
     <xsl:call-template name="setDuration"/>
     <xsl:if test="contains(@tie,'i') or contains(@tie,'m') or (//mei:tie/@startid = $chordKey)">
-      <xsl:if test="not(@tie)">
+      <xsl:if test="//mei:tie/@startid = $chordKey">
         <xsl:call-template name="setMarkupDirection">
           <xsl:with-param name="direction" select="//mei:tie[@startid = $chordKey]/@curvedir"/>
         </xsl:call-template>
@@ -479,7 +479,7 @@
       <xml:text>)</xml:text>
     </xsl:if>
     <xsl:if test="contains(@slur,'i') or (//mei:slur/@startid = $chordKey)">
-      <xsl:if test="not(@slur)">
+      <xsl:if test="//mei:slur/@startid = $chordKey">
         <xsl:call-template name="setMarkupDirection">
           <xsl:with-param name="direction" select="//mei:slur[@startid = $chordKey]/@curvedir"/>
         </xsl:call-template>
