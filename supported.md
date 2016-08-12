@@ -45,6 +45,34 @@ List of supported MEI elements and attributes
 * `<fing>`
   * `@place`
 
+* `<hairpin>`
+  * `@endid`
+  * `@form` (for values 'cres' and 'dim')
+  * `@place`
+  * `@startid`
+
+* `<harm>`
+  * `@place`
+  * `@staff`
+  * `@tstamp`
+
+* `<measure>`
+  * `@metcon`
+  * `@n`
+  * `@right`
+
+* `<mordent>`
+  * `@long`
+  * `@place`
+  * `@form`
+  * `@startid`
+
+* `<mRest>`
+  * `@dur`
+
+* `<mSpace>`
+  * `@dur`
+
 * `<note>`
   * `@accid`
   * `@accid.ges`
@@ -59,31 +87,11 @@ List of supported MEI elements and attributes
   * `@ornam`
   * `@pname`
   * `@slur`
+  * `@staff`
   * `@stem.dir`
   * `@stem.mod`  (for value '1slash')
   * `@tie`
   * `@visible`
-
-* `<hairpin>`
-  * `@endid`
-  * `@form` (for values 'cres' and 'dim')
-  * `@place`
-  * `@startid`
-
-* `<harm>`
-  * `@place`
-  * `@tstamp`
-
-* `<measure>`
-  * `@metcon`
-  * `@n`
-  * `@right`
-
-* `<mordent>`
-  * `@long`
-  * `@place`
-  * `@form`
-  * `@startid`
 
 * `<octave>`
   * `@color`
@@ -100,6 +108,16 @@ List of supported MEI elements and attributes
   * `@dir`
   * `@startid`
 
+* `<rest>`
+  * `@beam`
+  * `@color`
+  * `@dur`
+  * `@fermata`
+  * `@oloc`
+  * `@ploc`
+  * `@staff`
+  * `@visible`
+
 * `<sb>`
   * `@n`
 
@@ -109,12 +127,18 @@ List of supported MEI elements and attributes
   * `@lform` (for values 'dashed', 'dotted', and 'solid')
   * `@startid`
 
+* `<space>`
+  * `@dur`
+
 * `<staffDef>`
   * `@clef.dis`
   * `@clef.dis.place`
   * `@clef.line`
   * `@clef.shape`
-  * `@key.sig`
+  * `@key.accid`
+  * `@key.mode`
+  * `@key.pname`
+  * `@key.sig` (unsupported for value 'mixed')
   * `@lines`
   * `@lines.visible`
   * `@lyric.fam`
@@ -146,3 +170,5 @@ List of supported MEI elements and attributes
   * `@num.visible`
   * `@lform`
   * `@startid`
+
+`att.color` supports HTML 4.01 color names

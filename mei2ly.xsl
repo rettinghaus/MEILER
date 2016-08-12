@@ -60,9 +60,13 @@
           </xsl:call-template>
           <xsl:text>&#10;&#32;&#32;</xsl:text>
         </xsl:if>
-        <xsl:if test="ancestor::mei:measure/preceding-sibling::*[1]/@key.sig">
-          <xsl:call-template name="setKeySignature">
-            <xsl:with-param name="accidentals" select="ancestor::mei:measure/preceding-sibling::*[1]/@key.sig"/>
+        <xsl:if test="ancestor::mei:measure/preceding-sibling::*[name()='keySig' or @*[substring(name(),1,3) = 'key']][1]">
+          <xsl:call-template name="setKey">
+            <xsl:with-param name="keyPname" select="ancestor::mei:measure/preceding-sibling::*[1]/@key.pname"/>
+            <xsl:with-param name="keyAccid" select="ancestor::mei:measure/preceding-sibling::*[1]/@key.accid"/>
+            <xsl:with-param name="keyMode" select="ancestor::mei:measure/preceding-sibling::*[1]/@key.mode"/>
+            <xsl:with-param name="keySig" select="ancestor::mei:measure/preceding-sibling::*[1]/@key.sig"/>
+            <xsl:with-param name="keySigMixed" select="ancestor::mei:measure/preceding-sibling::*[1]/@key.sig.mixed"/>
           </xsl:call-template>
           <xsl:text>&#32;&#32;</xsl:text>
         </xsl:if>
@@ -158,14 +162,14 @@
       </xsl:if>
     </xsl:for-each>
     <xsl:text>&#10;</xsl:text>
-    <!-- lilypond score block -->
-    <xsl:text>\score { &lt;&lt;&#10;</xsl:text>
     <xsl:apply-templates select="descendant::mei:scoreDef[1]"/>
-    <xsl:text>&gt;&gt;&#10;}&#10;</xsl:text>
   </xsl:template>
   <!-- MEI score definition -->
   <xsl:template match="mei:scoreDef">
+    <!-- lilypond score block -->
+    <xsl:text>\score { &lt;&lt;&#10;</xsl:text>
     <xsl:apply-templates/>
+    <xsl:text>&gt;&gt;&#10;}&#10;</xsl:text>
   </xsl:template>
   <!-- MEI staff group -->
   <xsl:template match="mei:staffGrp">
@@ -216,8 +220,12 @@
       <xsl:with-param name="meterUnit" select="ancestor-or-self::*[@meter.unit][1]/@meter.unit"/>
       <xsl:with-param name="meterRend" select="ancestor-or-self::*[@meter.rend][1]/@meter.rend"/>
     </xsl:call-template>
-    <xsl:call-template name="setKeySignature">
-      <xsl:with-param name="accidentals" select="ancestor-or-self::*/@key.sig"/>
+    <xsl:call-template name="setKey">
+      <xsl:with-param name="keyPname" select="ancestor-or-self::*/@key.pname"/>
+      <xsl:with-param name="keyAccid" select="ancestor-or-self::*/@key.accid"/>
+      <xsl:with-param name="keyMode" select="ancestor-or-self::*/@key.mode"/>
+      <xsl:with-param name="keySig" select="ancestor-or-self::*/@key.sig"/>
+      <xsl:with-param name="keySigMixed" select="ancestor-or-self::*/@key.sig.mixed"/>
     </xsl:call-template>
     <xsl:value-of select="concat('\Staff',codepoints-to-string(xs:integer(64 + $staffNumber)))"/>
     <xsl:text>&#32;}&#10;</xsl:text>
@@ -320,6 +328,9 @@
   <!-- MEI notes -->
   <xsl:template match="mei:note[@pname]">
     <xsl:variable name="noteKey" select="concat('#',./@xml:id)"/>
+    <xsl:if test="@staff and @staff != ancestor::mei:staff/@n">
+      <xsl:value-of select="concat('\change Staff = &quot;Staff ',@staff,'&quot;&#32;')"/>
+    </xsl:if>
     <xsl:if test="@visible='false'">
       <xml:text>\once \hideNotes </xml:text>
     </xsl:if>
@@ -433,6 +444,9 @@
       <xsl:value-of select="'\ottava #0 '"/>
     </xsl:if>
     <xsl:value-of select="' '"/>
+    <xsl:if test="@staff and @staff != ancestor::mei:staff/@n">
+      <xsl:value-of select="concat('\change Staff = &quot;Staff ',ancestor::mei:staff/@n,'&quot;&#32;')"/>
+    </xsl:if>
   </xsl:template>
   <!-- MEI chords -->
   <xsl:template match="mei:chord">
@@ -517,14 +531,38 @@
   <!-- MEI rests -->
   <xsl:template match="mei:rest">
     <xsl:variable name="restKey" select="concat('#',./@xml:id)"/>
+    <xsl:if test="@staff and @staff != ancestor::mei:staff/@n">
+      <xsl:value-of select="concat('\change Staff = &quot;Staff ',@staff,'&quot;&#32;')"/>
+    </xsl:if>
     <xsl:if test="@visible='false'">
       <xml:text>\once \hideNotes </xml:text>
+    </xsl:if>
+    <xsl:if test="@color">
+      <xsl:value-of select="concat('\once \override Rest.color = #(x11-color &quot;',@color,'&quot;) ')"/>
     </xsl:if>
     <xsl:if test="(starts-with(@tuplet,'i') or (//mei:tupletSpan/@startid = $restKey)) and not(ancestor::mei:tuplet)">
       <xsl:value-of select="concat('\tuplet ',//mei:tupletSpan[@startid = $restKey]/@num,'/',//mei:tupletSpan[@startid = $restKey]/@numbase,' {')"/>
     </xsl:if>
-    <xml:text>r</xml:text>
-    <xsl:call-template name="setDuration"/>
+    <xsl:choose>
+      <xsl:when test="@ploc and @oloc">
+        <xsl:value-of select="@ploc"/>
+        <xsl:call-template name="setOctave">
+          <xsl:with-param name="oct" select="@oloc"/>
+        </xsl:call-template>
+        <xsl:call-template name="setDuration"/>
+        <xsl:value-of select="'\rest'"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xml:text>r</xml:text>
+        <xsl:call-template name="setDuration"/>
+      </xsl:otherwise>
+    </xsl:choose>
+    <xsl:if test="contains(@beam,'i') or (parent::mei:beam and position()=1)">
+      <xml:text>[</xml:text>
+    </xsl:if>
+    <xsl:if test="contains(@beam,'t') or (parent::mei:beam and position()=last())">
+      <xml:text>]</xml:text>
+    </xsl:if>
     <xsl:if test="//mei:hairpin/@endid = $restKey or //mei:dynam/@endid = $restKey">
       <xml:text>\!</xml:text>
     </xsl:if>
@@ -537,6 +575,9 @@
       <xsl:value-of select="'} '"/>
     </xsl:if>
     <xsl:value-of select="' '"/>
+    <xsl:if test="@staff and @staff != ancestor::mei:staff/@n">
+      <xsl:value-of select="concat('\change Staff = &quot;Staff ',ancestor::mei:staff/@n,'&quot;&#32;')"/>
+    </xsl:if>
   </xsl:template>
   <!-- MEI measure rest -->
   <xsl:template name="setMeasureRest" match="mei:mRest">
@@ -860,16 +901,31 @@
     <xsl:text>} </xsl:text>
   </xsl:template>
   <!-- MEI system break -->
-  <xsl:template match="mei:key">
-    <xsl:if test="@pname and @mode">
-      <xsl:value-of select="@key.pname"/>
-      <xsl:if test="@accid">
-        <xsl:call-template name="setAccidental">
-          <xsl:with-param name="accidental" select="@accid"/>
+  <xsl:template name="setKey" match="mei:keySig">
+    <xsl:param name="keyPname" select="@pname"/>
+    <xsl:param name="keyAccid" select="@accid"/>
+    <xsl:param name="keyMode" select="@mode"/>
+    <xsl:param name="keySig" select="@sig"/>
+    <xsl:param name="keySigMixed" select="@sig.mixed"/>
+    <xsl:choose>
+      <xsl:when test="$keyPname and $keyMode">
+        <xsl:value-of select="concat('\key ',$keyPname)"/>
+        <xsl:if test="$keyAccid">
+          <xsl:call-template name="setAccidental">
+            <xsl:with-param name="accidental" select="$keyAccid"/>
+          </xsl:call-template>
+        </xsl:if>
+        <xsl:value-of select="concat(' \',$keyMode,' ')"/>
+      </xsl:when>
+      <xsl:when test="$keySig != 'mixed'">
+        <xsl:call-template name="transformKey">
+          <xsl:with-param name="accidentals" select="$keySig"/>
         </xsl:call-template>
-      </xsl:if>
-      <xsl:value-of select="concat(' \',@key.mode,' ')"/>
-    </xsl:if>
+      </xsl:when>
+      <xsl:otherwise>
+        <!-- Not yet implemented -->
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
   <!-- MEI system break -->
   <xsl:template match="mei:sb">
@@ -903,12 +959,13 @@
   <!-- helper templates -->
   <!-- set octave -->
   <xsl:template name="setOctave">
-    <xsl:if test="@oct &lt; 3">
+    <xsl:param name="oct" select="@oct"/>
+    <xsl:if test="$oct &lt; 3">
       <xsl:for-each select="@oct to 2">
         <xsl:text>,</xsl:text>
       </xsl:for-each>
     </xsl:if>
-    <xsl:if test="@oct &gt; 3">
+    <xsl:if test="$oct &gt; 3">
       <xsl:for-each select="4 to @oct">
         <xsl:text>'</xsl:text>
       </xsl:for-each>
@@ -1019,7 +1076,7 @@
     <xsl:text>} </xsl:text>
   </xsl:template>
   <!-- set key -->
-  <xsl:template name="setKeySignature">
+  <xsl:template name="transformKey">
     <xsl:param name="accidentals"/>
     <xsl:text>\key </xsl:text>
     <xsl:choose>
