@@ -2,7 +2,8 @@
 <!--        -->
 <!-- MEILER -->
 <!-- mei2ly -->
-<!-- v0.5.4 -->
+<!-- v0.5.5 -->
+<!--        -->
 <!-- programmed by Klaus Rettinghaus -->
 <!--        -->
 <xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:m="http://www.bach-digital.de/m" xmlns:saxon="http://saxon.sf.net/" exclude-result-prefixes="saxon">
@@ -778,6 +779,23 @@
       <xsl:value-of select="concat('\once \slur',translate(substring(@lform,1,1),'ds','DS'),substring(@lform,2),' ')"/>
     </xsl:if>
   </xsl:template>
+  <!-- MEI arpeggio -->
+  <xsl:template match="mei:arpeg" mode="pre">
+    <xsl:if test="@color">
+      <xsl:value-of select="concat('\once \override Arpeggio.color = #(x11-color &quot;',@color,'&quot;) ')"/>
+    </xsl:if>
+    <xsl:choose>
+      <xsl:when test="@order = 'up'">
+        <xml:text>\once \arpeggioArrowUp </xml:text>
+      </xsl:when>
+      <xsl:when test="@order = 'down'">
+        <xml:text>\once \arpeggioArrowDown </xml:text>
+      </xsl:when>
+      <xsl:when test="@order = 'nonarp'">
+        <xml:text>\once \arpeggioBracket </xml:text>
+      </xsl:when>
+    </xsl:choose>
+  </xsl:template>
   <!-- MEI dynamic -->
   <xsl:template match="mei:dynam" mode="pre">
     <xsl:if test="@color">
@@ -1273,23 +1291,6 @@
       </xsl:otherwise>
     </xsl:choose>
     <xsl:text>" </xsl:text>
-  </xsl:template>
-  <!-- set arpeggio style -->
-  <xsl:template match="mei:arpeg" mode="pre">
-    <xsl:if test="@color">
-      <xsl:value-of select="concat('\once \override Arpeggio.color = #(x11-color &quot;',@color,'&quot;) ')"/>
-    </xsl:if>
-    <xsl:choose>
-      <xsl:when test="@order = 'up'">
-        <xml:text>\once \arpeggioArrowUp </xml:text>
-      </xsl:when>
-      <xsl:when test="@order = 'down'">
-        <xml:text>\once \arpeggioArrowDown </xml:text>
-      </xsl:when>
-      <xsl:when test="@order = 'nonarp'">
-        <xml:text>\once \arpeggioBracket </xml:text>
-      </xsl:when>
-    </xsl:choose>
   </xsl:template>
   <!-- set simple markup diections -->
   <xsl:template name="setMarkupDirection">
