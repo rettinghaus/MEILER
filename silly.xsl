@@ -18,6 +18,8 @@
   <xsl:template match="@place"/>
   <xsl:template match="@stem.dir"/>
   <xsl:template match="@stem.y"/>
+  <xsl:template match="@ploc"/>
+  <xsl:template match="@oloc"/>
   <xsl:template match="mei:sb"/>
   <xsl:template match="mei:pb"/>
 </xsl:stylesheet>

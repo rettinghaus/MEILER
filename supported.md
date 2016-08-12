@@ -2,6 +2,7 @@
 List of supported MEI elements and attributes
 
 * `<arpeg>`
+  * `@color`
   * `@order`
   * `@plist`
   * `@startid`
@@ -11,7 +12,7 @@ List of supported MEI elements and attributes
   * `@place`
 
 * `<beam>`
-  * `@artic`
+  * `@color`
 
 * `<chord>`
   * `@artic`
@@ -26,7 +27,8 @@ List of supported MEI elements and attributes
   * `@tie`
   * `@visible`
 
-* `<dyn>`
+* `<dynam>`
+  * `@color`
   * `@endid`
   * `@place`
   * `@startid`
@@ -125,6 +127,7 @@ List of supported MEI elements and attributes
   * `@n`
 
 * `<slur>`
+  * `@color`
   * `@curvedir` (for values 'above' and 'below')
   * `@endid`
   * `@lform` (for values 'dashed', 'dotted', and 'solid')
@@ -159,6 +162,13 @@ List of supported MEI elements and attributes
   * `@label`
   * `@label.abbr`
   * `@symbol`
+
+* `<tempo>`
+  * `@color`
+  * `@place`
+  * `@staff`
+  * `@startid`
+  * `@tstamp` (for value '1')
 
 * `<tie>`
   * `@curvedir` (for values 'above' and 'below')
