@@ -205,6 +205,16 @@
         <xsl:value-of select="'\override Staff.StaffSymbol.transparent = ##t&#10;    '"/>
       </xsl:when>
     </xsl:choose>
+    <xsl:if test="ancestor-or-self::*/@pedal.style">
+      <xsl:choose>
+        <xsl:when test="ancestor-or-self::*/@pedal.style = 'line'">
+          <xsl:text>\set Staff.pedalSustainStyle = #'bracket&#10;    </xsl:text>
+        </xsl:when>
+        <xsl:when test="ancestor-or-self::*/@pedal.style = 'pedstar'">
+          <xsl:text>\set Staff.pedalSustainStyle = #'text&#10;    </xsl:text>
+        </xsl:when>
+      </xsl:choose>
+    </xsl:if>
     <xsl:text>\autoBeamOff \set tieWaitForNote = ##t&#10;    </xsl:text>
     <xsl:call-template name="setClef">
       <xsl:with-param name="clefShape" select="@clef.shape"/>
@@ -795,6 +805,16 @@
     </xsl:choose>
   </xsl:template>
   <!-- MEI pedal -->
+  <xsl:template match="mei:pedal" mode="pre">
+    <xsl:choose>
+      <xsl:when test="@form = 'line'">
+        <xsl:text>\once \set Staff.pedalSustainStyle = #'bracket&#10;    </xsl:text>
+      </xsl:when>
+      <xsl:when test="@form = 'pedstar'">
+        <xsl:text>\once \set Staff.pedalSustainStyle = #'text&#10;    </xsl:text>
+      </xsl:when>
+    </xsl:choose>
+  </xsl:template>
   <xsl:template match="mei:pedal">
     <xsl:choose>
       <xsl:when test="@dir = 'down'">

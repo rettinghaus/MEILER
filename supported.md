@@ -111,6 +111,7 @@ List of supported MEI elements and attributes
 
 * `<pedal>`
   * `@dir`
+  * `@form` (for values 'line' and 'pedstar')
   * `@startid`
 
 * `<rest>`
@@ -156,6 +157,7 @@ List of supported MEI elements and attributes
   * `@meter.sym`
   * `@meter.unit`
   * `@n`
+  * `@pedal.style` (for values 'line' and 'pedstar')
 
 * `<staffGrp>`
   * `@barthru`
