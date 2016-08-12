@@ -581,6 +581,12 @@
   </xsl:template>
   <!-- MEI measure rest -->
   <xsl:template name="setMeasureRest" match="mei:mRest">
+    <xsl:if test="@visible='false'">
+      <xml:text>\once \omit MultiMeasureRest </xml:text>
+    </xsl:if>
+    <xsl:if test="@color">
+      <xsl:value-of select="concat('\once \override MultiMeasureRest.color = #(x11-color &quot;',@color,'&quot;) ')"/>
+    </xsl:if>
     <xml:text>R</xml:text>
     <xsl:choose>
       <xsl:when test="@dur">
@@ -593,6 +599,10 @@
         <xsl:text>1</xsl:text>
       </xsl:otherwise>
     </xsl:choose>
+    <xsl:if test="@fermata or (//mei:fermata/@startid = concat('#',@xml:id))">
+      <xsl:call-template name="fermata"/>
+      <xsl:value-of select="'Markup'"/>
+    </xsl:if>
     <xsl:value-of select="' '"/>
   </xsl:template>
   <!-- MEI spaces -->

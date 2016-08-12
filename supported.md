@@ -68,7 +68,10 @@ List of supported MEI elements and attributes
   * `@startid`
 
 * `<mRest>`
+  * `@color`
   * `@dur`
+  * `@fermata`
+  * `@visible`
 
 * `<mSpace>`
   * `@dur`
