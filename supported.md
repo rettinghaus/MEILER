@@ -1,6 +1,8 @@
 #MEILER
 List of supported MEI elements and attributes
 
+* `<app>`
+
 * `<arpeg>`
   * `@color`
   * `@order`
@@ -14,9 +16,13 @@ List of supported MEI elements and attributes
 * `<beam>`
   * `@color`
 
+* `<bTrem>`
+  * __`@num`__
+
 * `<chord>`
   * `@artic`
   * `@beam`
+  * `@copyof`
   * `@dur`
   * `@fermata`
   * `@grace`
@@ -24,6 +30,7 @@ List of supported MEI elements and attributes
   * `@ornam`
   * `@slur`
   * `@stem.dir`
+  * `@stem.mod`
   * `@tie`
   * `@visible`
 
@@ -47,6 +54,11 @@ List of supported MEI elements and attributes
 * `<fing>`
   * `@place`
 
+* `<gliss>`
+  * `@color`
+  * `@lform`
+  * `@startid`
+
 * `<hairpin>`
   * `@endid`
   * `@form` (for values 'cres' and 'dim')
@@ -57,6 +69,11 @@ List of supported MEI elements and attributes
   * `@place`
   * `@staff`
   * `@tstamp`
+
+* `<layer>`
+  * `@n`
+
+* `<lem>`
 
 * `<measure>`
   * `@metcon`
@@ -85,6 +102,7 @@ List of supported MEI elements and attributes
   * `@beam`
   * `@dur`
   * `@fermata`
+  * `@gliss`
   * `@grace`
   * `@head.color`
   * `@head.shape` (for value 'x')
@@ -94,7 +112,7 @@ List of supported MEI elements and attributes
   * `@slur`
   * `@staff`
   * `@stem.dir`
-  * `@stem.mod`  (for value '1slash')
+  * `@stem.mod`
   * `@tie`
   * `@visible`
 
@@ -114,6 +132,9 @@ List of supported MEI elements and attributes
   * `@form` (for values 'line' and 'pedstar')
   * `@startid`
 
+* `<rdg>`
+  *`@source`
+
 * `<rest>`
   * `@beam`
   * `@color`
@@ -127,15 +148,21 @@ List of supported MEI elements and attributes
 * `<sb>`
   * `@n`
 
+* `<section>`
+
 * `<slur>`
   * `@color`
   * `@curvedir` (for values 'above' and 'below')
   * `@endid`
-  * `@lform` (for values 'dashed', 'dotted', and 'solid')
+  * `@lform`
   * `@startid`
 
 * `<space>`
   * `@dur`
+
+* `<staff>`
+  * `@copyof`
+  * __`@n`__
 
 * `<staffDef>`
   * `@clef.dis`
@@ -179,11 +206,11 @@ List of supported MEI elements and attributes
 * `<tuplet>`
   * `@bracket.place`
   * `@bracket.visible`
+  * `@copyof`
   * __`@num`__
   * __`@num.base`__
   * `@num.format`
   * `@num.visible`
-  * `@lform`
   * `@startid`
 
 `att.color` supports HTML 4.01 color names
