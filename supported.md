@@ -11,6 +11,7 @@ List of supported MEI elements and attributes
 
 * `<artic>`
   * `@artic`
+  * `@color`
   * `@place`
 
 * `<beam>`
@@ -60,8 +61,10 @@ List of supported MEI elements and attributes
   * `@startid`
 
 * `<hairpin>`
+  * `@color`
   * `@endid`
-  * `@form` (for values 'cres' and 'dim')
+  * `@form`
+  * `@lform`
   * `@place`
   * `@startid`
 
@@ -81,9 +84,10 @@ List of supported MEI elements and attributes
   * `@right`
 
 * `<mordent>`
+  * `@color`
+  * `@form`
   * `@long`
   * `@place`
-  * `@form`
   * `@startid`
 
 * `<mRest>`
@@ -128,8 +132,10 @@ List of supported MEI elements and attributes
   * `@n`
 
 * `<pedal>`
+  * `@color`
   * `@dir`
   * `@form` (for values 'line' and 'pedstar')
+  * `@lform`
   * `@startid`
 
 * `<rdg>`

@@ -692,6 +692,9 @@
   <!-- MEI articulation -->
   <xsl:template name="artic" match="mei:artic">
     <xsl:if test="self::mei:artic">
+      <xsl:if test="@color">
+        <xsl:value-of select="concat('\once \override Script.color = #(x11-color &quot;',@color,'&quot;) ')"/>
+      </xsl:if>
       <xsl:call-template name="setMarkupDirection">
         <xsl:with-param name="direction" select="@place"/>
       </xsl:call-template>
@@ -750,7 +753,15 @@
     <xml:text>\fermata</xml:text>
   </xsl:template>
   <!-- MEI mordent -->
+  <xsl:template match="mei:dynam" mode="pre">
+    <xsl:if test="@color">
+      <xsl:value-of select="concat('\once \override DynamicText.color = #(x11-color &quot;',@color,'&quot;) ')"/>
+    </xsl:if>
+  </xsl:template>
   <xsl:template name="mordent" match="mei:mordent">
+    <xsl:if test="@color">
+      <xsl:value-of select="concat('\once \override Script.color = #(x11-color &quot;',@color,'&quot;) ')"/>
+    </xsl:if>
     <xsl:call-template name="setMarkupDirection">
       <xsl:with-param name="direction" select="@place"/>
     </xsl:call-template>
@@ -787,6 +798,15 @@
     <xsl:if test="contains(@ornam,'t')">
       <xsl:text>\trill</xsl:text>
     </xsl:if>
+  </xsl:template>
+  <!-- MEI breath -->
+  <xsl:template match="mei:breath" mode="pre">
+    <xsl:if test="@color">
+      <xsl:value-of select="concat('\once \override BreathingSign.color = #(x11-color &quot;',@color,'&quot;) ')"/>
+    </xsl:if>
+  </xsl:template>
+  <xsl:template match="mei:breath">
+    <xsl:text>\breathe</xsl:text>
   </xsl:template>
   <!-- MEI octave -->
   <xsl:template match="mei:octave" mode="pre">
@@ -871,6 +891,22 @@
     <xsl:value-of select="concat('\',.)"/>
   </xsl:template>
   <!-- MEI hairpin -->
+  <xsl:template match="mei:hairpin" mode="pre">
+    <xsl:if test="@color">
+      <xsl:value-of select="concat('\once \override Hairpin.color = #(x11-color &quot;',@color,'&quot;) ')"/>
+    </xsl:if>
+    <xsl:if test="@lform">
+      <xsl:choose>
+        <xsl:when test="@lform = 'wavy'">
+          <xsl:text>\once \override Hairpin.style = #'trill </xsl:text>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:text>\once \override Hairpin.style = #'</xsl:text>
+          <xsl:value-of select="concat(@lform,'-line ')"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:if>
+  </xsl:template>
   <xsl:template match="mei:hairpin">
     <xsl:call-template name="setMarkupDirection">
       <xsl:with-param name="direction" select="@place"/>
@@ -886,6 +922,21 @@
   </xsl:template>
   <!-- MEI pedal -->
   <xsl:template match="mei:pedal" mode="pre">
+    <xsl:if test="@color">
+      <xsl:value-of select="concat('\once \override Staff.SustainPedal.color = #(x11-color &quot;',@color,'&quot;) ')"/>
+      <xsl:value-of select="concat('\once \override Staff.PianoPedalBracket.color = #(x11-color &quot;',@color,'&quot;) ')"/>
+    </xsl:if>
+    <xsl:if test="@lform">
+      <xsl:choose>
+        <xsl:when test="@lform = 'wavy'">
+          <xsl:text>\once \override Staff.PianoPedalBracket.style = #'trill </xsl:text>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:text>\once \override Staff.PianoPedalBracket.style = #'</xsl:text>
+          <xsl:value-of select="concat(@lform,'-line ')"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:if>
     <xsl:choose>
       <xsl:when test="@form = 'line'">
         <xsl:text>\once \set Staff.pedalSustainStyle = #'bracket&#10;    </xsl:text>
