@@ -73,6 +73,8 @@ List of supported MEI elements and attributes
   * `@staff`
   * `@tstamp`
 
+* `<label>` (within `<staffGrp>` and `<staffDef>`)
+
 * `<layer>`
   * `@n`
 
@@ -82,6 +84,16 @@ List of supported MEI elements and attributes
   * `@metcon`
   * `@n`
   * `@right`
+
+* `<meterSig>`
+  * `@count`
+  * `@fontfam`
+  * `@fontname`
+  * `@fontstyle`
+  * `@fontweight`
+  * `@form`
+  * `@sym`
+  * `@unit`
 
 * `<mordent>`
   * `@color`
@@ -153,6 +165,36 @@ List of supported MEI elements and attributes
 
 * `<sb>`
   * `@n`
+
+* `<score>`
+
+* `<scoreDef>`
+    * `@clef.dis`
+    * `@clef.dis.place`
+    * `@clef.line`
+    * `@clef.shape`
+    * `@ending.rend` (for values 'top' and 'grouped')
+    * `@key.accid`
+    * `@key.mode`
+    * `@key.pname`
+    * `@key.sig` (unsupported for value 'mixed')
+    * `@lyric.fam`
+    * `@lyric.name`
+    * `@lyric.style`
+    * `@lyric.weight`
+    * `@meter.count`
+    * `@meter.rend`
+    * `@meter.showchange`
+    * `@meter.sym`
+    * `@meter.unit`
+    * `@page.botmar`
+    * `@page.height`
+    * `@page.leftmar`
+    * `@page.rightmar`
+    * `@page.topmar`
+    * `@page.width`
+    * `@n`
+    * `@pedal.style` (for values 'line' and 'pedstar')
 
 * `<section>`
 
