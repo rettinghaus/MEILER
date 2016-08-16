@@ -2,7 +2,7 @@
 <!--        -->
 <!-- MEILER -->
 <!-- mei2ly -->
-<!-- v0.5.5 -->
+<!-- v0.5.6 -->
 <!--        -->
 <!-- programmed by Klaus Rettinghaus -->
 <!--        -->
@@ -753,7 +753,7 @@
     <xml:text>\fermata</xml:text>
   </xsl:template>
   <!-- MEI mordent -->
-  <xsl:template match="mei:dynam" mode="pre">
+  <xsl:template match="mei:mordent" mode="pre">
     <xsl:if test="@color">
       <xsl:value-of select="concat('\once \override DynamicText.color = #(x11-color &quot;',@color,'&quot;) ')"/>
     </xsl:if>
