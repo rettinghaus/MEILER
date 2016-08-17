@@ -153,6 +153,8 @@ List of supported MEI elements and attributes
 * `<rdg>`
   *`@source`
 
+* `<rend>`
+
 * `<rest>`
   * `@beam`
   * `@color`
