@@ -151,7 +151,7 @@ List of supported MEI elements and attributes
   * `@startid`
 
 * `<rdg>`
-  *`@source`
+  * `@source`
 
 * `<rend>`
 
