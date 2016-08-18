@@ -149,6 +149,8 @@
           <xsl:text>\override Lyrics.LyricText.font-family = #&apos;</xsl:text>
           <xsl:value-of select="concat(ancestor-or-self::*/@lyric.fam[1],' ')"/>
         </xsl:if>
+        <xsl:if test="ancestor-or-self::*/@lyric.size">
+        </xsl:if>
         <xsl:if test="ancestor-or-self::*/@lyric.style">
           <xsl:text>\override Lyrics.LyricText.font-shape = #&apos;</xsl:text>
           <xsl:value-of select="concat(ancestor-or-self::*/@lyric.style[1],' ')"/>
@@ -182,7 +184,7 @@
                   <xsl:value-of select="' '"/>
                 </xsl:when>
                 <xsl:otherwise>
-                  <xsl:if test="not(name()='rest' or name()='mRest') and not(max(/mei:mei/mei:music//mei:staff[@n=$staffNumber]/mei:layer/@n) &gt; 1)">
+                  <xsl:if test="name()='note' or max(/mei:mei/mei:music//mei:staff[@n=$staffNumber]/mei:layer/@n) &gt; 1">
                     <xsl:value-of select="'_'"/>
                     <xsl:call-template name="setDuration"/>
                     <xsl:if test="not(@dur)">
@@ -428,6 +430,9 @@
     <xsl:if test="@head.shape = 'x'">
       <xml:text>\xNote </xml:text>
     </xsl:if>
+    <xsl:if test="child::mei:accid/@place='above'">
+      <xml:text>\once \set suggestAccidentals = ##t </xml:text>
+    </xsl:if>
     <xsl:value-of select="@pname"/>
     <xsl:if test="@accid or @accid.ges or child::mei:accid">
       <xsl:choose>
@@ -513,12 +518,13 @@
         </xsl:otherwise>
       </xsl:choose>
     </xsl:if>
-    <xsl:if test="@fermata or (ancestor::mei:measure/mei:fermata/@startid = $noteKey)">
+    <xsl:if test="@fermata and not(ancestor::mei:measure/mei:fermata/@startid = $noteKey)">
       <xsl:call-template name="fermata"/>
     </xsl:if>
     <xsl:if test="contains(@gliss,'i') or (ancestor::mei:measure/mei:gliss/@startid = $noteKey)">
       <xsl:text>\glissando</xsl:text>
     </xsl:if>
+    <xsl:apply-templates select="ancestor::mei:measure/mei:fermata[@startid = $noteKey]"/>
     <xsl:apply-templates select="ancestor::mei:measure/mei:pedal[@startid = $noteKey]"/>
     <xsl:if test="(starts-with(@tuplet,'t') or (/mei:mei/mei:music//mei:tupletSpan/@endid = $noteKey)) and not(ancestor::mei:tuplet)">
       <xsl:value-of select="' }'"/>
@@ -597,9 +603,10 @@
     <xsl:if test="ancestor::mei:measure/mei:gliss/@startid = $chordKey">
       <xsl:text>\glissando</xsl:text>
     </xsl:if>
-    <xsl:if test="@fermata or (ancestor::mei:measure/mei:fermata/@startid = $chordKey)">
+    <xsl:if test="@fermata and not(ancestor::mei:measure/mei:fermata/@startid = $chordKey)">
       <xsl:call-template name="fermata"/>
     </xsl:if>
+    <xsl:apply-templates select="ancestor::mei:measure/mei:fermata[@startid = $chordKey]"/>
     <xsl:apply-templates select="ancestor::mei:measure/mei:pedal[@startid = $chordKey]"/>
     <xsl:if test="(starts-with(@tuplet,'t') or (following::mei:tupletSpan/@endid = $chordKey)) and not(ancestor::mei:tuplet)">
       <xsl:value-of select="' }'"/>
@@ -649,7 +656,8 @@
     </xsl:if>
     <xsl:apply-templates select="ancestor::mei:measure/mei:dynam[@startid = $restKey]"/>
     <xsl:apply-templates select="ancestor::mei:measure/mei:hairpin[@startid = $restKey]"/>
-    <xsl:if test="@fermata or (ancestor::mei:measure/mei:fermata/@startid = $restKey)">
+    <xsl:apply-templates select="ancestor::mei:measure/mei:fermata[@startid = $restKey]"/>
+    <xsl:if test="@fermata and not(ancestor::mei:measure/mei:fermata/@startid = $restKey)">
       <xsl:call-template name="fermata"/>
     </xsl:if>
     <xsl:if test="starts-with(@tuplet,'t') or (/mei:mei/mei:music//mei:tupletSpan/@endid = $restKey)">
@@ -808,7 +816,17 @@
     <xsl:if test="@place='below' or @fermata='below'">
       <xsl:text>_</xsl:text>
     </xsl:if>
-    <xml:text>\fermata</xml:text>
+    <xsl:choose>
+      <xsl:when test="@shape = 'square'">
+        <xsl:text>\longfermata</xsl:text>
+      </xsl:when>
+      <xsl:when test="@shape = 'angular'">
+        <xsl:text>\shortfermata</xsl:text>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:text>\fermata</xsl:text>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
   <!-- MEI mordent -->
   <xsl:template match="mei:mordent" mode="pre">
@@ -1085,6 +1103,9 @@
       <xsl:text>_</xsl:text>
     </xsl:if>
     <xsl:value-of select="translate(.,'♭♮♯&lt;&gt;','-!+')"/>
+    <xsl:if test="contains(.,'\')">
+      <xsl:text>\</xsl:text>
+    </xsl:if>
     <xsl:if test="following-sibling::mei:f">
       <xsl:text>&#32;</xsl:text>
     </xsl:if>
@@ -1384,7 +1405,7 @@
       <xsl:value-of select="concat('instrumentName = #&quot;',@label,'&quot; ')"/>
     </xsl:if>
     <xsl:if test="@label.abbr">
-      <xsl:value-of select="concat('shortInstrumentName = #&quot;',@label,'&quot; ')"/>
+      <xsl:value-of select="concat('shortInstrumentName = #&quot;',@label.abbr,'&quot; ')"/>
     </xsl:if>
     <xsl:if test="child::mei:label">
       <xsl:value-of select="'instrumentName = '"/>

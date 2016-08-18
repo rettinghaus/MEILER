@@ -50,10 +50,12 @@ List of supported MEI elements and attributes
 
 * `<fermata>`
   * `@place`
+  * `@shape`
   * `@startid`
 
 * `<fing>`
   * `@place`
+  * `@startid`
 
 * `<gliss>`
   * `@color`
