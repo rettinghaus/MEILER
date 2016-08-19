@@ -500,6 +500,7 @@
       <xsl:call-template name="setOrnament"/>
     </xsl:if>
     <xsl:apply-templates select="ancestor::mei:measure/mei:mordent[@startid = $noteKey]"/>
+    <xsl:apply-templates select="ancestor::mei:measure/mei:turn[@startid = $noteKey]"/>
     <xsl:if test="/mei:mei/mei:music//mei:trill/@endid = $noteKey">
       <xml:text>\stopTrillSpan</xml:text>
     </xsl:if>
@@ -600,6 +601,7 @@
       <xsl:call-template name="setOrnament"/>
     </xsl:if>
     <xsl:apply-templates select="ancestor::mei:measure/mei:mordent[@startid = $chordKey]"/>
+    <xsl:apply-templates select="ancestor::mei:measure/mei:turn[@startid = $chordKey]"/>
     <xsl:if test="ancestor::mei:measure/mei:gliss/@startid = $chordKey">
       <xsl:text>\glissando</xsl:text>
     </xsl:if>
@@ -822,6 +824,23 @@
       </xsl:when>
       <xsl:otherwise>
         <xsl:text>\mordent</xsl:text>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+  <!-- MEI turn -->
+  <xsl:template name="turn" match="mei:turn">
+    <xsl:if test="@color">
+      <xsl:value-of select="concat('-\tweak Script.color #(x11-color &quot;',@color,'&quot;) ')"/>
+    </xsl:if>
+    <xsl:call-template name="setMarkupDirection">
+      <xsl:with-param name="direction" select="@place"/>
+    </xsl:call-template>
+    <xsl:choose>
+      <xsl:when test="@form = 'inv'">
+        <xsl:text>\reverseturn</xsl:text>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:text>\turn</xsl:text>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
@@ -1253,17 +1272,21 @@
   <!-- helper templates -->
   <!-- set octave -->
   <xsl:template name="setOctave">
-    <xsl:param name="oct" select="@oct"/>
-    <xsl:if test="$oct &lt; 3">
-      <xsl:for-each select="$oct to 2">
+    <xsl:param name="oct" select="@oct - 3"/>
+    <xsl:choose>
+      <xsl:when test="$oct &lt; 0">
         <xsl:text>,</xsl:text>
-      </xsl:for-each>
-    </xsl:if>
-    <xsl:if test="$oct &gt; 3">
-      <xsl:for-each select="4 to $oct">
+        <xsl:call-template name="setOctave">
+          <xsl:with-param name="oct" select="$oct + 1"/>
+        </xsl:call-template>
+      </xsl:when>
+      <xsl:when test="$oct &gt; 0">
         <xsl:text>'</xsl:text>
-      </xsl:for-each>
-    </xsl:if>
+        <xsl:call-template name="setOctave">
+          <xsl:with-param name="oct" select="$oct - 1"/>
+        </xsl:call-template>
+      </xsl:when>
+    </xsl:choose>
   </xsl:template>
   <!-- set stem direction -->
   <xsl:template name="setStemDir">
@@ -1294,9 +1317,17 @@
         <xsl:value-of select="@dur"/>
       </xsl:otherwise>
     </xsl:choose>
-    <xsl:for-each select="1 to @dots">
+    <xsl:call-template name="setDots"/>
+  </xsl:template>
+  <!-- set dots -->
+  <xsl:template name="setDots">
+    <xsl:param name="dots" select="@dots"/>
+    <xsl:if test="$dots &gt; 0">
       <xsl:text>.</xsl:text>
-    </xsl:for-each>
+      <xsl:call-template name="setDots">
+        <xsl:with-param name="dots" select="$dots - 1"/>
+      </xsl:call-template>
+    </xsl:if>
   </xsl:template>
   <!-- set accidental -->
   <xsl:template name="setAccidental">
