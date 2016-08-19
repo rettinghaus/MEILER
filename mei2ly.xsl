@@ -165,7 +165,7 @@
               <xsl:choose>
                 <xsl:when test="descendant::mei:syl">
                   <xsl:value-of select="descendant::mei:syl[1]"/>
-                    <xsl:call-template name="setDuration"/>
+                  <xsl:call-template name="setDuration"/>
                   <xsl:choose>
                     <xsl:when test="descendant::mei:syl[1]/@con='d'">
                       <xsl:value-of select="' -- '"/>
@@ -497,7 +497,7 @@
       <xsl:call-template name="artic"/>
     </xsl:if>
     <xsl:if test="@ornam">
-      <xsl:call-template name="ornam"/>
+      <xsl:call-template name="setOrnament"/>
     </xsl:if>
     <xsl:apply-templates select="ancestor::mei:measure/mei:mordent[@startid = $noteKey]"/>
     <xsl:if test="/mei:mei/mei:music//mei:trill/@endid = $noteKey">
@@ -597,7 +597,7 @@
       <xsl:call-template name="artic"/>
     </xsl:if>
     <xsl:if test="@ornam">
-      <xsl:call-template name="ornam"/>
+      <xsl:call-template name="setOrnament"/>
     </xsl:if>
     <xsl:apply-templates select="ancestor::mei:measure/mei:mordent[@startid = $chordKey]"/>
     <xsl:if test="ancestor::mei:measure/mei:gliss/@startid = $chordKey">
@@ -757,59 +757,37 @@
   </xsl:template>
   <!-- MEI articulation -->
   <xsl:template name="artic" match="mei:artic">
+    <xsl:param name="articList" select="@artic"/>
     <xsl:if test="self::mei:artic">
       <xsl:if test="@color">
-        <xsl:value-of select="concat('\once \override Script.color = #(x11-color &quot;',@color,'&quot;) ')"/>
+        <xsl:value-of select="concat('-\tweak Script.color #(x11-color &quot;',@color,'&quot;) ')"/>
       </xsl:if>
       <xsl:call-template name="setMarkupDirection">
         <xsl:with-param name="direction" select="@place"/>
       </xsl:call-template>
     </xsl:if>
-    <!-- ly:Articulation scripts -->
-    <xsl:for-each select="tokenize(@artic,'\s+')">
-      <xsl:choose>
-        <xsl:when test=". = 'acc'">
-          <xsl:text>\accent</xsl:text>
-        </xsl:when>
-        <xsl:when test=". = 'stacc'">
-          <xsl:text>\staccato</xsl:text>
-        </xsl:when>
-        <xsl:when test=". = 'ten'">
-          <xsl:text>\tenuto</xsl:text>
-        </xsl:when>
-        <xsl:when test=". = 'stacciss'">
-          <xsl:text>\staccatissimo</xsl:text>
-        </xsl:when>
-        <xsl:when test=". = 'marc'">
-          <xsl:text>\marcato</xsl:text>
-        </xsl:when>
-        <xsl:when test=". = 'dot'">
-          <xsl:text>\staccato</xsl:text>
-        </xsl:when>
-        <!-- ly:Instrument-specific scripts -->
-        <xsl:when test=". = 'dnbow'">
-          <xsl:text>\downbow</xsl:text>
-        </xsl:when>
-        <xsl:when test=". = 'upbow'">
-          <xsl:text>\upbow</xsl:text>
-        </xsl:when>
-        <xsl:when test=". = 'harm'">
-          <xsl:text>\flageolet</xsl:text>
-        </xsl:when>
-        <xsl:when test=". = 'snap'">
-          <xsl:text>\snappizzicato</xsl:text>
-        </xsl:when>
-        <xsl:when test=". = 'open'">
-          <xsl:text>\open</xsl:text>
-        </xsl:when>
-        <xsl:when test=". = 'stop'">
-          <xsl:text>\stopped</xsl:text>
-        </xsl:when>
-      </xsl:choose>
-    </xsl:for-each>
+    <xsl:choose>
+      <xsl:when test="contains($articList,' ')">
+        <xsl:value-of select="concat('%',$articList,'&#10; ')"/>
+        <xsl:call-template name="setArticulation">
+          <xsl:with-param name="articulation" select="substring-before($articList,' ')"/>
+        </xsl:call-template>
+        <xsl:call-template name="artic">
+          <xsl:with-param name="articList" select="substring-after($articList,' ')"/>
+        </xsl:call-template>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:call-template name="setArticulation">
+          <xsl:with-param name="articulation" select="$articList"/>
+        </xsl:call-template>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
   <!-- MEI fermata -->
   <xsl:template name="fermata" match="mei:fermata">
+    <xsl:if test="self::mei:fermata and @color">
+      <xsl:value-of select="concat('-\tweak Script.color #(x11-color &quot;',@color,'&quot;) ')"/>
+    </xsl:if>
     <xsl:if test="@place='above' or @fermata='above'">
       <xsl:text>^</xsl:text>
     </xsl:if>
@@ -852,28 +830,6 @@
         <xsl:text>\mordent</xsl:text>
       </xsl:otherwise>
     </xsl:choose>
-  </xsl:template>
-  <!-- MEI ornament attributes -->
-  <xsl:template name="ornam">
-    <!-- ly:Ornament scripts -->
-    <xsl:if test="contains(@ornam,'M')">
-      <xsl:text>\prall</xsl:text>
-    </xsl:if>
-    <xsl:if test="contains(@ornam,'m')">
-      <xsl:text>\mordent</xsl:text>
-    </xsl:if>
-    <xsl:if test="contains(@ornam,'S')">
-      <xsl:text>\turn</xsl:text>
-    </xsl:if>
-    <xsl:if test="contains(@ornam,'s')">
-      <xsl:text>\reverseturn</xsl:text>
-    </xsl:if>
-    <xsl:if test="contains(@ornam,'T')">
-      <xsl:text>\trill</xsl:text>
-    </xsl:if>
-    <xsl:if test="contains(@ornam,'t')">
-      <xsl:text>\trill</xsl:text>
-    </xsl:if>
   </xsl:template>
   <!-- MEI breath -->
   <xsl:template match="mei:breath" mode="pre">
@@ -1398,6 +1354,110 @@
         <xsl:text>\grace </xsl:text>
       </xsl:when>
     </xsl:choose>
+  </xsl:template>
+  <!-- set articulation -->
+  <xsl:template name="setArticulation">
+    <xsl:param name="articulation"/>
+    <xsl:choose>
+      <!-- ly:Articulation scripts -->
+      <xsl:when test="$articulation = 'acc'">
+        <xsl:text>\accent</xsl:text>
+      </xsl:when>
+      <xsl:when test="$articulation = 'stacc'">
+        <xsl:text>\staccato</xsl:text>
+      </xsl:when>
+      <xsl:when test="$articulation = 'ten'">
+        <xsl:text>\tenuto</xsl:text>
+      </xsl:when>
+      <xsl:when test="$articulation = 'stacciss'">
+        <xsl:text>\staccatissimo</xsl:text>
+      </xsl:when>
+      <xsl:when test="$articulation = 'marc'">
+        <xsl:text>\marcato</xsl:text>
+      </xsl:when>
+      <xsl:when test="$articulation = 'marc-stacc'">
+        <xsl:text>\marcato</xsl:text>
+        <xsl:call-template name="artic">
+          <xsl:with-param name="articList" select="'stacc'"/>
+        </xsl:call-template>
+      </xsl:when>
+      <xsl:when test="$articulation = 'spiccato'">
+        <xsl:text>\staccato</xsl:text>
+      </xsl:when>
+      <xsl:when test="$articulation = 'ten-stacc'">
+        <xsl:text>\portato</xsl:text>
+      </xsl:when>
+      <xsl:when test="$articulation = 'dot'">
+        <xsl:text>\staccato</xsl:text>
+      </xsl:when>
+      <xsl:when test="$articulation = 'stroke'">
+        <xsl:text>\staccatissimo</xsl:text>
+      </xsl:when>
+      <!-- ly:Instrument-specific scripts -->
+      <xsl:when test="$articulation = 'dnbow'">
+        <xsl:text>\downbow</xsl:text>
+      </xsl:when>
+      <xsl:when test="$articulation = 'upbow'">
+        <xsl:text>\upbow</xsl:text>
+      </xsl:when>
+      <xsl:when test="$articulation = 'harm'">
+        <xsl:text>\flageolet</xsl:text>
+      </xsl:when>
+      <xsl:when test="$articulation = 'snap'">
+        <xsl:text>\snappizzicato</xsl:text>
+      </xsl:when>
+      <xsl:when test="$articulation = 'open'">
+        <xsl:text>\open</xsl:text>
+      </xsl:when>
+      <xsl:when test="$articulation = 'stop'">
+        <xsl:text>\stopped</xsl:text>
+      </xsl:when>
+      <xsl:when test="$articulation = 'heel'">
+        <xsl:text>\lheel</xsl:text>
+      </xsl:when>
+      <xsl:when test="$articulation = 'toe'">
+        <xsl:text>\rtoe</xsl:text>
+      </xsl:when>
+      <xsl:when test="$articulation = 'lhpizz'">
+        <xsl:text>\stopped</xsl:text>
+      </xsl:when>
+      <!-- replace missing scripts -->
+      <xsl:when test="$articulation = 'doit'">
+        <xsl:text>\bendAfter #2 </xsl:text>
+      </xsl:when>
+      <xsl:when test="$articulation = 'fall'">
+        <xsl:text>\bendAfter #-2 </xsl:text>
+      </xsl:when>
+      <xsl:when test="$articulation = 'longfall'">
+        <xsl:text>\bendAfter #-4 </xsl:text>
+      </xsl:when>
+      <xsl:otherwise>
+        <!-- unsupported values 'scoop' 'rip' 'plop' 'bend' 'flip' 'smear' 'shake' 'fingernail' 'damp' 'dampall' 'dbltongue' 'trpltongue' 'tap' -->
+        <xsl:text>\stopped</xsl:text>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+  <!-- set ornaments -->
+  <xsl:template name="setOrnament">
+    <!-- ly:Ornament scripts -->
+    <xsl:if test="contains(@ornam,'M')">
+      <xsl:text>\prall</xsl:text>
+    </xsl:if>
+    <xsl:if test="contains(@ornam,'m')">
+      <xsl:text>\mordent</xsl:text>
+    </xsl:if>
+    <xsl:if test="contains(@ornam,'S')">
+      <xsl:text>\turn</xsl:text>
+    </xsl:if>
+    <xsl:if test="contains(@ornam,'s')">
+      <xsl:text>\reverseturn</xsl:text>
+    </xsl:if>
+    <xsl:if test="contains(@ornam,'T')">
+      <xsl:text>\trill</xsl:text>
+    </xsl:if>
+    <xsl:if test="contains(@ornam,'t')">
+      <xsl:text>\trill</xsl:text>
+    </xsl:if>
   </xsl:template>
   <!-- set instrument names -->
   <xsl:template name="setInstrumentName">

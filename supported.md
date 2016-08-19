@@ -49,6 +49,7 @@ List of supported MEI elements and attributes
 * `<fb>`
 
 * `<fermata>`
+  * `@color`
   * `@place`
   * `@shape`
   * `@startid`
