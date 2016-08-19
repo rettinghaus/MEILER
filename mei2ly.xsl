@@ -324,7 +324,7 @@
       </xsl:choose>
     </xsl:if>
   </xsl:template>
-  <!-- MEI sections -->
+  <!-- MEI section -->
   <xsl:template match="mei:section">
     <xsl:text>{&#32;</xsl:text>
     <xsl:apply-templates/>
@@ -768,7 +768,6 @@
     </xsl:if>
     <xsl:choose>
       <xsl:when test="contains($articList,' ')">
-        <xsl:value-of select="concat('%',$articList,'&#10; ')"/>
         <xsl:call-template name="setArticulation">
           <xsl:with-param name="articulation" select="substring-before($articList,' ')"/>
         </xsl:call-template>
@@ -807,14 +806,9 @@
     </xsl:choose>
   </xsl:template>
   <!-- MEI mordent -->
-  <xsl:template match="mei:mordent" mode="pre">
-    <xsl:if test="@color">
-      <xsl:value-of select="concat('\once \override DynamicText.color = #(x11-color &quot;',@color,'&quot;) ')"/>
-    </xsl:if>
-  </xsl:template>
   <xsl:template name="mordent" match="mei:mordent">
     <xsl:if test="@color">
-      <xsl:value-of select="concat('\once \override Script.color = #(x11-color &quot;',@color,'&quot;) ')"/>
+      <xsl:value-of select="concat('-\tweak Script.color #(x11-color &quot;',@color,'&quot;) ')"/>
     </xsl:if>
     <xsl:call-template name="setMarkupDirection">
       <xsl:with-param name="direction" select="@place"/>
