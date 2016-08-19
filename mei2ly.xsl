@@ -1239,8 +1239,17 @@
   <!-- MEI syllable -->
   <xsl:template match="mei:syl">
   </xsl:template>
+  <!-- MEI choose -->
+  <xsl:template match="mei:choice">
+    <xsl:apply-templates select="mei:reg"/>
+  </xsl:template>
+  <!-- MEI regularization -->
+  <xsl:template match="mei:reg">
+    <xsl:apply-templates/>
+  </xsl:template>
   <!-- excluded elements -->
   <xsl:template match="mei:encodingDesc"/>
+  <xsl:template match="mei:orig"/>
   <xsl:template match="mei:ornam"/>
   <xsl:template match="mei:pgHead"/>
   <xsl:template match="mei:pgFoot"/>

@@ -20,6 +20,8 @@ List of supported MEI elements and attributes
 * `<bTrem>`
   * __`@num`__
 
+* `<choice>`
+
 * `<chord>`
   * `@artic`
   * `@beam`
@@ -74,7 +76,7 @@ List of supported MEI elements and attributes
 * `<harm>`
   * `@place`
   * `@staff`
-  * `@tstamp`
+  * __`@tstamp`__
 
 * `<label>` (within `<staffGrp>` and `<staffDef>`)
 
@@ -155,6 +157,8 @@ List of supported MEI elements and attributes
 
 * `<rdg>`
   * `@source`
+
+* `<reg>`
 
 * `<rend>`
 
