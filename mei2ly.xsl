@@ -737,7 +737,7 @@
   </xsl:template>
   <xsl:template match="mei:tuplet">
     <xsl:if test="@bracket.visible">
-      <xsl:value-of select="'\once \override TupletBracket.bracket-visibility = ##',substring(@bracket.visible,1,1),' '"/>
+      <xsl:value-of select="concat('\once \override TupletBracket.bracket-visibility = ##',substring(@bracket.visible,1,1),' ')"/>
     </xsl:if>
     <xsl:if test="@num.visible='false'">
       <xsl:value-of select="'\once \omit TupletNumber '"/>
@@ -1088,7 +1088,7 @@
       <xsl:value-of select="concat('\once \override Lyrics.LyricText.font-series = #',@fontweight,' ')"/>
     </xsl:if>
     <xsl:if test="@fontstyle">
-      <xsl:value-of select="concat('\once \override Lyrics.LyricText.font-shape = #',@fontstyle),' '"/>
+      <xsl:value-of select="concat('\once \override Lyrics.LyricText.font-shape = #',@fontstyle,' ')"/>
     </xsl:if>
     <xsl:apply-templates/>
     <xsl:text>&#32;</xsl:text>
@@ -1587,7 +1587,7 @@
     </xsl:choose>
     <xsl:text>&#10;</xsl:text>
     <xsl:if test="@barthru">
-      <xsl:value-of select="concat('  \override StaffGroup.BarLine.allow-span-bar = ##',substring(@barthru,1,1)),'&#10;'"/>
+      <xsl:value-of select="concat('  \override StaffGroup.BarLine.allow-span-bar = ##',substring(@barthru,1,1),'&#10;')"/>
     </xsl:if>
   </xsl:template>
   <!-- set bar lines -->
