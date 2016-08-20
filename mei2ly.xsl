@@ -2,7 +2,7 @@
 <!--        -->
 <!-- MEILER -->
 <!-- mei2ly -->
-<!-- v0.6.6 -->
+<!-- v0.6.7 -->
 <!--        -->
 <!-- programmed by Klaus Rettinghaus -->
 <!--        -->
@@ -1123,6 +1123,12 @@
     <xsl:apply-templates/>
     <xsl:text>&#32;</xsl:text>
   </xsl:template>
+  <!-- MEI ligature -->
+  <xsl:template match="mei:ligature">
+    <xsl:text>\[&#32;</xsl:text>
+    <xsl:apply-templates/>
+    <xsl:text>&#32;\]&#32;</xsl:text>
+  </xsl:template>
   <!-- MEI tempo -->
   <xsl:template match="mei:tempo" mode="pre">
     <xsl:if test="@color">
@@ -1295,6 +1301,7 @@
   <xsl:template match="mei:encodingDesc"/>
   <xsl:template match="mei:expansion"/>
   <xsl:template match="mei:front"/>
+  <xsl:template match="mei:multiRest"/>
   <xsl:template match="mei:orig"/>
   <xsl:template match="mei:ornam"/>
   <xsl:template match="mei:part"/>
@@ -1348,11 +1355,17 @@
       <xsl:when test="@dur='longa'">
         <xsl:text>\longa</xsl:text>
       </xsl:when>
+      <xsl:when test="@dur='maxima'">
+        <xsl:text>\maxima</xsl:text>
+      </xsl:when>
       <xsl:otherwise>
         <xsl:value-of select="@dur"/>
       </xsl:otherwise>
     </xsl:choose>
     <xsl:call-template name="setDots"/>
+    <xsl:if test="@num and @numbase">
+      <xsl:value-of select="concat('*',@num,'/',@numbase)"/>
+    </xsl:if>
   </xsl:template>
   <!-- set dots -->
   <xsl:template name="setDots">

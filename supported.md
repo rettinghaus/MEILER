@@ -85,6 +85,8 @@ List of supported MEI elements and attributes
 
 * `<lem>`
 
+* `<ligature>`
+
 * `<mdiv>`
 
 * `<measure>`
@@ -262,13 +264,13 @@ List of supported MEI elements and attributes
 
 * `<tie>`
   * `@curvedir` (for values 'above' and 'below')
-  * `@startid`
+  * __`@startid`__
 
 * `<trill>`
   * `@color`
   * `@endid`
   * `@place`
-  * `@startid`
+  * __`@startid`__
 
 * `<tuplet>`
   * `@bracket.place`
@@ -284,6 +286,6 @@ List of supported MEI elements and attributes
   * `@color`
   * `@form`
   * `@place`
-  * `@startid`
+  * __`@startid`__
 
 `att.color` supports HTML 4.01 color names
