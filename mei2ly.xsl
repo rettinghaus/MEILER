@@ -2,7 +2,7 @@
 <!--        -->
 <!-- MEILER -->
 <!-- mei2ly -->
-<!-- v0.6.5 -->
+<!-- v0.6.6 -->
 <!--        -->
 <!-- programmed by Klaus Rettinghaus -->
 <!--        -->
@@ -35,11 +35,19 @@
       <xsl:value-of select="concat('  ',@role,' = &quot;',normalize-space(.),'&quot;&#10;')"/>
     </xsl:for-each>
   </xsl:template>
+  <!-- MEI music element -->
+  <xsl:template match="mei:musc">
+    <xsl:apply-templates/>
+  </xsl:template>
   <!-- MEI body element -->
   <xsl:template match="mei:body">
     <xsl:if test="descendant::mei:scoreDef[1]/@*[starts-with(name(),'page')]">
       <xsl:apply-templates select="descendant::mei:scoreDef[1]" mode="makePageLayout"/>
     </xsl:if>
+    <xsl:apply-templates/>
+  </xsl:template>
+  <!-- MEI musical division -->
+  <xsl:template match="mei:mdiv">
     <xsl:apply-templates/>
   </xsl:template>
   <!-- MEI score element -->
@@ -97,7 +105,7 @@
         <xsl:text>&lt;&lt;&#32;</xsl:text>
         <xsl:choose>
           <xsl:when test="@copyof">
-            <xsl:apply-templates select="/mei:mei/mei:music//mei:staff[@xml:id = current()/substring-after(@copyof,'#')]"/>
+            <xsl:apply-templates select="/mei:mei/mei:music//mei:staff[@xml:id = substring-after(current()/@copyof,'#')]"/>
           </xsl:when>
           <xsl:otherwise>
             <xsl:apply-templates/>
@@ -496,28 +504,14 @@
     <xsl:if test="@artic">
       <xsl:call-template name="artic"/>
     </xsl:if>
-    <xsl:if test="@ornam">
-      <xsl:call-template name="setOrnament"/>
-    </xsl:if>
-    <xsl:apply-templates select="ancestor::mei:measure/mei:mordent[@startid = $noteKey]"/>
-    <xsl:apply-templates select="ancestor::mei:measure/mei:turn[@startid = $noteKey]"/>
     <xsl:if test="/mei:mei/mei:music//mei:trill/@endid = $noteKey">
       <xml:text>\stopTrillSpan</xml:text>
     </xsl:if>
-    <xsl:if test="ancestor::mei:measure/mei:trill/@startid = $noteKey">
-      <xsl:choose>
-        <xsl:when test="ancestor::mei:measure/mei:trill[@startid = $noteKey]/@endid">
-          <xml:text>\startTrillSpan</xml:text>
-        </xsl:when>
-        <xsl:otherwise>
-          <xsl:if test="ancestor::mei:measure/mei:trill[@startid = $noteKey]/@place">
-            <xsl:call-template name="setMarkupDirection">
-              <xsl:with-param name="direction" select="ancestor::mei:measure/mei:trill[@startid = $noteKey]/@place"/>
-            </xsl:call-template>
-          </xsl:if>
-          <xml:text>\trill</xml:text>
-        </xsl:otherwise>
-      </xsl:choose>
+    <xsl:apply-templates select="ancestor::mei:measure/mei:mordent[@startid = $noteKey]"/>
+    <xsl:apply-templates select="ancestor::mei:measure/mei:trill[@startid = $noteKey]"/>
+    <xsl:apply-templates select="ancestor::mei:measure/mei:turn[@startid = $noteKey]"/>
+    <xsl:if test="@ornam">
+      <xsl:call-template name="setOrnament"/>
     </xsl:if>
     <xsl:if test="@fermata and not(ancestor::mei:measure/mei:fermata/@startid = $noteKey)">
       <xsl:call-template name="fermata"/>
@@ -540,7 +534,7 @@
   </xsl:template>
   <!-- MEI chords -->
   <xsl:template match="mei:chord[@copyof]">
-    <xsl:apply-templates select="/mei:mei/mei:music//mei:chord[@xml:id = current()/substring-after(@copyof,'#')]"/>
+    <xsl:apply-templates select="/mei:mei/mei:music//mei:chord[@xml:id = substring-after(current()/@copyof,'#')]"/>
   </xsl:template>
   <xsl:template match="mei:chord">
     <xsl:variable name="chordKey" select="concat('#',./@xml:id)"/>
@@ -597,11 +591,15 @@
     <xsl:if test="@artic">
       <xsl:call-template name="artic"/>
     </xsl:if>
+    <xsl:if test="/mei:mei/mei:music//mei:trill/@endid = $noteKey">
+      <xml:text>\stopTrillSpan</xml:text>
+    </xsl:if>
+    <xsl:apply-templates select="ancestor::mei:measure/mei:mordent[@startid = $chordKey]"/>
+    <xsl:apply-templates select="ancestor::mei:measure/mei:trill[@startid = $chordKey]"/>
+    <xsl:apply-templates select="ancestor::mei:measure/mei:turn[@startid = $chordKey]"/>
     <xsl:if test="@ornam">
       <xsl:call-template name="setOrnament"/>
     </xsl:if>
-    <xsl:apply-templates select="ancestor::mei:measure/mei:mordent[@startid = $chordKey]"/>
-    <xsl:apply-templates select="ancestor::mei:measure/mei:turn[@startid = $chordKey]"/>
     <xsl:if test="ancestor::mei:measure/mei:gliss/@startid = $chordKey">
       <xsl:text>\glissando</xsl:text>
     </xsl:if>
@@ -733,7 +731,7 @@
   </xsl:template>
   <!-- MEI tuplet elements -->
   <xsl:template match="mei:tuplet[@copyof]">
-    <xsl:apply-templates select="/mei:mei/mei:music//mei:tuplet[@xml:id = current()/substring-after(@copyof,'#')]"/>
+    <xsl:apply-templates select="/mei:mei/mei:music//mei:tuplet[@xml:id = substring-after(current()/@copyof,'#')]"/>
   </xsl:template>
   <xsl:template match="mei:tuplet">
     <xsl:if test="@bracket.visible">
@@ -833,6 +831,29 @@
       </xsl:when>
       <xsl:otherwise>
         <xsl:text>\mordent</xsl:text>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+  <!-- MEI trill -->
+  <xsl:template name="trill" match="mei:trill">
+    <xsl:choose>
+      <xsl:when test="@endid and @endid != @startid">
+        <xsl:if test="@color">
+          <xsl:value-of select="concat('-\tweak TrillSpanner.color #(x11-color &quot;',@color,'&quot;) ')"/>
+        </xsl:if>
+        <xsl:call-template name="setMarkupDirection">
+          <xsl:with-param name="direction" select="@place"/>
+        </xsl:call-template>
+        <xml:text>\startTrillSpan</xml:text>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:if test="@color">
+          <xsl:value-of select="concat('-\tweak Script.color #(x11-color &quot;',@color,'&quot;) ')"/>
+        </xsl:if>
+        <xsl:call-template name="setMarkupDirection">
+          <xsl:with-param name="direction" select="@place"/>
+        </xsl:call-template>
+        <xml:text>\trill</xml:text>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
@@ -1270,9 +1291,14 @@
     <xsl:apply-templates/>
   </xsl:template>
   <!-- excluded elements -->
+  <xsl:template match="mei:back"/>
   <xsl:template match="mei:encodingDesc"/>
+  <xsl:template match="mei:expansion"/>
+  <xsl:template match="mei:front"/>
   <xsl:template match="mei:orig"/>
   <xsl:template match="mei:ornam"/>
+  <xsl:template match="mei:part"/>
+  <xsl:template match="mei:parts"/>
   <xsl:template match="mei:pgHead"/>
   <xsl:template match="mei:pgFoot"/>
   <xsl:template match="mei:revisionDesc"/>
