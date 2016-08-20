@@ -786,15 +786,24 @@
   </xsl:template>
   <!-- MEI fermata -->
   <xsl:template name="fermata" match="mei:fermata">
-    <xsl:if test="self::mei:fermata and @color">
-      <xsl:value-of select="concat('-\tweak Script.color #(x11-color &quot;',@color,'&quot;) ')"/>
-    </xsl:if>
-    <xsl:if test="@place='above' or @fermata='above'">
-      <xsl:text>^</xsl:text>
-    </xsl:if>
-    <xsl:if test="@place='below' or @fermata='below'">
-      <xsl:text>_</xsl:text>
-    </xsl:if>
+    <xsl:choose>
+      <xsl:when test="self::mei:fermata">
+        <xsl:if test="@color">
+          <xsl:value-of select="concat('-\tweak Script.color #(x11-color &quot;',@color,'&quot;) ')"/>
+        </xsl:if>
+        <xsl:call-template name="setMarkupDirection">
+          <xsl:with-param name="direction" select="@place"/>
+        </xsl:call-template>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:if test="@fermata='above'">
+          <xsl:text>^</xsl:text>
+        </xsl:if>
+        <xsl:if test="@fermata='below'">
+          <xsl:text>_</xsl:text>
+        </xsl:if>
+      </xsl:otherwise>
+    </xsl:choose>
     <xsl:choose>
       <xsl:when test="@shape = 'square'">
         <xsl:text>\longfermata</xsl:text>
