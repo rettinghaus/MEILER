@@ -290,4 +290,4 @@ List of supported MEI elements and attributes
   * `@place`
   * __`@startid`__
 
-`att.color` supports color names
+`att.color` supports rgb values and color names
