@@ -18,7 +18,7 @@ List of supported MEI elements and attributes
   * `@color`
 
 * `<bTrem>`
-  * __`@num`__
+  * __`@measperf`__
 
 * `<choice>`
 
@@ -59,6 +59,9 @@ List of supported MEI elements and attributes
 * `<fing>`
   * `@place`
   * `@startid`
+
+* `<fTrem>`
+  * __`@measperf`__
 
 * `<gliss>`
   * `@color`

@@ -2,7 +2,7 @@
 <!--        -->
 <!-- MEILER -->
 <!-- mei2ly -->
-<!-- v0.6.7 -->
+<!-- v0.6.8 -->
 <!--        -->
 <!-- programmed by Klaus Rettinghaus -->
 <!--        -->
@@ -468,11 +468,21 @@
     <xsl:if test="descendant-or-self::*/@accid or child::mei:accid/@func='caution'">
       <xml:text>!</xml:text>
     </xsl:if>
-    <xsl:if test="not(parent::mei:chord)">
+    <xsl:if test="not(parent::mei:chord) and not(parent::mei:fTrem[@measperf])">
       <xsl:call-template name="setDuration"/>
     </xsl:if>
-    <xsl:if test="not(@grace) and contains(@stem.mod,'slash')">
-      <xsl:value-of select="concat(':',8 * number(substring(@stem.mod,1,1)))"/>
+    <xsl:if test="parent::mei:fTrem/@measperf">
+      <xsl:value-of select="parent::mei:fTrem/@measperf"/>
+    </xsl:if>
+    <xsl:if test="parent::mei:bTrem and not(@grace) and contains(@stem.mod,'slash')">
+      <xsl:choose>
+        <xsl:when test="parent::mei:bTrem[@measperf]">
+          <xsl:value-of select="concat(':',parent::mei:bTrem/@measperf)"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="concat(':',8 * number(substring(@stem.mod,1,1)))"/>
+        </xsl:otherwise>
+      </xsl:choose>
     </xsl:if>
     <xsl:if test="contains(@tie,'i') or contains(@tie,'m') or (ancestor::mei:measure/mei:tie/@startid = $noteKey)">
       <xsl:if test="ancestor::mei:measure/mei:tie/@startid = $noteKey">
@@ -739,6 +749,12 @@
   <!-- MEI bowed tremolo -->
   <xsl:template match="mei:bTrem">
     <xsl:apply-templates/>
+  </xsl:template>
+  <!-- MEI fingered tremolo -->
+  <xsl:template match="mei:fTrem[@measperf]">
+    <xsl:value-of select="concat('\repeat tremolo ',@measperf div child::*[1]/@dur,' {')"/>
+    <xsl:apply-templates/>
+    <xsl:value-of select="'} '"/>
   </xsl:template>
   <!-- MEI tuplet elements -->
   <xsl:template match="mei:tuplet[@copyof]">
