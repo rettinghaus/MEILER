@@ -167,6 +167,8 @@ List of supported MEI elements and attributes
 * `<reg>`
 
 * `<rend>`
+  * `@color`
+  * `halign`
 
 * `<rest>`
   * `@beam`
@@ -288,4 +290,4 @@ List of supported MEI elements and attributes
   * `@place`
   * __`@startid`__
 
-`att.color` supports HTML 4.01 color names
+`att.color` supports color names

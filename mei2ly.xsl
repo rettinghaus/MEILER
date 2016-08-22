@@ -591,7 +591,7 @@
     <xsl:if test="@artic">
       <xsl:call-template name="artic"/>
     </xsl:if>
-    <xsl:if test="/mei:mei/mei:music//mei:trill/@endid = $noteKey">
+    <xsl:if test="/mei:mei/mei:music//mei:trill/@endid = $chordKey">
       <xml:text>\stopTrillSpan</xml:text>
     </xsl:if>
     <xsl:apply-templates select="ancestor::mei:measure/mei:mordent[@startid = $chordKey]"/>
@@ -1168,6 +1168,13 @@
     </xsl:if>
     <xsl:if test="@fontstyle != 'normal'">
       <xsl:value-of select="concat('\',@fontstyle,' ')"/>
+    </xsl:if>
+    <xsl:if test="@halign">
+      <xsl:value-of select="concat('\',@halign)"/>
+      <xsl:if test="@halign != 'justify'">
+        <xsl:value-of select="'-align'"/>
+      </xsl:if>
+      <xsl:value-of select="' '"/>
     </xsl:if>
     <xsl:text>{</xsl:text>
     <xsl:apply-templates/>
