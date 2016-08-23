@@ -218,13 +218,36 @@
     <xsl:text>\score { &lt;&lt;&#10;</xsl:text>
     <xsl:if test="/mei:mei/mei:music//@source">
       <xsl:text>\removeWithTag #'( </xsl:text>
-      <xsl:for-each select="distinct-values(//mei:rdg/@source)">
+      <xsl:for-each select="distinct-values(/mei:mei/mei:music//@source)">
         <xsl:value-of select="concat(substring-after(.,'#'),' ')"/>
       </xsl:for-each>
       <xsl:text>)&#10;</xsl:text>
     </xsl:if>
     <xsl:apply-templates/>
-    <xsl:text>&gt;&gt;&#10;}&#10;</xsl:text>
+    <xsl:text>&gt;&gt;&#10;</xsl:text>
+    <xsl:text>\layout {&#10;</xsl:text>
+    <xsl:if test="@clef.color or @mnum.visible">
+      <xsl:text>  \context { \Score </xsl:text>
+      <xsl:if test="@mnum.visible = 'false'">
+        <xsl:text>\remove "Bar_number_engraver" </xsl:text>
+      </xsl:if>
+      <xsl:if test="@clef.color">
+        <xsl:text>\override Clef.color = #</xsl:text>
+        <xsl:call-template name="setColor">
+          <xsl:with-param name="color" select="@clef.color"/>
+        </xsl:call-template>
+      </xsl:if>
+      <xsl:text>}&#10;</xsl:text>
+    </xsl:if>
+    <xsl:text>}&#10;</xsl:text>
+    <xsl:if test="@*[contains(name(),'midi')]">
+      <xsl:text>\midi { </xsl:text>
+      <xsl:if test="@midi.bpm">
+        <xsl:value-of select="concat('\tempo 4 = ',@midi.bpm,' ')"/>
+      </xsl:if>
+      <xsl:text>}&#10;</xsl:text>
+    </xsl:if>
+    <xsl:text>}&#10;</xsl:text>
   </xsl:template>
   <!-- MEI staff group -->
   <xsl:template match="mei:staffGrp">
@@ -492,10 +515,10 @@
       </xsl:if>
       <xml:text>~</xml:text>
     </xsl:if>
-    <xsl:if test="contains(@beam,'i') or (parent::mei:beam and position()=1)">
+    <xsl:if test="contains(@beam,'i') or (parent::mei:beam and position()=1) or (ancestor::mei:measure/mei:beamSpan[not(@beam.with)]/@startid = $noteKey)">
       <xml:text>[</xml:text>
     </xsl:if>
-    <xsl:if test="contains(@beam,'t') or (parent::mei:beam and position()=last())">
+    <xsl:if test="contains(@beam,'t') or (parent::mei:beam and position()=last()) or (/mei:mei/mei:music//mei:beamSpan[not(@beam.with)]/@endid = $noteKey)">
       <xml:text>]</xml:text>
     </xsl:if>
     <xsl:if test="contains(@slur,'t') or (/mei:mei/mei:music//mei:slur/@endid = $noteKey)">
@@ -516,12 +539,12 @@
     <xsl:if test="/mei:mei/mei:music//mei:hairpin/@endid = $noteKey or /mei:mei/mei:music//mei:dynam/@endid = $noteKey">
       <xml:text>\!</xml:text>
     </xsl:if>
-    <xsl:apply-templates select="ancestor::mei:measure/mei:dynam[@startid = $noteKey]"/>
-    <xsl:apply-templates select="ancestor::mei:measure/mei:hairpin[@startid = $noteKey]"/>
-    <xsl:apply-templates/>
     <xsl:if test="@artic">
       <xsl:call-template name="artic"/>
     </xsl:if>
+    <xsl:apply-templates select="ancestor::mei:measure/mei:dynam[@startid = $noteKey]"/>
+    <xsl:apply-templates select="ancestor::mei:measure/mei:hairpin[@startid = $noteKey]"/>
+    <xsl:apply-templates/>
     <xsl:if test="/mei:mei/mei:music//mei:trill/@endid = $noteKey">
       <xml:text>\stopTrillSpan</xml:text>
     </xsl:if>
@@ -580,10 +603,10 @@
       </xsl:if>
       <xml:text>~</xml:text>
     </xsl:if>
-    <xsl:if test="contains(@beam,'i') or (parent::mei:beam and position()=1)">
+    <xsl:if test="contains(@beam,'i') or (parent::mei:beam and position()=1) or (ancestor::mei:measure/mei:beamSpan[not(@beam.with)]/@startid = $chordKey)">
       <xml:text>[</xml:text>
     </xsl:if>
-    <xsl:if test="contains(@beam,'t') or (parent::mei:beam and position()=last())">
+    <xsl:if test="contains(@beam,'t') or (parent::mei:beam and position()=last()) or (/mei:mei/mei:music//mei:beamSpan[not(@beam.with)]/@endid = $chordKey)">
       <xml:text>]</xml:text>
     </xsl:if>
     <xsl:if test="contains(@slur,'t') or (/mei:mei/mei:music//mei:slur/@endid = $chordKey)">
@@ -603,12 +626,12 @@
     <xsl:if test="/mei:mei/mei:music//mei:hairpin/@endid = $chordKey or /mei:mei/mei:music//mei:dynam/@endid = $chordKey">
       <xml:text>\!</xml:text>
     </xsl:if>
-    <xsl:apply-templates select="ancestor::mei:measure/mei:dynam[@startid = $chordKey]"/>
-    <xsl:apply-templates select="ancestor::mei:measure/mei:hairpin[@startid = $chordKey]"/>
-    <xsl:apply-templates select="mei:artic"/>
     <xsl:if test="@artic">
       <xsl:call-template name="artic"/>
     </xsl:if>
+    <xsl:apply-templates select="mei:artic"/>
+    <xsl:apply-templates select="ancestor::mei:measure/mei:dynam[@startid = $chordKey]"/>
+    <xsl:apply-templates select="ancestor::mei:measure/mei:hairpin[@startid = $chordKey]"/>
     <xsl:if test="/mei:mei/mei:music//mei:trill/@endid = $chordKey">
       <xml:text>\stopTrillSpan</xml:text>
     </xsl:if>
@@ -736,7 +759,7 @@
     </xsl:choose>
     <xsl:value-of select="' '"/>
   </xsl:template>
-  <!-- MEI accidentals elements -->
+  <!-- MEI accidental (handled on note level) -->
   <xsl:template match="mei:accid"/>
   <!-- MEI beam -->
   <xsl:template match="mei:beam">
@@ -1175,14 +1198,12 @@
   </xsl:template>
   <!-- MEI tempo -->
   <xsl:template match="mei:tempo" mode="pre">
-    <xsl:if test="@color">
-      <xsl:value-of select="'\once \override Score.MetronomeMark.color = #'"/>
-      <xsl:call-template name="setColor"/>
-    </xsl:if>
     <xsl:if test="@place = 'below'">
       <xsl:value-of select="'\once \override Score.MetronomeMark.direction = #DOWN '"/>
     </xsl:if>
-    <xsl:value-of select="concat('\tempo &quot;',normalize-space(.),'&quot;&#10;  ')"/>
+    <xsl:value-of select="'\tempo \markup {'"/>
+    <xsl:apply-templates/>
+    <xsl:value-of select="'}&#10;  '"/>
   </xsl:template>
   <!-- MEI directive -->
   <xsl:template match="mei:dir" mode="pre"/>
@@ -1221,6 +1242,8 @@
         <xsl:value-of select="'-align'"/>
       </xsl:if>
       <xsl:value-of select="' '"/>
+    </xsl:if>
+    <xsl:if test="@rend">
     </xsl:if>
     <xsl:if test="@rotation">
       <xsl:value-of select="concat('\rotate #',@rotation,' ')"/>

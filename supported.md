@@ -171,7 +171,7 @@ List of supported MEI elements and attributes
 
 * `<rend>`
   * `@color`
-  * `halign`
+  * `@halign`
 
 * `<rest>`
   * `@beam`
@@ -189,6 +189,7 @@ List of supported MEI elements and attributes
 * `<score>`
 
 * `<scoreDef>`
+    * `@clef.color`
     * `@clef.dis`
     * `@clef.dis.place`
     * `@clef.line`
@@ -207,13 +208,14 @@ List of supported MEI elements and attributes
     * `@meter.showchange`
     * `@meter.sym`
     * `@meter.unit`
+    * `@midi.bpm`
+    * `@mnum.visible`
     * `@page.botmar`
     * `@page.height`
     * `@page.leftmar`
     * `@page.rightmar`
     * `@page.topmar`
     * `@page.width`
-    * `@n`
     * `@pedal.style` (for values 'line' and 'pedstar')
 
 * `<section>`
@@ -261,7 +263,6 @@ List of supported MEI elements and attributes
   * `@symbol`
 
 * `<tempo>`
-  * `@color`
   * `@place`
   * `@staff`
   * `@startid`
