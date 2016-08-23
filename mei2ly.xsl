@@ -579,8 +579,8 @@
   </xsl:template>
   <xsl:template match="mei:chord">
     <xsl:variable name="chordKey" select="concat('#',./@xml:id)"/>
-    <xsl:variable name="subChordKeys" select="descendant-or-self::*/concat('#',./@xml:id)"/>
-    <xsl:apply-templates select="ancestor::mei:measure/descendant::*[@startid = $chordKey or tokenize(@plist,' ') = $subChordKeys]" mode="pre"/>
+    <xsl:variable name="subChordKeys" select="descendant::*/@xml:id"/>
+    <xsl:apply-templates select="ancestor::mei:measure/descendant::*[@startid = $chordKey or contains(@plist,concat('#',$subChordKeys))]" mode="pre"/>
     <xsl:if test="@visible='false'">
       <xml:text>\once \hideNotes </xml:text>
     </xsl:if>
@@ -620,7 +620,7 @@
       </xsl:if>
       <xml:text>(</xml:text>
     </xsl:if>
-    <xsl:if test="ancestor::mei:measure/mei:arpeg[tokenize(@plist,' ') = $subChordKeys or @startid = $chordKey]">
+    <xsl:if test="ancestor::mei:measure/mei:arpeg[@startid = $chordKey or contains(@plist,concat('#',$subChordKeys))]">
       <xml:text>\arpeggio</xml:text>
     </xsl:if>
     <xsl:if test="/mei:mei/mei:music//mei:hairpin/@endid = $chordKey or /mei:mei/mei:music//mei:dynam/@endid = $chordKey">
@@ -649,7 +649,7 @@
     </xsl:if>
     <xsl:apply-templates select="ancestor::mei:measure/mei:fermata[@startid = $chordKey]"/>
     <xsl:apply-templates select="ancestor::mei:measure/mei:pedal[@startid = $chordKey]"/>
-    <xsl:if test="(starts-with(@tuplet,'t') or (following::mei:tupletSpan/@endid = $chordKey)) and not(ancestor::mei:tuplet)">
+    <xsl:if test="(starts-with(@tuplet,'t') or (/mei:mei/mei:music//mei:tupletSpan/@endid = $chordKey)) and not(ancestor::mei:tuplet)">
       <xsl:value-of select="' }'"/>
     </xsl:if>
     <xsl:if test="/mei:mei/mei:music//mei:octave/@endid = $chordKey">
