@@ -1227,6 +1227,11 @@
       <xsl:value-of select="'\with-color #'"/>
       <xsl:call-template name="setColor"/>
     </xsl:if>
+    <xsl:if test="@fontname">
+      <xsl:text>\override #'(font-name . </xsl:text>
+      <xsl:value-of select="concat('&quot;',@fontname,'&quot;')"/>
+      <xsl:text>) </xsl:text>
+    </xsl:if>
     <xsl:if test="@fontweight='normal' or @fontstyle='normal'">
       <xsl:value-of select="'\normal-text '"/>
     </xsl:if>
@@ -1236,6 +1241,9 @@
     <xsl:if test="@fontstyle != 'normal'">
       <xsl:value-of select="concat('\',@fontstyle,' ')"/>
     </xsl:if>
+    <xsl:if test="@fontfam">
+      <xsl:value-of select="concat('\',@fontfam,' ')"/>
+    </xsl:if>
     <xsl:if test="@halign">
       <xsl:value-of select="concat('\',@halign)"/>
       <xsl:if test="@halign != 'justify'">
@@ -1243,10 +1251,29 @@
       </xsl:if>
       <xsl:value-of select="' '"/>
     </xsl:if>
-    <xsl:if test="@rend">
-    </xsl:if>
     <xsl:if test="@rotation">
       <xsl:value-of select="concat('\rotate #',@rotation,' ')"/>
+    </xsl:if>
+    <xsl:if test="contains(@rend,'italic')">
+      <xsl:value-of select="'\italic '"/>
+    </xsl:if>
+    <xsl:if test="contains(@rend,'box')">
+      <xsl:value-of select="'\box '"/>
+    </xsl:if>
+    <xsl:if test="contains(@rend,'circle')">
+      <xsl:value-of select="'\circle '"/>
+    </xsl:if>
+    <xsl:if test="contains(@rend,'sub')">
+      <xsl:value-of select="'\sub '"/>
+    </xsl:if>
+    <xsl:if test="contains(@rend,'sup')">
+      <xsl:value-of select="'\super '"/>
+    </xsl:if>
+    <xsl:if test="contains(@rend,'underline')">
+      <xsl:value-of select="'\underline '"/>
+    </xsl:if>
+    <xsl:if test="contains(@rend,'smcaps')">
+      <xsl:value-of select="'\smallCaps '"/>
     </xsl:if>
     <xsl:text>{</xsl:text>
     <xsl:apply-templates/>

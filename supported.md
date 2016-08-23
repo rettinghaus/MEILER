@@ -171,7 +171,13 @@ List of supported MEI elements and attributes
 
 * `<rend>`
   * `@color`
+  * `@fontfam`
+  * `@fontname`
+  * `@fontstyle`
+  * `@fontweight`
   * `@halign`
+  * `@rend`
+  * `@rotation`
 
 * `<rest>`
   * `@beam`
