@@ -17,6 +17,9 @@ List of supported MEI elements and attributes
 * `<beam>`
   * `@color`
 
+* `<beamSpan>`
+  * `@color`
+
 * `<bTrem>`
   * __`@measperf`__
 
@@ -41,7 +44,7 @@ List of supported MEI elements and attributes
   * `@color`
   * `@endid`
   * `@place`
-  * `@startid`
+  * __`@startid`__
 
 * `<ending>`
   * `@n`

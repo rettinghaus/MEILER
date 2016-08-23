@@ -2,7 +2,7 @@
 <!--        -->
 <!-- MEILER -->
 <!-- mei2ly -->
-<!-- v0.6.8 -->
+<!-- v0.7.0 -->
 <!--        -->
 <!-- programmed by Klaus Rettinghaus -->
 <!--        -->
@@ -769,6 +769,13 @@
     </xsl:if>
     <xsl:apply-templates/>
   </xsl:template>
+  <!-- MEI beam -->
+  <xsl:template match="mei:beamSpan" mode="pre">
+    <xsl:if test="@color">
+      <xsl:value-of select="'\once \override Beam.color = #'"/>
+      <xsl:call-template name="setColor"/>
+    </xsl:if>
+  </xsl:template>
   <!-- MEI bowed tremolo -->
   <xsl:template match="mei:bTrem">
     <xsl:apply-templates/>
@@ -1029,24 +1036,22 @@
     <xsl:value-of select="concat('\',.)"/>
   </xsl:template>
   <!-- MEI hairpin -->
-  <xsl:template match="mei:hairpin" mode="pre">
+  <xsl:template match="mei:hairpin">
     <xsl:if test="@color">
-      <xsl:value-of select="'\once \override Hairpin.color = #'"/>
+      <xsl:value-of select="'-\tweak Hairpin.color #'"/>
       <xsl:call-template name="setColor"/>
     </xsl:if>
     <xsl:if test="@lform">
       <xsl:choose>
         <xsl:when test="@lform = 'wavy'">
-          <xsl:text>\once \override Hairpin.style = #'trill </xsl:text>
+          <xsl:text>-\tweak Hairpin.style #'trill </xsl:text>
         </xsl:when>
         <xsl:otherwise>
-          <xsl:text>\once \override Hairpin.style = #'</xsl:text>
+          <xsl:text>-\tweak Hairpin.style #'</xsl:text>
           <xsl:value-of select="concat(@lform,'-line ')"/>
         </xsl:otherwise>
       </xsl:choose>
     </xsl:if>
-  </xsl:template>
-  <xsl:template match="mei:hairpin">
     <xsl:call-template name="setMarkupDirection">
       <xsl:with-param name="direction" select="@place"/>
     </xsl:call-template>
