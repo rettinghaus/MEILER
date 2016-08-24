@@ -57,7 +57,7 @@
     <xsl:apply-templates select="mei:date"/>
     <xsl:text>&#32;}&#10;</xsl:text>
   </xsl:template>
-  <!-- MEI workDesc -->
+  <!-- MEI work description -->
   <xsl:template match="mei:workDesc">
     <xsl:value-of select="concat('  title = &quot;',normalize-space(descendant::mei:title[not(@type) or @type='main'][1]),'&quot;&#10;')"/>
     <xsl:if test="descendant::mei:title[@type='subordinate']">
@@ -306,6 +306,9 @@
       <xsl:text>}&#10;</xsl:text>
     </xsl:if>
     <xsl:text>}&#10;</xsl:text>
+    <xsl:if test="contains(@music.size,'pt')">
+      <xsl:value-of select="concat('&#10;#(set-global-staff-size ',substring-before(@music.size,'pt'),')&#10;')"/>
+    </xsl:if>
   </xsl:template>
   <!-- MEI staff group -->
   <xsl:template match="mei:staffGrp">
