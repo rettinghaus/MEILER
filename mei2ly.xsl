@@ -20,9 +20,42 @@
     <xsl:apply-templates/>
     <xsl:text>}&#10;&#10;</xsl:text>
   </xsl:template>
-  <!-- MEI fileDesc -->
+  <!-- MEI file description -->
   <xsl:template match="mei:fileDesc">
-    <xsl:value-of select="concat('  copyright = &quot;',normalize-space(descendant::mei:pubStmt[1]/mei:respStmt[1]),'&quot;&#10;')"/>
+    <xsl:apply-templates select="mei:editionStmt|mei:pubStmt"/>
+  </xsl:template>
+  <!-- MEI edition statement -->
+  <xsl:template match="mei:editionStmt">
+    <xsl:value-of select="concat('  edition = \markup { ',normalize-space(.),' }&#10;')"/>
+  </xsl:template>
+  <!-- MEI publication statement -->
+  <xsl:template match="mei:pubStmt">
+    <xsl:if test="mei:respStmt/mei:persName[@role='editor']">
+      <xsl:value-of select="concat('  editor = \markup { ',normalize-space(mei:respStmt/mei:persName[@role='editor'][1]),' }&#10;')"/>
+    </xsl:if>
+    <xsl:if test="mei:publisher">
+      <xsl:text>  publisher = \markup { </xsl:text>
+      <xsl:apply-templates select="mei:publisher"/>
+      <xsl:text>&#32;}&#10;</xsl:text>
+    </xsl:if>
+    <xsl:if test="mei:pubPlace">
+      <xsl:text>  place = \markup { </xsl:text>
+      <xsl:apply-templates select="mei:pubPlace[1]"/>
+      <xsl:text>&#32;}&#10;</xsl:text>
+    </xsl:if>
+    <xsl:if test="mei:date">
+      <xsl:text>  date = \markup { </xsl:text>
+      <xsl:apply-templates select="mei:date[1]"/>
+      <xsl:text>&#32;}&#10;</xsl:text>
+    </xsl:if>
+    <xsl:text>  copyright = \markup { </xsl:text>
+    <xsl:text>©&#32;</xsl:text>
+    <xsl:apply-templates select="mei:publisher"/>
+    <xsl:text>,&#32;</xsl:text>
+    <xsl:apply-templates select="mei:pubPlace"/>
+    <xsl:text>&#32;</xsl:text>
+    <xsl:apply-templates select="mei:date"/>
+    <xsl:text>&#32;}&#10;</xsl:text>
   </xsl:template>
   <!-- MEI workDesc -->
   <xsl:template match="mei:workDesc">
@@ -151,28 +184,29 @@
       <xsl:variable name="staffNumber" select="@n"/>
       <xsl:if test="/mei:mei/mei:music//mei:staff[@n=$staffNumber]//mei:syl">
         <xsl:value-of select="concat('Lyrics',codepoints-to-string(xs:integer(64 + $staffNumber)),' = \lyricmode {&#10;')"/>
-        <xsl:if test="ancestor-or-self::*/@lyric.name">
-          <xsl:value-of select="concat('\override Lyrics.LyricText.font-name = #&quot;',ancestor-or-self::*/@lyric.name[1],'&quot; ')"/>
+        <xsl:if test="@lyric.name">
+          <xsl:value-of select="concat('\override Lyrics.LyricText.font-name = #&quot;',@lyric.name,'&quot; ')"/>
         </xsl:if>
-        <xsl:if test="ancestor-or-self::*/@lyric.fam">
+        <xsl:if test="@lyric.fam">
           <xsl:text>\override Lyrics.LyricText.font-family = #&apos;</xsl:text>
-          <xsl:value-of select="concat(ancestor-or-self::*/@lyric.fam[1],' ')"/>
+          <xsl:value-of select="concat(@lyric.fam,' ')"/>
         </xsl:if>
-        <xsl:if test="ancestor-or-self::*/@lyric.size">
+        <xsl:if test="@lyric.size">
         </xsl:if>
-        <xsl:if test="ancestor-or-self::*/@lyric.style">
+        <xsl:if test="@lyric.style">
           <xsl:text>\override Lyrics.LyricText.font-shape = #&apos;</xsl:text>
-          <xsl:value-of select="concat(ancestor-or-self::*/@lyric.style[1],' ')"/>
+          <xsl:value-of select="concat(@lyric.style,' ')"/>
         </xsl:if>
-        <xsl:if test="ancestor-or-self::*/@lyric.weight">
+        <xsl:if test="@lyric.weight">
           <xsl:text>\override Lyrics.LyricText.font-series = #&apos;</xsl:text>
-          <xsl:value-of select="concat(ancestor-or-self::*/@lyric.weight[1],' ')"/>
+          <xsl:value-of select="concat(@lyric.weight,' ')"/>
         </xsl:if>
         <xsl:for-each select="/mei:mei/mei:music//mei:staff[@n=$staffNumber]/mei:layer[1]">
           <xsl:for-each select="descendant::*[name()='note' or name()='rest' or name()='mRest']">
             <xsl:if test="not(@grace)">
               <xsl:choose>
                 <xsl:when test="descendant::mei:syl">
+                  <xsl:apply-templates select="descendant::mei:verse[1]" mode="lyrics"/>
                   <xsl:value-of select="descendant::mei:syl[1]"/>
                   <xsl:call-template name="setDuration"/>
                   <xsl:choose>
@@ -226,7 +260,10 @@
     <xsl:apply-templates/>
     <xsl:text>&gt;&gt;&#10;</xsl:text>
     <xsl:text>\layout {&#10;</xsl:text>
-    <xsl:if test="@clef.color or @mnum.visible">
+    <xsl:if test="contains(@music.size,'pt')">
+      <xsl:value-of select="concat('  #(layout-set-staff-size ',substring-before(@music.size,'pt'),')&#10;')"/>
+    </xsl:if>
+    <xsl:if test="@mnum.visible or @clef.color">
       <xsl:text>  \context { \Score </xsl:text>
       <xsl:if test="@mnum.visible = 'false'">
         <xsl:text>\remove "Bar_number_engraver" </xsl:text>
@@ -236,6 +273,27 @@
         <xsl:call-template name="setColor">
           <xsl:with-param name="color" select="@clef.color"/>
         </xsl:call-template>
+      </xsl:if>
+      <xsl:text>}&#10;</xsl:text>
+    </xsl:if>
+    <xsl:if test="@*[starts-with(name(),'lyric')]">
+      <xsl:text>  \context { \Lyrics </xsl:text>
+      <xsl:if test="@lyric.name">
+        <xsl:value-of select="concat('\override LyricText.font-name = #&quot;',ancestor-or-self::*/@lyric.name[1],'&quot; ')"/>
+      </xsl:if>
+      <xsl:if test="@lyric.fam">
+        <xsl:text>\override LyricText.font-family = #&apos;</xsl:text>
+        <xsl:value-of select="concat(@lyric.fam,' ')"/>
+      </xsl:if>
+      <xsl:if test="@lyric.size">
+      </xsl:if>
+      <xsl:if test="@lyric.style">
+        <xsl:text>\override LyricText.font-shape = #&apos;</xsl:text>
+        <xsl:value-of select="concat(@lyric.style,' ')"/>
+      </xsl:if>
+      <xsl:if test="@lyric.weight">
+        <xsl:text>\override LyricText.font-series = #&apos;</xsl:text>
+        <xsl:value-of select="concat(@lyric.weight,' ')"/>
       </xsl:if>
       <xsl:text>}&#10;</xsl:text>
     </xsl:if>
@@ -305,7 +363,15 @@
     <xsl:if test="@slur.lform">
       <xsl:value-of select="concat('\slur',translate(substring(@lform,1,1),'ds','DS'),substring(@lform,2),' ')"/>
     </xsl:if>
-    <xsl:text>\autoBeamOff \set tieWaitForNote = ##t&#10;    </xsl:text>
+    <xsl:choose>
+      <xsl:when test="ancestor-or-self::*/@beam.group">
+        <xsl:call-template name="setBeaming"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="'\autoBeamOff '"/>
+      </xsl:otherwise>
+    </xsl:choose>
+    <xsl:text>\set tieWaitForNote = ##t&#10;    </xsl:text>
     <xsl:call-template name="setClef">
       <xsl:with-param name="clefColor" select="@clef.color"/>
       <xsl:with-param name="clefDis" select="@clef.dis"/>
@@ -385,6 +451,9 @@
   <!-- MEI layers -->
   <xsl:template match="mei:layer">
     <xml:text>{ </xml:text>
+    <xsl:if test="@beam.group">
+      <xsl:call-template name="setBeaming"/>
+    </xsl:if>
     <xsl:apply-templates/>
     <xml:text>} </xml:text>
     <xsl:if test="following-sibling::mei:layer">
@@ -1361,7 +1430,12 @@
   </xsl:template>
   <!-- MEI system break -->
   <xsl:template match="mei:sb">
-    <xsl:text>&#32;&#32;\break</xsl:text>
+    <xsl:text>&#32;&#32;</xsl:text>
+    <xsl:for-each select="tokenize(@source,' ')">
+      <xsl:text>\tag #'</xsl:text>
+      <xsl:value-of select="concat(substring-after(.,'#'),' ')"/>
+    </xsl:for-each>
+    <xsl:text>{ \break }</xsl:text>
     <xsl:if test="@n">
       <xsl:value-of select="concat(' %',@n)"/>
     </xsl:if>
@@ -1369,7 +1443,12 @@
   </xsl:template>
   <!-- MEI page break -->
   <xsl:template match="mei:pb">
-    <xsl:text>&#32;&#32;\pageBreak</xsl:text>
+    <xsl:text>&#32;&#32;</xsl:text>
+    <xsl:for-each select="tokenize(@source,' ')">
+      <xsl:text>\tag #'</xsl:text>
+      <xsl:value-of select="concat(substring-after(.,'#'),' ')"/>
+    </xsl:for-each>
+    <xsl:text>{ \pageBreak }</xsl:text>
     <xsl:if test="@n">
       <xsl:value-of select="concat(' %',@n)"/>
     </xsl:if>
@@ -1394,7 +1473,19 @@
     <xsl:text>}&#32;</xsl:text>
   </xsl:template>
   <!-- MEI verse -->
-  <xsl:template match="mei:verse">
+  <xsl:template match="mei:verse" mode="lyrics">
+    <xsl:if test="@color">
+      <xsl:value-of select="'\once \override Lyrics.LyricText.color = #'"/>
+      <xsl:call-template name="setColor"/>
+    </xsl:if>
+    <xsl:if test="@fontstyle">
+      <xsl:text>\once \override Lyrics.LyricText.font-shape = #&apos;</xsl:text>
+      <xsl:value-of select="concat(@fontstyle,' ')"/>
+    </xsl:if>
+    <xsl:if test="@fontweight">
+      <xsl:text>\once \override Lyrics.LyricText.font-series = #&apos;</xsl:text>
+      <xsl:value-of select="concat(@fontweight,' ')"/>
+    </xsl:if>
   </xsl:template>
   <!-- MEI syllable -->
   <xsl:template match="mei:syl">
@@ -1821,6 +1912,12 @@
         <xsl:value-of select="concat('(x11-color &quot;',$color,'&quot;) ')"/>
       </xsl:otherwise>
     </xsl:choose>
+  </xsl:template>
+  <!-- set beaming -->
+  <xsl:template name="setBeaming">
+    <xsl:text>\set Timing.beamExceptions = #'() </xsl:text>
+    <xsl:value-of select="concat('% ',ancestor-or-self::*/@beam.group)"/>
+    <xsl:text>&#10;&#32;&#32;&#32;&#32;</xsl:text>
   </xsl:template>
   <!-- page layout -->
   <xsl:template match="mei:scoreDef" mode="makePageLayout">

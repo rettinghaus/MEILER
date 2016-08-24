@@ -87,6 +87,7 @@ List of supported MEI elements and attributes
 * `<label>` (within `<staffGrp>` and `<staffDef>`)
 
 * `<layer>`
+  * `@beam.group`
   * `@n`
 
 * `<lem>`
@@ -198,6 +199,7 @@ List of supported MEI elements and attributes
 * `<score>`
 
 * `<scoreDef>`
+    * `@beam.group`
     * `@clef.color`
     * `@clef.dis`
     * `@clef.dis.place`
@@ -219,6 +221,7 @@ List of supported MEI elements and attributes
     * `@meter.unit`
     * `@midi.bpm`
     * `@mnum.visible`
+    * `@music.size` (for values in 'pt')
     * `@page.botmar`
     * `@page.height`
     * `@page.leftmar`
@@ -244,6 +247,7 @@ List of supported MEI elements and attributes
   * __`@n`__
 
 * `<staffDef>`
+  * `@beam.group`
   * `@clef.dis`
   * `@clef.dis.place`
   * `@clef.line`
@@ -302,5 +306,10 @@ List of supported MEI elements and attributes
   * `@form`
   * `@place`
   * __`@startid`__
+
+* `<verse>`
+  * `@color`
+  * `@lyric.style`
+  * `@lyric.weight`
 
 `att.color` supports rgb values and color names
