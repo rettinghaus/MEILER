@@ -98,6 +98,7 @@ List of supported MEI elements and attributes
 
 * `<measure>`
   * `@metcon`
+  * `@left`
   * `@n`
   * `@right`
 

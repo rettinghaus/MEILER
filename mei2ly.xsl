@@ -132,6 +132,12 @@
           </xsl:call-template>
           <xsl:text>&#32;&#32;</xsl:text>
         </xsl:if>
+        <!-- print bar line -->
+        <xsl:if test="ancestor::mei:measure/@left">
+          <xsl:call-template name="setBarLine">
+            <xsl:with-param name="barLineStyle" select="ancestor::mei:measure/@left"/>
+          </xsl:call-template>
+        </xsl:if>
         <xsl:apply-templates select="ancestor::mei:measure/mei:tempo[@staff = $staffNumber][@tstamp = 1]" mode="pre"/>
         <xsl:if test="ancestor::mei:measure/@metcon='false'">
           <xsl:value-of select="concat('\partial ',min(ancestor::mei:measure/descendant::*/@dur),'&#32;')"/>
@@ -440,6 +446,9 @@
         <xsl:with-param name="barLineStyle" select="@left"/>
       </xsl:call-template>
     </xsl:if>
+    <xsl:if test="@metcon='false'">
+      <xsl:value-of select="concat('\partial ',min(ancestor::mei:measure/descendant::*/@dur),'&#32;')"/>
+    </xsl:if>
     <xsl:apply-templates/>
     <xsl:if test="@right">
       <xsl:call-template name="setBarLine">
@@ -651,8 +660,8 @@
   </xsl:template>
   <xsl:template match="mei:chord">
     <xsl:variable name="chordKey" select="concat('#',./@xml:id)"/>
-    <xsl:variable name="subChordKeys" select="descendant::*/@xml:id"/>
-    <xsl:apply-templates select="ancestor::mei:measure/descendant::*[@startid = $chordKey or contains(@plist,concat('#',$subChordKeys))]" mode="pre"/>
+    <xsl:variable name="subChordKeys" select="descendant-or-self::*/concat('#',./@xml:id)"/>
+    <xsl:apply-templates select="ancestor::mei:measure/descendant::*[@startid = $chordKey or tokenize(@plist,' ') = $subChordKeys]" mode="pre"/>
     <xsl:if test="@visible='false'">
       <xml:text>\once \hideNotes </xml:text>
     </xsl:if>
@@ -692,7 +701,7 @@
       </xsl:if>
       <xml:text>(</xml:text>
     </xsl:if>
-    <xsl:if test="ancestor::mei:measure/mei:arpeg[@startid = $chordKey or contains(@plist,concat('#',$subChordKeys))]">
+    <xsl:if test="ancestor::mei:measure/mei:arpeg[@startid = $chordKey or tokenize(@plist,' ') = $subChordKeys]">
       <xml:text>\arpeggio</xml:text>
     </xsl:if>
     <xsl:if test="/mei:mei/mei:music//mei:hairpin/@endid = $chordKey or /mei:mei/mei:music//mei:dynam/@endid = $chordKey">
@@ -1471,6 +1480,10 @@
       <xsl:text>\tag #'</xsl:text>
       <xsl:value-of select="concat(substring-after(.,'#'),' ')"/>
     </xsl:for-each>
+    <xsl:if test="@resp">
+      <xsl:text>\tag #'</xsl:text>
+      <xsl:value-of select="concat(substring-after(@resp,'#'),' ')"/>
+    </xsl:if>
     <xsl:text>{&#32;</xsl:text>
     <xsl:apply-templates/>
     <xsl:text>}&#32;</xsl:text>
