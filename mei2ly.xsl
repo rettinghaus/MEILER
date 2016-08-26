@@ -605,6 +605,9 @@
     <xsl:if test="contains(@slur,'t') or (/mei:mei/mei:music//mei:slur/@endid = $noteKey)">
       <xml:text>)</xml:text>
     </xsl:if>
+    <xsl:if test="/mei:mei/mei:music//mei:phrase/@endid = $noteKey">
+      <xml:text>\)</xml:text>
+    </xsl:if>
     <xsl:if test="contains(@slur,'i') or (ancestor::mei:measure/mei:slur/@startid = $noteKey)">
       <xsl:if test="ancestor::mei:measure/mei:slur/@startid = $noteKey">
         <xsl:call-template name="setMarkupDirection">
@@ -612,6 +615,9 @@
         </xsl:call-template>
       </xsl:if>
       <xml:text>(</xml:text>
+    </xsl:if>
+    <xsl:if test="ancestor::mei:measure/mei:phrase/@startid = $noteKey">
+      <xml:text>\(</xml:text>
     </xsl:if>
     <xsl:if test="@grace and parent::mei:beam and position()=last()">
       <xml:text>}</xml:text>
@@ -693,6 +699,9 @@
     <xsl:if test="contains(@slur,'t') or (/mei:mei/mei:music//mei:slur/@endid = $chordKey)">
       <xml:text>)</xml:text>
     </xsl:if>
+    <xsl:if test="/mei:mei/mei:music//mei:phrase/@endid = $chordKey">
+      <xml:text>\)</xml:text>
+    </xsl:if>
     <xsl:if test="contains(@slur,'i') or (//mei:slur/@startid = $chordKey)">
       <xsl:if test="ancestor::mei:measure/mei:slur/@startid = $chordKey">
         <xsl:call-template name="setMarkupDirection">
@@ -700,6 +709,9 @@
         </xsl:call-template>
       </xsl:if>
       <xml:text>(</xml:text>
+    </xsl:if>
+    <xsl:if test="ancestor::mei:measure/mei:phrase/@startid = $chordKey">
+      <xml:text>\(</xml:text>
     </xsl:if>
     <xsl:if test="ancestor::mei:measure/mei:arpeg[@startid = $chordKey or tokenize(@plist,' ') = $subChordKeys]">
       <xml:text>\arpeggio</xml:text>
@@ -1056,6 +1068,16 @@
       <xsl:otherwise>
       </xsl:otherwise>
     </xsl:choose>
+  </xsl:template>
+  <!-- MEI phrase -->
+  <xsl:template match="mei:phrase" mode="pre">
+    <xsl:if test="@color">
+      <xsl:value-of select="'\once \override PhrasingSlur.color = #'"/>
+      <xsl:call-template name="setColor"/>
+    </xsl:if>
+    <xsl:if test="@lform">
+      <xsl:value-of select="concat('\once \phrasingSlur',translate(substring(@lform,1,1),'ds','DS'),substring(@lform,2),' ')"/>
+    </xsl:if>
   </xsl:template>
   <!-- MEI slur -->
   <xsl:template match="mei:slur" mode="pre">
