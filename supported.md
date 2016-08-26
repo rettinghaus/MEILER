@@ -57,11 +57,11 @@ List of supported MEI elements and attributes
   * `@color`
   * `@place`
   * `@shape`
-  * `@startid`
+  * __`@startid`__
 
 * `<fing>`
   * `@place`
-  * `@startid`
+  * __`@startid`__
 
 * `<fTrem>`
   * __`@measperf`__
@@ -69,15 +69,15 @@ List of supported MEI elements and attributes
 * `<gliss>`
   * `@color`
   * `@lform`
-  * `@startid`
+  * __`@startid`__
 
 * `<hairpin>`
   * `@color`
-  * `@endid`
+  * __`@endid`__
   * `@form`
   * `@lform`
   * `@place`
-  * `@startid`
+  * __`@startid`__
 
 * `<harm>`
   * `@place`
@@ -117,7 +117,7 @@ List of supported MEI elements and attributes
   * `@form`
   * `@long`
   * `@place`
-  * `@startid`
+  * __`@startid`__
 
 * `<mRest>`
   * `@color`
@@ -155,9 +155,9 @@ List of supported MEI elements and attributes
   * `@color`
   * `@dis`
   * `@dis.place`
-  * `@endid`
+  * __`@endid`__
   * `@lform`
-  * `@startid`
+  * __`@startid`__
 
 * `<pb>`
   * `@n`
@@ -165,9 +165,17 @@ List of supported MEI elements and attributes
 * `<pedal>`
   * `@color`
   * `@dir`
+  * __`@endid`__
   * `@form` (for values 'line' and 'pedstar')
   * `@lform`
-  * `@startid`
+  * __`@startid`__
+
+* `<phrase>`
+  * `@color`
+  * `@curvedir` (for values 'above' and 'below')
+  * __`@endid`__
+  * `@lform`
+  * __`@startid`__
 
 * `<rdg>`
   * `@source`
@@ -238,7 +246,7 @@ List of supported MEI elements and attributes
   * `@curvedir` (for values 'above' and 'below')
   * `@endid`
   * `@lform`
-  * `@startid`
+  * __`@startid`__
 
 * `<space>`
   * `@dur`
