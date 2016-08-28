@@ -2,7 +2,7 @@
 <!--        -->
 <!-- MEILER -->
 <!-- mei2ly -->
-<!-- v0.7.0 -->
+<!-- v0.7.1 -->
 <!--        -->
 <!-- programmed by Klaus Rettinghaus -->
 <!--        -->
@@ -103,6 +103,7 @@
             <xsl:value-of select="concat('(#',$showchangeVal,' #',$showchangeVal,' #',$showchangeVal,')&#10;&#32;&#32;')"/>
           </xsl:if>
         </xsl:if>
+        <!-- add clef change -->
         <xsl:if test="ancestor::mei:measure/preceding-sibling::mei:staffDef[@n = $staffNumber][@clef.shape]/preceding::mei:measure[1]/@n = ancestor::mei:measure/preceding::mei:measure[1]/@n">
           <xsl:call-template name="setClef">
             <xsl:with-param name="clefColor" select="preceding::mei:staffDef[@n = $staffNumber][@clef.shape][1]/@clef.color"/>
@@ -113,7 +114,18 @@
           </xsl:call-template>
           <xsl:text>&#10;&#32;&#32;</xsl:text>
         </xsl:if>
-        <xsl:if test="ancestor::mei:measure/preceding-sibling::*[name()='meterSig' or @*[starts-with(name(),'meter')]][1]">
+        <!-- add time signature change -->
+        <xsl:if test="ancestor::mei:measure/preceding::mei:meterSig[1]/preceding::mei:measure[1]/@n = ancestor::mei:measure/preceding::mei:measure[1]/@n">
+          <xsl:choose>
+            <xsl:when test="ancestor::mei:measure/preceding::mei:meterSig/parent::mei:meterSigGrp">
+              <xsl:apply-templates match="ancestor::mei:measure/preceding::mei:meterSigGrp[1]"/>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:apply-templates match="ancestor::mei:measure/preceding::mei:meterSig[1]"/>
+            </xsl:otherwise>
+          <xsl:text>&#10;&#32;&#32;</xsl:text>
+        </xsl:if>
+        <xsl:if test="ancestor::mei:measure/preceding-sibling::*/@*[starts-with(name(),'meter')][1]">
           <xsl:call-template name="meterSig">
             <xsl:with-param name="meterSymbol" select="ancestor::mei:measure/preceding-sibling::*[1]/@meter.sym"/>
             <xsl:with-param name="meterCount" select="ancestor::mei:measure/preceding-sibling::*[1]/@meter.count"/>
@@ -122,6 +134,7 @@
           </xsl:call-template>
           <xsl:text>&#10;&#32;&#32;</xsl:text>
         </xsl:if>
+        <!-- add key signature change -->
         <xsl:if test="ancestor::mei:measure/preceding-sibling::*[name()='keySig' or @*[starts-with(name(),'key')]][1]">
           <xsl:call-template name="setKey">
             <xsl:with-param name="keyTonic" select="ancestor::mei:measure/preceding-sibling::*[1]/@key.pname"/>
@@ -1415,25 +1428,42 @@
     </xsl:choose>
   </xsl:template>
   <!-- MEI meter signature -->
+  <xsl:template match="mei:meterSig[@copyof]">
+    <xsl:apply-templates select="/mei:mei/mei:music//mei:meterSig[@xml:id = substring-after(current()/@copyof,'#')]"/>
+  </xsl:template>
   <xsl:template name="meterSig" match="mei:meterSig">
     <xsl:param name="meterSymbol" select="@sym"/>
     <xsl:param name="meterCount" select="@count"/>
     <xsl:param name="meterUnit" select="@unit"/>
     <xsl:param name="meterRend" select="@form"/>
     <xsl:if test="@fontfam">
-      <xsl:text>\once \override Lyrics.LyricText.font-family = #&apos;</xsl:text>
+      <xsl:text>\once \override Staff.TimeSignature.font-family = #&apos;</xsl:text>
       <xsl:value-of select="concat(@fontfam,' ')"/>
     </xsl:if>
     <xsl:if test="@fontname">
-      <xsl:value-of select="concat('\once \override Staff.TimeSignature.font-name = #&quot;',@fontname,'&quot;) ')"/>
+      <xsl:value-of select="concat('\once \override Staff.TimeSignature.font-name = #&quot;',@fontname,'&quot; ')"/>
     </xsl:if>
     <xsl:if test="@fontstyle">
-      <xsl:text>\once \override Lyrics.LyricText.font-shape = #&apos;</xsl:text>
+      <xsl:text>\once \override Staff.TimeSignature.font-shape = #&apos;</xsl:text>
       <xsl:value-of select="concat(@fontstyle,' ')"/>
     </xsl:if>
     <xsl:if test="@fontweight">
-      <xsl:text>\once \override Lyrics.LyricText.font-series = #&apos;</xsl:text>
+      <xsl:text>\once \override Staff.TimeSignature.font-series = #&apos;</xsl:text>
       <xsl:value-of select="concat(@fontweight,' ')"/>
+    </xsl:if>
+    <xsl:if test="$meterRend">
+      <xsl:choose>
+        <xsl:when test="$meterRend = 'num'">
+          <xsl:text>\once \override Staff.TimeSignature.style = #'single-digit </xsl:text>
+        </xsl:when>
+        <xsl:when test="$meterRend = 'denomsym'">
+        </xsl:when>
+        <xsl:when test="$meterRend = 'norm'">
+        </xsl:when>
+        <xsl:when test="$meterRend = 'invis'">
+          <xsl:text>\once \override Staff.TimeSignature.transparent = ##t </xsl:text>
+        </xsl:when>
+      </xsl:choose>
     </xsl:if>
     <xsl:choose>
       <xsl:when test="$meterSymbol">
@@ -1446,19 +1476,37 @@
           </xsl:when>
         </xsl:choose>
       </xsl:when>
-      <xsl:when test="$meterCount or $meterUnit">
+      <xsl:when test="contains($meterCount,'+')">
+        <xsl:text>\compoundMeter #'</xsl:text>
+        <xsl:value-of select="concat('(',translate($meterCount,'+',' '),' ',$meterUnit,') ')"/>
+      </xsl:when>
+      <xsl:otherwise>
         <xsl:if test="($meterCount = $meterUnit) and not($meterSymbol)">
           <xsl:text>\once \numericTimeSignature </xsl:text>
         </xsl:if>
-        <xsl:choose>
-          <xsl:when test="$meterRend = 'num'">
-            <xsl:text>\once \override Staff.TimeSignature.style = #'single-digit </xsl:text>
-          </xsl:when>
-          <xsl:when test="$meterRend = 'invis'">
-            <xsl:text>\once \override Staff.TimeSignature.transparent = ##t </xsl:text>
-          </xsl:when>
-        </xsl:choose>
         <xsl:value-of select="concat('\time ',$meterCount,'/',$meterUnit,' ')"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+  <!-- MEI meter signature group -->
+  <xsl:template match="mei:meterSigGrp[@copyof]">
+    <xsl:apply-templates select="/mei:mei/mei:music//mei:meterSigGrp[@xml:id = substring-after(current()/@copyof,'#')]"/>
+  </xsl:template>
+  <xsl:template name="meterSigGrp" match="mei:meterSigGrp">
+    <xsl:choose>
+      <xsl:when test="@func = 'alternating'">
+      </xsl:when>
+      <xsl:when test="@func = 'interchanging'">
+      </xsl:when>
+      <xsl:when test="@func = 'mixed'">
+        <xsl:text>\compoundMeter #'(</xsl:text>
+        <xsl:for-each select="mei:meterSig">
+          <xsl:value-of select="concat('(',translate(@count,'+',' '),' ',@unit,')')"/>
+          <xsl:if test="following-sibling::mei:meterSig">
+            <xsl:text>&#32;</xsl:text>
+          </xsl:if>
+        </xsl:for-each>
+        <xsl:text>)&#32;</xsl:text>
       </xsl:when>
     </xsl:choose>
   </xsl:template>

@@ -103,6 +103,7 @@ List of supported MEI elements and attributes
   * `@right`
 
 * `<meterSig>`
+  * `@copyof`
   * `@count`
   * `@fontfam`
   * `@fontname`
@@ -111,6 +112,10 @@ List of supported MEI elements and attributes
   * `@form`
   * `@sym`
   * `@unit`
+
+* `<meterSigGrp>`
+  * `@copyof`
+  * `@func` (for value 'mixed')
 
 * `<mordent>`
   * `@color`
