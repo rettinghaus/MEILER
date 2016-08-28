@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mei xmlns="http://www.music-encoding.org/ns/mei" meiversion="3.0.0">
+  <meiHead>
+    <fileDesc>
+      <titleStmt>
+        <title>Simple test file for MEILER</title>
+      </titleStmt>
+      <pubStmt/>
+      <sourceDesc>
+        <source>
+        </source>
+      </sourceDesc>
+    </fileDesc>
+    <encodingDesc>
+    </encodingDesc>
+  </meiHead>
+  <music>
+    <body>
+      <mdiv>
+        <score>
+          <scoreDef meter.count="2" meter.unit="2" meter.sym="cut" key.sig="3f">
+            <staffGrp>
+              <staffDef n="1" xml:id="P1" label="Voice" lines="5" clef.line="2" clef.shape="G">
+                <meterSigGrp xml:id="meterSigGrp1" func="mixed">
+                  <meterSig count="2+3" unit="8"/>
+                  <meterSig count="2" unit="16"/>
+                  <meterSig count="1" unit="8"/>
+                  <meterSig count="2" unit="16"/>
+                </meterSigGrp>
+              </staffDef>
+            </staffGrp>
+          </scoreDef>
+          <section>
+            <measure n= "1">
+              <staff n= "1">
+                <layer n= "1">
+                  <note xml:id="testnote1" dur= "2" oct= "5" pname= "c" stem.dir= "down"/>
+                  <note xml:id="testnote2" dur= "2" oct= "5" pname= "d" stem.dir= "up"/>
+                </layer>
+              </staff>
+              <mordent color="red" form="inv" long="true" place="above" staff="1" tstamp= "1" startid="#testnote1"/>
+              <turn color="green" form="inv" place="above" staff="1" tstamp= "1" startid="#testnote1"/>
+              <trill color="yellow" place="below" staff="1" tstamp= "3" startid="#testnote2" endid="#testnote3"/>
+            </measure>
+            <meterSig count="2" unit="2"/>
+            <measure n= "2">
+              <staff n= "1">
+                <layer n= "1">
+                  <note xml:id="testnote3" dur= "2" dots="1" oct= "5" pname= "e" stem.dir= "down"/>
+                  <rest dur="4"/>
+                </layer>
+              </staff>
+              <fermata color="blue" form="square" staff="1" tstamp="3" startid="#testnote4"/>
+              <trill color="purple" place="below" staff="1" tstamp= "1" startid="#testnote3"/>
+            </measure>
+            <meterSigGrp copyof="#meterSigGrp1"/>
+            <measure n= "3">
+              <staff n= "1">
+                <layer n= "1">
+                  <bTrem measperf="256">
+                    <note xml:id="testnote4" dur= "4" oct= "5" pname= "c" stem.dir= "down" stem.mod="2slash"/>
+                  </bTrem>
+                  <fTrem measperf="16">
+                    <note xml:id="testnote5" dur= "8" oct= "5" pname= "d" stem.dir= "down" stem.mod="3slash"/>
+                    <note xml:id="testnote6" dur= "8" oct= "5" pname= "f" stem.dir= "down" stem.mod="3slash"/>
+                  </fTrem>
+                  <fTrem measperf="16">
+                    <note xml:id="testnote5.1" dur= "8" oct= "5" pname= "g" stem.dir= "down" stem.mod="3slash"/>
+                    <note xml:id="testnote6.1" dur= "8" oct= "5" pname= "e" stem.dir= "down" stem.mod="3slash"/>
+                  </fTrem>
+                  <note xml:id="testnote7" dur= "4" oct= "5" pname= "e" stem.dir= "down" fermata="above"/>
+                </layer>
+              </staff>
+              <fermata color="blue" form="square" staff="1" tstamp="3" startid="#testnote4"/>
+              <trill color="purple" place="below" staff="1" tstamp= "1" startid="#testnote3"/>
+            </measure>
+          </section>
+        </score>
+      </mdiv>
+    </body>
+  </music>
+</mei>
