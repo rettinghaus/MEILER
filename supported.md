@@ -95,6 +95,8 @@ List of supported MEI elements and attributes
 * `<ligature>`
 
 * `<mdiv>`
+  * `@label`
+  * `@n`
 
 * `<measure>`
   * `@metcon`
