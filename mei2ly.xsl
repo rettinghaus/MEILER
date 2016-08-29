@@ -1510,9 +1510,6 @@
     </xsl:choose>
   </xsl:template>
   <!-- MEI meter signature group -->
-  <xsl:template match="mei:meterSigGrp[@copyof]">
-    <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:meterSigGrp[@xml:id = substring-after(current()/@copyof,'#')]"/>
-  </xsl:template>
   <xsl:template name="meterSigGrp" match="mei:meterSigGrp">
     <xsl:choose>
       <xsl:when test="@func = 'alternating'">
