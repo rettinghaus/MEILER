@@ -6,7 +6,7 @@
 <!--        -->
 <!-- programmed by Klaus Rettinghaus -->
 <!--        -->
-<xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:m="http://www.bach-digital.de/m" xmlns:saxon="http://saxon.sf.net/" exclude-result-prefixes="saxon">
+<xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:saxon="http://saxon.sf.net/" exclude-result-prefixes="saxon">
   <xsl:strip-space elements="*"/>
   <xsl:output method="text" indent="no" encoding="UTF-8"/>
   <xsl:template match="/">
@@ -89,7 +89,7 @@
     <xsl:for-each select="descendant::mei:scoreDef[1]/descendant::mei:staffDef">
       <xsl:variable name="staffNumber" select="@n"/>
       <xsl:value-of select="concat('mdiv',codepoints-to-string(xs:integer(64 + $mdivNumber)),'_staff',codepoints-to-string(xs:integer(64 + $staffNumber)),' = {&#10;')"/>
-      <xsl:for-each select="ancestor::mei:mdiv//mei:staff[@n=$staffNumber]">
+      <xsl:for-each select="ancestor::mei:mdiv[1]//mei:staff[@n=$staffNumber]">
         <xsl:text>&#32;&#32;</xsl:text>
         <!-- add volta brackets -->
         <xsl:if test="ancestor::mei:ending and not(ancestor::mei:measure/preceding-sibling::mei:measure)">
@@ -160,7 +160,7 @@
         <xsl:text>&lt;&lt;&#32;</xsl:text>
         <xsl:choose>
           <xsl:when test="@copyof">
-            <xsl:apply-templates select="ancestor::mei:mdiv//mei:staff[@xml:id = substring-after(current()/@copyof,'#')]"/>
+            <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:staff[@xml:id = substring-after(current()/@copyof,'#')]"/>
           </xsl:when>
           <xsl:otherwise>
             <xsl:apply-templates/>
@@ -185,10 +185,10 @@
       </xsl:for-each>
       <xsl:text>}&#10;&#10;</xsl:text>
       <!-- lilypond figured bass -->
-      <xsl:if test="ancestor::mei:mdiv//mei:harm[descendant-or-self::*/@staff=$staffNumber]">
+      <xsl:if test="ancestor::mei:mdiv[1]//mei:harm[descendant-or-self::*/@staff=$staffNumber]">
         <xsl:value-of select="concat('mdiv',codepoints-to-string(xs:integer(64 + $mdivNumber)),'_staff',codepoints-to-string(xs:integer(64 + $staffNumber)),'_fb = \figuremode {&#10;')"/>
         <xsl:text>&#32;&#32;\set figuredBassAlterationDirection = #RIGHT&#10;</xsl:text>
-        <xsl:for-each select="ancestor::mei:mdiv//mei:measure">
+        <xsl:for-each select="ancestor::mei:mdiv[1]//mei:measure">
           <xsl:text>&#32;&#32;</xsl:text>
           <xsl:variable name="meterCount" select="preceding::*[@meter.count][1]/@meter.count"/>
           <xsl:variable name="meterUnit" select="preceding::*[@meter.unit][1]/@meter.unit"/>
@@ -204,7 +204,7 @@
     <!-- lilypond lyrics -->
     <xsl:for-each select="descendant::mei:scoreDef[1]/descendant::mei:staffDef">
       <xsl:variable name="staffNumber" select="@n"/>
-      <xsl:if test="ancestor::mei:mdiv//mei:staff[@n=$staffNumber]//mei:syl">
+      <xsl:if test="ancestor::mei:mdiv[1]//mei:staff[@n=$staffNumber]//mei:syl">
         <xsl:value-of select="concat('Lyrics',codepoints-to-string(xs:integer(64 + $staffNumber)),' = \lyricmode {&#10;')"/>
         <xsl:if test="@lyric.name">
           <xsl:value-of select="concat('\override Lyrics.LyricText.font-name = #&quot;',@lyric.name,'&quot; ')"/>
@@ -223,7 +223,7 @@
           <xsl:text>\override Lyrics.LyricText.font-series = #&apos;</xsl:text>
           <xsl:value-of select="concat(@lyric.weight,' ')"/>
         </xsl:if>
-        <xsl:for-each select="ancestor::mei:mdiv//mei:staff[@n=$staffNumber]/mei:layer[1]">
+        <xsl:for-each select="ancestor::mei:mdiv[1]//mei:staff[@n=$staffNumber]/mei:layer[1]">
           <xsl:for-each select="descendant::*[name()='note' or name()='rest' or name()='mRest']">
             <xsl:if test="not(@grace)">
               <xsl:choose>
@@ -252,7 +252,7 @@
                   <xsl:value-of select="' '"/>
                 </xsl:when>
                 <xsl:otherwise>
-                  <xsl:if test="name()='note' or max(ancestor::mei:mdiv//mei:staff[@n=$staffNumber]/mei:layer/@n) &gt; 1">
+                  <xsl:if test="name()='note' or max(ancestor::mei:mdiv[1]//mei:staff[@n=$staffNumber]/mei:layer/@n) &gt; 1">
                     <xsl:value-of select="'_'"/>
                     <xsl:call-template name="setDuration"/>
                     <xsl:if test="not(@dur)">
@@ -283,15 +283,16 @@
   <xsl:template match="mei:scoreDef">
     <!-- lilypond score block -->
     <xsl:text>\score { &lt;&lt;&#10;</xsl:text>
-    <xsl:if test="ancestor::mei:mdiv//@source">
+    <xsl:if test="ancestor::mei:mdiv[1]//@source">
       <xsl:text>\removeWithTag #'( </xsl:text>
-      <xsl:for-each select="distinct-values(ancestor::mei:mdiv//@source)">
+      <xsl:for-each select="distinct-values(ancestor::mei:mdiv[1]//@source)">
         <xsl:value-of select="concat(substring-after(.,'#'),' ')"/>
       </xsl:for-each>
       <xsl:text>)&#10;</xsl:text>
     </xsl:if>
     <xsl:apply-templates/>
     <xsl:text>&gt;&gt;&#10;</xsl:text>
+    <!-- lilypond layout block -->
     <xsl:text>\layout {&#10;</xsl:text>
     <xsl:if test="contains(@music.size,'pt')">
       <xsl:value-of select="concat('  #(layout-set-staff-size ',substring-before(@music.size,'pt'),')&#10;')"/>
@@ -370,7 +371,7 @@
       <xsl:text>} </xsl:text>
     </xsl:if>
     <!-- add figured bass context -->
-    <xsl:if test="ancestor::mei:mdiv//mei:harm[descendant::mei:fb]/@staff = $staffNumber">
+    <xsl:if test="ancestor::mei:mdiv[1]//mei:harm[descendant::mei:fb]/@staff = $staffNumber">
       <xsl:value-of select="concat('&#10;  \mdiv',codepoints-to-string(xs:integer(64 + $mdivNumber)),'_staff',codepoints-to-string(xs:integer(64 + $staffNumber)),'_fb')"/>
       <xsl:value-of select="concat('&#10;  \context Staff = &quot;staff ',$staffNumber,'&quot;&#32;')"/>
     </xsl:if>
@@ -436,9 +437,9 @@
     </xsl:if>
     <xsl:value-of select="concat('    \mdiv',codepoints-to-string(xs:integer(64 + $mdivNumber)),'_staff',codepoints-to-string(xs:integer(64 + $staffNumber)))"/>
     <xsl:text>&#32;}&#10;</xsl:text>
-    <xsl:if test="ancestor::mei:mdiv//mei:syl[ancestor::mei:staff/@n = $staffNumber]">
+    <xsl:if test="ancestor::mei:mdiv[1]//mei:syl[ancestor::mei:staff/@n = $staffNumber]">
       <xsl:choose>
-        <xsl:when test="max(ancestor::mei:mdiv//mei:staff[@n=$staffNumber]/mei:layer/@n) = 1">
+        <xsl:when test="max(ancestor::mei:mdiv[1]//mei:staff[@n=$staffNumber]/mei:layer/@n) = 1">
           <xsl:value-of select="'  \addlyrics { '"/>
           <xsl:text>\set ignoreMelismata = ##t </xsl:text>
         </xsl:when>
@@ -629,13 +630,13 @@
     <xsl:if test="contains(@beam,'i') or (parent::mei:beam and position()=1) or (ancestor::mei:measure/mei:beamSpan[not(@beam.with)]/@startid = $noteKey)">
       <xml:text>[</xml:text>
     </xsl:if>
-    <xsl:if test="contains(@beam,'t') or (parent::mei:beam and position()=last()) or (ancestor::mei:mdiv//mei:beamSpan[not(@beam.with)]/@endid = $noteKey)">
+    <xsl:if test="contains(@beam,'t') or (parent::mei:beam and position()=last()) or (ancestor::mei:mdiv[1]//mei:beamSpan[not(@beam.with)]/@endid = $noteKey)">
       <xml:text>]</xml:text>
     </xsl:if>
-    <xsl:if test="contains(@slur,'t') or (ancestor::mei:mdiv//mei:slur/@endid = $noteKey)">
+    <xsl:if test="contains(@slur,'t') or (ancestor::mei:mdiv[1]//mei:slur/@endid = $noteKey)">
       <xml:text>)</xml:text>
     </xsl:if>
-    <xsl:if test="ancestor::mei:mdiv//mei:phrase/@endid = $noteKey">
+    <xsl:if test="ancestor::mei:mdiv[1]//mei:phrase/@endid = $noteKey">
       <xml:text>\)</xml:text>
     </xsl:if>
     <xsl:if test="contains(@slur,'i') or (ancestor::mei:measure/mei:slur/@startid = $noteKey)">
@@ -653,7 +654,7 @@
       <xml:text>}</xml:text>
     </xsl:if>
     <xsl:apply-templates select="ancestor::mei:measure/mei:fing[@startid = $noteKey]"/>
-    <xsl:if test="ancestor::mei:mdiv//mei:hairpin/@endid = $noteKey or ancestor::mei:mdiv//mei:dynam/@endid = $noteKey">
+    <xsl:if test="ancestor::mei:mdiv[1]//mei:hairpin/@endid = $noteKey or ancestor::mei:mdiv[1]//mei:dynam/@endid = $noteKey">
       <xml:text>\!</xml:text>
     </xsl:if>
     <xsl:if test="@artic">
@@ -662,7 +663,7 @@
     <xsl:apply-templates select="ancestor::mei:measure/mei:dynam[@startid = $noteKey]"/>
     <xsl:apply-templates select="ancestor::mei:measure/mei:hairpin[@startid = $noteKey]"/>
     <xsl:apply-templates/>
-    <xsl:if test="ancestor::mei:mdiv//mei:trill/@endid = $noteKey">
+    <xsl:if test="ancestor::mei:mdiv[1]//mei:trill/@endid = $noteKey">
       <xml:text>\stopTrillSpan</xml:text>
     </xsl:if>
     <xsl:apply-templates select="ancestor::mei:measure/mei:mordent[@startid = $noteKey]"/>
@@ -679,10 +680,10 @@
     </xsl:if>
     <xsl:apply-templates select="ancestor::mei:measure/mei:fermata[@startid = $noteKey]"/>
     <xsl:apply-templates select="ancestor::mei:measure/mei:pedal[@startid = $noteKey]"/>
-    <xsl:if test="(starts-with(@tuplet,'t') or (ancestor::mei:mdiv//mei:tupletSpan/@endid = $noteKey)) and not(ancestor::mei:tuplet)">
+    <xsl:if test="(starts-with(@tuplet,'t') or (ancestor::mei:mdiv[1]//mei:tupletSpan/@endid = $noteKey)) and not(ancestor::mei:tuplet)">
       <xsl:value-of select="' }'"/>
     </xsl:if>
-    <xsl:if test="ancestor::mei:mdiv//mei:octave/@endid = $noteKey">
+    <xsl:if test="ancestor::mei:mdiv[1]//mei:octave/@endid = $noteKey">
       <xsl:value-of select="'\ottava #0 '"/>
     </xsl:if>
     <xsl:value-of select="' '"/>
@@ -692,7 +693,7 @@
   </xsl:template>
   <!-- MEI chords -->
   <xsl:template match="mei:chord[@copyof]">
-    <xsl:apply-templates select="ancestor::mei:mdiv//mei:chord[@xml:id = substring-after(current()/@copyof,'#')]"/>
+    <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:chord[@xml:id = substring-after(current()/@copyof,'#')]"/>
   </xsl:template>
   <xsl:template match="mei:chord">
     <xsl:variable name="chordKey" select="concat('#',./@xml:id)"/>
@@ -723,13 +724,13 @@
     <xsl:if test="contains(@beam,'i') or (parent::mei:beam and position()=1) or (ancestor::mei:measure/mei:beamSpan[not(@beam.with)]/@startid = $chordKey)">
       <xml:text>[</xml:text>
     </xsl:if>
-    <xsl:if test="contains(@beam,'t') or (parent::mei:beam and position()=last()) or (ancestor::mei:mdiv//mei:beamSpan[not(@beam.with)]/@endid = $chordKey)">
+    <xsl:if test="contains(@beam,'t') or (parent::mei:beam and position()=last()) or (ancestor::mei:mdiv[1]//mei:beamSpan[not(@beam.with)]/@endid = $chordKey)">
       <xml:text>]</xml:text>
     </xsl:if>
-    <xsl:if test="contains(@slur,'t') or (ancestor::mei:mdiv//mei:slur/@endid = $chordKey)">
+    <xsl:if test="contains(@slur,'t') or (ancestor::mei:mdiv[1]//mei:slur/@endid = $chordKey)">
       <xml:text>)</xml:text>
     </xsl:if>
-    <xsl:if test="ancestor::mei:mdiv//mei:phrase/@endid = $chordKey">
+    <xsl:if test="ancestor::mei:mdiv[1]//mei:phrase/@endid = $chordKey">
       <xml:text>\)</xml:text>
     </xsl:if>
     <xsl:if test="contains(@slur,'i') or (//mei:slur/@startid = $chordKey)">
@@ -746,7 +747,7 @@
     <xsl:if test="ancestor::mei:measure/mei:arpeg[@startid = $chordKey or tokenize(@plist,' ') = $subChordKeys]">
       <xml:text>\arpeggio</xml:text>
     </xsl:if>
-    <xsl:if test="ancestor::mei:mdiv//mei:hairpin/@endid = $chordKey or ancestor::mei:mdiv//mei:dynam/@endid = $chordKey">
+    <xsl:if test="ancestor::mei:mdiv[1]//mei:hairpin/@endid = $chordKey or ancestor::mei:mdiv[1]//mei:dynam/@endid = $chordKey">
       <xml:text>\!</xml:text>
     </xsl:if>
     <xsl:if test="@artic">
@@ -755,7 +756,7 @@
     <xsl:apply-templates select="mei:artic"/>
     <xsl:apply-templates select="ancestor::mei:measure/mei:dynam[@startid = $chordKey]"/>
     <xsl:apply-templates select="ancestor::mei:measure/mei:hairpin[@startid = $chordKey]"/>
-    <xsl:if test="ancestor::mei:mdiv//mei:trill/@endid = $chordKey">
+    <xsl:if test="ancestor::mei:mdiv[1]//mei:trill/@endid = $chordKey">
       <xml:text>\stopTrillSpan</xml:text>
     </xsl:if>
     <xsl:apply-templates select="ancestor::mei:measure/mei:mordent[@startid = $chordKey]"/>
@@ -772,10 +773,10 @@
     </xsl:if>
     <xsl:apply-templates select="ancestor::mei:measure/mei:fermata[@startid = $chordKey]"/>
     <xsl:apply-templates select="ancestor::mei:measure/mei:pedal[@startid = $chordKey]"/>
-    <xsl:if test="(starts-with(@tuplet,'t') or (ancestor::mei:mdiv//mei:tupletSpan/@endid = $chordKey)) and not(ancestor::mei:tuplet)">
+    <xsl:if test="(starts-with(@tuplet,'t') or (ancestor::mei:mdiv[1]//mei:tupletSpan/@endid = $chordKey)) and not(ancestor::mei:tuplet)">
       <xsl:value-of select="' }'"/>
     </xsl:if>
-    <xsl:if test="ancestor::mei:mdiv//mei:octave/@endid = $chordKey">
+    <xsl:if test="ancestor::mei:mdiv[1]//mei:octave/@endid = $chordKey">
       <xsl:value-of select="'\ottava #0'"/>
     </xsl:if>
     <xsl:value-of select="' '"/>
@@ -816,7 +817,7 @@
     <xsl:if test="contains(@beam,'t') or (parent::mei:beam and position()=last())">
       <xml:text>]</xml:text>
     </xsl:if>
-    <xsl:if test="ancestor::mei:mdiv//mei:hairpin/@endid = $restKey or ancestor::mei:mdiv//mei:dynam/@endid = $restKey">
+    <xsl:if test="ancestor::mei:mdiv[1]//mei:hairpin/@endid = $restKey or ancestor::mei:mdiv[1]//mei:dynam/@endid = $restKey">
       <xml:text>\!</xml:text>
     </xsl:if>
     <xsl:apply-templates select="ancestor::mei:measure/mei:dynam[@startid = $restKey]"/>
@@ -825,7 +826,7 @@
     <xsl:if test="@fermata and not(ancestor::mei:measure/mei:fermata/@startid = $restKey)">
       <xsl:call-template name="fermata"/>
     </xsl:if>
-    <xsl:if test="starts-with(@tuplet,'t') or (ancestor::mei:mdiv//mei:tupletSpan/@endid = $restKey)">
+    <xsl:if test="starts-with(@tuplet,'t') or (ancestor::mei:mdiv[1]//mei:tupletSpan/@endid = $restKey)">
       <xsl:value-of select="' }'"/>
     </xsl:if>
     <xsl:value-of select="' '"/>
@@ -911,7 +912,7 @@
   </xsl:template>
   <!-- MEI tuplet elements -->
   <xsl:template match="mei:tuplet[@copyof]">
-    <xsl:apply-templates select="ancestor::mei:mdiv//mei:tuplet[@xml:id = substring-after(current()/@copyof,'#')]"/>
+    <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:tuplet[@xml:id = substring-after(current()/@copyof,'#')]"/>
   </xsl:template>
   <xsl:template match="mei:tuplet">
     <xsl:if test="@bracket.visible">
@@ -1419,7 +1420,7 @@
   </xsl:template>
   <!-- MEI key signature -->
   <xsl:template match="mei:keySig[@copyof]">
-    <xsl:apply-templates select="ancestor::mei:mdiv//mei:keySig[@xml:id = substring-after(current()/@copyof,'#')]"/>
+    <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:keySig[@xml:id = substring-after(current()/@copyof,'#')]"/>
   </xsl:template>
   <xsl:template name="setKey" match="mei:keySig">
     <xsl:param name="keyTonic" select="@pname"/>
@@ -1449,7 +1450,7 @@
   </xsl:template>
   <!-- MEI meter signature -->
   <xsl:template match="mei:meterSig[@copyof]">
-    <xsl:apply-templates select="ancestor::mei:mdiv//mei:meterSig[@xml:id = substring-after(current()/@copyof,'#')]"/>
+    <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:meterSig[@xml:id = substring-after(current()/@copyof,'#')]"/>
   </xsl:template>
   <xsl:template name="meterSig" match="mei:meterSig">
     <xsl:param name="meterSymbol" select="@sym"/>
@@ -1510,7 +1511,7 @@
   </xsl:template>
   <!-- MEI meter signature group -->
   <xsl:template match="mei:meterSigGrp[@copyof]">
-    <xsl:apply-templates select="ancestor::mei:mdiv//mei:meterSigGrp[@xml:id = substring-after(current()/@copyof,'#')]"/>
+    <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:meterSigGrp[@xml:id = substring-after(current()/@copyof,'#')]"/>
   </xsl:template>
   <xsl:template name="meterSigGrp" match="mei:meterSigGrp">
     <xsl:choose>
@@ -1651,6 +1652,9 @@
           <xsl:text>\stemDown </xsl:text>
         </xsl:when>
       </xsl:choose>
+    </xsl:if>
+    <xsl:if test="not(parent::mei:chord) and not(@stem.dir) and (preceding::mei:chord[1][@stem.dir] or preceding::mei:note[1][not(parent::mei:chord)][@stem.dir])" >
+      <xsl:text>\stemNeutral </xsl:text>
     </xsl:if>
   </xsl:template>
   <!-- set duration -->
