@@ -187,7 +187,7 @@
       <!-- lilypond figured bass -->
       <xsl:if test="ancestor::mei:mdiv[1]//mei:harm[descendant-or-self::*/@staff=$staffNumber]">
         <xsl:value-of select="concat('mdiv',codepoints-to-string(xs:integer(64 + $mdivNumber)),'_staff',codepoints-to-string(xs:integer(64 + $staffNumber)),'_fb = \figuremode {&#10;')"/>
-        <xsl:text>&#32;&#32;\set figuredBassAlterationDirection = #RIGHT&#10;</xsl:text>
+        <xsl:text>&#32;&#32;\set Staff.figuredBassAlterationDirection = #RIGHT&#10;</xsl:text>
         <xsl:for-each select="ancestor::mei:mdiv[1]//mei:measure">
           <xsl:text>&#32;&#32;</xsl:text>
           <xsl:variable name="meterCount" select="preceding::*[@meter.count][1]/@meter.count"/>
