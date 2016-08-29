@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="https://raw.githubusercontent.com/music-encoding/music-encoding/master/schemata/mei-all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="https://raw.githubusercontent.com/music-encoding/music-encoding/master/schemata/mei-all.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <mei xmlns="http://www.music-encoding.org/ns/mei" meiversion="3.0.0">
   <meiHead>
     <fileDesc>
@@ -31,48 +33,48 @@
             </staffGrp>
           </scoreDef>
           <section>
-            <measure n= "1">
-              <staff n= "1">
-                <layer n= "1">
-                  <note xml:id="testnote1" dur= "2" oct= "5" pname= "c" stem.dir= "down"/>
-                  <note xml:id="testnote2" dur= "2" oct= "5" pname= "d" stem.dir= "up"/>
+            <measure n="1">
+              <staff n="1">
+                <layer n="1">
+                  <note xml:id="testnote1" dur="2" oct="5" pname="c" stem.dir="down"/>
+                  <note xml:id="testnote2" dur="2" oct="5" pname="d" stem.dir="up"/>
                 </layer>
               </staff>
-              <mordent color="red" form="inv" long="true" place="above" staff="1" tstamp= "1" startid="#testnote1"/>
-              <turn color="green" form="inv" place="above" staff="1" tstamp= "1" startid="#testnote1"/>
-              <trill color="yellow" place="below" staff="1" tstamp= "3" startid="#testnote2" endid="#testnote3"/>
+              <mordent color="red" form="inv" long="true" place="above" staff="1" tstamp="1" startid="#testnote1"/>
+              <turn color="green" form="inv" place="above" staff="1" tstamp="1" startid="#testnote1"/>
+              <trill color="yellow" place="below" staff="1" tstamp="3" startid="#testnote2" endid="#testnote3"/>
             </measure>
-            <meterSig count="2" unit="2"/>
-            <measure n= "2">
-              <staff n= "1">
-                <layer n= "1">
-                  <note xml:id="testnote3" dur= "2" dots="1" oct= "5" pname= "e" stem.dir= "down"/>
+            <staffDef n="1"><meterSig count="2" unit="2"/></staffDef>
+            <measure n="2">
+              <staff n="1">
+                <layer n="1">
+                  <note xml:id="testnote3" dur="2" dots="1" oct="5" pname="e" stem.dir="down"/>
                   <rest dur="4"/>
                 </layer>
               </staff>
-              <fermata color="blue" form="square" staff="1" tstamp="3" startid="#testnote4"/>
-              <trill color="purple" place="below" staff="1" tstamp= "1" startid="#testnote3"/>
+              <fermata color="blue" shape="square" staff="1" tstamp="3" startid="#testnote4"/>
+              <trill color="purple" place="below" staff="1" tstamp="1" startid="#testnote3"/>
             </measure>
-            <meterSigGrp copyof="#meterSigGrp1"/>
-            <measure n= "3">
-              <staff n= "1">
-                <layer n= "1">
+            <staffDef n="1"><meterSigGrp copyof="#meterSigGrp1"/></staffDef>
+            <measure n="3">
+              <staff n="1">
+                <layer n="1">
                   <bTrem measperf="256">
-                    <note xml:id="testnote4" dur= "4" oct= "5" pname= "c" stem.dir= "down" stem.mod="2slash"/>
+                    <note xml:id="testnote4" dur="4" oct="5" pname="c" stem.dir="down" stem.mod="2slash"/>
                   </bTrem>
                   <fTrem measperf="16">
-                    <note xml:id="testnote5" dur= "8" oct= "5" pname= "d" stem.dir= "down" stem.mod="3slash"/>
-                    <note xml:id="testnote6" dur= "8" oct= "5" pname= "f" stem.dir= "down" stem.mod="3slash"/>
+                    <note xml:id="testnote5" dur="8" oct="5" pname="d" stem.dir="down" stem.mod="3slash"/>
+                    <note xml:id="testnote6" dur="8" oct="5" pname="f" stem.dir="down" stem.mod="3slash"/>
                   </fTrem>
                   <fTrem measperf="16">
-                    <note xml:id="testnote5.1" dur= "8" oct= "5" pname= "g" stem.dir= "down" stem.mod="3slash"/>
-                    <note xml:id="testnote6.1" dur= "8" oct= "5" pname= "e" stem.dir= "down" stem.mod="3slash"/>
+                    <note xml:id="testnote5.1" dur="8" oct="5" pname="g" stem.dir="down" stem.mod="3slash"/>
+                    <note xml:id="testnote6.1" dur="8" oct="5" pname="e" stem.dir="down" stem.mod="3slash"/>
                   </fTrem>
-                  <note xml:id="testnote7" dur= "4" oct= "5" pname= "e" stem.dir= "down" fermata="above"/>
+                  <note xml:id="testnote7" dur="4" oct="5" pname="e" stem.dir="down" fermata="above"/>
                 </layer>
               </staff>
-              <fermata color="blue" form="square" staff="1" tstamp="3" startid="#testnote4"/>
-              <trill color="purple" place="below" staff="1" tstamp= "1" startid="#testnote3"/>
+              <fermata color="blue" shape="square" staff="1" tstamp="3" startid="#testnote4"/>
+              <trill color="purple" place="below" staff="1" tstamp="1" startid="#testnote3"/>
             </measure>
           </section>
         </score>

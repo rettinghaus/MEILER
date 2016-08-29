@@ -115,16 +115,6 @@
           <xsl:text>&#10;&#32;&#32;</xsl:text>
         </xsl:if>
         <!-- add time signature change -->
-        <xsl:if test="ancestor::mei:measure/preceding::mei:meterSig[1]/preceding::mei:measure[1]/@n = ancestor::mei:measure/preceding::mei:measure[1]/@n">
-          <xsl:choose>
-            <xsl:when test="ancestor::mei:measure/preceding::mei:meterSig/parent::mei:meterSigGrp">
-              <xsl:apply-templates match="ancestor::mei:measure/preceding::mei:meterSigGrp[1]"/>
-            </xsl:when>
-            <xsl:otherwise>
-              <xsl:apply-templates match="ancestor::mei:measure/preceding::mei:meterSig[1]"/>
-            </xsl:otherwise>
-          <xsl:text>&#10;&#32;&#32;</xsl:text>
-        </xsl:if>
         <xsl:if test="ancestor::mei:measure/preceding-sibling::*/@*[starts-with(name(),'meter')][1]">
           <xsl:call-template name="meterSig">
             <xsl:with-param name="meterSymbol" select="ancestor::mei:measure/preceding-sibling::*[1]/@meter.sym"/>
@@ -132,6 +122,17 @@
             <xsl:with-param name="meterUnit" select="ancestor::mei:measure/preceding-sibling::*[1]/@meter.unit"/>
             <xsl:with-param name="meterRend" select="ancestor::mei:measure/preceding-sibling::*[1]/@meter.rend"/>
           </xsl:call-template>
+          <xsl:text>&#10;&#32;&#32;</xsl:text>
+        </xsl:if>
+        <xsl:if test="ancestor::mei:measure/preceding::mei:meterSig[1]/preceding::mei:measure[1]/@n = ancestor::mei:measure/preceding::mei:measure[1]/@n">
+          <xsl:choose>
+            <xsl:when test="ancestor::mei:measure/preceding::mei:meterSig[1]/parent::mei:meterSigGrp">
+              <xsl:apply-templates select="ancestor::mei:measure/preceding::mei:meterSigGrp[1]"/>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:apply-templates select="ancestor::mei:measure/preceding::mei:meterSig[1]"/>
+            </xsl:otherwise>
+          </xsl:choose>
           <xsl:text>&#10;&#32;&#32;</xsl:text>
         </xsl:if>
         <!-- add key signature change -->
@@ -234,6 +235,9 @@
                     </xsl:when>
                     <xsl:when test="descendant::mei:syl[1]/@con='u'">
                       <xsl:value-of select="' __ '"/>
+                    </xsl:when>
+                    <xsl:when test="descendant::mei:syl[1]/@con='b'">
+                      <xsl:value-of select="'~'"/>
                     </xsl:when>
                     <xsl:otherwise>
                       <xsl:value-of select="' '"/>
@@ -401,12 +405,6 @@
       <xsl:with-param name="clefLine" select="@clef.line"/>
       <xsl:with-param name="clefShape" select="@clef.shape"/>
     </xsl:call-template>
-    <xsl:call-template name="meterSig">
-      <xsl:with-param name="meterSymbol" select="ancestor-or-self::*[@meter.sym][1]/@meter.sym[1]"/>
-      <xsl:with-param name="meterCount" select="ancestor-or-self::*[@meter.count][1]/@meter.count"/>
-      <xsl:with-param name="meterUnit" select="ancestor-or-self::*[@meter.unit][1]/@meter.unit"/>
-      <xsl:with-param name="meterRend" select="ancestor-or-self::*[@meter.rend][1]/@meter.rend"/>
-    </xsl:call-template>
     <xsl:call-template name="setKey">
       <xsl:with-param name="keyTonic" select="ancestor-or-self::*/@key.pname"/>
       <xsl:with-param name="keyAccid" select="ancestor-or-self::*/@key.accid"/>
@@ -414,6 +412,14 @@
       <xsl:with-param name="keySig" select="ancestor-or-self::*/@key.sig"/>
       <xsl:with-param name="keySigMixed" select="ancestor-or-self::*/@key.sig.mixed"/>
     </xsl:call-template>
+    <xsl:apply-templates select="mei:keySig"/>
+    <xsl:call-template name="meterSig">
+      <xsl:with-param name="meterSymbol" select="ancestor-or-self::*[@meter.sym][1]/@meter.sym[1]"/>
+      <xsl:with-param name="meterCount" select="ancestor-or-self::*[@meter.count][1]/@meter.count"/>
+      <xsl:with-param name="meterUnit" select="ancestor-or-self::*[@meter.unit][1]/@meter.unit"/>
+      <xsl:with-param name="meterRend" select="ancestor-or-self::*[@meter.rend][1]/@meter.rend"/>
+    </xsl:call-template>
+    <xsl:apply-templates select="mei:meterSigGrp|mei:meterSig"/>
     <xsl:if test="ancestor::mei:scoreDef/@meter.showchange = 'false'">
       <xsl:text>    \override Staff.TimeSignature.break-visibility = #'#(#f #f #f)&#10;</xsl:text>
     </xsl:if>
@@ -1401,6 +1407,9 @@
     <xsl:text>}</xsl:text>
   </xsl:template>
   <!-- MEI key signature -->
+  <xsl:template match="mei:meterSig[@copyof]">
+    <xsl:apply-templates select="/mei:mei/mei:music//mei:keySig[@xml:id = substring-after(current()/@copyof,'#')]"/>
+  </xsl:template>
   <xsl:template name="setKey" match="mei:keySig">
     <xsl:param name="keyTonic" select="@pname"/>
     <xsl:param name="keyAccid" select="@accid"/>
