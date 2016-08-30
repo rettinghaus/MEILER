@@ -295,6 +295,10 @@ List of supported MEI elements and attributes
   * `@label.abbr`
   * `@symbol`
 
+* `<syl>`
+  * `@con`
+  * `@wordpos`
+
 * `<tempo>`
   * `@place`
   * `@staff`
@@ -331,5 +335,6 @@ List of supported MEI elements and attributes
   * `@color`
   * `@lyric.style`
   * `@lyric.weight`
+  * `@n`
 
 `att.color` supports rgb values and color names
