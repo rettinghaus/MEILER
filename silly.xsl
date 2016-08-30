@@ -13,13 +13,17 @@
       <xsl:apply-templates select="node()|@*"/>
     </xsl:copy>
   </xsl:template>
-  <xsl:template match="@curvedir"/>
   <xsl:template match="@num.place"/>
   <xsl:template match="@place"/>
+  <!-- remove direction of ties and slurs -->
+  <xsl:template match="@curvedir"/>
+  <!-- remove stem styling -->
   <xsl:template match="@stem.dir"/>
   <xsl:template match="@stem.y"/>
+  <!-- remove positioning of rests -->
   <xsl:template match="@ploc"/>
   <xsl:template match="@oloc"/>
+  <!-- remove breaks -->
   <xsl:template match="mei:sb"/>
   <xsl:template match="mei:pb"/>
 </xsl:stylesheet>
