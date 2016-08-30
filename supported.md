@@ -84,6 +84,8 @@ List of supported MEI elements and attributes
   * `@staff`
   * __`@tstamp`__
 
+* `<l>`
+
 * `<label>` (within `<staffGrp>` and `<staffDef>`)
 
 * `<layer>`
@@ -91,6 +93,8 @@ List of supported MEI elements and attributes
   * `@n`
 
 * `<lem>`
+
+* `<lg>`
 
 * `<ligature>`
 

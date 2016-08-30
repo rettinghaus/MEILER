@@ -2,7 +2,7 @@
 <!--        -->
 <!-- MEILER -->
 <!-- mei2ly -->
-<!-- v0.7.5 -->
+<!-- v0.7.6 -->
 <!--        -->
 <!-- programmed by Klaus Rettinghaus -->
 <!--        -->
@@ -200,10 +200,7 @@
         </xsl:for-each>
         <xsl:text>}&#10;&#10;</xsl:text>
       </xsl:if>
-    </xsl:for-each>
-    <!-- lilypond lyrics -->
-    <xsl:for-each select="descendant::mei:scoreDef[1]/descendant::mei:staffDef">
-      <xsl:variable name="staffNumber" select="@n"/>
+      <!-- lilypond lyrics -->
       <xsl:if test="ancestor::mei:mdiv[1]//mei:staff[@n=$staffNumber]//mei:syl">
         <xsl:value-of select="concat('Lyrics',codepoints-to-string(xs:integer(64 + $staffNumber)),' = \lyricmode {&#10;')"/>
         <xsl:if test="@lyric.name">
@@ -228,18 +225,14 @@
             <xsl:if test="not(@grace)">
               <xsl:choose>
                 <xsl:when test="descendant::mei:syl">
-                  <xsl:apply-templates select="descendant::mei:verse[1]" mode="lyrics"/>
-                  <xsl:value-of select="descendant::mei:syl[1]"/>
+                  <xsl:apply-templates select="descendant::mei:verse[1]" mode="lyricmode"/>
                   <xsl:call-template name="setDuration"/>
                   <xsl:choose>
-                    <xsl:when test="descendant::mei:syl[1]/@con='d'">
+                    <xsl:when test="mei:verse[1]/mei:syl[position()=last()]/@con='d'">
                       <xsl:value-of select="' -- '"/>
                     </xsl:when>
-                    <xsl:when test="descendant::mei:syl[1]/@con='u'">
+                    <xsl:when test="mei:verse[1]/mei:syl[position()=last()]/@con='u'">
                       <xsl:value-of select="' __ '"/>
-                    </xsl:when>
-                    <xsl:when test="descendant::mei:syl[1]/@con='b'">
-                      <xsl:value-of select="'~'"/>
                     </xsl:when>
                     <xsl:otherwise>
                       <xsl:value-of select="' '"/>
@@ -1354,6 +1347,18 @@
     <xsl:apply-templates/>
     <xsl:text>}&#32;</xsl:text>
   </xsl:template>
+  <!-- MEI line -->
+  <xsl:template match="mei:l">
+    <xsl:text>\line {</xsl:text>
+    <xsl:apply-templates/>
+    <xsl:text>}&#32;</xsl:text>
+  </xsl:template>
+  <!-- MEI line group -->
+  <xsl:template match="mei:lg">
+    <xsl:text>\column {</xsl:text>
+    <xsl:apply-templates/>
+    <xsl:text>}&#32;</xsl:text>
+  </xsl:template>
   <!-- MEI label -->
   <xsl:template match="mei:label">
     <xsl:text>\markup {</xsl:text>
@@ -1577,7 +1582,7 @@
     <xsl:text>}&#32;</xsl:text>
   </xsl:template>
   <!-- MEI verse -->
-  <xsl:template match="mei:verse" mode="lyrics">
+  <xsl:template match="mei:verse" mode="lyricmode">
     <xsl:if test="@color">
       <xsl:value-of select="'\once \override Lyrics.LyricText.color = #'"/>
       <xsl:call-template name="setColor"/>
@@ -1590,9 +1595,28 @@
       <xsl:text>\once \override Lyrics.LyricText.font-series = #&apos;</xsl:text>
       <xsl:value-of select="concat(@fontweight,' ')"/>
     </xsl:if>
+    <xsl:apply-templates/>
   </xsl:template>
   <!-- MEI syllable -->
-  <xsl:template match="mei:syl">
+  <xsl:template match="mei:syl" mode="lyricmode">
+    <xsl:apply-templates/>
+    <xsl:choose>
+      <xsl:when test="@con='s'">
+        <xsl:value-of select="'_'"/>
+      </xsl:when>
+      <xsl:when test="@con='c'">
+        <xsl:value-of select="'^'"/>
+      </xsl:when>
+      <xsl:when test="@con='v'">
+        <xsl:value-of select="''"/>
+      </xsl:when>
+      <xsl:when test="@con='i'">
+        <xsl:value-of select="''"/>
+      </xsl:when>
+      <xsl:when test="@con='b'">
+        <xsl:value-of select="'~'"/>
+      </xsl:when>
+    </xsl:choose>
   </xsl:template>
   <!-- MEI choose -->
   <xsl:template match="mei:choice">
