@@ -88,6 +88,7 @@
     <!-- extracting musical content from staves -->
     <xsl:for-each select="descendant::mei:scoreDef[1]/descendant::mei:staffDef">
       <xsl:variable name="staffNumber" select="@n"/>
+      <xsl:variable name="layerNumber" select="max(ancestor::mei:mdiv[1]//mei:staff[@n=$staffNumber]/mei:layer/@n)"/>
       <xsl:value-of select="concat('mdiv',codepoints-to-string(xs:integer(64 + $mdivNumber)),'_staff',codepoints-to-string(xs:integer(64 + $staffNumber)),' = {&#10;')"/>
       <xsl:for-each select="ancestor::mei:mdiv[1]//mei:staff[@n=$staffNumber]">
         <xsl:text>&#32;&#32;</xsl:text>
@@ -186,7 +187,7 @@
       <xsl:text>}&#10;&#10;</xsl:text>
       <!-- lilypond figured bass -->
       <xsl:if test="ancestor::mei:mdiv[1]//mei:harm[descendant-or-self::*/@staff=$staffNumber]">
-        <xsl:value-of select="concat('mdiv',codepoints-to-string(xs:integer(64 + $mdivNumber)),'_staff',codepoints-to-string(xs:integer(64 + $staffNumber)),'_fb = \figuremode {&#10;')"/>
+        <xsl:value-of select="concat('mdiv',codepoints-to-string(xs:integer(64 + $mdivNumber)),'_staff',codepoints-to-string(xs:integer(64 + $staffNumber)),'_harm = \figuremode {&#10;')"/>
         <xsl:text>&#32;&#32;\set Staff.figuredBassAlterationDirection = #RIGHT&#10;</xsl:text>
         <xsl:for-each select="ancestor::mei:mdiv[1]//mei:measure">
           <xsl:text>&#32;&#32;</xsl:text>
@@ -202,7 +203,7 @@
       </xsl:if>
       <!-- lilypond lyrics -->
       <xsl:if test="ancestor::mei:mdiv[1]//mei:staff[@n=$staffNumber]//mei:syl">
-        <xsl:value-of select="concat('Lyrics',codepoints-to-string(xs:integer(64 + $staffNumber)),' = \lyricmode {&#10;')"/>
+        <xsl:value-of select="concat('mdiv',codepoints-to-string(xs:integer(64 + $mdivNumber)),'_staff',codepoints-to-string(xs:integer(64 + $staffNumber)),'_verse',' = \lyricmode {&#10;')"/>
         <xsl:if test="@lyric.name">
           <xsl:value-of select="concat('\override Lyrics.LyricText.font-name = #&quot;',@lyric.name,'&quot; ')"/>
         </xsl:if>
@@ -225,34 +226,30 @@
             <xsl:if test="not(@grace)">
               <xsl:choose>
                 <xsl:when test="descendant::mei:syl">
-                  <xsl:apply-templates select="descendant::mei:verse[1]" mode="lyricmode"/>
-                  <xsl:call-template name="setDuration"/>
-                  <xsl:choose>
-                    <xsl:when test="mei:verse[1]/mei:syl[position()=last()]/@con='d'">
-                      <xsl:value-of select="' -- '"/>
-                    </xsl:when>
-                    <xsl:when test="mei:verse[1]/mei:syl[position()=last()]/@con='u'">
-                      <xsl:value-of select="' __ '"/>
-                    </xsl:when>
-                    <xsl:otherwise>
-                      <xsl:value-of select="' '"/>
-                    </xsl:otherwise>
-                  </xsl:choose>
+                  <xsl:apply-templates select="mei:verse|mei:syl"/>
                 </xsl:when>
                 <xsl:when test="@syl">
                   <xsl:value-of select="concat(' ',@syl)"/>
-                  <xsl:call-template name="setDuration"/>
-                  <xsl:value-of select="' '"/>
+                </xsl:when>
+                <xsl:when test="name()='note' or max(ancestor::mei:mdiv[1]//mei:staff[@n=$staffNumber]/mei:layer/@n) &gt; 1">
+                  <xsl:value-of select="'_'"/>
+                </xsl:when>
+              </xsl:choose>
+              <xsl:if test="$layerNumber != 1">
+                <xsl:call-template name="setDuration"/>
+                <xsl:if test="not(@dur)">
+                  <xsl:value-of select="concat(preceding::mei:scoreDef[@meter.unit][1]//@meter.unit[1],'*',preceding::mei:scoreDef[@meter.count][1]//@meter.count)"/>
+                </xsl:if>
+              </xsl:if>
+              <xsl:choose>
+                <xsl:when test="mei:verse[1]/mei:syl[position()=last()]/@con='d'">
+                  <xsl:value-of select="' -- '"/>
+                </xsl:when>
+                <xsl:when test="mei:verse[1]/mei:syl[position()=last()]/@con='u'">
+                  <xsl:value-of select="' __ '"/>
                 </xsl:when>
                 <xsl:otherwise>
-                  <xsl:if test="name()='note' or max(ancestor::mei:mdiv[1]//mei:staff[@n=$staffNumber]/mei:layer/@n) &gt; 1">
-                    <xsl:value-of select="'_'"/>
-                    <xsl:call-template name="setDuration"/>
-                    <xsl:if test="not(@dur)">
-                      <xsl:value-of select="concat(preceding::mei:scoreDef[@meter.unit][1]//@meter.unit[1],'*',preceding::mei:scoreDef[@meter.count][1]//@meter.count)"/>
-                    </xsl:if>
-                    <xsl:value-of select="' '"/>
-                  </xsl:if>
+                  <xsl:value-of select="' '"/>
                 </xsl:otherwise>
               </xsl:choose>
             </xsl:if>
@@ -304,7 +301,7 @@
       <xsl:text>}&#10;</xsl:text>
     </xsl:if>
     <xsl:if test="@*[starts-with(name(),'lyric')]">
-      <xsl:text>  \context { \Lyrics </xsl:text>
+      <xsl:text>  \context { \Score </xsl:text>
       <xsl:if test="@lyric.name">
         <xsl:value-of select="concat('\override LyricText.font-name = #&quot;',ancestor-or-self::*/@lyric.name[1],'&quot; ')"/>
       </xsl:if>
@@ -365,7 +362,7 @@
     </xsl:if>
     <!-- add figured bass context -->
     <xsl:if test="ancestor::mei:mdiv[1]//mei:harm[descendant::mei:fb]/@staff = $staffNumber">
-      <xsl:value-of select="concat('&#10;  \mdiv',codepoints-to-string(xs:integer(64 + $mdivNumber)),'_staff',codepoints-to-string(xs:integer(64 + $staffNumber)),'_fb')"/>
+      <xsl:value-of select="concat('&#10;  \mdiv',codepoints-to-string(xs:integer(64 + $mdivNumber)),'_staff',codepoints-to-string(xs:integer(64 + $staffNumber)),'_harm')"/>
       <xsl:value-of select="concat('&#10;  \context Staff = &quot;staff ',$staffNumber,'&quot;&#32;')"/>
     </xsl:if>
     <xsl:text>{&#10;    </xsl:text>
@@ -430,7 +427,7 @@
     </xsl:if>
     <xsl:value-of select="concat('    \mdiv',codepoints-to-string(xs:integer(64 + $mdivNumber)),'_staff',codepoints-to-string(xs:integer(64 + $staffNumber)))"/>
     <xsl:text>&#32;}&#10;</xsl:text>
-    <xsl:if test="ancestor::mei:mdiv[1]//mei:syl[ancestor::mei:staff/@n = $staffNumber]">
+    <xsl:if test="ancestor::mei:mdiv[1]//mei:staff[@n=$staffNumber]//mei:syl">
       <xsl:choose>
         <xsl:when test="max(ancestor::mei:mdiv[1]//mei:staff[@n=$staffNumber]/mei:layer/@n) = 1">
           <xsl:value-of select="'  \addlyrics { '"/>
@@ -440,7 +437,7 @@
           <xsl:value-of select="'  \new Lyrics { '"/>
         </xsl:otherwise>
       </xsl:choose>
-      <xsl:value-of select="concat('\Lyrics',codepoints-to-string(xs:integer(64 + $staffNumber)),' }&#10;  ')"/>
+      <xsl:value-of select="concat('\mdiv',codepoints-to-string(xs:integer(64 + $mdivNumber)),'_staff',codepoints-to-string(xs:integer(64 + $staffNumber)),'_verse',' }&#10;  ')"/>
     </xsl:if>
   </xsl:template>
   <!-- MEI instrument definition -->
@@ -655,7 +652,7 @@
     </xsl:if>
     <xsl:apply-templates select="ancestor::mei:measure/mei:dynam[@startid = $noteKey]"/>
     <xsl:apply-templates select="ancestor::mei:measure/mei:hairpin[@startid = $noteKey]"/>
-    <xsl:apply-templates/>
+    <xsl:apply-templates select="mei:artic"/>
     <xsl:if test="ancestor::mei:mdiv[1]//mei:trill/@endid = $noteKey">
       <xml:text>\stopTrillSpan</xml:text>
     </xsl:if>
@@ -956,6 +953,14 @@
         </xsl:call-template>
       </xsl:otherwise>
     </xsl:choose>
+  </xsl:template>
+  <!-- MEI dot -->
+  <xsl:template match="mei:dot">
+    <xsl:if test="@color">
+      <xsl:value-of select="'-\tweak Dot.color #'"/>
+      <xsl:call-template name="setColor"/>
+    </xsl:if>
+    <xsl:text>.</xsl:text>
   </xsl:template>
   <!-- MEI fermata -->
   <xsl:template name="fermata" match="mei:fermata">
@@ -1582,7 +1587,7 @@
     <xsl:text>}&#32;</xsl:text>
   </xsl:template>
   <!-- MEI verse -->
-  <xsl:template match="mei:verse" mode="lyricmode">
+  <xsl:template match="mei:verse">
     <xsl:if test="@color">
       <xsl:value-of select="'\once \override Lyrics.LyricText.color = #'"/>
       <xsl:call-template name="setColor"/>
@@ -1598,7 +1603,7 @@
     <xsl:apply-templates/>
   </xsl:template>
   <!-- MEI syllable -->
-  <xsl:template match="mei:syl" mode="lyricmode">
+  <xsl:template match="mei:syl">
     <xsl:apply-templates/>
     <xsl:choose>
       <xsl:when test="@con='s'">
