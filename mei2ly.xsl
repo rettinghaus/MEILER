@@ -2,7 +2,7 @@
 <!--        -->
 <!-- MEILER -->
 <!-- mei2ly -->
-<!-- v0.7.6 -->
+<!-- v0.7.7 -->
 <!--        -->
 <!-- programmed by Klaus Rettinghaus -->
 <!--        -->
@@ -67,6 +67,21 @@
     <xsl:for-each select="descendant::mei:persName[@role]">
       <xsl:value-of select="concat('  ',@role,' = &quot;',normalize-space(.),'&quot;&#10;')"/>
     </xsl:for-each>
+  </xsl:template>
+  <!-- MEI revision description -->
+  <xsl:template match="mei:revisionDesc">
+    <xsl:text>&#10;</xsl:text>
+    <xsl:apply-templates/>
+  </xsl:template>
+  <!-- MEI change -->
+  <xsl:template match="mei:change">
+    <xsl:text>&#32;&#32;%&#32;</xsl:text>
+    <xsl:apply-templates/>
+    <xsl:text>&#10;</xsl:text>
+  </xsl:template>
+  <!-- MEI change description -->
+  <xsl:template match="mei:changeDesc">
+    <xsl:apply-templates/>
   </xsl:template>
   <!-- MEI music element -->
   <xsl:template match="mei:musc">
@@ -565,7 +580,7 @@
     <xsl:call-template name="setStemDir"/>
     <xsl:if test="@grace and not(preceding::mei:note[1]/@grace)">
       <xsl:call-template name="setGraceNote"/>
-      <xsl:if test="parent::mei:beam and position()=1">
+      <xsl:if test="ancestor::mei:beam and position()=1">
         <xml:text>{</xml:text>
       </xsl:if>
     </xsl:if>
@@ -621,10 +636,10 @@
       </xsl:if>
       <xml:text>~</xml:text>
     </xsl:if>
-    <xsl:if test="contains(@beam,'i') or (parent::mei:beam and position()=1) or (ancestor::mei:measure/mei:beamSpan[not(@beam.with)]/@startid = $noteKey)">
+    <xsl:if test="contains(@beam,'i') or (ancestor::mei:beam and position()=1) or (ancestor::mei:measure/mei:beamSpan[not(@beam.with)]/@startid = $noteKey)">
       <xml:text>[</xml:text>
     </xsl:if>
-    <xsl:if test="contains(@beam,'t') or (parent::mei:beam and position()=last()) or (ancestor::mei:mdiv[1]//mei:beamSpan[not(@beam.with)]/@endid = $noteKey)">
+    <xsl:if test="contains(@beam,'t') or (ancestor::mei:beam and position()=last()) or (ancestor::mei:mdiv[1]//mei:beamSpan[not(@beam.with)]/@endid = $noteKey)">
       <xml:text>]</xml:text>
     </xsl:if>
     <xsl:if test="contains(@slur,'t') or (ancestor::mei:mdiv[1]//mei:slur/@endid = $noteKey)">
@@ -644,7 +659,7 @@
     <xsl:if test="ancestor::mei:measure/mei:phrase/@startid = $noteKey">
       <xml:text>\(</xml:text>
     </xsl:if>
-    <xsl:if test="@grace and parent::mei:beam and position()=last()">
+    <xsl:if test="@grace and ancestor::mei:beam and position()=last()">
       <xml:text>}</xml:text>
     </xsl:if>
     <xsl:apply-templates select="ancestor::mei:measure/mei:fing[@startid = $noteKey]"/>
@@ -715,10 +730,10 @@
       </xsl:if>
       <xml:text>~</xml:text>
     </xsl:if>
-    <xsl:if test="contains(@beam,'i') or (parent::mei:beam and position()=1) or (ancestor::mei:measure/mei:beamSpan[not(@beam.with)]/@startid = $chordKey)">
+    <xsl:if test="contains(@beam,'i') or (ancestor::mei:beam and position()=1) or (ancestor::mei:measure/mei:beamSpan[not(@beam.with)]/@startid = $chordKey)">
       <xml:text>[</xml:text>
     </xsl:if>
-    <xsl:if test="contains(@beam,'t') or (parent::mei:beam and position()=last()) or (ancestor::mei:mdiv[1]//mei:beamSpan[not(@beam.with)]/@endid = $chordKey)">
+    <xsl:if test="contains(@beam,'t') or (ancestor::mei:beam and position()=last()) or (ancestor::mei:mdiv[1]//mei:beamSpan[not(@beam.with)]/@endid = $chordKey)">
       <xml:text>]</xml:text>
     </xsl:if>
     <xsl:if test="contains(@slur,'t') or (ancestor::mei:mdiv[1]//mei:slur/@endid = $chordKey)">
@@ -805,10 +820,10 @@
         <xsl:call-template name="setDuration"/>
       </xsl:otherwise>
     </xsl:choose>
-    <xsl:if test="contains(@beam,'i') or (parent::mei:beam and position()=1)">
+    <xsl:if test="contains(@beam,'i') or (ancestor::mei:beam and position()=1)">
       <xml:text>[</xml:text>
     </xsl:if>
-    <xsl:if test="contains(@beam,'t') or (parent::mei:beam and position()=last())">
+    <xsl:if test="contains(@beam,'t') or (ancestor::mei:beam and position()=last())">
       <xml:text>]</xml:text>
     </xsl:if>
     <xsl:if test="ancestor::mei:mdiv[1]//mei:hairpin/@endid = $restKey or ancestor::mei:mdiv[1]//mei:dynam/@endid = $restKey">
@@ -920,10 +935,10 @@
     </xsl:if>
     <xsl:choose>
       <xsl:when test="@bracket.place='above' or @num.place='above'">
-        <xsl:value-of select="'\once \tupletDown '"/>
+        <xsl:value-of select="'\once \tupletUp '"/>
       </xsl:when>
       <xsl:when test="@bracket.place='below' or @num.place='below'">
-        <xsl:value-of select="'\once \tupletUp '"/>
+        <xsl:value-of select="'\once \tupletDown '"/>
       </xsl:when>
     </xsl:choose>
     <xsl:value-of select="concat('\tuplet ',@num,'/',@numbase,' { ')"/>
@@ -1370,6 +1385,21 @@
     <xsl:apply-templates/>
     <xsl:text>}&#32;</xsl:text>
   </xsl:template>
+  <!-- MEI paragraph -->
+  <xsl:template match="mei:p">
+    <xsl:choose>
+      <xsl:when test="not(child::*)">
+        <xsl:value-of select="normalize-space(.)"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:apply-templates/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+  <!-- MEI ref -->
+  <xsl:template match="mei:ref">
+    <xsl:apply-templates/>
+  </xsl:template>
   <!-- MEI rend -->
   <xsl:template match="mei:rend">
     <xsl:if test="@color">
@@ -1638,6 +1668,7 @@
   <xsl:template match="mei:back"/>
   <xsl:template match="mei:encodingDesc"/>
   <xsl:template match="mei:expansion"/>
+  <xsl:template match="mei:extMeta"/>
   <xsl:template match="mei:front"/>
   <xsl:template match="mei:multiRest"/>
   <xsl:template match="mei:orig"/>
@@ -1645,7 +1676,6 @@
   <xsl:template match="mei:part"/>
   <xsl:template match="mei:pgHead"/>
   <xsl:template match="mei:pgFoot"/>
-  <xsl:template match="mei:revisionDesc"/>
   <xsl:template match="mei:sourceDesc"/>
   <xsl:template match="mei:symbol"/>
   <!-- helper templates -->

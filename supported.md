@@ -23,6 +23,10 @@ List of supported MEI elements and attributes
 * `<bTrem>`
   * __`@measperf`__
 
+* `<change>`
+
+* `<changeDesc>`
+
 * `<choice>`
 
 * `<chord>`
@@ -169,6 +173,8 @@ List of supported MEI elements and attributes
   * __`@endid`__
   * `@lform`
   * __`@startid`__
+
+* `<p>`
 
 * `<pb>`
   * `@n`
