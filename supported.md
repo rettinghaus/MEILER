@@ -73,6 +73,7 @@ List of supported MEI elements and attributes
 * `<gliss>`
   * `@color`
   * `@lform`
+  * `@lwidth`
   * __`@startid`__
 
 * `<hairpin>`
@@ -80,6 +81,7 @@ List of supported MEI elements and attributes
   * __`@endid`__
   * `@form`
   * `@lform`
+  * `@lwidth`
   * `@place`
   * __`@startid`__
 
@@ -172,6 +174,7 @@ List of supported MEI elements and attributes
   * `@dis.place`
   * __`@endid`__
   * `@lform`
+  * `@lwidth`
   * __`@startid`__
 
 * `<p>`
@@ -185,6 +188,7 @@ List of supported MEI elements and attributes
   * __`@endid`__
   * `@form` (for values 'line' and 'pedstar')
   * `@lform`
+  * `@lwidth`
   * __`@startid`__
 
 * `<phrase>`
@@ -263,6 +267,7 @@ List of supported MEI elements and attributes
   * `@curvedir` (for values 'above' and 'below')
   * `@endid`
   * `@lform`
+  * `@lwidth`
   * __`@startid`__
 
 * `<space>`
@@ -294,6 +299,9 @@ List of supported MEI elements and attributes
   * `@meter.unit`
   * `@n`
   * `@pedal.style` (for values 'line' and 'pedstar')
+  * `@slur.lform`
+  * `@slur.lwidth`
+  * `@tie.lwidth`
 
 * `<staffGrp>`
   * `@barthru`
@@ -312,7 +320,9 @@ List of supported MEI elements and attributes
   * `@tstamp` (for value '1')
 
 * `<tie>`
+  * `@color`
   * `@curvedir` (for values 'above' and 'below')
+  * `@lwidth`
   * __`@startid`__
 
 * `<trill>`
@@ -344,3 +354,4 @@ List of supported MEI elements and attributes
   * `@n`
 
 `att.color` supports rgb values and color names
+`@lwidth` works for values from data.LINEWIDTHTERM

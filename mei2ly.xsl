@@ -409,6 +409,18 @@
     <xsl:if test="@slur.lform">
       <xsl:value-of select="concat('\slur',translate(substring(@lform,1,1),'ds','DS'),substring(@lform,2),' ')"/>
     </xsl:if>
+    <xsl:if test="@slur.lwidth">
+      <xsl:text>\override Slur.thickness = #'</xsl:text>
+      <xsl:call-template name="setLineWidth">
+        <xsl:with-param name="thickness" select="@slur.lwidth"/>
+      </xsl:call-template>
+    </xsl:if>
+    <xsl:if test="@tie.lwidth">
+      <xsl:text>\override Tie.thickness = #'</xsl:text>
+      <xsl:call-template name="setLineWidth">
+        <xsl:with-param name="thickness" select="@tie.lwidth"/>
+      </xsl:call-template>
+    </xsl:if>
     <xsl:choose>
       <xsl:when test="ancestor-or-self::*/@beam.group">
         <xsl:call-template name="setBeaming"/>
@@ -1101,6 +1113,10 @@
         </xsl:otherwise>
       </xsl:choose>
     </xsl:if>
+    <xsl:if test="@lwidth">
+      <xsl:text>\once \override Staff.OttavaBracket.thickness = #'</xsl:text>
+      <xsl:call-template name="setLineWidth"/>
+    </xsl:if>
     <xsl:choose>
       <xsl:when test="@dis.place = 'above'">
         <xsl:value-of select="concat('\ottava #',round(number(@dis) div 8),' ')"/>
@@ -1108,6 +1124,7 @@
       </xsl:when>
       <xsl:when test="@dis.place = 'below'">
         <xsl:value-of select="concat('\ottava #-',round(number(@dis) div 8),' ')"/>
+        <xml:text>\unset Staff.middleCPosition </xml:text>
       </xsl:when>
       <xsl:otherwise>
       </xsl:otherwise>
@@ -1131,6 +1148,21 @@
     </xsl:if>
     <xsl:if test="@lform">
       <xsl:value-of select="concat('\once \slur',translate(substring(@lform,1,1),'ds','DS'),substring(@lform,2),' ')"/>
+    </xsl:if>
+    <xsl:if test="@lwidth">
+      <xsl:text>\once \override Slur.thickness = #'</xsl:text>
+      <xsl:call-template name="setLineWidth"/>
+    </xsl:if>
+  </xsl:template>
+  <!-- MEI slur -->
+  <xsl:template match="mei:tie" mode="pre">
+    <xsl:if test="@color">
+      <xsl:value-of select="'\once \override Tie.color = #'"/>
+      <xsl:call-template name="setColor"/>
+    </xsl:if>
+    <xsl:if test="@lwidth">
+      <xsl:text>\once \override Tie.thickness = #'</xsl:text>
+      <xsl:call-template name="setLineWidth"/>
     </xsl:if>
   </xsl:template>
   <!-- MEI arpeggio -->
@@ -1168,6 +1200,10 @@
         </xsl:otherwise>
       </xsl:choose>
     </xsl:if>
+    <xsl:if test="@lwidth">
+      <xsl:text>\once \override Glissando.thickness = #'</xsl:text>
+      <xsl:call-template name="setLineWidth"/>
+    </xsl:if>
   </xsl:template>
   <!-- MEI dynamic -->
   <xsl:template match="mei:dynam" mode="pre">
@@ -1199,6 +1235,10 @@
         </xsl:otherwise>
       </xsl:choose>
     </xsl:if>
+    <xsl:if test="@lwidth">
+      <xsl:text>-\tweak Hairpin.thickness #'</xsl:text>
+      <xsl:call-template name="setLineWidth"/>
+    </xsl:if>
     <xsl:call-template name="setMarkupDirection">
       <xsl:with-param name="direction" select="@place"/>
     </xsl:call-template>
@@ -1229,6 +1269,10 @@
           <xsl:value-of select="concat(@lform,'-line ')"/>
         </xsl:otherwise>
       </xsl:choose>
+    </xsl:if>
+    <xsl:if test="@lwidth">
+      <xsl:text>\once \override Staff.PianoPedalBracket.thickness = #'</xsl:text>
+      <xsl:call-template name="setLineWidth"/>
     </xsl:if>
     <xsl:choose>
       <xsl:when test="@form = 'line'">
@@ -2078,6 +2122,21 @@
       </xsl:when>
       <xsl:otherwise>
         <xsl:value-of select="concat('(x11-color &quot;',$color,'&quot;) ')"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+  <!-- set color -->
+  <xsl:template name="setLineWidth">
+    <xsl:param name="thickness" select="@lwidth"/>
+    <xsl:choose>
+      <xsl:when test="$thickness = 'medium'">
+        <xsl:text>2 </xsl:text>
+      </xsl:when>
+      <xsl:when test="$thickness = 'wide'">
+        <xsl:text>4 </xsl:text>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:text>1 </xsl:text>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
