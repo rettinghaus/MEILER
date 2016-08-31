@@ -2,7 +2,7 @@
 <!--        -->
 <!-- MEILER -->
 <!-- mei2ly -->
-<!-- v0.7.7 -->
+<!-- v0.7.8 -->
 <!--        -->
 <!-- programmed by Klaus Rettinghaus -->
 <!--        -->
@@ -410,13 +410,13 @@
       <xsl:value-of select="concat('\slur',translate(substring(@lform,1,1),'ds','DS'),substring(@lform,2),' ')"/>
     </xsl:if>
     <xsl:if test="@slur.lwidth">
-      <xsl:text>\override Slur.thickness = #'</xsl:text>
+      <xsl:text>\override Slur.thickness = #</xsl:text>
       <xsl:call-template name="setLineWidth">
         <xsl:with-param name="thickness" select="@slur.lwidth"/>
       </xsl:call-template>
     </xsl:if>
     <xsl:if test="@tie.lwidth">
-      <xsl:text>\override Tie.thickness = #'</xsl:text>
+      <xsl:text>\override Tie.thickness = #</xsl:text>
       <xsl:call-template name="setLineWidth">
         <xsl:with-param name="thickness" select="@tie.lwidth"/>
       </xsl:call-template>
@@ -912,6 +912,14 @@
       <xsl:value-of select="'\once \override Beam.color = #'"/>
       <xsl:call-template name="setColor"/>
     </xsl:if>
+    <xsl:choose>
+      <xsl:when test="@form = 'acc'">
+        <xsl:text>\once \override Beam.grow-direction = #LEFT </xsl:text>
+      </xsl:when>
+      <xsl:when test="@form = 'rit'">
+        <xsl:text>\once \override Beam.grow-direction = #RIGHT </xsl:text>
+      </xsl:when>
+    </xsl:choose>
     <xsl:apply-templates/>
   </xsl:template>
   <!-- MEI beam -->
@@ -1114,7 +1122,7 @@
       </xsl:choose>
     </xsl:if>
     <xsl:if test="@lwidth">
-      <xsl:text>\once \override Staff.OttavaBracket.thickness = #'</xsl:text>
+      <xsl:text>\once \override Staff.OttavaBracket.thickness = #</xsl:text>
       <xsl:call-template name="setLineWidth"/>
     </xsl:if>
     <xsl:choose>
@@ -1139,6 +1147,10 @@
     <xsl:if test="@lform">
       <xsl:value-of select="concat('\once \phrasingSlur',translate(substring(@lform,1,1),'ds','DS'),substring(@lform,2),' ')"/>
     </xsl:if>
+    <xsl:if test="@lwidth">
+      <xsl:text>\once \override PhrasingSlur.thickness = #</xsl:text>
+      <xsl:call-template name="setLineWidth"/>
+    </xsl:if>
   </xsl:template>
   <!-- MEI slur -->
   <xsl:template match="mei:slur" mode="pre">
@@ -1150,7 +1162,7 @@
       <xsl:value-of select="concat('\once \slur',translate(substring(@lform,1,1),'ds','DS'),substring(@lform,2),' ')"/>
     </xsl:if>
     <xsl:if test="@lwidth">
-      <xsl:text>\once \override Slur.thickness = #'</xsl:text>
+      <xsl:text>\once \override Slur.thickness = #</xsl:text>
       <xsl:call-template name="setLineWidth"/>
     </xsl:if>
   </xsl:template>
@@ -1161,7 +1173,7 @@
       <xsl:call-template name="setColor"/>
     </xsl:if>
     <xsl:if test="@lwidth">
-      <xsl:text>\once \override Tie.thickness = #'</xsl:text>
+      <xsl:text>\once \override Tie.thickness = #</xsl:text>
       <xsl:call-template name="setLineWidth"/>
     </xsl:if>
   </xsl:template>
@@ -1201,7 +1213,7 @@
       </xsl:choose>
     </xsl:if>
     <xsl:if test="@lwidth">
-      <xsl:text>\once \override Glissando.thickness = #'</xsl:text>
+      <xsl:text>\once \override Glissando.thickness = #</xsl:text>
       <xsl:call-template name="setLineWidth"/>
     </xsl:if>
   </xsl:template>
@@ -1236,7 +1248,7 @@
       </xsl:choose>
     </xsl:if>
     <xsl:if test="@lwidth">
-      <xsl:text>-\tweak Hairpin.thickness #'</xsl:text>
+      <xsl:text>-\tweak Hairpin.thickness #</xsl:text>
       <xsl:call-template name="setLineWidth"/>
     </xsl:if>
     <xsl:call-template name="setMarkupDirection">
@@ -1271,7 +1283,7 @@
       </xsl:choose>
     </xsl:if>
     <xsl:if test="@lwidth">
-      <xsl:text>\once \override Staff.PianoPedalBracket.thickness = #'</xsl:text>
+      <xsl:text>\once \override Staff.PianoPedalBracket.thickness = #</xsl:text>
       <xsl:call-template name="setLineWidth"/>
     </xsl:if>
     <xsl:choose>
@@ -1714,6 +1726,7 @@
   <xsl:template match="mei:expansion"/>
   <xsl:template match="mei:extMeta"/>
   <xsl:template match="mei:front"/>
+  <xsl:template match="mei:midi"/>
   <xsl:template match="mei:multiRest"/>
   <xsl:template match="mei:orig"/>
   <xsl:template match="mei:ornam"/>
@@ -1722,6 +1735,7 @@
   <xsl:template match="mei:pgFoot"/>
   <xsl:template match="mei:sourceDesc"/>
   <xsl:template match="mei:symbol"/>
+  <xsl:template match="mei:vel"/>
   <!-- helper templates -->
   <!-- set octave -->
   <xsl:template name="setOctave">
@@ -2125,20 +2139,31 @@
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
-  <!-- set color -->
+  <!-- set line width -->
   <xsl:template name="setLineWidth">
     <xsl:param name="thickness" select="@lwidth"/>
+    <xsl:param name="default">
+      <xsl:choose>
+        <xsl:when test="self::mei:phrase or self::mei:slur or self::mei:tie or self::mei:staffDef">
+          <xsl:value-of select="1.2"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="1.0"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:param>
     <xsl:choose>
       <xsl:when test="$thickness = 'medium'">
-        <xsl:text>2 </xsl:text>
+        <xsl:value-of select="2 * $default"/>
       </xsl:when>
       <xsl:when test="$thickness = 'wide'">
-        <xsl:text>4 </xsl:text>
+        <xsl:value-of select="4 * $default"/>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:text>1 </xsl:text>
+        <xsl:value-of select="$default"/>
       </xsl:otherwise>
     </xsl:choose>
+    <xsl:text>&#32;</xsl:text>
   </xsl:template>
   <!-- set beaming -->
   <xsl:template name="setBeaming">

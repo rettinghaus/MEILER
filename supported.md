@@ -196,6 +196,7 @@ List of supported MEI elements and attributes
   * `@curvedir` (for values 'above' and 'below')
   * __`@endid`__
   * `@lform`
+  * `@lwidth`
   * __`@startid`__
 
 * `<rdg>`
