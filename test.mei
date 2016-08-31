@@ -40,9 +40,11 @@
                   <note xml:id="testnote2" dur="2" oct="5" pname="d" stem.dir="up"/>
                 </layer>
               </staff>
+              <slur color="red" curvedir="below" lform="wavy" staff="1" tstamp="1" startid="#testnote1" endid="#testnote3"/>
               <mordent color="red" form="inv" long="true" place="above" staff="1" tstamp="1" startid="#testnote1"/>
               <turn color="green" form="inv" place="above" staff="1" tstamp="1" startid="#testnote1"/>
               <trill color="yellow" place="below" staff="1" tstamp="3" startid="#testnote2" endid="#testnote3"/>
+              <gliss color="green" lform="dashed" lwidth="medium" staff="1" tstamp="3" startid="#testnote2" endid="#testnote3"/>
             </measure>
             <staffDef n="1"><meterSig count="2" unit="2"/></staffDef>
             <measure n="2">
@@ -52,7 +54,6 @@
                   <rest dur="4"/>
                 </layer>
               </staff>
-              <fermata color="blue" shape="square" staff="1" tstamp="3" startid="#testnote4"/>
               <trill color="purple" place="below" staff="1" tstamp="1" startid="#testnote3"/>
             </measure>
             <staffDef n="1"><meterSigGrp copyof="#meterSigGrp1"/></staffDef>
@@ -74,7 +75,6 @@
                 </layer>
               </staff>
               <fermata color="blue" shape="square" staff="1" tstamp="3" startid="#testnote4"/>
-              <trill color="purple" place="below" staff="1" tstamp="1" startid="#testnote3"/>
             </measure>
           </section>
         </score>
