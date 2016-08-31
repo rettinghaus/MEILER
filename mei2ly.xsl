@@ -960,10 +960,6 @@
   </xsl:template>
   <!-- MEI dot -->
   <xsl:template match="mei:dot">
-    <xsl:if test="@color">
-      <xsl:value-of select="'-\tweak Dot.color #'"/>
-      <xsl:call-template name="setColor"/>
-    </xsl:if>
     <xsl:text>.</xsl:text>
   </xsl:template>
   <!-- MEI fermata -->
