@@ -337,7 +337,16 @@ List of supported MEI elements and attributes
   * `@bracket.visible`
   * `@copyof`
   * __`@num`__
-  * __`@num.base`__
+  * __`@numbase`__
+  * `@num.format`
+  * `@num.visible`
+
+* `<tupletSpan>`
+  * `@bracket.place`
+  * `@bracket.visible`
+  * `@endid`
+  * __`@num`__
+  * __`@numbase`__
   * `@num.format`
   * `@num.visible`
   * `@startid`

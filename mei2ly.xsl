@@ -2,7 +2,7 @@
 <!--        -->
 <!-- MEILER -->
 <!-- mei2ly -->
-<!-- v0.7.8 -->
+<!-- v0.7.9 -->
 <!--        -->
 <!-- programmed by Klaus Rettinghaus -->
 <!--        -->
@@ -134,21 +134,21 @@
         <!-- add key signature change -->
         <xsl:if test="ancestor::mei:measure/preceding-sibling::*[contains(name(),'Def')][@*[starts-with(name(),'key')]][1]/following-sibling::mei:measure[1]/@n = ancestor::mei:measure/@n">
           <xsl:call-template name="setKey">
-            <xsl:with-param name="keyTonic" select="ancestor::mei:measure/preceding-sibling::*[1]/@key.pname"/>
-            <xsl:with-param name="keyAccid" select="ancestor::mei:measure/preceding-sibling::*[1]/@key.accid"/>
-            <xsl:with-param name="keyMode" select="ancestor::mei:measure/preceding-sibling::*[1]/@key.mode"/>
-            <xsl:with-param name="keySig" select="ancestor::mei:measure/preceding-sibling::*[1]/@key.sig"/>
-            <xsl:with-param name="keySigMixed" select="ancestor::mei:measure/preceding-sibling::*[1]/@key.sig.mixed"/>
+            <xsl:with-param name="keyTonic" select="ancestor::mei:measure/preceding-sibling::*/@key.pname[1]"/>
+            <xsl:with-param name="keyAccid" select="ancestor::mei:measure/preceding-sibling::*/@key.accid[1]"/>
+            <xsl:with-param name="keyMode" select="ancestor::mei:measure/preceding-sibling::*/@key.mode[1]"/>
+            <xsl:with-param name="keySig" select="ancestor::mei:measure/preceding-sibling::*/@key.sig[1]"/>
+            <xsl:with-param name="keySigMixed" select="ancestor::mei:measure/preceding-sibling::*/@key.sig.mixed[1]"/>
           </xsl:call-template>
           <xsl:text>&#32;&#32;</xsl:text>
         </xsl:if>
         <!-- add time signature change -->
         <xsl:if test="ancestor::mei:measure/preceding-sibling::*[contains(name(),'Def')][@*[starts-with(name(),'meter')]][1]/following-sibling::mei:measure[1]/@n = ancestor::mei:measure/@n">
           <xsl:call-template name="meterSig">
-            <xsl:with-param name="meterSymbol" select="ancestor::mei:measure/preceding-sibling::*[contains(name(),'Def')][1]/@meter.sym"/>
-            <xsl:with-param name="meterCount" select="ancestor::mei:measure/preceding-sibling::*[contains(name(),'Def')][1]/@meter.count"/>
-            <xsl:with-param name="meterUnit" select="ancestor::mei:measure/preceding-sibling::*[contains(name(),'Def')][1]/@meter.unit"/>
-            <xsl:with-param name="meterRend" select="ancestor::mei:measure/preceding-sibling::*[contains(name(),'Def')][1]/@meter.rend"/>
+            <xsl:with-param name="meterSymbol" select="ancestor::mei:measure/preceding-sibling::*/@meter.sym[1]"/>
+            <xsl:with-param name="meterCount" select="ancestor::mei:measure/preceding-sibling::*/@meter.count[1]"/>
+            <xsl:with-param name="meterUnit" select="ancestor::mei:measure/preceding-sibling::*/@meter.unit[1]"/>
+            <xsl:with-param name="meterRend" select="ancestor::mei:measure/preceding-sibling::*/@meter.rend[1]"/>
           </xsl:call-template>
           <xsl:text>&#10;&#32;&#32;</xsl:text>
         </xsl:if>
@@ -340,7 +340,7 @@
       <xsl:text>}&#10;</xsl:text>
     </xsl:if>
     <xsl:text>}&#10;</xsl:text>
-    <xsl:if test="@*[contains(name(),'midi')]">
+    <xsl:if test="//mei:midi or @*[contains(name(),'midi')]">
       <xsl:text>\midi { </xsl:text>
       <xsl:if test="@midi.bpm">
         <xsl:value-of select="concat('\tempo 4 = ',@midi.bpm,' ')"/>
@@ -822,7 +822,7 @@
       <xsl:when test="@ploc and @oloc">
         <xsl:value-of select="@ploc"/>
         <xsl:call-template name="setOctave">
-          <xsl:with-param name="oct" select="@oloc"/>
+          <xsl:with-param name="oct" select="@oloc - 3"/>
         </xsl:call-template>
         <xsl:call-template name="setDuration"/>
         <xsl:value-of select="'\rest'"/>
@@ -939,7 +939,7 @@
     <xsl:apply-templates/>
     <xsl:value-of select="'} '"/>
   </xsl:template>
-  <!-- MEI tuplet elements -->
+  <!-- MEI tuplet -->
   <xsl:template match="mei:tuplet[@copyof]">
     <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:tuplet[@xml:id = substring-after(current()/@copyof,'#')]"/>
   </xsl:template>
@@ -964,6 +964,26 @@
     <xsl:value-of select="concat('\tuplet ',@num,'/',@numbase,' { ')"/>
     <xsl:apply-templates/>
     <xsl:text>} </xsl:text>
+  </xsl:template>
+  <!-- MEI tuplet span -->
+  <xsl:template match="mei:tupletSpan" mode="pre">
+    <xsl:if test="@bracket.visible">
+      <xsl:value-of select="concat('\once \override TupletBracket.bracket-visibility = ##',substring(@bracket.visible,1,1),' ')"/>
+    </xsl:if>
+    <xsl:if test="@num.visible='false'">
+      <xsl:value-of select="'\once \omit TupletNumber '"/>
+    </xsl:if>
+    <xsl:if test="@num.format='ratio'">
+      <xsl:value-of select="'\once \override TupletNumber.text = #tuplet-number::calc-fraction-text '"/>
+    </xsl:if>
+    <xsl:choose>
+      <xsl:when test="@bracket.place='above' or @num.place='above'">
+        <xsl:value-of select="'\once \tupletUp '"/>
+      </xsl:when>
+      <xsl:when test="@bracket.place='below' or @num.place='below'">
+        <xsl:value-of select="'\once \tupletDown '"/>
+      </xsl:when>
+    </xsl:choose>
   </xsl:template>
   <!-- MEI articulation -->
   <xsl:template name="artic" match="mei:artic">
