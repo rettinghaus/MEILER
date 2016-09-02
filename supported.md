@@ -319,6 +319,7 @@ List of supported MEI elements and attributes
   * `@wordpos`
 
 * `<tempo>`
+  * `@midi.bpm`
   * `@place`
   * `@staff`
   * `@startid`

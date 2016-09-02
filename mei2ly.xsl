@@ -434,6 +434,7 @@
       </xsl:otherwise>
     </xsl:choose>
     <xsl:text>\set tieWaitForNote = ##t&#10;    </xsl:text>
+    <xsl:text>\set Score.tempoHideNote = ##t&#10;    </xsl:text>
     <xsl:call-template name="setClef">
       <xsl:with-param name="clefColor" select="@clef.color"/>
       <xsl:with-param name="clefDis" select="@clef.dis"/>
@@ -1436,6 +1437,9 @@
     <xsl:value-of select="'\tempo \markup {'"/>
     <xsl:apply-templates/>
     <xsl:value-of select="'}&#10;  '"/>
+    <xsl:if test="@midi.bpm">
+      <xsl:value-of select="'\tempo 4 = ',@midi.bpm,' '"/>
+    </xsl:if>
   </xsl:template>
   <!-- MEI directive -->
   <xsl:template match="mei:dir" mode="pre"/>
