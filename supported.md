@@ -90,6 +90,10 @@ List of supported MEI elements and attributes
   * `@staff`
   * __`@tstamp`__
 
+* `<instrDef>`
+  * `@midi.instrnum`
+  * `@midi.instrname`
+
 * `<l>`
 
 * `<label>` (within `<staffGrp>` and `<staffDef>`)
