@@ -998,6 +998,10 @@
         <xsl:value-of select="'-\tweak Script.color #'"/>
         <xsl:call-template name="setColor"/>
       </xsl:if>
+      <xsl:if test="@ho or @vo">
+        <xsl:text>-\tweak Script.extra-offset #&apos;</xsl:text>
+        <xsl:template name="setOffset">
+      </xsl:if>
       <xsl:call-template name="setMarkupDirection">
         <xsl:with-param name="direction" select="@place"/>
       </xsl:call-template>
@@ -1030,6 +1034,10 @@
           <xsl:value-of select="'-\tweak Script.color #'"/>
           <xsl:call-template name="setColor"/>
         </xsl:if>
+        <xsl:if test="@ho or @vo">
+          <xsl:text>-\tweak Script.extra-offset #&apos;</xsl:text>
+          <xsl:template name="setOffset">
+        </xsl:if>
         <xsl:call-template name="setMarkupDirection">
           <xsl:with-param name="direction" select="@place"/>
         </xsl:call-template>
@@ -1060,6 +1068,10 @@
     <xsl:if test="@color">
       <xsl:value-of select="'-\tweak Script.color #'"/>
       <xsl:call-template name="setColor"/>
+    </xsl:if>
+    <xsl:if test="@ho or @vo">
+      <xsl:text>-\tweak Script.extra-offset #&apos;</xsl:text>
+      <xsl:template name="setOffset">
     </xsl:if>
     <xsl:call-template name="setMarkupDirection">
       <xsl:with-param name="direction" select="@place"/>
@@ -1094,6 +1106,10 @@
           <xsl:value-of select="'-\tweak Script.color #'"/>
           <xsl:call-template name="setColor"/>
         </xsl:if>
+        <xsl:if test="@ho or @vo">
+          <xsl:text>-\tweak Script.extra-offset #&apos;</xsl:text>
+          <xsl:template name="setOffset">
+        </xsl:if>
         <xsl:call-template name="setMarkupDirection">
           <xsl:with-param name="direction" select="@place"/>
         </xsl:call-template>
@@ -1106,6 +1122,10 @@
     <xsl:if test="@color">
       <xsl:value-of select="'-\tweak Script.color #'"/>
       <xsl:call-template name="setColor"/>
+    </xsl:if>
+    <xsl:if test="@ho or @vo">
+      <xsl:text>-\tweak Script.extra-offset #&apos;</xsl:text>
+      <xsl:template name="setOffset">
     </xsl:if>
     <xsl:call-template name="setMarkupDirection">
       <xsl:with-param name="direction" select="@place"/>
@@ -1248,6 +1268,10 @@
       <xsl:value-of select="'\once \override DynamicText.color = #'"/>
       <xsl:call-template name="setColor"/>
     </xsl:if>
+    <xsl:if test="@ho or @vo">
+      <xsl:text>\once \override DynamicText.color = #&apos;</xsl:text>
+      <xsl:template name="setOffset">
+    </xsl:if>
   </xsl:template>
   <xsl:template match="mei:dynam">
     <xsl:call-template name="setMarkupDirection">
@@ -1384,6 +1408,10 @@
   <!-- MEI finger -->
   <xsl:template match="mei:fing" mode="pre"/>
   <xsl:template match="mei:fing">
+    <xsl:if test="@ho or @vo">
+      <xsl:text>-\tweak Fingering.extra-offset #&apos;</xsl:text>
+      <xsl:template name="setOffset">
+    </xsl:if>
     <xsl:call-template name="setMarkupDirection">
       <xsl:with-param name="direction" select="@place"/>
     </xsl:call-template>
@@ -1508,11 +1536,7 @@
       <xsl:value-of select="concat('\',@fontfam,' ')"/>
     </xsl:if>
     <xsl:if test="@halign">
-      <xsl:value-of select="concat('\',@halign)"/>
-      <xsl:if test="@halign != 'justify'">
-        <xsl:value-of select="'-align'"/>
-      </xsl:if>
-      <xsl:value-of select="' '"/>
+      <xsl:call-template name="setHalign"/>
     </xsl:if>
     <xsl:if test="@rotation">
       <xsl:value-of select="concat('\rotate #',@rotation,' ')"/>
@@ -2152,6 +2176,26 @@
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
+  <!-- set offset -->
+  <xsl:template name="setOffset">
+    <xsl:choose>
+      <xsl:when test="@ho">
+        <xsl:value-of select="concat('(',@ho div 2)"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="'(0'"/>
+      </xsl:otherwise>
+    </xsl:choose>
+    <xsl:value-of select="' . '"/>
+    <xsl:choose>
+      <xsl:when test="@vo">
+        <xsl:value-of select="concat(@vo div 2,') ')"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="'0) '"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
   <!-- set color -->
   <xsl:template name="setColor">
     <xsl:param name="color" select="@color"/>
@@ -2203,6 +2247,14 @@
   <xsl:template name="setBarNumber">
     <xsl:value-of select="concat('\set Score.currentBarNumber = #',ancestor-or-self::mei:measure/@n)"/>
     <xsl:text>&#10;&#32;&#32;</xsl:text>
+  </xsl:template>
+  <!-- set horizontal alignment -->
+  <xsl:template name="setHalign">
+    <xsl:value-of select="concat('\',@halign)"/>
+    <xsl:if test="@halign != 'justify'">
+      <xsl:value-of select="'-align'"/>
+    </xsl:if>
+    <xsl:value-of select="' '"/>
   </xsl:template>
   <!-- set midi instrument -->
   <xsl:template name="setMidiInstruments">

@@ -74,7 +74,7 @@
                   <note xml:id="testnote7" dur="4" oct="5" pname="e" stem.dir="down" fermata="above"/>
                 </layer>
               </staff>
-              <fermata color="blue" shape="square" staff="1" tstamp="3" startid="#testnote4"/>
+              <fermata color="blue" shape="square" vo="1.4" staff="1" tstamp="3" startid="#testnote4"/>
             </measure>
           </section>
         </score>

@@ -12,7 +12,9 @@ List of supported MEI elements and attributes
 * `<artic>`
   * `@artic`
   * `@color`
+  * `@ho`
   * `@place`
+  * `@vo`
 
 * `<beam>`
   * `@color`
@@ -47,8 +49,10 @@ List of supported MEI elements and attributes
 * `<dynam>`
   * `@color`
   * `@endid`
+  * `@ho`
   * `@place`
   * __`@startid`__
+  * `@vo`
 
 * `<ending>`
   * `@n`
@@ -59,9 +63,11 @@ List of supported MEI elements and attributes
 
 * `<fermata>`
   * `@color`
+  * `@ho`
   * `@place`
   * `@shape`
   * __`@startid`__
+  * `@vo`
 
 * `<fing>`
   * `@place`
@@ -136,9 +142,11 @@ List of supported MEI elements and attributes
 * `<mordent>`
   * `@color`
   * `@form`
+  * `@ho`
   * `@long`
   * `@place`
   * __`@startid`__
+  * `@vo`
 
 * `<mRest>`
   * `@color`
@@ -334,8 +342,10 @@ List of supported MEI elements and attributes
 * `<trill>`
   * `@color`
   * `@endid`
+  * `@ho`
   * `@place`
   * __`@startid`__
+  * `@vo`
 
 * `<tuplet>`
   * `@bracket.place`
@@ -359,8 +369,10 @@ List of supported MEI elements and attributes
 * `<turn>`
   * `@color`
   * `@form`
+  * `@ho`
   * `@place`
   * __`@startid`__
+  * `@vo`
 
 * `<verse>`
   * `@color`
