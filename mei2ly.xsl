@@ -1189,6 +1189,10 @@
       <xsl:value-of select="'\once \override PhrasingSlur.color = #'"/>
       <xsl:call-template name="setColor"/>
     </xsl:if>
+    <xsl:if test="(@startvo or @endvo or @startho or @endho)">
+      <xsl:text>\once \override PhrasingSlur.positions #&apos;</xsl:text>
+      <xsl:template name="setOffset2">
+    </xsl:if>
     <xsl:if test="@lform">
       <xsl:value-of select="concat('\once \phrasingSlur',translate(substring(@lform,1,1),'ds','DS'),substring(@lform,2),' ')"/>
     </xsl:if>
@@ -1203,6 +1207,10 @@
       <xsl:value-of select="'\once \override Slur.color = #'"/>
       <xsl:call-template name="setColor"/>
     </xsl:if>
+    <xsl:if test="(@startvo or @endvo or @startho or @endho)">
+      <xsl:text>\once \override Slur.positions #&apos;</xsl:text>
+      <xsl:template name="setOffset2">
+    </xsl:if>
     <xsl:if test="@lform">
       <xsl:value-of select="concat('\once \slur',translate(substring(@lform,1,1),'ds','DS'),substring(@lform,2),' ')"/>
     </xsl:if>
@@ -1211,11 +1219,15 @@
       <xsl:call-template name="setLineWidth"/>
     </xsl:if>
   </xsl:template>
-  <!-- MEI slur -->
+  <!-- MEI tie -->
   <xsl:template match="mei:tie" mode="pre">
     <xsl:if test="@color">
       <xsl:value-of select="'\once \override Tie.color = #'"/>
       <xsl:call-template name="setColor"/>
+    </xsl:if>
+    <xsl:if test="(@startvo or @endvo or @startho or @endho)">
+      <xsl:text>\once \override Tie.positions #&apos;</xsl:text>
+      <xsl:template name="setOffset2">
     </xsl:if>
     <xsl:if test="@lwidth">
       <xsl:text>\once \override Tie.thickness = #</xsl:text>
@@ -2190,6 +2202,26 @@
     <xsl:choose>
       <xsl:when test="@vo">
         <xsl:value-of select="concat(@vo div 2,') ')"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="'0) '"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+  <!-- set offset -->
+  <xsl:template name="setOffset2">
+    <xsl:choose>
+      <xsl:when test="@startvo">
+        <xsl:value-of select="concat('(',@startvo div 2)"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="'(0'"/>
+      </xsl:otherwise>
+    </xsl:choose>
+    <xsl:value-of select="' . '"/>
+    <xsl:choose>
+      <xsl:when test="@endvo">
+        <xsl:value-of select="concat(@endvo div 2,') ')"/>
       </xsl:when>
       <xsl:otherwise>
         <xsl:value-of select="'0) '"/>
