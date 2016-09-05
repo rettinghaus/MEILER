@@ -2,7 +2,7 @@
 <!--        -->
 <!-- MEILER -->
 <!-- mei2ly -->
-<!-- v0.7.10 -->
+<!-- v0.7.11 -->
 <!--        -->
 <!-- programmed by Klaus Rettinghaus -->
 <!--        -->
@@ -1000,7 +1000,7 @@
       </xsl:if>
       <xsl:if test="@ho or @vo">
         <xsl:text>-\tweak Script.extra-offset #&apos;</xsl:text>
-        <xsl:template name="setOffset">
+        <xsl:call-template name="setOffset"/>
       </xsl:if>
       <xsl:call-template name="setMarkupDirection">
         <xsl:with-param name="direction" select="@place"/>
@@ -1036,7 +1036,7 @@
         </xsl:if>
         <xsl:if test="@ho or @vo">
           <xsl:text>-\tweak Script.extra-offset #&apos;</xsl:text>
-          <xsl:template name="setOffset">
+          <xsl:call-template name="setOffset"/>
         </xsl:if>
         <xsl:call-template name="setMarkupDirection">
           <xsl:with-param name="direction" select="@place"/>
@@ -1071,7 +1071,7 @@
     </xsl:if>
     <xsl:if test="@ho or @vo">
       <xsl:text>-\tweak Script.extra-offset #&apos;</xsl:text>
-      <xsl:template name="setOffset">
+      <xsl:call-template name="setOffset"/>
     </xsl:if>
     <xsl:call-template name="setMarkupDirection">
       <xsl:with-param name="direction" select="@place"/>
@@ -1108,7 +1108,7 @@
         </xsl:if>
         <xsl:if test="@ho or @vo">
           <xsl:text>-\tweak Script.extra-offset #&apos;</xsl:text>
-          <xsl:template name="setOffset">
+          <xsl:call-template name="setOffset"/>
         </xsl:if>
         <xsl:call-template name="setMarkupDirection">
           <xsl:with-param name="direction" select="@place"/>
@@ -1125,7 +1125,7 @@
     </xsl:if>
     <xsl:if test="@ho or @vo">
       <xsl:text>-\tweak Script.extra-offset #&apos;</xsl:text>
-      <xsl:template name="setOffset">
+      <xsl:call-template name="setOffset"/>
     </xsl:if>
     <xsl:call-template name="setMarkupDirection">
       <xsl:with-param name="direction" select="@place"/>
@@ -1190,8 +1190,8 @@
       <xsl:call-template name="setColor"/>
     </xsl:if>
     <xsl:if test="(@startvo or @endvo or @startho or @endho)">
-      <xsl:text>\once \override PhrasingSlur.positions #&apos;</xsl:text>
-      <xsl:template name="setOffset2">
+      <xsl:text>\once \override PhrasingSlur.positions = #&apos;</xsl:text>
+      <xsl:call-template name="setOffset2"/>
     </xsl:if>
     <xsl:if test="@lform">
       <xsl:value-of select="concat('\once \phrasingSlur',translate(substring(@lform,1,1),'ds','DS'),substring(@lform,2),' ')"/>
@@ -1208,8 +1208,8 @@
       <xsl:call-template name="setColor"/>
     </xsl:if>
     <xsl:if test="(@startvo or @endvo or @startho or @endho)">
-      <xsl:text>\once \override Slur.positions #&apos;</xsl:text>
-      <xsl:template name="setOffset2">
+      <xsl:text>\once \override Slur.positions = #&apos;</xsl:text>
+      <xsl:call-template name="setOffset2"/>
     </xsl:if>
     <xsl:if test="@lform">
       <xsl:value-of select="concat('\once \slur',translate(substring(@lform,1,1),'ds','DS'),substring(@lform,2),' ')"/>
@@ -1226,8 +1226,8 @@
       <xsl:call-template name="setColor"/>
     </xsl:if>
     <xsl:if test="(@startvo or @endvo or @startho or @endho)">
-      <xsl:text>\once \override Tie.positions #&apos;</xsl:text>
-      <xsl:template name="setOffset2">
+      <xsl:text>\once \override Tie.positions = #&apos;</xsl:text>
+      <xsl:call-template name="setOffset2"/>
     </xsl:if>
     <xsl:if test="@lwidth">
       <xsl:text>\once \override Tie.thickness = #</xsl:text>
@@ -1282,7 +1282,7 @@
     </xsl:if>
     <xsl:if test="@ho or @vo">
       <xsl:text>\once \override DynamicText.color = #&apos;</xsl:text>
-      <xsl:template name="setOffset">
+      <xsl:call-template name="setOffset"/>
     </xsl:if>
   </xsl:template>
   <xsl:template match="mei:dynam">
@@ -1422,7 +1422,7 @@
   <xsl:template match="mei:fing">
     <xsl:if test="@ho or @vo">
       <xsl:text>-\tweak Fingering.extra-offset #&apos;</xsl:text>
-      <xsl:template name="setOffset">
+      <xsl:call-template name="setOffset"/>
     </xsl:if>
     <xsl:call-template name="setMarkupDirection">
       <xsl:with-param name="direction" select="@place"/>
