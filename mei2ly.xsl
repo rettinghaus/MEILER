@@ -471,12 +471,12 @@
     <!-- put lyrics under staff -->
     <xsl:for-each select="ancestor::mei:mdiv[1]//mei:staff[@n=$staffNumber]//mei:verse/@n[not(.= preceding::mei:verse[ancestor::mei:staff/@n=$staffNumber]/@n)]">
       <xsl:choose>
-        <xsl:when test="max(ancestor::mei:mdiv[1]//mei:staff[@n=$staffNumber]/mei:layer/@n) = 1">
-          <xsl:value-of select="'  \addlyrics { '"/>
-          <xsl:text>\set ignoreMelismata = ##t </xsl:text>
+        <xsl:when test="ancestor::mei:mdiv[1]//mei:staff[@n=$staffNumber]/mei:layer/@n and (max(ancestor::mei:mdiv[1]//mei:staff[@n=$staffNumber]/mei:layer/@n) != 1)">
+          <xsl:value-of select="'  \new Lyrics { '"/>
         </xsl:when>
         <xsl:otherwise>
-          <xsl:value-of select="'  \new Lyrics { '"/>
+          <xsl:value-of select="'  \addlyrics { '"/>
+          <xsl:text>\set ignoreMelismata = ##t </xsl:text>
         </xsl:otherwise>
       </xsl:choose>
       <xsl:value-of select="concat('\mdiv',codepoints-to-string(xs:integer(64 + $mdivNumber)),'_staff',codepoints-to-string(xs:integer(64 + $staffNumber)),'_verse',codepoints-to-string(xs:integer(64 + .)),' }&#10;')"/>
@@ -1754,7 +1754,13 @@
   </xsl:template>
   <!-- MEI syllable -->
   <xsl:template match="mei:syl">
+    <xsl:if test="contains(text(),' ')">
+      <xsl:text>&quot;</xsl:text>
+    </xsl:if>
     <xsl:apply-templates/>
+    <xsl:if test="contains(text(),' ')">
+      <xsl:text>&quot;</xsl:text>
+    </xsl:if>
     <xsl:if test="not(text())">
       <xsl:text>_</xsl:text>
     </xsl:if>
