@@ -1282,17 +1282,12 @@
     </xsl:if>
   </xsl:template>
   <!-- MEI dynamic -->
-  <xsl:template match="mei:dynam" mode="pre">
-    <xsl:if test="@color">
-      <xsl:value-of select="'\once \override DynamicText.color = #'"/>
-      <xsl:call-template name="setColor"/>
-    </xsl:if>
+  <xsl:template match="mei:dynam" mode="pre"/>
+  <xsl:template match="mei:dynam">
     <xsl:if test="@ho or @vo">
-      <xsl:text>\once \override DynamicText.color = #&apos;</xsl:text>
+      <xsl:text>-\tweak DynamicText.extra-offset #&apos;</xsl:text>
       <xsl:call-template name="setOffset"/>
     </xsl:if>
-  </xsl:template>
-  <xsl:template match="mei:dynam">
     <xsl:call-template name="setMarkupDirection">
       <xsl:with-param name="direction" select="@place"/>
     </xsl:call-template>
