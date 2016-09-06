@@ -53,7 +53,6 @@ List of supported MEI elements and attributes
   * `@vo`
 
 * `<dynam>`
-  * `@color`
   * `@endid`
   * `@ho`
   * `@place`
@@ -368,6 +367,7 @@ List of supported MEI elements and attributes
 * `<tuplet>`
   * `@bracket.place`
   * `@bracket.visible`
+  * `@color`
   * `@copyof`
   * __`@num`__
   * __`@numbase`__
@@ -377,6 +377,7 @@ List of supported MEI elements and attributes
 * `<tupletSpan>`
   * `@bracket.place`
   * `@bracket.visible`
+  * `@color`
   * `@endid`
   * __`@num`__
   * __`@numbase`__

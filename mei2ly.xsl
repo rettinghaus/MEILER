@@ -956,6 +956,12 @@
     <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:tuplet[@xml:id = substring-after(current()/@copyof,'#')]"/>
   </xsl:template>
   <xsl:template match="mei:tuplet">
+    <xsl:if test="@color">
+      <xsl:value-of select="'\once \override TupletBracket.color = #'"/>
+      <xsl:call-template name="setColor"/>
+      <xsl:value-of select="'\once \override TupletNumber.color = #'"/>
+      <xsl:call-template name="setColor"/>
+    </xsl:if>
     <xsl:if test="@bracket.visible">
       <xsl:value-of select="concat('\once \override TupletBracket.bracket-visibility = ##',substring(@bracket.visible,1,1),' ')"/>
     </xsl:if>
@@ -979,6 +985,12 @@
   </xsl:template>
   <!-- MEI tuplet span -->
   <xsl:template match="mei:tupletSpan" mode="pre">
+    <xsl:if test="@color">
+      <xsl:value-of select="'\once \override TupletBracket.color = #'"/>
+      <xsl:call-template name="setColor"/>
+      <xsl:value-of select="'\once \override TupletNumber.color = #'"/>
+      <xsl:call-template name="setColor"/>
+    </xsl:if>
     <xsl:if test="@bracket.visible">
       <xsl:value-of select="concat('\once \override TupletBracket.bracket-visibility = ##',substring(@bracket.visible,1,1),' ')"/>
     </xsl:if>
