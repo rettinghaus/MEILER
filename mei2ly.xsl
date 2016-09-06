@@ -11,6 +11,7 @@
   <xsl:output method="text" indent="no" encoding="UTF-8"/>
   <xsl:template match="mei:mei">
     <xsl:text>\version "2.18.2"&#10;</xsl:text>
+    <xsl:text>#(ly:set-option 'point-and-click #f)&#10;</xsl:text>
     <xsl:text>% automatically converted by mei2ly.xsl&#10;&#10;</xsl:text>
     <xsl:apply-templates/>
   </xsl:template>
@@ -149,10 +150,10 @@
         <!-- add time signature change -->
         <xsl:if test="ancestor::mei:measure/preceding-sibling::*[contains(name(),'Def')][@*[starts-with(name(),'meter')]][1]/following-sibling::mei:measure[1]/@n = ancestor::mei:measure/@n">
           <xsl:call-template name="meterSig">
-            <xsl:with-param name="meterSymbol" select="ancestor::mei:measure/preceding-sibling::*/@meter.sym[1]"/>
-            <xsl:with-param name="meterCount" select="ancestor::mei:measure/preceding-sibling::*/@meter.count[1]"/>
-            <xsl:with-param name="meterUnit" select="ancestor::mei:measure/preceding-sibling::*/@meter.unit[1]"/>
-            <xsl:with-param name="meterRend" select="ancestor::mei:measure/preceding-sibling::*/@meter.rend[1]"/>
+            <xsl:with-param name="meterSymbol" select="ancestor::mei:measure/preceding-sibling::*[@meter.sym][1]/@meter.sym"/>
+            <xsl:with-param name="meterCount" select="ancestor::mei:measure/preceding-sibling::*[@meter.count][1]/@meter.count"/>
+            <xsl:with-param name="meterUnit" select="ancestor::mei:measure/preceding-sibling::*[@meter.unit][1]/@meter.unit"/>
+            <xsl:with-param name="meterRend" select="ancestor::mei:measure/preceding-sibling::*[@meter.rend][1]/@meter.rend"/>
           </xsl:call-template>
           <xsl:text>&#10;&#32;&#32;</xsl:text>
         </xsl:if>
@@ -492,8 +493,14 @@
     <xsl:apply-templates/>
     <xsl:text>}&#32;</xsl:text>
   </xsl:template>
-  <!-- MEI measures -->
-  <xsl:template name="measures" match="mei:measure">
+  <!-- MEI ending -->
+  <xsl:template match="mei:ending">
+    <xsl:text>{&#32;</xsl:text>
+    <xsl:apply-templates/>
+    <xsl:text>}&#32;</xsl:text>
+  </xsl:template>
+  <!-- MEI measure -->
+  <xsl:template name="measure" match="mei:measure">
     <xsl:value-of select="'  '"/>
     <xsl:if test="(ancestor::mei:measure[@n and not(@metcon='false')]/@n != preceding::mei:measure[@n and not(@metcon='false')][1]/@n + 1)">
       <xsl:call-template name="setBarNumber"/>
@@ -676,9 +683,6 @@
     <xsl:if test="ancestor::mei:measure/mei:phrase/@startid = $noteKey">
       <xml:text>\(</xml:text>
     </xsl:if>
-    <xsl:if test="@grace and ancestor::mei:beam and position()=last()">
-      <xml:text>}</xml:text>
-    </xsl:if>
     <xsl:apply-templates select="ancestor::mei:measure/mei:fing[@startid = $noteKey]"/>
     <xsl:if test="ancestor::mei:mdiv[1]//mei:hairpin/@endid = $noteKey or ancestor::mei:mdiv[1]//mei:dynam/@endid = $noteKey">
       <xml:text>\!</xml:text>
@@ -708,6 +712,9 @@
     <xsl:apply-templates select="ancestor::mei:measure/mei:pedal[@startid = $noteKey]"/>
     <xsl:if test="(starts-with(@tuplet,'t') or (ancestor::mei:mdiv[1]//mei:tupletSpan/@endid = $noteKey)) and not(ancestor::mei:tuplet)">
       <xsl:value-of select="' }'"/>
+    </xsl:if>
+    <xsl:if test="@grace and ancestor::mei:beam and position()=last()">
+      <xml:text>}</xml:text>
     </xsl:if>
     <xsl:if test="ancestor::mei:mdiv[1]//mei:octave/@endid = $noteKey">
       <xsl:value-of select="'\ottava #0 '"/>
@@ -1847,10 +1854,10 @@
   <!-- set duration -->
   <xsl:template name="setDuration">
     <xsl:choose>
-      <xsl:when test="@dur='breve'">
+      <xsl:when test="@dur='brevis' or @dur='breve'">
         <xsl:text>\breve</xsl:text>
       </xsl:when>
-      <xsl:when test="@dur='longa'">
+      <xsl:when test="@dur='long' or @dur='longa'">
         <xsl:text>\longa</xsl:text>
       </xsl:when>
       <xsl:when test="@dur='maxima'">
@@ -2216,6 +2223,30 @@
   </xsl:template>
   <!-- set offset -->
   <xsl:template name="setOffset2">
+    <xsl:choose>
+      <xsl:when test="@startvo">
+        <xsl:value-of select="concat('(',@startvo div 2)"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="'(0'"/>
+      </xsl:otherwise>
+    </xsl:choose>
+    <xsl:value-of select="' . '"/>
+    <xsl:choose>
+      <xsl:when test="@endvo">
+        <xsl:value-of select="concat(@endvo div 2,') ')"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="'0) '"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+  <!-- shape curve -->
+  <xsl:template name="shapeCurve">
+    <xsl:param name="a" select="0"/>
+    <xsl:param name="b" select="0"/>
+    <xsl:param name="c" select="0"/>
+    <xsl:param name="d" select="0"/>
     <xsl:choose>
       <xsl:when test="@startvo">
         <xsl:value-of select="concat('(',@startvo div 2)"/>
