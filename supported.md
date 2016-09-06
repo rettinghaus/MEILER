@@ -46,6 +46,12 @@ List of supported MEI elements and attributes
   * `@tie`
   * `@visible`
 
+* `<dir>`
+  * `@ho`
+  * `@place`
+  * __`@startid`__
+  * `@vo`
+
 * `<dynam>`
   * `@color`
   * `@endid`

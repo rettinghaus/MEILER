@@ -689,22 +689,16 @@
     <xsl:if test="ancestor::mei:measure/mei:phrase/@startid = $noteKey">
       <xml:text>\(</xml:text>
     </xsl:if>
-    <xsl:apply-templates select="ancestor::mei:measure/mei:fing[@startid = $noteKey]"/>
     <xsl:if test="ancestor::mei:mdiv[1]//mei:hairpin/@endid = $noteKey or ancestor::mei:mdiv[1]//mei:dynam/@endid = $noteKey">
       <xml:text>\!</xml:text>
     </xsl:if>
     <xsl:if test="@artic">
       <xsl:call-template name="artic"/>
     </xsl:if>
-    <xsl:apply-templates select="ancestor::mei:measure/mei:dynam[@startid = $noteKey]"/>
-    <xsl:apply-templates select="ancestor::mei:measure/mei:hairpin[@startid = $noteKey]"/>
     <xsl:apply-templates select="mei:artic"/>
     <xsl:if test="ancestor::mei:mdiv[1]//mei:trill/@endid = $noteKey">
       <xml:text>\stopTrillSpan</xml:text>
     </xsl:if>
-    <xsl:apply-templates select="ancestor::mei:measure/mei:mordent[@startid = $noteKey]"/>
-    <xsl:apply-templates select="ancestor::mei:measure/mei:trill[@startid = $noteKey]"/>
-    <xsl:apply-templates select="ancestor::mei:measure/mei:turn[@startid = $noteKey]"/>
     <xsl:if test="@ornam">
       <xsl:call-template name="setOrnament"/>
     </xsl:if>
@@ -714,8 +708,7 @@
     <xsl:if test="contains(@gliss,'i') or (ancestor::mei:measure/mei:gliss/@startid = $noteKey)">
       <xsl:text>\glissando</xsl:text>
     </xsl:if>
-    <xsl:apply-templates select="ancestor::mei:measure/mei:fermata[@startid = $noteKey]"/>
-    <xsl:apply-templates select="ancestor::mei:measure/mei:pedal[@startid = $noteKey]"/>
+    <xsl:apply-templates select="ancestor::mei:measure/*[@startid = $noteKey]"/>
     <xsl:if test="(starts-with(@tuplet,'t') or (ancestor::mei:mdiv[1]//mei:tupletSpan/@endid = $noteKey)) and not(ancestor::mei:tuplet)">
       <xsl:value-of select="' }'"/>
     </xsl:if>
@@ -807,6 +800,7 @@
     <xsl:if test="ancestor::mei:measure/mei:gliss/@startid = $chordKey">
       <xsl:text>\glissando</xsl:text>
     </xsl:if>
+    <xsl:apply-templates select="ancestor::mei:measure/mei:dir[@startid = $chordKey]"/>
     <xsl:if test="@fermata and not(ancestor::mei:measure/mei:fermata/@startid = $chordKey)">
       <xsl:call-template name="fermata"/>
     </xsl:if>
@@ -1501,6 +1495,10 @@
   <!-- MEI directive -->
   <xsl:template match="mei:dir" mode="pre"/>
   <xsl:template match="mei:dir">
+    <xsl:if test="@ho or @vo">
+      <xsl:text>-\tweak TextScript.extra-offset #&apos;</xsl:text>
+      <xsl:call-template name="setOffset"/>
+    </xsl:if>
     <xsl:call-template name="setMarkupDirection">
       <xsl:with-param name="direction" select="@place"/>
     </xsl:call-template>
