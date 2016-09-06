@@ -375,11 +375,14 @@
     <xsl:variable name="mdivNumber" select="ancestor::mei:mdiv/@n"/>
     <xsl:variable name="staffNumber" select="@n"/>
     <xsl:value-of select="concat('  \new Staff = &quot;staff ',$staffNumber,'&quot;&#32;')"/>
-    <xsl:if test="@label or @label.abbr or child::mei:label or ((position() = 1) and (count(ancestor::mei:staffGrp) &gt; 1) and ancestor::mei:scoreDef/@ending.rend = 'grouped')">
+    <xsl:if test="@scale or @label or @label.abbr or child::mei:label or ((position() = 1) and (count(ancestor::mei:staffGrp) &gt; 1) and ancestor::mei:scoreDef/@ending.rend = 'grouped')">
       <xsl:text>\with { </xsl:text>
       <xsl:call-template name="setInstrumentName"/>
       <xsl:if test="(position() = 1) and (count(ancestor::mei:staffGrp) &gt; 1) and ancestor::mei:scoreDef/@ending.rend = 'grouped'">
         <xsl:text>\consists "Volta_engraver" </xsl:text>
+        <xsl:if test="@scale">
+          <xsl:value-of select="concat('\magnifyStaff #',substring-before(@scale,'%'),'/100 ')"/>
+        </xsl:if>
       </xsl:if>
       <xsl:text>} </xsl:text>
     </xsl:if>
@@ -425,6 +428,9 @@
       <xsl:call-template name="setLineWidth">
         <xsl:with-param name="thickness" select="@tie.lwidth"/>
       </xsl:call-template>
+    </xsl:if>
+    <xsl:if test="@*[starts-with(name(),'trans')]">
+      <xsl:call-template name="setTransposition"/>
     </xsl:if>
     <xsl:choose>
       <xsl:when test="ancestor-or-self::*/@beam.group">
@@ -1481,6 +1487,10 @@
     <xsl:if test="@place = 'below'">
       <xsl:value-of select="'\once \override Score.MetronomeMark.direction = #DOWN '"/>
     </xsl:if>
+    <xsl:if test="@ho or @vo">
+      <xsl:text>\once \override Score.MetronomeMark.extra-offset = #&apos;</xsl:text>
+      <xsl:call-template name="setOffset"/>
+    </xsl:if>
     <xsl:value-of select="'\tempo \markup {'"/>
     <xsl:apply-templates/>
     <xsl:value-of select="'}&#10;  '"/>
@@ -1541,6 +1551,19 @@
       <xsl:text>\override #'(font-name . </xsl:text>
       <xsl:value-of select="concat('&quot;',@fontname,'&quot;')"/>
       <xsl:text>) </xsl:text>
+    </xsl:if>
+    <xsl:if test="@fontsize and not(contains(@fontsize,'%'))">
+      <xsl:choose>
+        <xsl:when test="number(@fontsize)">
+          <xsl:value-of select="concat('\abs-fontsize #',@fontsize,' ')"/>
+        </xsl:when>
+        <xsl:when test="contains(@fontsize,'pt')">
+          <xsl:value-of select="concat('\abs-fontsize #',substring-before(@fontsize,'pt'),' ')"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:call-template name="setRelFontsize"/>
+        </xsl:otherwise>
+      </xsl:choose>
     </xsl:if>
     <xsl:if test="@fontweight='normal' or @fontstyle='normal'">
       <xsl:value-of select="'\normal-text '"/>
@@ -2293,6 +2316,7 @@
         </xsl:otherwise>
       </xsl:choose>
     </xsl:param>
+    <!-- data.LINEWIDTHTERM -->
     <xsl:choose>
       <xsl:when test="$thickness = 'medium'">
         <xsl:value-of select="2 * $default"/>
@@ -2304,6 +2328,97 @@
         <xsl:value-of select="$default"/>
       </xsl:otherwise>
     </xsl:choose>
+    <xsl:text>&#32;</xsl:text>
+  </xsl:template>
+  <!-- set beaming -->
+  <xsl:template name="setTransposition">
+    <xsl:text>\transposition </xsl:text>
+    <!-- att.transposition -->
+    <xsl:choose>
+      <xsl:when test="contains(',-21,-14,-7,0,7,14,21,',concat(',',@trans.diat,','))">
+        <xsl:text>c</xsl:text>
+        <xsl:choose>
+          <xsl:when test="contains(',-25,-13,-1,11,23,',concat(',',@trans.semi,','))">
+            <xsl:text>es</xsl:text>
+          </xsl:when>
+          <xsl:when test="contains(',-23,-11,1,13,25,',concat(',',@trans.semi,','))">
+            <xsl:text>is</xsl:text>
+          </xsl:when>
+        </xsl:choose>
+      </xsl:when>
+      <xsl:when test="contains(',-20,-13,-6,1,8,15,22,',concat(',',@trans.diat,','))">
+        <xsl:text>d</xsl:text>
+        <xsl:choose>
+          <xsl:when test="contains(',-23,-11,1,13,25,',concat(',',@trans.semi,','))">
+            <xsl:text>es</xsl:text>
+          </xsl:when>
+          <xsl:when test="contains(',-21,-9,3,15,27,',concat(',',@trans.semi,','))">
+            <xsl:text>is</xsl:text>
+          </xsl:when>
+        </xsl:choose>
+      </xsl:when>
+      <xsl:when test="contains(',-19,-12,-5,2,9,16,23,',concat(',',@trans.diat,','))">
+        <xsl:text>e</xsl:text>
+        <xsl:choose>
+          <xsl:when test="contains(',-21,-9,3,15,27,',concat(',',@trans.semi,','))">
+            <xsl:text>es</xsl:text>
+          </xsl:when>
+          <xsl:when test="contains(',-19,-7,5,17,29,',concat(',',@trans.semi,','))">
+            <xsl:text>is</xsl:text>
+          </xsl:when>
+        </xsl:choose>
+      </xsl:when>
+      <xsl:when test="contains(',-18,-11,-4,3,10,17,24,',concat(',',@trans.diat,','))">
+        <xsl:text>f</xsl:text>
+        <xsl:choose>
+          <xsl:when test="contains(',-20,-8,4,16,28,',concat(',',@trans.semi,','))">
+            <xsl:text>es</xsl:text>
+          </xsl:when>
+          <xsl:when test="contains(',-18,-6,6,18,30,',concat(',',@trans.semi,','))">
+            <xsl:text>is</xsl:text>
+          </xsl:when>
+        </xsl:choose>
+      </xsl:when>
+      <xsl:when test="contains(',-17,-10,-3,4,11,18,25,',concat(',',@trans.diat,','))">
+        <xsl:text>g</xsl:text>
+        <xsl:choose>
+          <xsl:when test="contains(',-18,-6,6,18,30,',concat(',',@trans.semi,','))">
+            <xsl:text>es</xsl:text>
+          </xsl:when>
+          <xsl:when test="contains(',-16,-4,8,20,32,',concat(',',@trans.semi,','))">
+            <xsl:text>is</xsl:text>
+          </xsl:when>
+        </xsl:choose>
+      </xsl:when>
+      <xsl:when test="contains(',-16,-9,-2,12,19,26,',concat(',',@trans.diat,','))">
+        <xsl:text>a</xsl:text>
+        <xsl:choose>
+          <xsl:when test="contains(',-16,-4,8,20,32,',concat(',',@trans.semi,','))">
+            <xsl:text>es</xsl:text>
+          </xsl:when>
+          <xsl:when test="contains(',-14,-2,10,22,34,',concat(',',@trans.semi,','))">
+            <xsl:text>is</xsl:text>
+          </xsl:when>
+        </xsl:choose>
+      </xsl:when>
+      <xsl:when test="contains(',-15,-8,-1,5,13,20,27,',concat(',',@trans.diat,','))">
+        <xsl:text>b</xsl:text>
+        <xsl:choose>
+          <xsl:when test="contains(',-14,-2,10,22,34,',concat(',',@trans.semi,','))">
+            <xsl:text>es</xsl:text>
+          </xsl:when>
+          <xsl:when test="contains(',-24,-12,0,12,24,',concat(',',@trans.semi,','))">
+            <xsl:text>is</xsl:text>
+          </xsl:when>
+        </xsl:choose>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:text>c'</xsl:text>
+      </xsl:otherwise>
+    </xsl:choose>
+    <xsl:call-template name="setOctave">
+      <xsl:with-param name="oct" select="floor(@trans.diat div 8) + 1"/>
+    </xsl:call-template>
     <xsl:text>&#32;</xsl:text>
   </xsl:template>
   <!-- set beaming -->
@@ -2325,6 +2440,40 @@
     </xsl:if>
     <xsl:value-of select="' '"/>
   </xsl:template>
+  <!-- set relative fontsize -->
+  <xsl:template name="setRelFontsize">
+    <!-- data.FONTSIZETERM -->
+    <xsl:choose>
+      <xsl:when test="@fontsize ='xx-small'">
+        <xsl:value-of select="'\teeny '"/>
+      </xsl:when>
+      <xsl:when test="@fontsize ='x-small'">
+        <xsl:value-of select="'\tiny '"/>
+      </xsl:when>
+      <xsl:when test="@fontsize ='small'">
+        <xsl:value-of select="'\small '"/>
+      </xsl:when>
+      <xsl:when test="@fontsize ='medium'">
+        <xsl:value-of select="'\normalsize '"/>
+      </xsl:when>
+      <xsl:when test="@fontsize ='large'">
+        <xsl:value-of select="'\large '"/>
+      </xsl:when>
+      <xsl:when test="@fontsize ='x-large'">
+        <xsl:value-of select="'\huge '"/>
+      </xsl:when>
+      <xsl:when test="@fontsize ='xx-large'">
+        <xsl:value-of select="'\huge '"/>
+      </xsl:when>
+      <xsl:when test="@fontsize ='smaller'">
+        <xsl:value-of select="'\smaller '"/>
+      </xsl:when>
+      <xsl:when test="@fontsize ='larger'">
+        <xsl:value-of select="'\larger '"/>
+      </xsl:when>
+      <xsl:otherwise/>
+    </xsl:choose>
+  </xsl:template>
   <!-- set midi instrument -->
   <xsl:template name="setMidiInstruments">
     <xsl:choose>
@@ -2335,6 +2484,7 @@
         <xsl:value-of select="'  \set StaffGroup.midiInstrument = #&quot;'"/>
       </xsl:when>
     </xsl:choose>
+    <!-- data.MIDINAMES -->
     <xsl:choose>
       <!-- Piano -->
       <xsl:when test="@midi.instrname = 'Acoustic_Grand_Piano' or @midi.instrnum = '0'">

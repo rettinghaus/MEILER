@@ -222,6 +222,7 @@ List of supported MEI elements and attributes
   * `@color`
   * `@fontfam`
   * `@fontname`
+  * `@fontsize`
   * `@fontstyle`
   * `@fontweight`
   * `@halign`
@@ -316,9 +317,12 @@ List of supported MEI elements and attributes
   * `@meter.unit`
   * `@n`
   * `@pedal.style` (for values 'line' and 'pedstar')
+  * `@scale` (!! *lilypond 2.19 and up* !!)
   * `@slur.lform`
   * `@slur.lwidth`
   * `@tie.lwidth`
+  * `@trans.diat`
+  * `@trans.semi`
 
 * `<staffGrp>`
   * `@barthru`
@@ -331,11 +335,13 @@ List of supported MEI elements and attributes
   * `@wordpos`
 
 * `<tempo>`
+  * `@ho`
   * `@midi.bpm`
   * `@place`
   * `@staff`
   * `@startid`
   * `@tstamp` (for value '1')
+  * `@vo`
 
 * `<tie>`
   * `@color`
@@ -387,4 +393,6 @@ List of supported MEI elements and attributes
   * `@n`
 
 `att.color` supports rgb values and color names
-`@lwidth` works for values from data.LINEWIDTHTERM
+`att.pages` have to be defined in the first `<scoreDef>`
+data.LINEWIDTH (`@lwidth`) works for values from data.LINEWIDTHTERM
+data.FONTSIZE (`@fontsize`) works for values from data.FONTSIZENUMERIC and data.FONTSIZETERM
