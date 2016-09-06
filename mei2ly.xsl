@@ -1174,6 +1174,10 @@
       <xsl:value-of select="'\once \override Staff.OttavaBracket.color = #'"/>
       <xsl:call-template name="setColor"/>
     </xsl:if>
+    <xsl:if test="@ho or @vo">
+      <xsl:text>\once \override Staff.OttavaBracket.extra-offset = #&apos;</xsl:text>
+      <xsl:call-template name="setOffset"/>
+    </xsl:if>
     <xsl:if test="@lform">
       <xsl:choose>
         <xsl:when test="@lform = 'wavy'">

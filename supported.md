@@ -190,9 +190,11 @@ List of supported MEI elements and attributes
   * `@dis`
   * `@dis.place`
   * __`@endid`__
+  * `@ho`
   * `@lform`
   * `@lwidth`
   * __`@startid`__
+  * `@vo`
 
 * `<p>`
 
