@@ -2,7 +2,7 @@
 <!--        -->
 <!-- MEILER -->
 <!-- mei2ly -->
-<!-- v0.8.0 -->
+<!-- v0.8.1 -->
 <!--        -->
 <!-- programmed by Klaus Rettinghaus -->
 <!--        -->
@@ -944,11 +944,15 @@
   <!-- MEI accidental -->
   <xsl:template match="mei:accid" mode="pre">
     <xsl:if test="@color">
-      <xsl:value-of select="'\tweak Accidental.color #'"/>
+      <xsl:value-of select="'\once \override Accidental.color = #'"/>
       <xsl:call-template name="setColor"/>
     </xsl:if>
     <xsl:if test="@place='above'">
       <xml:text>\once \set suggestAccidentals = ##t </xml:text>
+    </xsl:if>
+    <xsl:if test="@ho or @vo">
+      <xsl:text>\once \override Accidental.extra-offset = #&apos;</xsl:text>
+      <xsl:call-template name="setOffset"/>
     </xsl:if>
   </xsl:template>
   <!-- MEI beam -->
@@ -1054,9 +1058,7 @@
         <xsl:text>-\tweak Script.extra-offset #&apos;</xsl:text>
         <xsl:call-template name="setOffset"/>
       </xsl:if>
-      <xsl:call-template name="setMarkupDirection">
-        <xsl:with-param name="direction" select="@place"/>
-      </xsl:call-template>
+      <xsl:call-template name="setMarkupDirection"/>
     </xsl:if>
     <xsl:choose>
       <xsl:when test="contains($articList,' ')">
@@ -1090,9 +1092,7 @@
           <xsl:text>-\tweak Script.extra-offset #&apos;</xsl:text>
           <xsl:call-template name="setOffset"/>
         </xsl:if>
-        <xsl:call-template name="setMarkupDirection">
-          <xsl:with-param name="direction" select="@place"/>
-        </xsl:call-template>
+        <xsl:call-template name="setMarkupDirection"/>
       </xsl:when>
       <xsl:otherwise>
         <xsl:if test="@fermata='above'">
@@ -1125,9 +1125,7 @@
       <xsl:text>-\tweak Script.extra-offset #&apos;</xsl:text>
       <xsl:call-template name="setOffset"/>
     </xsl:if>
-    <xsl:call-template name="setMarkupDirection">
-      <xsl:with-param name="direction" select="@place"/>
-    </xsl:call-template>
+    <xsl:call-template name="setMarkupDirection"/>
     <xsl:choose>
       <xsl:when test="@form = 'inv'">
         <xsl:text>\prall</xsl:text>
@@ -1148,9 +1146,23 @@
           <xsl:value-of select="'-\tweak TrillSpanner.color #'"/>
           <xsl:call-template name="setColor"/>
         </xsl:if>
-        <xsl:call-template name="setMarkupDirection">
-          <xsl:with-param name="direction" select="@place"/>
-        </xsl:call-template>
+        <xsl:if test="@lform">
+          <xsl:text>-\tweak TrillSpanner.style #'</xsl:text>
+          <xsl:call-template name="setLineForm"/>
+        </xsl:if>
+        <xsl:if test="@lwidth">
+          <xsl:text>-\tweak TrillSpanner.thickness #</xsl:text>
+          <xsl:call-template name="setLineWidth"/>
+        </xsl:if>
+        <xsl:if test="@place and @place='below'">
+          <xsl:text>-\tweak TrillSpanner.direction #</xsl:text>
+          <xsl:call-template name="setDirection"/>
+        </xsl:if>
+        <xsl:if test="@ho or @vo">
+          <xsl:text>-\tweak TrillSpanner.extra-offset #&apos;</xsl:text>
+          <xsl:call-template name="setOffset"/>
+        </xsl:if>
+        <xsl:call-template name="setMarkupDirection"/>
         <xml:text>\startTrillSpan</xml:text>
       </xsl:when>
       <xsl:otherwise>
@@ -1162,9 +1174,7 @@
           <xsl:text>-\tweak Script.extra-offset #&apos;</xsl:text>
           <xsl:call-template name="setOffset"/>
         </xsl:if>
-        <xsl:call-template name="setMarkupDirection">
-          <xsl:with-param name="direction" select="@place"/>
-        </xsl:call-template>
+        <xsl:call-template name="setMarkupDirection"/>
         <xml:text>\trill</xml:text>
       </xsl:otherwise>
     </xsl:choose>
@@ -1179,9 +1189,7 @@
       <xsl:text>-\tweak Script.extra-offset #&apos;</xsl:text>
       <xsl:call-template name="setOffset"/>
     </xsl:if>
-    <xsl:call-template name="setMarkupDirection">
-      <xsl:with-param name="direction" select="@place"/>
-    </xsl:call-template>
+    <xsl:call-template name="setMarkupDirection"/>
     <xsl:choose>
       <xsl:when test="@form = 'inv'">
         <xsl:text>\reverseturn</xsl:text>
@@ -1196,6 +1204,10 @@
     <xsl:if test="@color">
       <xsl:value-of select="'\once \override BreathingSign.color = '"/>
       <xsl:call-template name="setColor"/>
+    </xsl:if>
+    <xsl:if test="@ho or @vo">
+      <xsl:text>\once \override BreathingSign.extra-offset #&apos;</xsl:text>
+      <xsl:call-template name="setOffset"/>
     </xsl:if>
   </xsl:template>
   <xsl:template match="mei:breath">
@@ -1212,15 +1224,8 @@
       <xsl:call-template name="setOffset"/>
     </xsl:if>
     <xsl:if test="@lform">
-      <xsl:choose>
-        <xsl:when test="@lform = 'wavy'">
-          <xsl:text>\once \override Staff.OttavaBracket.style = #'trill </xsl:text>
-        </xsl:when>
-        <xsl:otherwise>
-          <xsl:text>\once \override Staff.OttavaBracket.style = #'</xsl:text>
-          <xsl:value-of select="concat(@lform,'-line ')"/>
-        </xsl:otherwise>
-      </xsl:choose>
+      <xsl:text>\once \override Staff.OttavaBracket.style = #'</xsl:text>
+      <xsl:call-template name="setLineForm"/>
     </xsl:if>
     <xsl:if test="@lwidth">
       <xsl:text>\once \override Staff.OttavaBracket.thickness = #</xsl:text>
@@ -1315,15 +1320,8 @@
       <xsl:call-template name="setColor"/>
     </xsl:if>
     <xsl:if test="@lform">
-      <xsl:choose>
-        <xsl:when test="@lform = 'wavy'">
-          <xsl:text>\once \override Glissando.style = #'trill </xsl:text>
-        </xsl:when>
-        <xsl:otherwise>
-          <xsl:text>\once \override Glissando.style = #'</xsl:text>
-          <xsl:value-of select="concat(@lform,'-line ')"/>
-        </xsl:otherwise>
-      </xsl:choose>
+      <xsl:text>\once \override Glissando.style = #'</xsl:text>
+      <xsl:call-template name="setLineForm"/>
     </xsl:if>
     <xsl:if test="@lwidth">
       <xsl:text>\once \override Glissando.thickness = #</xsl:text>
@@ -1337,9 +1335,7 @@
       <xsl:text>-\tweak DynamicText.extra-offset #&apos;</xsl:text>
       <xsl:call-template name="setOffset"/>
     </xsl:if>
-    <xsl:call-template name="setMarkupDirection">
-      <xsl:with-param name="direction" select="@place"/>
-    </xsl:call-template>
+    <xsl:call-template name="setMarkupDirection"/>
     <xsl:value-of select="concat('\',.)"/>
   </xsl:template>
   <!-- MEI hairpin -->
@@ -1349,23 +1345,14 @@
       <xsl:call-template name="setColor"/>
     </xsl:if>
     <xsl:if test="@lform">
-      <xsl:choose>
-        <xsl:when test="@lform = 'wavy'">
-          <xsl:text>-\tweak Hairpin.style #'trill </xsl:text>
-        </xsl:when>
-        <xsl:otherwise>
-          <xsl:text>-\tweak Hairpin.style #'</xsl:text>
-          <xsl:value-of select="concat(@lform,'-line ')"/>
-        </xsl:otherwise>
-      </xsl:choose>
+      <xsl:text>-\tweak Hairpin.style #'</xsl:text>
+      <xsl:call-template name="setLineForm"/>
     </xsl:if>
     <xsl:if test="@lwidth">
       <xsl:text>-\tweak Hairpin.thickness #</xsl:text>
       <xsl:call-template name="setLineWidth"/>
     </xsl:if>
-    <xsl:call-template name="setMarkupDirection">
-      <xsl:with-param name="direction" select="@place"/>
-    </xsl:call-template>
+    <xsl:call-template name="setMarkupDirection"/>
     <xsl:choose>
       <xsl:when test="@form = 'cres'">
         <xml:text>\&lt;</xml:text>
@@ -1384,15 +1371,8 @@
       <xsl:call-template name="setColor"/>
     </xsl:if>
     <xsl:if test="@lform">
-      <xsl:choose>
-        <xsl:when test="@lform = 'wavy'">
-          <xsl:text>\once \override Staff.PianoPedalBracket.style = #'trill </xsl:text>
-        </xsl:when>
-        <xsl:otherwise>
-          <xsl:text>\once \override Staff.PianoPedalBracket.style = #'</xsl:text>
-          <xsl:value-of select="concat(@lform,'-line ')"/>
-        </xsl:otherwise>
-      </xsl:choose>
+      <xsl:text>\once \override Staff.PianoPedalBracket.style = #'</xsl:text>
+      <xsl:call-template name="setLineForm"/>
     </xsl:if>
     <xsl:if test="@lwidth">
       <xsl:text>\once \override Staff.PianoPedalBracket.thickness = #</xsl:text>
@@ -1400,10 +1380,10 @@
     </xsl:if>
     <xsl:choose>
       <xsl:when test="@form = 'line'">
-        <xsl:text>\once \set Staff.pedalSustainStyle = #'bracket&#10;    </xsl:text>
+        <xsl:text>\once \set Staff.pedalSustainStyle = #'bracket </xsl:text>
       </xsl:when>
       <xsl:when test="@form = 'pedstar'">
-        <xsl:text>\once \set Staff.pedalSustainStyle = #'text&#10;    </xsl:text>
+        <xsl:text>\once \set Staff.pedalSustainStyle = #'text </xsl:text>
       </xsl:when>
     </xsl:choose>
   </xsl:template>
@@ -1475,9 +1455,7 @@
       <xsl:text>-\tweak Fingering.extra-offset #&apos;</xsl:text>
       <xsl:call-template name="setOffset"/>
     </xsl:if>
-    <xsl:call-template name="setMarkupDirection">
-      <xsl:with-param name="direction" select="@place"/>
-    </xsl:call-template>
+    <xsl:call-template name="setMarkupDirection"/>
     <xsl:apply-templates/>
   </xsl:template>
   <!-- MEI figured bass -->
@@ -1543,9 +1521,7 @@
       <xsl:text>-\tweak TextScript.extra-offset #&apos;</xsl:text>
       <xsl:call-template name="setOffset"/>
     </xsl:if>
-    <xsl:call-template name="setMarkupDirection">
-      <xsl:with-param name="direction" select="@place"/>
-    </xsl:call-template>
+    <xsl:call-template name="setMarkupDirection"/>
     <xsl:text>\markup {</xsl:text>
     <xsl:apply-templates/>
     <xsl:text>}&#32;</xsl:text>
@@ -2253,7 +2229,7 @@
   </xsl:template>
   <!-- set simple markup diections -->
   <xsl:template name="setMarkupDirection">
-    <xsl:param name="direction"/>
+    <xsl:param name="direction" select="@place"/>
     <xsl:choose>
       <xsl:when test="$direction='above'">
         <xsl:text>^</xsl:text>
@@ -2265,6 +2241,24 @@
         <xsl:text>-</xsl:text>
       </xsl:otherwise>
     </xsl:choose>
+  </xsl:template>
+  <!-- set diections -->
+  <xsl:template name="setDirection">
+    <xsl:param name="direction" select="@place"/>
+    <!-- data.STAFFREL -->
+    <xsl:choose>
+      <xsl:when test="$direction = 'above'">
+        <xsl:value-of select="1"/>
+      </xsl:when>
+      <xsl:when test="$direction = 'below'">
+        <xsl:value-of select="-1"/>
+      </xsl:when>
+      <xsl:when test="$direction = 'within'">
+        <xsl:value-of select="0"/>
+      </xsl:when>
+      <xsl:otherwise/>
+    </xsl:choose>
+    <xsl:text>&#32;</xsl:text>
   </xsl:template>
   <!-- set offset -->
   <xsl:template name="setOffset">
@@ -2476,11 +2470,12 @@
   </xsl:template>
   <!-- set horizontal alignment -->
   <xsl:template name="setHalign">
+    <!-- data.HORIZONTALALIGNMENT -->
     <xsl:value-of select="concat('\',@halign)"/>
     <xsl:if test="@halign != 'justify'">
       <xsl:value-of select="'-align'"/>
     </xsl:if>
-    <xsl:value-of select="' '"/>
+    <xsl:text>&#32;</xsl:text>
   </xsl:template>
   <!-- set relative fontsize -->
   <xsl:template name="setRelFontsize">
@@ -2515,6 +2510,27 @@
       </xsl:when>
       <xsl:otherwise/>
     </xsl:choose>
+  </xsl:template>
+  <!-- set relative fontsize -->
+  <xsl:template name="setLineForm">
+    <xsl:param name="form" select="@lform"/>
+    <!-- data.LINEFORM -->
+    <xsl:choose>
+      <xsl:when test="$form = 'dashed'">
+        <xsl:value-of select="'dashed-line'"/>
+      </xsl:when>
+      <xsl:when test="$form = 'dotted'">
+        <xsl:value-of select="'dotted-line'"/>
+      </xsl:when>
+      <xsl:when test="$form = 'solid'">
+        <xsl:value-of select="'solid-line'"/>
+      </xsl:when>
+      <xsl:when test="$form = 'wavy'">
+        <xsl:value-of select="'trill'"/>
+      </xsl:when>
+      <xsl:otherwise/>
+    </xsl:choose>
+    <xsl:text>&#32;</xsl:text>
   </xsl:template>
   <!-- modify note head -->
   <xsl:template name="modifyNotehead">

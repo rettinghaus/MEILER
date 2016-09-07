@@ -3,7 +3,9 @@ List of supported MEI elements and attributes
 
 * `<accid>`
   * `@color`
+  * `@ho`
   * `@place` (for value 'above')
+  * `@vo`
 
 * `<app>`
 
