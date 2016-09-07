@@ -380,9 +380,9 @@
       <xsl:call-template name="setInstrumentName"/>
       <xsl:if test="(position() = 1) and (count(ancestor::mei:staffGrp) &gt; 1) and ancestor::mei:scoreDef/@ending.rend = 'grouped'">
         <xsl:text>\consists "Volta_engraver" </xsl:text>
-        <xsl:if test="@scale">
-          <xsl:value-of select="concat('\magnifyStaff #',substring-before(@scale,'%'),'/100 ')"/>
-        </xsl:if>
+      </xsl:if>
+      <xsl:if test="@scale">
+        <xsl:value-of select="concat('\magnifyStaff #',substring-before(@scale,'%'),'/100 ')"/>
       </xsl:if>
       <xsl:text>} </xsl:text>
     </xsl:if>
@@ -815,6 +815,9 @@
     <xsl:value-of select="' '"/>
   </xsl:template>
   <!-- MEI rests -->
+  <xsl:template match="mei:rest[@copyof]">
+    <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:rest[@xml:id = substring-after(current()/@copyof,'#')]"/>
+  </xsl:template>
   <xsl:template match="mei:rest">
     <xsl:variable name="restKey" select="concat('#',./@xml:id)"/>
     <xsl:if test="@staff and @staff != ancestor::mei:staff/@n">
@@ -826,6 +829,13 @@
     <xsl:if test="@color">
       <xsl:value-of select="'\once \override Rest.color = #'"/>
       <xsl:call-template name="setColor"/>
+    </xsl:if>
+    <xsl:if test="@ho or @vo">
+      <xsl:text>\once \override Rest.extra-offset = #&apos;</xsl:text>
+      <xsl:call-template name="setOffset"/>
+    </xsl:if>
+    <xsl:if test="@loc">
+      <xsl:value-of select="concat('\once \override Rest.staff-position = #',@loc - 4,' ')"/>
     </xsl:if>
     <xsl:if test="(starts-with(@tuplet,'i') or (ancestor::mei:measure/mei:tupletSpan/@startid = $restKey)) and not(ancestor::mei:tuplet)">
       <xsl:value-of select="concat('\tuplet ',ancestor::mei:measure/mei:tupletSpan[@startid = $restKey]/@num,'/',ancestor::mei:measure/mei:tupletSpan[@startid = $restKey]/@numbase,' { ')"/>
@@ -853,9 +863,7 @@
     <xsl:if test="ancestor::mei:mdiv[1]//mei:hairpin/@endid = $restKey or ancestor::mei:mdiv[1]//mei:dynam/@endid = $restKey">
       <xml:text>\!</xml:text>
     </xsl:if>
-    <xsl:apply-templates select="ancestor::mei:measure/mei:dynam[@startid = $restKey]"/>
-    <xsl:apply-templates select="ancestor::mei:measure/mei:hairpin[@startid = $restKey]"/>
-    <xsl:apply-templates select="ancestor::mei:measure/mei:fermata[@startid = $restKey]"/>
+    <xsl:apply-templates select="ancestor::mei:measure/mei:*[@startid = $restKey]"/>
     <xsl:if test="@fermata and not(ancestor::mei:measure/mei:fermata/@startid = $restKey)">
       <xsl:call-template name="fermata"/>
     </xsl:if>
@@ -868,6 +876,9 @@
     </xsl:if>
   </xsl:template>
   <!-- MEI measure rest -->
+  <xsl:template match="mei:mRest[@copyof]">
+    <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:mRest[@xml:id = substring-after(current()/@copyof,'#')]"/>
+  </xsl:template>
   <xsl:template name="setMeasureRest" match="mei:mRest">
     <xsl:if test="@visible='false'">
       <xml:text>\once \omit MultiMeasureRest </xml:text>
@@ -875,6 +886,13 @@
     <xsl:if test="@color">
       <xsl:value-of select="'\once \override MultiMeasureRest.color = #'"/>
       <xsl:call-template name="setColor"/>
+    </xsl:if>
+    <xsl:if test="@ho or @vo">
+      <xsl:text>\once \override MultiMeasureRest.extra-offset = #&apos;</xsl:text>
+      <xsl:call-template name="setOffset"/>
+    </xsl:if>
+    <xsl:if test="@loc">
+      <xsl:value-of select="concat('\once \override MultiMeasureRest.staff-position = #',@loc - 4,' ')"/>
     </xsl:if>
     <xml:text>R</xml:text>
     <xsl:choose>

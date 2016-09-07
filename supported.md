@@ -155,9 +155,13 @@ List of supported MEI elements and attributes
 
 * `<mRest>`
   * `@color`
+  * `@copyof`
   * `@dur`
   * `@fermata`
+  * `@ho`
+  * `@loc`
   * `@visible`
+  * `@vo`
 
 * `<mSpace>`
   * `@dur`
@@ -239,8 +243,10 @@ List of supported MEI elements and attributes
 * `<rest>`
   * `@beam`
   * `@color`
+  * `@copyof`
   * `@dur`
   * `@fermata`
+  * `@loc`
   * `@oloc`
   * `@ploc`
   * `@staff`
