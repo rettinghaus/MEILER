@@ -601,6 +601,12 @@
     <xsl:if test="@visible='false'">
       <xml:text>\once \hideNotes </xml:text>
     </xsl:if>
+    <xsl:if test="@color">
+      <xsl:value-of select="'\once \override NoteHead.color = #'"/>
+      <xsl:call-template name="setColor"/>
+      <xsl:value-of select="'\once \override Stem.color = #'"/>
+      <xsl:call-template name="setColor"/>
+    </xsl:if>
     <xsl:if test="@head.color">
       <xsl:value-of select="'\once \override NoteHead.color = #'"/>
       <xsl:call-template name="setColor">
@@ -620,9 +626,10 @@
     <xsl:if test="@head.shape = 'x'">
       <xml:text>\xNote </xml:text>
     </xsl:if>
-    <xsl:if test="child::mei:accid/@place='above'">
-      <xml:text>\once \set suggestAccidentals = ##t </xml:text>
+    <xsl:if test="@head.mod">
+      <xsl:call-template name="modifyNotehead"/>
     </xsl:if>
+    <xsl:apply-templates select="mei:accid" mode="pre"/>
     <xsl:value-of select="@pname"/>
     <xsl:if test="@accid or @accid.ges or child::mei:accid">
       <xsl:choose>
@@ -934,8 +941,16 @@
     </xsl:choose>
     <xsl:value-of select="' '"/>
   </xsl:template>
-  <!-- MEI accidental (handled on note level) -->
-  <xsl:template match="mei:accid"/>
+  <!-- MEI accidental -->
+  <xsl:template match="mei:accid" mode="pre">
+    <xsl:if test="@color">
+      <xsl:value-of select="'\tweak Accidental.color #'"/>
+      <xsl:call-template name="setColor"/>
+    </xsl:if>
+    <xsl:if test="@place='above'">
+      <xml:text>\once \set suggestAccidentals = ##t </xml:text>
+    </xsl:if>
+  </xsl:template>
   <!-- MEI beam -->
   <xsl:template match="mei:beam">
     <xsl:if test="@color">
@@ -2499,6 +2514,40 @@
         <xsl:value-of select="'\larger '"/>
       </xsl:when>
       <xsl:otherwise/>
+    </xsl:choose>
+  </xsl:template>
+  <!-- modify note head -->
+  <xsl:template name="modifyNotehead">
+    <!-- data.NOTEHEADMODIFIER -->
+    <xsl:choose>
+      <xsl:when test="@head.mod ='slash'">
+      </xsl:when>
+      <xsl:when test="@head.mod ='backslash'">
+      </xsl:when>
+      <xsl:when test="@head.mod ='vline'">
+      </xsl:when>
+      <xsl:when test="@head.mod ='hline'">
+      </xsl:when>
+      <xsl:when test="@head.mod ='centerdot'">
+      </xsl:when>
+      <xsl:when test="@head.mod ='paren'">
+        <xsl:value-of select="'\parenthesize '"/>
+      </xsl:when>
+      <xsl:when test="@head.mod ='brack'">
+      </xsl:when>
+      <xsl:when test="@head.mod ='box'">
+        <xsl:text>\once \override NoteHead.stencil = #(lambda (grob) (let* ((note (ly:note-head::print grob)) (combo-stencil (ly:stencil-add note (box-stencil note 0 0.5)))) (ly:make-stencil (ly:stencil-expr combo-stencil) (ly:stencil-extent note X) (ly:stencil-extent note Y))))</xsl:text>
+      </xsl:when>
+      <xsl:when test="@head.mod ='circle'">
+        <xsl:text>\once \override NoteHead.stencil = #(lambda (grob) (let* ((note (ly:note-head::print grob)) (combo-stencil (ly:stencil-add note (circle-stencil note 0 0.5)))) (ly:make-stencil (ly:stencil-expr combo-stencil) (ly:stencil-extent note X) (ly:stencil-extent note Y))))</xsl:text>
+      </xsl:when>
+      <xsl:when test="@head.mod ='dblwhole'">
+      </xsl:when>
+      <xsl:when test="contains('ABCDEFG',@head.mod)">
+        <xsl:text>\once \easyHeadsOn </xsl:text>
+      </xsl:when>
+      <xsl:otherwise>
+      </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
   <!-- set midi instrument -->

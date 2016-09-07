@@ -1,6 +1,10 @@
 #MEILER
 List of supported MEI elements and attributes
 
+* `<accid>`
+  * `@color`
+  * `@place` (for value 'above')
+
 * `<app>`
 
 * `<arpeg>`
