@@ -441,7 +441,6 @@
       </xsl:otherwise>
     </xsl:choose>
     <xsl:text>\set tieWaitForNote = ##t&#10;    </xsl:text>
-    <xsl:text>\set Score.tempoHideNote = ##t&#10;    </xsl:text>
     <xsl:call-template name="setClef">
       <xsl:with-param name="clefColor" select="@clef.color"/>
       <xsl:with-param name="clefDis" select="@clef.dis"/>
@@ -1336,7 +1335,7 @@
       <xsl:call-template name="setOffset"/>
     </xsl:if>
     <xsl:call-template name="setMarkupDirection"/>
-    <xsl:value-of select="concat('\',.)"/>
+    <xsl:value-of select="concat('\',translate(.,'.',''))"/>
   </xsl:template>
   <!-- MEI hairpin -->
   <xsl:template match="mei:hairpin">
@@ -1509,9 +1508,18 @@
     </xsl:if>
     <xsl:value-of select="'\tempo \markup {'"/>
     <xsl:apply-templates/>
-    <xsl:value-of select="'}&#10;  '"/>
-    <xsl:if test="@midi.bpm">
-      <xsl:value-of select="'\tempo 4 = ',@midi.bpm,' '"/>
+    <xsl:value-of select="'} '"/>
+    <xsl:if test="@mm.unit and @mm">
+      <xsl:value-of select="@mm.unit"/>
+      <xsl:call-template name="setDots">
+        <xsl:with-param name="dots" select="@mm.dots"/>
+      </xsl:call-template>
+      <xsl:value-of select="' =',@mm"/>
+    </xsl:if>
+    <xsl:value-of select="'&#10;  '"/>
+    <xsl:if test="@midi.bpm and not(@mm)">
+      <xsl:text>\once \set Score.tempoHideNote = ##t&#32;</xsl:text>
+      <xsl:value-of select="'\tempo 4 =',@midi.bpm,'&#10;  '"/>
     </xsl:if>
   </xsl:template>
   <!-- MEI directive -->

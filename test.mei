@@ -43,7 +43,7 @@
               <slur color="red" curvedir="below" lform="dotted" staff="1" tstamp="1" startid="#testnote1" endid="#testnote3"/>
               <mordent color="red" vo="3.5" form="inv" long="true" place="above" staff="1" tstamp="1" startid="#testnote1"/>
               <turn color="green" form="inv" place="above" staff="1" tstamp="1" startid="#testnote1"/>
-              <trill color="yellow" place="below" staff="1" tstamp="3" startid="#testnote2" endid="#testnote3"/>
+              <trill color="yellow" ho="-1.5" vo="-6" lwidth="wide" lform="dotted" place="above" staff="1" tstamp="3" startid="#testnote2" endid="#testnote3"/>
               <gliss color="green" lform="dashed" lwidth="medium" staff="1" tstamp="3" startid="#testnote2" endid="#testnote3"/>
               <phrase color="grey" startvo="12" curvedir="above" lform="solid" lwidth="medium" staff="1" tstamp="1" startid="#testnote1" endid="#testnote7"/>
             </measure>
