@@ -40,6 +40,7 @@
                   <note xml:id="testnote2" dur="2" oct="5" pname="d" stem.dir="up"/>
                 </layer>
               </staff>
+              <tempo tstamp="1"><rend>mäßig</rend></tempo>
               <slur color="red" curvedir="below" lform="dotted" staff="1" tstamp="1" startid="#testnote1" endid="#testnote3"/>
               <mordent color="red" vo="3.5" form="inv" long="true" place="above" staff="1" tstamp="1" startid="#testnote1"/>
               <turn color="green" form="inv" place="above" staff="1" tstamp="1" startid="#testnote1"/>
@@ -60,7 +61,7 @@
               <trill color="purple" place="below" staff="1" tstamp="1" startid="#testnote3"/>
             </measure>
             <staffDef n="1">
-              <meterSigGrp xml:id="meterSigGrp1" func="mixed">
+              <meterSigGrp xml:id="meterSigGrp2" func="mixed">
                 <meterSig count="2+3" unit="8"/>
                 <meterSig count="2" unit="16"/>
                 <meterSig count="1" unit="8"/>
@@ -84,6 +85,7 @@
                   <note xml:id="testnote7" dur="4" oct="5" pname="e" stem.dir="down" fermata="above"/>
                 </layer>
               </staff>
+              <tempo tstamp="1" mm="32" mm.unit="4"/>            
               <fermata color="blue" shape="square" vo="0.4" staff="1" tstamp="3" startid="#testnote4"/>
             </measure>
           </section>

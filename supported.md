@@ -356,6 +356,9 @@ List of supported MEI elements and attributes
 * `<tempo>`
   * `@ho`
   * `@midi.bpm`
+  * `@mm`
+  * `@mm.dots`
+  * `@mm.unit`
   * `@place`
   * `@staff`
   * `@startid`

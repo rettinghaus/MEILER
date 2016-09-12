@@ -2,7 +2,7 @@
 <!--        -->
 <!-- MEILER -->
 <!-- mei2ly -->
-<!-- v0.8.1 -->
+<!-- v0.8.2 -->
 <!--        -->
 <!-- programmed by Klaus Rettinghaus -->
 <!--        -->
@@ -1539,20 +1539,23 @@
       <xsl:text>\once \override Score.MetronomeMark.extra-offset = #&apos;</xsl:text>
       <xsl:call-template name="setOffset"/>
     </xsl:if>
-    <xsl:value-of select="'\tempo \markup {'"/>
-    <xsl:apply-templates/>
-    <xsl:value-of select="'} '"/>
+    <xsl:value-of select="'\tempo '"/>
+    <xsl:if test="string(.)">
+      <xsl:value-of select="'\markup {'"/>
+      <xsl:apply-templates/>
+      <xsl:value-of select="'} '"/>
+    </xsl:if>
     <xsl:if test="@mm.unit and @mm">
       <xsl:value-of select="@mm.unit"/>
       <xsl:call-template name="setDots">
         <xsl:with-param name="dots" select="@mm.dots"/>
       </xsl:call-template>
-      <xsl:value-of select="' =',@mm"/>
+      <xsl:value-of select="concat(' = ',@mm)"/>
     </xsl:if>
     <xsl:value-of select="'&#10;  '"/>
     <xsl:if test="@midi.bpm and not(@mm)">
       <xsl:text>\once \set Score.tempoHideNote = ##t&#32;</xsl:text>
-      <xsl:value-of select="'\tempo 4 =',@midi.bpm,'&#10;  '"/>
+      <xsl:value-of select="concat('\tempo 4 = ',@midi.bpm,'&#10;  ')"/>
     </xsl:if>
   </xsl:template>
   <!-- MEI directive -->
