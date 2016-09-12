@@ -211,8 +211,6 @@
         <xsl:text>&#32;&#32;\set Staff.figuredBassAlterationDirection = #RIGHT&#10;</xsl:text>
         <xsl:for-each select="ancestor::mei:mdiv[1]//mei:measure">
           <xsl:text>&#32;&#32;</xsl:text>
-          <xsl:variable name="meterCount" select="preceding::*[@meter.count][1]/@meter.count"/>
-          <xsl:variable name="meterUnit" select="preceding::*[@meter.unit][1]/@meter.unit"/>
           <xsl:if test="not(descendant::mei:harm[@staff=$staffNumber])">
             <xsl:call-template name="setMeasureSpace"/>
           </xsl:if>
@@ -303,7 +301,7 @@
       </xsl:for-each>
       <xsl:text>)&#10;</xsl:text>
     </xsl:if>
-    <xsl:apply-templates/>
+    <xsl:apply-templates select="mei:staffGrp|mei:staffDef"/>
     <xsl:text>&gt;&gt;&#10;</xsl:text>
     <!-- lilypond layout block -->
     <xsl:text>\layout {&#10;</xsl:text>
@@ -441,13 +439,16 @@
       </xsl:otherwise>
     </xsl:choose>
     <xsl:text>\set tieWaitForNote = ##t&#10;    </xsl:text>
-    <xsl:call-template name="setClef">
-      <xsl:with-param name="clefColor" select="@clef.color"/>
-      <xsl:with-param name="clefDis" select="@clef.dis"/>
-      <xsl:with-param name="clefDisPlace" select="@clef.dis.place"/>
-      <xsl:with-param name="clefLine" select="@clef.line"/>
-      <xsl:with-param name="clefShape" select="@clef.shape"/>
-    </xsl:call-template>
+    <xsl:if test="ancestor-or-self::*/@*[starts-with(name(),'clef.')]">
+      <xsl:call-template name="setClef">
+        <xsl:with-param name="clefColor" select="@clef.color"/>
+        <xsl:with-param name="clefDis" select="@clef.dis"/>
+        <xsl:with-param name="clefDisPlace" select="@clef.dis.place"/>
+        <xsl:with-param name="clefLine" select="@clef.line"/>
+        <xsl:with-param name="clefShape" select="@clef.shape"/>
+      </xsl:call-template>
+    </xsl:if>
+    <xsl:apply-templates select="mei:clef"/>
     <xsl:call-template name="setKey">
       <xsl:with-param name="keyTonic" select="ancestor-or-self::*/@key.pname"/>
       <xsl:with-param name="keyAccid" select="ancestor-or-self::*/@key.accid"/>
@@ -456,12 +457,14 @@
       <xsl:with-param name="keySigMixed" select="ancestor-or-self::*/@key.sig.mixed"/>
     </xsl:call-template>
     <xsl:apply-templates select="mei:keySig"/>
-    <xsl:call-template name="meterSig">
-      <xsl:with-param name="meterSymbol" select="ancestor-or-self::*[@meter.sym][1]/@meter.sym[1]"/>
-      <xsl:with-param name="meterCount" select="ancestor-or-self::*[@meter.count][1]/@meter.count"/>
-      <xsl:with-param name="meterUnit" select="ancestor-or-self::*[@meter.unit][1]/@meter.unit"/>
-      <xsl:with-param name="meterRend" select="ancestor-or-self::*[@meter.rend][1]/@meter.rend"/>
-    </xsl:call-template>
+    <xsl:if test="ancestor-or-self::*/@*[starts-with(name(),'meter.')]">
+      <xsl:call-template name="meterSig">
+        <xsl:with-param name="meterSymbol" select="ancestor-or-self::*[@meter.sym][1]/@meter.sym"/>
+        <xsl:with-param name="meterCount" select="ancestor-or-self::*[@meter.count][1]/@meter.count"/>
+        <xsl:with-param name="meterUnit" select="ancestor-or-self::*[@meter.unit][1]/@meter.unit"/>
+        <xsl:with-param name="meterRend" select="ancestor-or-self::*[@meter.rend][1]/@meter.rend"/>
+      </xsl:call-template>
+    </xsl:if>
     <xsl:apply-templates select="mei:meterSigGrp|mei:meterSig"/>
     <xsl:if test="ancestor::mei:scoreDef/@meter.showchange = 'false'">
       <xsl:text>\override Staff.TimeSignature.break-visibility = #'#(#f #f #f)&#32;</xsl:text>
@@ -908,6 +911,9 @@
       <xsl:when test="preceding::*/@meter.unit">
         <xsl:value-of select="concat(preceding::*[@meter.unit][1]/@meter.unit,'*',preceding::*[@meter.count][1]/@meter.count)"/>
       </xsl:when>
+      <xsl:when test="preceding::mei:meterSig/@unit">
+        <xsl:value-of select="concat(preceding::mei:meterSig[@unit][1]/@unit,'*',preceding::mei:meterSig[@count][1]/@count)"/>
+      </xsl:when>
       <xsl:otherwise>
         <xsl:text>1</xsl:text>
       </xsl:otherwise>
@@ -933,6 +939,9 @@
       </xsl:when>
       <xsl:when test="preceding::*/@meter.unit">
         <xsl:value-of select="concat(preceding::mei:scoreDef[@meter.unit][1]//@meter.unit,'*',preceding::mei:scoreDef[@meter.count][1]//@meter.count)"/>
+      </xsl:when>
+      <xsl:when test="preceding::mei:meterSig/@unit">
+        <xsl:value-of select="concat(preceding::mei:meterSig[@unit][1]/@unit,'*',preceding::mei:meterSig[@count][1]/@count)"/>
       </xsl:when>
       <xsl:otherwise>
         <xsl:text>1</xsl:text>
@@ -1403,8 +1412,32 @@
   </xsl:template>
   <!-- MEI harmony -->
   <xsl:template match="mei:harm[mei:fb]">
-    <xsl:variable name="meterCount" select="preceding::*[@meter.count][1]/@meter.count"/>
-    <xsl:variable name="meterUnit" select="preceding::*[@meter.unit][1]/@meter.unit"/>
+    <xsl:param name="meterCount">
+      <xsl:choose>
+        <xsl:when test="preceding::*/@meter.count">
+          <xsl:value-of select="preceding::*[@meter.count][1]/@meter.count"/>
+        </xsl:when>
+        <xsl:when test="preceding::mei:meterSig[ancestor::mei:scoreDef or (ancestor::mei:staffDef/@n = current()/ancestor::mei:staff/@n)]/@count">
+          <xsl:value-of select="preceding::mei:meterSig[ancestor::mei:scoreDef or (ancestor::mei:staffDef/@n = current()/ancestor::mei:staff/@n)][1]/@count"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:text>1</xsl:text>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:param>
+    <xsl:param name="meterUnit">
+      <xsl:choose>
+        <xsl:when test="preceding::*/@meter.unit">
+          <xsl:value-of select="preceding::*[@meter.unit][1]/@meter.unit"/>
+        </xsl:when>
+        <xsl:when test="preceding::mei:meterSig[ancestor::mei:scoreDef or (ancestor::mei:staffDef/@n = current()/ancestor::mei:staff/@n)]/@unit">
+          <xsl:value-of select="preceding::mei:meterSig[ancestor::mei:scoreDef or (ancestor::mei:staffDef/@n = current()/ancestor::mei:staff/@n)][1]/@unit"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:text>1</xsl:text>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:param>
     <xsl:if test="(descendant-or-self::*/@place = 'above') and not(preceding::mei:harm[ancestor::mei:music][@staff = current()/@staff][1]/descendant-or-self::*/@place = 'above')">
       <xsl:text>\bassFigureStaffAlignmentUp&#10;&#32;&#32;</xsl:text>
     </xsl:if>
