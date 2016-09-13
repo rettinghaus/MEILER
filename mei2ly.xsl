@@ -2,7 +2,7 @@
 <!--        -->
 <!-- MEILER -->
 <!-- mei2ly -->
-<!-- v0.8.2 -->
+<!-- v0.8.3 -->
 <!--        -->
 <!-- programmed by Klaus Rettinghaus -->
 <!--        -->
@@ -316,7 +316,8 @@
     <xsl:if test="ancestor::mei:mdiv[1]//@source">
       <xsl:text>\removeWithTag #'( </xsl:text>
       <xsl:for-each select="distinct-values(ancestor::mei:mdiv[1]//@source)">
-        <xsl:value-of select="concat(substring-after(.,'#'),' ')"/>
+        <xsl:value-of select="translate(.,'#','')"/>
+        <xsl:text>&#32;</xsl:text>
       </xsl:for-each>
       <xsl:text>)&#10;</xsl:text>
     </xsl:if>
@@ -1805,10 +1806,7 @@
   <!-- MEI system break -->
   <xsl:template match="mei:sb">
     <xsl:text>&#32;&#32;</xsl:text>
-    <xsl:for-each select="tokenize(@source,' ')">
-      <xsl:text>\tag #'</xsl:text>
-      <xsl:value-of select="concat(substring-after(.,'#'),' ')"/>
-    </xsl:for-each>
+    <xsl:call-template name="tag"/>
     <xsl:text>{ \break }</xsl:text>
     <xsl:if test="@n">
       <xsl:value-of select="concat(' %',@n)"/>
@@ -1818,10 +1816,7 @@
   <!-- MEI page break -->
   <xsl:template match="mei:pb">
     <xsl:text>&#32;&#32;</xsl:text>
-    <xsl:for-each select="tokenize(@source,' ')">
-      <xsl:text>\tag #'</xsl:text>
-      <xsl:value-of select="concat(substring-after(.,'#'),' ')"/>
-    </xsl:for-each>
+    <xsl:call-template name="tag"/>
     <xsl:text>{ \pageBreak }</xsl:text>
     <xsl:if test="@n">
       <xsl:value-of select="concat(' %',@n)"/>
@@ -1877,10 +1872,7 @@
   <!-- MEI.edittrans -->
   <!-- MEI abbreviation -->
   <xsl:template match="mei:abbr">
-    <xsl:for-each select="tokenize(@source,' ')">
-      <xsl:text>\tag #'</xsl:text>
-      <xsl:value-of select="concat(substring-after(.,'#'),' ')"/>
-    </xsl:for-each>
+    <xsl:call-template name="tag"/>
     <xsl:text>{&#32;</xsl:text>
     <xsl:apply-templates/>
     <xsl:text>}&#32;</xsl:text>
@@ -1907,24 +1899,17 @@
   </xsl:template>
   <!-- MEI reading -->
   <xsl:template match="mei:rdg">
-    <xsl:for-each select="tokenize(@source,' ')">
-      <xsl:text>\tag #'</xsl:text>
-      <xsl:value-of select="concat(substring-after(.,'#'),' ')"/>
-    </xsl:for-each>
-    <xsl:if test="@resp">
-      <xsl:text>\tag #'</xsl:text>
-      <xsl:value-of select="concat(substring-after(@resp,'#'),' ')"/>
-    </xsl:if>
+    <xsl:call-template name="tag"/>
+    <xsl:call-template name="tag">
+      <xsl:with-param name="tagList" select="@resp"/>
+    </xsl:call-template>
     <xsl:text>{&#32;</xsl:text>
     <xsl:apply-templates/>
     <xsl:text>}&#32;</xsl:text>
   </xsl:template>
   <!-- MEI original -->
   <xsl:template match="mei:orig">
-    <xsl:for-each select="tokenize(@source,' ')">
-      <xsl:text>\tag #'</xsl:text>
-      <xsl:value-of select="concat(substring-after(.,'#'),' ')"/>
-    </xsl:for-each>
+    <xsl:call-template name="tag"/>
     <xsl:text>{&#32;</xsl:text>
     <xsl:apply-templates/>
     <xsl:text>}&#32;</xsl:text>
@@ -1951,6 +1936,24 @@
   <xsl:template match="mei:symbol"/>
   <xsl:template match="mei:vel"/>
   <!-- helper templates -->
+  <!-- tag contents-->
+  <xsl:template name="tag">
+    <xsl:param name="tagList" select="@source"/>
+    <xsl:choose>
+      <xsl:when test="contains($tagList,' ')">
+        <xsl:text>\tag #'</xsl:text>
+        <xsl:value-of select="concat(substring-after(substring-before($tagList,' '),'#'),' ')"/>
+        <xsl:call-template name="tag">
+          <xsl:with-param name="tagList" select="substring-after($tagList,' ')"/>
+        </xsl:call-template>
+      </xsl:when>
+      <xsl:when test="string($tagList)">
+        <xsl:text>\tag #'</xsl:text>
+        <xsl:value-of select="concat(substring-after($tagList,'#'),' ')"/>
+      </xsl:when>
+      <xsl:otherwise/>
+    </xsl:choose>
+  </xsl:template>
   <!-- set octave -->
   <xsl:template name="setOctave">
     <xsl:param name="oct" select="@oct - 3"/>
