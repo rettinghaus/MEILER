@@ -287,6 +287,7 @@ List of supported MEI elements and attributes
     * `@midi.bpm`
     * `@mnum.visible`
     * `@music.size` (for values in 'pt')
+    * `@optimize`
     * `@page.botmar`
     * `@page.height`
     * `@page.leftmar`

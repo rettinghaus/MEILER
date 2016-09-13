@@ -342,6 +342,9 @@
       </xsl:if>
       <xsl:text>}&#10;</xsl:text>
     </xsl:if>
+    <xsl:if test="@optimize = 'false'">
+      <xsl:text>  \context { \Staff \RemoveEmptyStaves }&#10;</xsl:text>
+    </xsl:if>
     <xsl:text>}&#10;</xsl:text>
     <xsl:if test="//mei:midi or //@*[contains(name(),'midi')]">
       <xsl:text>\midi { </xsl:text>
