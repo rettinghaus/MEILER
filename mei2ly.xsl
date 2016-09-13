@@ -15,6 +15,7 @@
     <xsl:text>% automatically converted by mei2ly.xsl&#10;&#10;</xsl:text>
     <xsl:apply-templates/>
   </xsl:template>
+  <!-- MEI.header -->
   <!-- MEI header -->
   <xsl:template match="mei:meiHead">
     <xsl:text>\header {&#10;</xsl:text>
@@ -49,14 +50,16 @@
       <xsl:apply-templates select="mei:date[1]"/>
       <xsl:text>&#32;}&#10;</xsl:text>
     </xsl:if>
+    <!-- filling standard lilypond header -->
     <xsl:text>  copyright = \markup { </xsl:text>
     <xsl:text>©&#32;</xsl:text>
-    <xsl:apply-templates select="mei:publisher"/>
+    <xsl:apply-templates select="mei:respStmt"/>
     <xsl:text>,&#32;</xsl:text>
     <xsl:apply-templates select="mei:pubPlace"/>
     <xsl:text>&#32;</xsl:text>
     <xsl:apply-templates select="mei:date"/>
     <xsl:text>&#32;}&#10;</xsl:text>
+    <xsl:text>  tagline = "automatically converted from MEI with mei2ly.xsl and engraved with Lilypond"&#10;</xsl:text>
   </xsl:template>
   <!-- MEI work description -->
   <xsl:template match="mei:workDesc">
@@ -82,6 +85,22 @@
   </xsl:template>
   <!-- MEI change description -->
   <xsl:template match="mei:changeDesc">
+    <xsl:apply-templates/>
+  </xsl:template>
+  <!-- MEI availability -->
+  <xsl:template match="mei:availability">
+    <xsl:apply-templates/>
+  </xsl:template>
+  <!-- MEI distributor -->
+  <xsl:template match="mei:distributor">
+    <xsl:apply-templates/>
+  </xsl:template>
+  <!-- MEI access restriction -->
+  <xsl:template match="mei:accessRestrict">
+    <xsl:apply-templates/>
+  </xsl:template>
+  <!-- MEI usage restrictions-->
+  <xsl:template match="mei:useRestrict">
     <xsl:apply-templates/>
   </xsl:template>
   <!-- MEI music element -->
@@ -343,7 +362,7 @@
       <xsl:text>}&#10;</xsl:text>
     </xsl:if>
     <xsl:if test="@optimize = 'false'">
-      <xsl:text>  \context { \Staff \RemoveEmptyStaves }&#10;</xsl:text>
+      <xsl:text>  \context { \Staff \RemoveEmptyStaves \override VerticalAxisGroup.remove-first = ##t }&#10;</xsl:text>
     </xsl:if>
     <xsl:text>}&#10;</xsl:text>
     <xsl:if test="//mei:midi or //@*[contains(name(),'midi')]">
@@ -1809,28 +1828,6 @@
     </xsl:if>
     <xsl:text>&#10;</xsl:text>
   </xsl:template>
-  <!-- MEI apparatus -->
-  <xsl:template match="mei:app">
-    <xsl:apply-templates/>
-  </xsl:template>
-  <!-- MEI lemma -->
-  <xsl:template match="mei:lem">
-    <xsl:apply-templates/>
-  </xsl:template>
-  <!-- MEI reading -->
-  <xsl:template match="mei:rdg">
-    <xsl:for-each select="tokenize(@source,' ')">
-      <xsl:text>\tag #'</xsl:text>
-      <xsl:value-of select="concat(substring-after(.,'#'),' ')"/>
-    </xsl:for-each>
-    <xsl:if test="@resp">
-      <xsl:text>\tag #'</xsl:text>
-      <xsl:value-of select="concat(substring-after(@resp,'#'),' ')"/>
-    </xsl:if>
-    <xsl:text>{&#32;</xsl:text>
-    <xsl:apply-templates/>
-    <xsl:text>}&#32;</xsl:text>
-  </xsl:template>
   <!-- MEI verse -->
   <xsl:template match="mei:verse">
     <xsl:if test="@color">
@@ -1877,9 +1874,60 @@
       </xsl:when>
     </xsl:choose>
   </xsl:template>
+  <!-- MEI.edittrans -->
+  <!-- MEI abbreviation -->
+  <xsl:template match="mei:abbr">
+    <xsl:for-each select="tokenize(@source,' ')">
+      <xsl:text>\tag #'</xsl:text>
+      <xsl:value-of select="concat(substring-after(.,'#'),' ')"/>
+    </xsl:for-each>
+    <xsl:text>{&#32;</xsl:text>
+    <xsl:apply-templates/>
+    <xsl:text>}&#32;</xsl:text>
+  </xsl:template>
+  <!-- MEI apparatus -->
+  <xsl:template match="mei:app">
+    <xsl:apply-templates/>
+  </xsl:template>
   <!-- MEI choose -->
   <xsl:template match="mei:choice">
     <xsl:apply-templates select="mei:reg"/>
+  </xsl:template>
+  <!-- MEI correction -->
+  <xsl:template match="mei:corr">
+    <xsl:apply-templates/>
+  </xsl:template>
+  <!-- MEI expansion -->
+  <xsl:template match="mei:expan">
+    <xsl:apply-templates/>
+  </xsl:template>
+  <!-- MEI lemma -->
+  <xsl:template match="mei:lem">
+    <xsl:apply-templates/>
+  </xsl:template>
+  <!-- MEI reading -->
+  <xsl:template match="mei:rdg">
+    <xsl:for-each select="tokenize(@source,' ')">
+      <xsl:text>\tag #'</xsl:text>
+      <xsl:value-of select="concat(substring-after(.,'#'),' ')"/>
+    </xsl:for-each>
+    <xsl:if test="@resp">
+      <xsl:text>\tag #'</xsl:text>
+      <xsl:value-of select="concat(substring-after(@resp,'#'),' ')"/>
+    </xsl:if>
+    <xsl:text>{&#32;</xsl:text>
+    <xsl:apply-templates/>
+    <xsl:text>}&#32;</xsl:text>
+  </xsl:template>
+  <!-- MEI original -->
+  <xsl:template match="mei:orig">
+    <xsl:for-each select="tokenize(@source,' ')">
+      <xsl:text>\tag #'</xsl:text>
+      <xsl:value-of select="concat(substring-after(.,'#'),' ')"/>
+    </xsl:for-each>
+    <xsl:text>{&#32;</xsl:text>
+    <xsl:apply-templates/>
+    <xsl:text>}&#32;</xsl:text>
   </xsl:template>
   <!-- MEI regularization -->
   <xsl:template match="mei:reg">
@@ -1891,6 +1939,7 @@
   <xsl:template match="mei:expansion"/>
   <xsl:template match="mei:extMeta"/>
   <xsl:template match="mei:front"/>
+  <xsl:template match="mei:incip"/>
   <xsl:template match="mei:midi"/>
   <xsl:template match="mei:multiRest"/>
   <xsl:template match="mei:orig"/>

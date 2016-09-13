@@ -1,6 +1,9 @@
 #MEILER
 List of supported MEI elements and attributes
 
+* `<abbr>`
+  * `@source`
+
 * `<accid>`
   * `@color`
   * `@ho`
@@ -52,6 +55,8 @@ List of supported MEI elements and attributes
   * `@tie`
   * `@visible`
 
+* `<corr>`
+
 * `<dir>`
   * `@ho`
   * `@place`
@@ -65,8 +70,12 @@ List of supported MEI elements and attributes
   * __`@startid`__
   * `@vo`
 
+* `<editionStmt>`
+
 * `<ending>`
   * `@n`
+
+* `<expan>`
 
 * `<f>`
 
@@ -79,6 +88,8 @@ List of supported MEI elements and attributes
   * `@shape`
   * __`@startid`__
   * `@vo`
+
+* `<fileDesc>`
 
 * `<fing>`
   * `@place`
@@ -206,6 +217,9 @@ List of supported MEI elements and attributes
   * __`@startid`__
   * `@vo`
 
+* `<orig>`
+  * `@source`
+
 * `<p>`
 
 * `<pb>`
@@ -230,10 +244,17 @@ List of supported MEI elements and attributes
   * __`@startid`__
   * `@startvo`
 
+* `<publisher>`
+
+* `<pubStmt>`
+
 * `<rdg>`
+  * `@resp`
   * `@source`
 
 * `<reg>`
+
+* `<revisionDesc>`
 
 * `<rend>`
   * `@color`
@@ -416,6 +437,10 @@ List of supported MEI elements and attributes
   * `@lyric.style`
   * `@lyric.weight`
   * `@n`
+
+* `<work>`
+
+* `<workDesc>`
 
 `att.color` supports rgb values and color names
 `att.pages` have to be defined in the first `<scoreDef>`
