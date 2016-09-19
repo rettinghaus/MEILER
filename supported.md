@@ -300,6 +300,10 @@ List of supported MEI elements and attributes
     * `@lyric.name`
     * `@lyric.style`
     * `@lyric.weight`
+    * `@mensur.color`
+    * `@mensur.dot`
+    * `@mensur.sign`
+    * `@mensur.slash` (for value '1')
     * `@meter.count`
     * `@meter.rend`
     * `@meter.showchange`
@@ -352,11 +356,16 @@ List of supported MEI elements and attributes
   * `@lyric.name`
   * `@lyric.style`
   * `@lyric.weight`
+  * `@mensur.color`
+  * `@mensur.dot`
+  * `@mensur.sign`
+  * `@mensur.slash` (for value '1')
   * `@meter.count`
   * `@meter.rend`
   * `@meter.sym`
   * `@meter.unit`
   * `@n`
+  * `@notationtype`
   * `@pedal.style` (for values 'line' and 'pedstar')
   * `@scale` (!! *lilypond 2.19 and up* !!)
   * `@slur.lform`

@@ -2,7 +2,7 @@
 <!--        -->
 <!-- MEILER -->
 <!-- mei2ly -->
-<!-- v0.8.3 -->
+<!-- v0.8.4 -->
 <!--        -->
 <!-- programmed by Klaus Rettinghaus -->
 <!--        -->
@@ -395,7 +395,11 @@
   <xsl:template match="mei:staffDef">
     <xsl:variable name="mdivNumber" select="ancestor::mei:mdiv/@n"/>
     <xsl:variable name="staffNumber" select="@n"/>
-    <xsl:value-of select="concat('  \new Staff = &quot;staff ',$staffNumber,'&quot;&#32;')"/>
+    <xsl:text>  \new </xsl:text>
+    <xsl:if test="@notationtype">
+      <xsl:call-template name="setNotationtype"/>
+    </xsl:if>
+    <xsl:value-of select="concat('Staff = &quot;staff ',$staffNumber,'&quot;&#32;')"/>
     <xsl:if test="@scale or @label or @label.abbr or child::mei:label or ((position() = 1) and (count(ancestor::mei:staffGrp) &gt; 1) and ancestor::mei:scoreDef/@ending.rend = 'grouped')">
       <xsl:text>\with { </xsl:text>
       <xsl:call-template name="setInstrumentName"/>
@@ -480,6 +484,19 @@
       <xsl:with-param name="keySigMixed" select="ancestor-or-self::*/@key.sig.mixed"/>
     </xsl:call-template>
     <xsl:apply-templates select="mei:keySig"/>
+    <xsl:if test="ancestor-or-self::*/@*[starts-with(name(),'mensur.')]">
+      <xsl:if test="ancestor-or-self::*/@mensur.color">
+        <xsl:value-of select="'\override Staff.TimeSignature.color = #'"/>
+        <xsl:call-template name="setColor">
+          <xsl:with-param name="color" select="ancestor-or-self::*[@mensur.color][1]/@mensur.color"/>
+        </xsl:call-template>
+      </xsl:if>
+      <xsl:call-template name="setMensur">
+        <xsl:with-param name="mensurDot" select="ancestor-or-self::*[@mensur.dot][1]/@mensur.dot"/>
+        <xsl:with-param name="mensurSign" select="ancestor-or-self::*[@mensur.sign][1]/@mensur.sign"/>
+        <xsl:with-param name="mensurSlash" select="ancestor-or-self::*[@mensur.slash][1]/@mensur.slash"/>
+      </xsl:call-template>
+    </xsl:if>
     <xsl:if test="ancestor-or-self::*/@*[starts-with(name(),'meter.')]">
       <xsl:call-template name="meterSig">
         <xsl:with-param name="meterSymbol" select="ancestor-or-self::*[@meter.sym][1]/@meter.sym"/>
@@ -1723,6 +1740,49 @@
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
+  <xsl:template name="setMensur">
+    <xsl:param name="mensurDot" select="@dot"/>
+    <xsl:param name="mensurSign" select="@sign"/>
+    <xsl:param name="mensurSlash" select="@slash"/>
+    <xsl:text>\once \override Staff.TimeSignature.style = #'mensural </xsl:text>
+    <!-- att.mensural.log -->
+    <xsl:choose>
+      <xsl:when test="$mensurSign = 'C'">
+        <xsl:choose>
+          <xsl:when test="($mensurDot = 'true') and ($mensurSlash = 1)">
+            <xsl:value-of select="'\time 6/8 '"/>
+          </xsl:when>
+          <xsl:when test="($mensurDot = 'true')">
+            <xsl:value-of select="'\time 6/4 '"/>
+          </xsl:when>
+          <xsl:when test="($mensurSlash = 1)">
+            <xsl:value-of select="'\time 2/2 '"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="'\time 4/4 '"/>
+          </xsl:otherwise>
+        </xsl:choose>
+      </xsl:when>
+      <xsl:when test="$mensurSign = 'O'">
+        <xsl:choose>
+          <xsl:when test="($mensurDot = 'true') and ($mensurSlash = 1)">
+            <xsl:value-of select="'\time 9/8 '"/>
+          </xsl:when>
+          <xsl:when test="($mensurDot = 'true')">
+            <xsl:value-of select="'\time 9/4 '"/>
+          </xsl:when>
+          <xsl:when test="($mensurSlash = 1)">
+            <xsl:value-of select="'\time 3/4 '"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="'\time 3/2 '"/>
+          </xsl:otherwise>
+        </xsl:choose>
+      </xsl:when>
+      <xsl:otherwise>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
   <!-- MEI meter signature -->
   <xsl:template match="mei:meterSig[@copyof]">
     <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:meterSig[@xml:id = substring-after(current()/@copyof,'#')]"/>
@@ -1994,17 +2054,42 @@
   <!-- set duration -->
   <xsl:template name="setDuration">
     <xsl:choose>
-      <xsl:when test="@dur='brevis' or @dur='breve'">
-        <xsl:text>\breve</xsl:text>
-      </xsl:when>
-      <xsl:when test="@dur='long' or @dur='longa'">
+      <!-- data.DURATION.cmn -->
+      <xsl:when test="@dur='long'">
         <xsl:text>\longa</xsl:text>
       </xsl:when>
+      <xsl:when test="@dur='breve'">
+        <xsl:text>\breve</xsl:text>
+      </xsl:when>
+      <xsl:when test="number(@dur)">
+        <xsl:text>number(@dur)</xsl:text>
+      </xsl:when>
+      <!-- data.DURATION.mensural -->
       <xsl:when test="@dur='maxima'">
         <xsl:text>\maxima</xsl:text>
       </xsl:when>
+      <xsl:when test="@dur='longa'">
+        <xsl:text>\longa</xsl:text>
+      </xsl:when>
+      <xsl:when test="@dur='brevis'">
+        <xsl:text>\breve</xsl:text>
+      </xsl:when>
+      <xsl:when test="@dur='semibrevis'">
+        <xsl:text>1</xsl:text>
+      </xsl:when>
+      <xsl:when test="@dur='minima'">
+        <xsl:text>2</xsl:text>
+      </xsl:when>
+      <xsl:when test="@dur='semiminima'">
+        <xsl:text>4</xsl:text>
+      </xsl:when>
+      <xsl:when test="@dur='fusa'">
+        <xsl:text>8</xsl:text>
+      </xsl:when>
+      <xsl:when test="@dur='semifusa'">
+        <xsl:text>16</xsl:text>
+      </xsl:when>
       <xsl:otherwise>
-        <xsl:value-of select="@dur"/>
       </xsl:otherwise>
     </xsl:choose>
     <xsl:call-template name="setDots"/>
@@ -2566,6 +2651,29 @@
   <xsl:template name="setBarNumber">
     <xsl:value-of select="concat('\set Score.currentBarNumber = #',ancestor-or-self::mei:measure/@n)"/>
     <xsl:text>&#10;&#32;&#32;</xsl:text>
+  </xsl:template>
+  <!-- set bar number -->
+  <xsl:template name="setNotationtype">
+    <!-- data.NOTATIONTYPE -->
+    <xsl:choose>
+      <xsl:when test="@notationtype = 'cmn'">
+      </xsl:when>
+      <xsl:when test="@notationtype = 'mensural'">
+        <xsl:text>Mensural</xsl:text>
+      </xsl:when>
+      <xsl:when test="@notationtype = 'mensural.black'">
+        <xsl:text>Mensural</xsl:text>
+      </xsl:when>
+      <xsl:when test="@notationtype = 'mensural.white'">
+        <xsl:text>Mensural</xsl:text>
+      </xsl:when>
+      <xsl:when test="@notationtype = 'neume'">
+        <xsl:text>Vaticana</xsl:text>
+      </xsl:when>
+      <xsl:when test="@notationtype = 'tab'">
+        <xsl:text>Tab</xsl:text>
+      </xsl:when>
+    </xsl:choose>
   </xsl:template>
   <!-- set horizontal alignment -->
   <xsl:template name="setHalign">
