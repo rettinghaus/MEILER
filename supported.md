@@ -104,6 +104,8 @@ List of supported MEI elements and attributes
   * `@lwidth`
   * __`@startid`__
 
+* `<group>`
+
 * `<hairpin>`
   * `@color`
   * __`@endid`__

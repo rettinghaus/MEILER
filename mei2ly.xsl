@@ -9,7 +9,7 @@
 <xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:saxon="http://saxon.sf.net/" exclude-result-prefixes="saxon">
   <xsl:strip-space elements="*"/>
   <xsl:output method="text" indent="no" encoding="UTF-8"/>
-  <xsl:template match="mei:mei">
+  <xsl:template match="/">
     <xsl:text>\version "2.18.2"&#10;</xsl:text>
     <xsl:text>#(ly:set-option 'point-and-click #f)&#10;</xsl:text>
     <xsl:text>% automatically converted by mei2ly.xsl&#10;&#10;</xsl:text>
@@ -104,14 +104,18 @@
     <xsl:apply-templates/>
   </xsl:template>
   <!-- MEI music element -->
-  <xsl:template match="mei:musc">
+  <xsl:template match="mei:music">
+    <xsl:if test="descendant::mei:scoreDef[1]/@*[starts-with(name(),'page')] and not(ancestor::mei:music)">
+      <xsl:apply-templates select="descendant::mei:scoreDef[1]" mode="makePageLayout"/>
+    </xsl:if>
+    <xsl:apply-templates/>
+  </xsl:template>
+  <!-- MEI group element -->
+  <xsl:template match="mei:group">
     <xsl:apply-templates/>
   </xsl:template>
   <!-- MEI body element -->
   <xsl:template match="mei:body">
-    <xsl:if test="descendant::mei:scoreDef[1]/@*[starts-with(name(),'page')]">
-      <xsl:apply-templates select="descendant::mei:scoreDef[1]" mode="makePageLayout"/>
-    </xsl:if>
     <xsl:apply-templates/>
   </xsl:template>
   <!-- MEI musical division -->
@@ -2062,7 +2066,7 @@
         <xsl:text>\breve</xsl:text>
       </xsl:when>
       <xsl:when test="number(@dur)">
-        <xsl:text>number(@dur)</xsl:text>
+        <xsl:value-of select="number(@dur)"/>
       </xsl:when>
       <!-- data.DURATION.mensural -->
       <xsl:when test="@dur='maxima'">
