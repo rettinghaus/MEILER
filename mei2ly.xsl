@@ -149,7 +149,7 @@
           <xsl:call-template name="setBarNumber"/>
         </xsl:if>
         <!-- add clef change -->
-        <xsl:if test="ancestor::mei:measure/preceding-sibling::mei:staffDef[@n = $staffNumber][@clef.shape]/preceding::mei:measure[1]/@n = ancestor::mei:measure/preceding::mei:measure[1]/@n">
+        <xsl:if test="ancestor::mei:measure/preceding-sibling::mei:staffDef[@n = $staffNumber][@clef.shape]/following-sibling::mei:measure[1]/@n = ancestor::mei:measure/@n">
           <xsl:call-template name="setClef">
             <xsl:with-param name="clefColor" select="preceding::mei:staffDef[@n = $staffNumber][@clef.shape][1]/@clef.color"/>
             <xsl:with-param name="clefDis" select="preceding::mei:staffDef[@n = $staffNumber][@clef.shape][1]/@clef.dis"/>
