@@ -2,7 +2,7 @@
 <!--        -->
 <!-- MEILER -->
 <!-- mei2ly -->
-<!-- v0.8.4 -->
+<!-- v0.8.5 -->
 <!--        -->
 <!-- programmed by Klaus Rettinghaus -->
 <!--        -->
@@ -1156,14 +1156,21 @@
       </xsl:otherwise>
     </xsl:choose>
     <xsl:choose>
-      <xsl:when test="@shape = 'square'">
-        <xsl:text>\longfermata</xsl:text>
-      </xsl:when>
-      <xsl:when test="@shape = 'angular'">
-        <xsl:text>\shortfermata</xsl:text>
+      <xsl:when test="not(@glyphnum)">
+        <xsl:choose>
+          <xsl:when test="@shape = 'square'">
+            <xsl:text>\longfermata</xsl:text>
+          </xsl:when>
+          <xsl:when test="@shape = 'angular'">
+            <xsl:text>\shortfermata</xsl:text>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:text>\fermata</xsl:text>
+          </xsl:otherwise>
+        </xsl:choose>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:text>\fermata</xsl:text>
+        <xsl:call-template name="setSmuflGlyph"/>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
@@ -1179,14 +1186,21 @@
     </xsl:if>
     <xsl:call-template name="setMarkupDirection"/>
     <xsl:choose>
-      <xsl:when test="@form = 'inv'">
-        <xsl:text>\prall</xsl:text>
-      </xsl:when>
-      <xsl:when test="@long = 'yes'">
-        <xsl:text>\prallprall</xsl:text>
+      <xsl:when test="not(@glyphnum)">
+        <xsl:choose>
+          <xsl:when test="@form = 'inv'">
+            <xsl:text>\prall</xsl:text>
+          </xsl:when>
+          <xsl:when test="@long = 'yes'">
+            <xsl:text>\prallprall</xsl:text>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:text>\mordent</xsl:text>
+          </xsl:otherwise>
+        </xsl:choose>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:text>\mordent</xsl:text>
+        <xsl:call-template name="setSmuflGlyph"/>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
@@ -1227,9 +1241,20 @@
           <xsl:call-template name="setOffset"/>
         </xsl:if>
         <xsl:call-template name="setMarkupDirection"/>
-        <xml:text>\trill</xml:text>
+        <xsl:choose>
+          <xsl:when test="not(@glyphnum)">
+            <xml:text>\trill</xml:text>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:call-template name="setSmuflGlyph"/>
+          </xsl:otherwise>
+        </xsl:choose>
       </xsl:otherwise>
     </xsl:choose>
+  </xsl:template>
+  <!-- MEI symbol -->
+  <xsl:template name="symbol" match="mei:symbol">
+    <xsl:call-template name="setSmuflGlyph"/>
   </xsl:template>
   <!-- MEI turn -->
   <xsl:template name="turn" match="mei:turn">
@@ -1243,11 +1268,18 @@
     </xsl:if>
     <xsl:call-template name="setMarkupDirection"/>
     <xsl:choose>
-      <xsl:when test="@form = 'inv'">
-        <xsl:text>\reverseturn</xsl:text>
+      <xsl:when test="not(@glyphnum)">
+        <xsl:choose>
+          <xsl:when test="@form = 'inv'">
+            <xsl:text>\reverseturn</xsl:text>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:text>\turn</xsl:text>
+          </xsl:otherwise>
+        </xsl:choose>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:text>\turn</xsl:text>
+        <xsl:call-template name="setSmuflGlyph"/>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
@@ -3333,6 +3365,97 @@
       </xsl:when>
     </xsl:choose>
     <xsl:text>&quot;&#10;</xsl:text>
+  </xsl:template>
+  <!-- modify note head -->
+  <xsl:template name="setSmuflGlyph">
+    <!-- SMuFL glyphs -->
+    <xsl:choose>
+      <!-- Repeats (U+E040 – U+E04F) -->
+      <xsl:when test="contains(@glyphnum,'E045')">
+        <xsl:text>\markup {\bold "D.S."}</xsl:text>
+      </xsl:when>
+      <xsl:when test="contains(@glyphnum,'E046')">
+        <xsl:text>\markup {\bold "D.C."}</xsl:text>
+      </xsl:when>
+      <xsl:when test="contains(@glyphnum,'E047')">
+        <xsl:text>\markup {\musicglyph #"scripts.segno"}</xsl:text>
+      </xsl:when>
+      <xsl:when test="contains(@glyphnum,'E048')">
+        <xsl:text>\markup {\musicglyph #"scripts.coda"}</xsl:text>
+      </xsl:when>
+      <xsl:when test="contains(@glyphnum,'E049')">
+        <xsl:text>\markup {\musicglyph #"scripts.varcoda"}</xsl:text>
+      </xsl:when>
+      <!-- Holds and pauses (U+E4C0 – U+E4DF) -->
+      <xsl:when test="contains(@glyphnum,'E4C0')">
+        <xsl:text>\markup {\musicglyph #"scripts.ufermata"}</xsl:text>
+      </xsl:when>
+      <xsl:when test="contains(@glyphnum,'E4C1')">
+        <xsl:text>\markup {\musicglyph #"scripts.dfermata"}</xsl:text>
+      </xsl:when>
+      <xsl:when test="contains(@glyphnum,'E4C4')">
+        <xsl:text>\markup {\musicglyph #"scripts.ushortfermata"}</xsl:text>
+      </xsl:when>
+      <xsl:when test="contains(@glyphnum,'E4C5')">
+        <xsl:text>\markup {\musicglyph #"scripts.dshortfermata"}</xsl:text>
+      </xsl:when>
+      <xsl:when test="contains(@glyphnum,'E4C6')">
+        <xsl:text>\markup {\musicglyph #"scripts.ulongfermata"}</xsl:text>
+      </xsl:when>
+      <xsl:when test="contains(@glyphnum,'E4C7')">
+        <xsl:text>\markup {\musicglyph #"scripts.dlongfermata"}</xsl:text>
+      </xsl:when>
+      <xsl:when test="contains(@glyphnum,'E4C8')">
+        <xsl:text>\markup {\musicglyph #"scripts.uverylongfermata"}</xsl:text>
+      </xsl:when>
+      <xsl:when test="contains(@glyphnum,'E4C9')">
+        <xsl:text>\markup {\musicglyph #"scripts.dverylongfermata"}</xsl:text>
+      </xsl:when>
+      <!-- Common ornaments (U+E560 – U+E56F) -->
+      <xsl:when test="contains(@glyphnum,'E566')">
+        <xsl:text>\trill</xsl:text>
+      </xsl:when>
+      <xsl:when test="contains(@glyphnum,'E567')">
+        <xsl:text>\turn</xsl:text>
+      </xsl:when>
+      <xsl:when test="contains(@glyphnum,'E568')">
+        <xsl:text>\reverseturn</xsl:text>
+      </xsl:when>
+      <xsl:when test="contains(@glyphnum,'E56C')">
+        <xsl:text>\prall</xsl:text>
+      </xsl:when>
+      <xsl:when test="contains(@glyphnum,'E56D')">
+        <xsl:text>\mordent</xsl:text>
+      </xsl:when>
+      <xsl:when test="contains(@glyphnum,'E56E')">
+        <xsl:text>\prallprall</xsl:text>
+      </xsl:when>
+      <!-- Precomposed trills and mordents (U+E5B0 – U+E5CF) -->
+      <xsl:when test="contains(@glyphnum,'E5B2')">
+        <xsl:text>\lineprall</xsl:text>
+      </xsl:when>
+      <xsl:when test="contains(@glyphnum,'E5B5')">
+        <xsl:text>\upprall</xsl:text>
+      </xsl:when>
+      <xsl:when test="contains(@glyphnum,'E5B8')">
+        <xsl:text>\upmordent</xsl:text>
+      </xsl:when>
+      <xsl:when test="contains(@glyphnum,'E5BB')">
+        <xsl:text>\prallup</xsl:text>
+      </xsl:when>
+      <xsl:when test="contains(@glyphnum,'E5BD')">
+        <xsl:text>\prallmordent</xsl:text>
+      </xsl:when>
+      <xsl:when test="contains(@glyphnum,'E5C6')">
+        <xsl:text>\downprall</xsl:text>
+      </xsl:when>
+      <xsl:when test="contains(@glyphnum,'E5C7')">
+        <xsl:text>\downmordent</xsl:text>
+      </xsl:when>
+      <xsl:when test="contains(@glyphnum,'E5C8')">
+        <xsl:text>\pralldown</xsl:text>
+      </xsl:when>
+    </xsl:choose>
   </xsl:template>
   <!-- page layout -->
   <xsl:template match="mei:scoreDef" mode="makePageLayout">

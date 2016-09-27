@@ -83,6 +83,7 @@ List of supported MEI elements and attributes
 
 * `<fermata>`
   * `@color`
+  * `@glyphnum`
   * `@ho`
   * `@place`
   * `@shape`
@@ -166,6 +167,7 @@ List of supported MEI elements and attributes
 * `<mordent>`
   * `@color`
   * `@form`
+  * `@glyphnum`
   * `@ho`
   * `@long`
   * `@place`
@@ -409,6 +411,7 @@ List of supported MEI elements and attributes
 * `<trill>`
   * `@color`
   * `@endid`
+  * `@glyphnum`
   * `@ho`
   * `@place`
   * __`@startid`__
@@ -438,6 +441,7 @@ List of supported MEI elements and attributes
 * `<turn>`
   * `@color`
   * `@form`
+  * `@glyphnum`
   * `@ho`
   * `@place`
   * __`@startid`__

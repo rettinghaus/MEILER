@@ -82,11 +82,11 @@
                     <note xml:id="testnote5.1" dur="8" oct="5" pname="g" stem.dir="down" stem.mod="3slash"/>
                     <note xml:id="testnote6.1" dur="8" oct="5" pname="e" stem.dir="down" stem.mod="3slash"/>
                   </fTrem>
-                  <note xml:id="testnote7" dur="4" oct="5" pname="e" stem.dir="down" fermata="above"/>
+                  <note xml:id="testnote7" dur="4" oct="5" pname="e" stem.dir="down" fermata="above" head.shape="x"/>
                 </layer>
               </staff>
-              <tempo tstamp="1" mm="32" mm.unit="4"/>            
-              <fermata color="blue" shape="square" vo="0.4" staff="1" tstamp="3" startid="#testnote4"/>
+              <tempo tstamp="1" mm="32" mm.unit="4"/>
+              <fermata place="below" color="blue" shape="square" vo="0.4" staff="1" tstamp="3" startid="#testnote4"/>
             </measure>
           </section>
         </score>
