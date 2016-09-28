@@ -197,7 +197,7 @@
             <xsl:with-param name="barLineStyle" select="ancestor::mei:measure/@left"/>
           </xsl:call-template>
         </xsl:if>
-        <xsl:apply-templates select="ancestor::mei:measure/mei:tempo[@staff = $staffNumber][@tstamp = 1]" mode="pre"/>
+        <xsl:apply-templates select="ancestor::mei:measure/mei:tempo[contains(concat(' ',@staff,' '),concat(' ',$staffNumber,' '))][@tstamp = 1]" mode="pre"/>
         <xsl:if test="ancestor::mei:measure/@metcon='false'">
           <xsl:value-of select="concat('\partial ',min(ancestor::mei:measure/descendant::*/@dur),'&#32;')"/>
         </xsl:if>
@@ -1204,6 +1204,10 @@
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
+  <!-- MEI ornament -->
+  <xsl:template name="ornam" match="mei:ornam">
+    <!-- Not yet implemented -->
+  </xsl:template>
   <!-- MEI trill -->
   <xsl:template name="trill" match="mei:trill">
     <xsl:choose>
@@ -2024,7 +2028,6 @@
   <xsl:template match="mei:midi"/>
   <xsl:template match="mei:multiRest"/>
   <xsl:template match="mei:orig"/>
-  <xsl:template match="mei:ornam"/>
   <xsl:template match="mei:part"/>
   <xsl:template match="mei:pgHead"/>
   <xsl:template match="mei:pgFoot"/>
