@@ -461,7 +461,11 @@ List of supported MEI elements and attributes
 
 * `<workDesc>`
 
+
 `att.color` supports rgb values and color names
+
 `att.pages` have to be defined in the first `<scoreDef>`
+
 data.LINEWIDTH (`@lwidth`) works for values from data.LINEWIDTHTERM
+
 data.FONTSIZE (`@fontsize`) works for values from data.FONTSIZENUMERIC and data.FONTSIZETERM
