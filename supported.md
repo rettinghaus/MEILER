@@ -187,6 +187,10 @@ List of supported MEI elements and attributes
 * `<mSpace>`
   * `@dur`
 
+* `<multiRest>`
+  * `@loc`
+  * `@num`
+
 * `<music>`
 
 * `<note>`

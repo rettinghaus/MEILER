@@ -2,7 +2,7 @@
 <!--        -->
 <!-- MEILER -->
 <!-- mei2ly -->
-<!-- v0.8.5 -->
+<!-- v0.8.6 -->
 <!--        -->
 <!-- programmed by Klaus Rettinghaus -->
 <!--        -->
@@ -963,6 +963,33 @@
       </xsl:otherwise>
     </xsl:choose>
     <xsl:if test="@fermata or (ancestor::mei:measure/mei:fermata/@startid = concat('#',@xml:id))">
+      <xsl:call-template name="fermata"/>
+      <xsl:value-of select="'Markup'"/>
+    </xsl:if>
+    <xsl:value-of select="' '"/>
+  </xsl:template>
+  <!-- MEI multiple rest -->
+  <xsl:template match="mei:multiRest">
+    <xsl:if test="@loc">
+      <xsl:value-of select="concat('\once \override MultiMeasureRest.staff-position = #',@loc - 4,' ')"/>
+    </xsl:if>
+    <xml:text>R1</xml:text>
+    <xsl:if test="@num">
+      <xml:text>*</xml:text>
+      <xsl:choose>
+        <xsl:when test="preceding::mei:meterSig">
+          <xsl:call-template name="durationMultiplier">
+            <xsl:with-param name="decimalnum" select="@num * preceding::mei:meterSig[@count][1]/@count div preceding::mei:meterSig[@unit][1]/@unit"/>
+          </xsl:call-template>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:call-template name="durationMultiplier">
+            <xsl:with-param name="decimalnum" select="@num * preceding::*[@meter.count][1]/@meter.count div preceding::*[@meter.unit][1]/@meter.unit"/>
+          </xsl:call-template>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:if>
+    <xsl:if test="ancestor::mei:measure/mei:fermata/@startid = concat('#',@xml:id)">
       <xsl:call-template name="fermata"/>
       <xsl:value-of select="'Markup'"/>
     </xsl:if>
@@ -2026,7 +2053,6 @@
   <xsl:template match="mei:front"/>
   <xsl:template match="mei:incip"/>
   <xsl:template match="mei:midi"/>
-  <xsl:template match="mei:multiRest"/>
   <xsl:template match="mei:orig"/>
   <xsl:template match="mei:part"/>
   <xsl:template match="mei:pgHead"/>
