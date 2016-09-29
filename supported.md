@@ -189,7 +189,7 @@ List of supported MEI elements and attributes
 
 * `<multiRest>`
   * `@loc`
-  * `@num`
+  * __`@num`__
 
 * `<music>`
 
