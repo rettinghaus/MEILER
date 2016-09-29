@@ -795,8 +795,15 @@
     <xsl:apply-templates select="mei:note"/>
     <xml:text>&gt;</xml:text>
     <xsl:call-template name="setDuration"/>
-    <xsl:if test="contains(@stem.mod,'slash')">
-      <xsl:value-of select="concat(':',8 * number(substring(@stem.mod,1,1)))"/>
+    <xsl:if test="parent::mei:bTrem and not(@grace) and contains(@stem.mod,'slash')">
+      <xsl:choose>
+        <xsl:when test="parent::mei:bTrem[@measperf]">
+          <xsl:value-of select="concat(':',parent::mei:bTrem/@measperf)"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="concat(':',8 * number(substring(@stem.mod,1,1)))"/>
+        </xsl:otherwise>
+      </xsl:choose>
     </xsl:if>
     <xsl:if test="contains(@tie,'i') or contains(@tie,'m') or (ancestor::mei:measure/mei:tie/@startid = $chordKey)">
       <xsl:if test="ancestor::mei:measure/mei:tie/@startid = $chordKey">
