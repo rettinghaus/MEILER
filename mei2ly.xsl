@@ -1644,27 +1644,30 @@
   </xsl:template>
   <!-- MEI tempo -->
   <xsl:template match="mei:tempo" mode="pre">
-    <xsl:if test="@place = 'below'">
-      <xsl:value-of select="'\once \override Score.MetronomeMark.direction = #DOWN '"/>
+    <xsl:variable name="tempoString" select="string(.)"/>
+    <xsl:if test="$tempoString or (@mm.unit and @mm)">
+      <xsl:if test="@place = 'below'">
+        <xsl:value-of select="'\once \override Score.MetronomeMark.direction = #DOWN '"/>
+      </xsl:if>
+      <xsl:if test="@ho or @vo">
+        <xsl:text>\once \override Score.MetronomeMark.extra-offset = #&apos;</xsl:text>
+        <xsl:call-template name="setOffset"/>
+      </xsl:if>
+      <xsl:value-of select="'\tempo '"/>
+      <xsl:if test="$tempoString">
+        <xsl:value-of select="'\markup {'"/>
+        <xsl:apply-templates/>
+        <xsl:value-of select="'} '"/>
+      </xsl:if>
+      <xsl:if test="@mm.unit and @mm">
+        <xsl:value-of select="@mm.unit"/>
+        <xsl:call-template name="setDots">
+          <xsl:with-param name="dots" select="@mm.dots"/>
+        </xsl:call-template>
+        <xsl:value-of select="concat(' = ',@mm)"/>
+      </xsl:if>
+      <xsl:value-of select="'&#10;  '"/>
     </xsl:if>
-    <xsl:if test="@ho or @vo">
-      <xsl:text>\once \override Score.MetronomeMark.extra-offset = #&apos;</xsl:text>
-      <xsl:call-template name="setOffset"/>
-    </xsl:if>
-    <xsl:value-of select="'\tempo '"/>
-    <xsl:if test="string(.)">
-      <xsl:value-of select="'\markup {'"/>
-      <xsl:apply-templates/>
-      <xsl:value-of select="'} '"/>
-    </xsl:if>
-    <xsl:if test="@mm.unit and @mm">
-      <xsl:value-of select="@mm.unit"/>
-      <xsl:call-template name="setDots">
-        <xsl:with-param name="dots" select="@mm.dots"/>
-      </xsl:call-template>
-      <xsl:value-of select="concat(' = ',@mm)"/>
-    </xsl:if>
-    <xsl:value-of select="'&#10;  '"/>
     <xsl:if test="@midi.bpm and not(@mm)">
       <xsl:text>\once \set Score.tempoHideNote = ##t&#32;</xsl:text>
       <xsl:value-of select="concat('\tempo 4 = ',@midi.bpm,'&#10;  ')"/>

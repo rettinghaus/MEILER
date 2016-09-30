@@ -1,0 +1,33 @@
+<mei xmlns="http://www.music-encoding.org/ns/mei" meiversion="3.0.0">
+   <meiHead>
+     <fileDesc>
+       <titleStmt>
+         <title></title>
+       </titleStmt>
+       <pubStmt></pubStmt>
+     </fileDesc>
+   </meiHead>
+   <music>
+      <body>
+         <mdiv>
+            <score>
+               <scoreDef meter.count="3" meter.unit="8">
+                  <staffGrp>
+                     <staffDef n="1" clef.line="2" clef.shape="G" lines="5"/>
+                  </staffGrp>
+               </scoreDef>
+               <section>
+                  <measure n="1">
+                     <staff n="1">
+                        <layer n="1">
+                           <rest dur="4" dots="1"/>
+                        </layer>
+                     </staff>
+                     <tempo tstamp="1" place="above" staff="1" mm="92"/>
+                  </measure>
+               </section>
+            </score>
+         </mdiv>
+      </body>
+   </music>
+</mei>
