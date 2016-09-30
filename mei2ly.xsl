@@ -6,7 +6,7 @@
 <!--        -->
 <!-- programmed by Klaus Rettinghaus -->
 <!--        -->
-<xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:saxon="http://saxon.sf.net/" exclude-result-prefixes="saxon">
+<xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:saxon="http://saxon.sf.net/" xmlns:local="NS:LOCAL" exclude-result-prefixes="saxon">
   <xsl:strip-space elements="*"/>
   <xsl:output method="text" indent="no" encoding="UTF-8"/>
   <xsl:template match="/">
@@ -63,13 +63,13 @@
   </xsl:template>
   <!-- MEI work description -->
   <xsl:template match="mei:workDesc">
-    <xsl:value-of select="concat('  title = &quot;',normalize-space(descendant::mei:title[not(@type) or @type='main'][1]),'&quot;&#10;')"/>
+    <xsl:value-of select="concat('  title = &quot;',local:normalizeAndEscape(descendant::mei:title[not(@type) or @type='main'][1]),'&quot;&#10;')"/>
     <xsl:if test="descendant::mei:title[@type='subordinate']">
-      <xsl:value-of select="concat('  subtitle = &quot;',normalize-space(descendant::mei:title[@type='subordinate'][1]),'&quot;&#10;')"/>
-      <xsl:value-of select="concat('  subsubtitle = &quot;',normalize-space(descendant::mei:title[@type='subordinate'][2]),'&quot;&#10;')"/>
+      <xsl:value-of select="concat('  subtitle = &quot;',local:normalizeAndEscape(descendant::mei:title[@type='subordinate'][1]),'&quot;&#10;')"/>
+      <xsl:value-of select="concat('  subsubtitle = &quot;',local:normalizeAndEscape(descendant::mei:title[@type='subordinate'][2]),'&quot;&#10;')"/>
     </xsl:if>
     <xsl:for-each select="descendant::mei:persName[@role]">
-      <xsl:value-of select="concat('  ',@role,' = &quot;',normalize-space(.),'&quot;&#10;')"/>
+      <xsl:value-of select="concat('  ',@role,' = &quot;',local:normalizeAndEscape(.),'&quot;&#10;')"/>
     </xsl:for-each>
   </xsl:template>
   <!-- MEI revision description -->
@@ -3591,4 +3591,8 @@
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
+  <xsl:function name="local:normalizeAndEscape" as="xs:string">
+    <xsl:param name="string" as="xs:string"/>
+    <xsl:value-of select="replace(normalize-space($string), '([&quot;\\])', '\\$1')"/>
+  </xsl:function>
 </xsl:stylesheet>
