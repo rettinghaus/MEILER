@@ -1055,7 +1055,7 @@
     </xsl:choose>
     <xsl:apply-templates/>
   </xsl:template>
-  <!-- MEI beam -->
+  <!-- MEI beam span-->
   <xsl:template match="mei:beamSpan" mode="pre">
     <xsl:if test="@color">
       <xsl:value-of select="'\once \override Beam.color = #'"/>
