@@ -265,7 +265,7 @@
             <xsl:value-of select="concat(ancestor::mei:mdiv[1]//mei:staffDef[@n=$staffNumber][1]/@lyric.weight,' ')"/>
           </xsl:if>
           <xsl:for-each select="ancestor::mei:mdiv[1]//mei:staff[@n=$staffNumber]/mei:layer[1]">
-            <xsl:for-each select="descendant::*[name()='note' or name()='rest' or name()='mRest']">
+            <xsl:for-each select="descendant::*[self::mei:note or self::mei:rest or self::mei:mRest]">
               <xsl:if test="not(@grace)">
                 <xsl:choose>
                   <xsl:when test="descendant::mei:syl">
@@ -274,7 +274,7 @@
                   <xsl:when test="@syl">
                     <xsl:value-of select="concat(' ',@syl)"/>
                   </xsl:when>
-                  <xsl:when test="name()='note' or max(ancestor::mei:mdiv[1]//mei:staff[@n=$staffNumber]/mei:layer/@n) &gt; 1">
+                  <xsl:when test="self::mei:note or max(ancestor::mei:mdiv[1]//mei:staff[@n=$staffNumber]/mei:layer/@n) &gt; 1">
                     <xsl:value-of select="'_'"/>
                   </xsl:when>
                 </xsl:choose>
@@ -623,7 +623,7 @@
       </xsl:choose>
     </xsl:variable>
     <xsl:if test="$clefColor">
-      <xsl:if test="name()='clef'">
+      <xsl:if test="self::mei:clef">
         <xsl:value-of select="'\once '"/>
       </xsl:if>
       <xsl:value-of select="'\override Staff.Clef.color = #'"/>
