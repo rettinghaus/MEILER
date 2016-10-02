@@ -160,7 +160,7 @@
           <xsl:text>&#10;&#32;&#32;</xsl:text>
         </xsl:if>
         <!-- add key signature change -->
-        <xsl:if test="ancestor::mei:measure/preceding-sibling::*[contains(name(),'Def')][@*[starts-with(name(),'key')]][1]/following-sibling::mei:measure[1]/@n = ancestor::mei:measure/@n">
+        <xsl:if test="ancestor::mei:measure/preceding-sibling::*[contains(local-name(),'Def')][@*[starts-with(name(),'key')]][1]/following-sibling::mei:measure[1]/@n = ancestor::mei:measure/@n">
           <xsl:call-template name="setKey">
             <xsl:with-param name="keyTonic" select="ancestor::mei:measure/preceding-sibling::*/@key.pname[1]"/>
             <xsl:with-param name="keyAccid" select="ancestor::mei:measure/preceding-sibling::*/@key.accid[1]"/>
@@ -171,7 +171,7 @@
           <xsl:text>&#32;&#32;</xsl:text>
         </xsl:if>
         <!-- add time signature change -->
-        <xsl:if test="ancestor::mei:measure/preceding-sibling::*[contains(name(),'Def')][@*[starts-with(name(),'meter')]][1]/following-sibling::mei:measure[1]/@n = ancestor::mei:measure/@n">
+        <xsl:if test="ancestor::mei:measure/preceding-sibling::*[contains(local-name(),'Def')][@*[starts-with(name(),'meter')]][1]/following-sibling::mei:measure[1]/@n = ancestor::mei:measure/@n">
           <xsl:call-template name="meterSig">
             <xsl:with-param name="meterSymbol" select="ancestor::mei:measure/preceding-sibling::*[@meter.sym][1]/@meter.sym"/>
             <xsl:with-param name="meterCount" select="ancestor::mei:measure/preceding-sibling::*[@meter.count][1]/@meter.count"/>
