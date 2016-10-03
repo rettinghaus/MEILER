@@ -2068,6 +2068,8 @@
   <xsl:template match="mei:sourceDesc"/>
   <xsl:template match="mei:symbol"/>
   <xsl:template match="mei:vel"/>
+  <xsl:template match="comment()"/>
+  <xsl:template match="mei:annot"/>
   <!-- helper templates -->
   <!-- tag contents-->
   <xsl:template name="tag">
