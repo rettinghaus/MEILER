@@ -2261,10 +2261,7 @@
         <xsl:text>\marcato</xsl:text>
       </xsl:when>
       <xsl:when test="$articulation = 'marc-stacc'">
-        <xsl:text>\marcato</xsl:text>
-        <xsl:call-template name="artic">
-          <xsl:with-param name="articList" select="'stacc'"/>
-        </xsl:call-template>
+        <xsl:text>\marcato\staccato</xsl:text>
       </xsl:when>
       <xsl:when test="$articulation = 'spiccato'">
         <xsl:text>\staccato</xsl:text>
@@ -3403,49 +3400,49 @@
     </xsl:choose>
     <xsl:text>&quot;&#10;</xsl:text>
   </xsl:template>
-  <!-- modify note head -->
+  <!-- translate SMuFL to LY -->
   <xsl:template name="setSmuflGlyph">
     <!-- SMuFL glyphs -->
     <xsl:choose>
       <!-- Repeats (U+E040 – U+E04F) -->
-      <xsl:when test="contains(@glyphnum,'E045')">
+      <xsl:when test="@glyphname='dalSegno' or contains(@glyphnum,'E045')">
         <xsl:text>\markup {\bold "D.S."}</xsl:text>
       </xsl:when>
-      <xsl:when test="contains(@glyphnum,'E046')">
+      <xsl:when test="@glyphname='daCapo' or contains(@glyphnum,'E046')">
         <xsl:text>\markup {\bold "D.C."}</xsl:text>
       </xsl:when>
-      <xsl:when test="contains(@glyphnum,'E047')">
+      <xsl:when test="@glyphname='segno' or contains(@glyphnum,'E047')">
         <xsl:text>\markup {\musicglyph #"scripts.segno"}</xsl:text>
       </xsl:when>
-      <xsl:when test="contains(@glyphnum,'E048')">
+      <xsl:when test="@glyphname='coda' or contains(@glyphnum,'E048')">
         <xsl:text>\markup {\musicglyph #"scripts.coda"}</xsl:text>
       </xsl:when>
-      <xsl:when test="contains(@glyphnum,'E049')">
+      <xsl:when test="@glyphname='segnoSerpent1' or contains(@glyphnum,'E049')">
         <xsl:text>\markup {\musicglyph #"scripts.varcoda"}</xsl:text>
       </xsl:when>
       <!-- Holds and pauses (U+E4C0 – U+E4DF) -->
-      <xsl:when test="contains(@glyphnum,'E4C0')">
+      <xsl:when test="@glyphname='fermataAbove' or contains(@glyphnum,'E4C0')">
         <xsl:text>\markup {\musicglyph #"scripts.ufermata"}</xsl:text>
       </xsl:when>
-      <xsl:when test="contains(@glyphnum,'E4C1')">
+      <xsl:when test="@glyphname='fermataBelow' or contains(@glyphnum,'E4C1')">
         <xsl:text>\markup {\musicglyph #"scripts.dfermata"}</xsl:text>
       </xsl:when>
-      <xsl:when test="contains(@glyphnum,'E4C4')">
+      <xsl:when test="@glyphname='fermataShortAbove' or contains(@glyphnum,'E4C4')">
         <xsl:text>\markup {\musicglyph #"scripts.ushortfermata"}</xsl:text>
       </xsl:when>
-      <xsl:when test="contains(@glyphnum,'E4C5')">
+      <xsl:when test="@glyphname='fermataShortBelow' or contains(@glyphnum,'E4C5')">
         <xsl:text>\markup {\musicglyph #"scripts.dshortfermata"}</xsl:text>
       </xsl:when>
-      <xsl:when test="contains(@glyphnum,'E4C6')">
+      <xsl:when test="@glyphname='fermataLongAbove' or contains(@glyphnum,'E4C6')">
         <xsl:text>\markup {\musicglyph #"scripts.ulongfermata"}</xsl:text>
       </xsl:when>
-      <xsl:when test="contains(@glyphnum,'E4C7')">
+      <xsl:when test="@glyphname='fermataLongBelow' or contains(@glyphnum,'E4C7')">
         <xsl:text>\markup {\musicglyph #"scripts.dlongfermata"}</xsl:text>
       </xsl:when>
-      <xsl:when test="contains(@glyphnum,'E4C8')">
+      <xsl:when test="@glyphname='fermataVeryLongAbove' or contains(@glyphnum,'E4C8')">
         <xsl:text>\markup {\musicglyph #"scripts.uverylongfermata"}</xsl:text>
       </xsl:when>
-      <xsl:when test="contains(@glyphnum,'E4C9')">
+      <xsl:when test="@glyphname='fermataVeryLongBelow' or contains(@glyphnum,'E4C9')">
         <xsl:text>\markup {\musicglyph #"scripts.dverylongfermata"}</xsl:text>
       </xsl:when>
       <!-- Common ornaments (U+E560 – U+E56F) -->
