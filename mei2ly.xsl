@@ -2,7 +2,7 @@
 <!--        -->
 <!-- MEILER -->
 <!-- mei2ly -->
-<!-- v0.8.6 -->
+<!-- v0.8.7 -->
 <!--        -->
 <!-- programmed by Klaus Rettinghaus -->
 <!--        -->
@@ -403,6 +403,9 @@
     <xsl:if test="@notationtype">
       <xsl:call-template name="setNotationtype"/>
     </xsl:if>
+    <xsl:if test="not(@notationtype) and @clef.shape = 'TAB'">
+      <xsl:text>Tab</xsl:text>
+    </xsl:if>
     <xsl:value-of select="concat('Staff = &quot;staff ',$staffNumber,'&quot;&#32;')"/>
     <xsl:if test="@scale or @label or @label.abbr or child::mei:label or ((position() = 1) and (count(ancestor::mei:staffGrp) &gt; 1) and ancestor::mei:scoreDef/@ending.rend = 'grouped')">
       <xsl:text>\with { </xsl:text>
@@ -740,6 +743,9 @@
       <xml:text>(</xml:text>
     </xsl:if>
     <xsl:if test="ancestor::mei:measure/mei:phrase/@startid = $noteKey">
+      <xsl:call-template name="setMarkupDirection">
+        <xsl:with-param name="direction" select="ancestor::mei:measure/mei:phrase[@startid = $noteKey]/@curvedir"/>
+      </xsl:call-template>
       <xml:text>\(</xml:text>
     </xsl:if>
     <xsl:if test="ancestor::mei:mdiv[1]//mei:hairpin/@endid = $noteKey or ancestor::mei:mdiv[1]//mei:dynam/@endid = $noteKey">
@@ -834,6 +840,9 @@
       <xml:text>(</xml:text>
     </xsl:if>
     <xsl:if test="ancestor::mei:measure/mei:phrase/@startid = $chordKey">
+      <xsl:call-template name="setMarkupDirection">
+        <xsl:with-param name="direction" select="ancestor::mei:measure/mei:phrase[@startid = $chordKey]/@curvedir"/>
+      </xsl:call-template>
       <xml:text>\(</xml:text>
     </xsl:if>
     <xsl:if test="ancestor::mei:measure/mei:arpeg[@startid = $chordKey or tokenize(@plist,' ') = $subChordKeys]">
@@ -1370,9 +1379,15 @@
       <xsl:value-of select="'\once \override PhrasingSlur.color = #'"/>
       <xsl:call-template name="setColor"/>
     </xsl:if>
+    <!--
     <xsl:if test="(@startvo or @endvo or @startho or @endho)">
       <xsl:text>\once \override PhrasingSlur.positions = #&apos;</xsl:text>
       <xsl:call-template name="setOffset2"/>
+    </xsl:if>
+    -->
+    <xsl:if test="@*[contains(name(),'ho') or contains(name(),'vo')]">
+      <xsl:call-template name="shapeCurve"/>
+      <xsl:text>PhrasingSlur </xsl:text>
     </xsl:if>
     <xsl:if test="@lform">
       <xsl:value-of select="concat('\once \phrasingSlur',translate(substring(@lform,1,1),'ds','DS'),substring(@lform,2),' ')"/>
@@ -1388,9 +1403,15 @@
       <xsl:value-of select="'\once \override Slur.color = #'"/>
       <xsl:call-template name="setColor"/>
     </xsl:if>
+    <!--
     <xsl:if test="(@startvo or @endvo or @startho or @endho)">
       <xsl:text>\once \override Slur.positions = #&apos;</xsl:text>
       <xsl:call-template name="setOffset2"/>
+    </xsl:if>
+    -->
+    <xsl:if test="@*[contains(name(),'ho') or contains(name(),'vo')]">
+      <xsl:call-template name="shapeCurve"/>
+      <xsl:text>Slur </xsl:text>
     </xsl:if>
     <xsl:if test="@lform">
       <xsl:value-of select="concat('\once \slur',translate(substring(@lform,1,1),'ds','DS'),substring(@lform,2),' ')"/>
@@ -1406,9 +1427,9 @@
       <xsl:value-of select="'\once \override Tie.color = #'"/>
       <xsl:call-template name="setColor"/>
     </xsl:if>
-    <xsl:if test="(@startvo or @endvo or @startho or @endho)">
-      <xsl:text>\once \override Tie.positions = #&apos;</xsl:text>
-      <xsl:call-template name="setOffset2"/>
+    <xsl:if test="@*[contains(name(),'ho') or contains(name(),'vo')]">
+      <xsl:call-template name="shapeCurve"/>
+      <xsl:text>Tie </xsl:text>
     </xsl:if>
     <xsl:if test="@lwidth">
       <xsl:text>\once \override Tie.thickness = #</xsl:text>
@@ -2054,6 +2075,8 @@
     <xsl:apply-templates/>
   </xsl:template>
   <!-- excluded elements -->
+  <xsl:template match="comment()"/>
+  <xsl:template match="mei:annot"/>
   <xsl:template match="mei:back"/>
   <xsl:template match="mei:encodingDesc"/>
   <xsl:template match="mei:expansion"/>
@@ -2068,8 +2091,6 @@
   <xsl:template match="mei:sourceDesc"/>
   <xsl:template match="mei:symbol"/>
   <xsl:template match="mei:vel"/>
-  <xsl:template match="comment()"/>
-  <xsl:template match="mei:annot"/>
   <!-- helper templates -->
   <!-- tag contents-->
   <xsl:template name="tag">
@@ -2558,27 +2579,26 @@
   </xsl:template>
   <!-- shape curve -->
   <xsl:template name="shapeCurve">
-    <xsl:param name="a" select="0"/>
-    <xsl:param name="b" select="0"/>
-    <xsl:param name="c" select="0"/>
-    <xsl:param name="d" select="0"/>
-    <xsl:choose>
-      <xsl:when test="@startvo">
-        <xsl:value-of select="concat('(',@startvo div 2)"/>
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:value-of select="'(0'"/>
-      </xsl:otherwise>
-    </xsl:choose>
-    <xsl:value-of select="' . '"/>
-    <xsl:choose>
-      <xsl:when test="@endvo">
-        <xsl:value-of select="concat(@endvo div 2,') ')"/>
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:value-of select="'0) '"/>
-      </xsl:otherwise>
-    </xsl:choose>
+    <xsl:param name="bezier">
+      <xsl:choose>
+        <xsl:when test="@bezier">
+          <xsl:value-of select="@bezier"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="'0 0 0 0'"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:param>
+    <xsl:param name="x1" select="(sum(@ho) + sum(@startho)) div 2"/>
+    <xsl:param name="y1" select="(sum(@vo) + sum(@startvo)) div 2"/>
+    <xsl:param name="x2" select="(sum(@ho) + number(tokenize($bezier,'\s+')[1])) div 2"/>
+    <xsl:param name="y2" select="(sum(@vo) + number(tokenize($bezier,'\s+')[2])) div 2"/>
+    <xsl:param name="x3" select="(sum(@ho) + number(tokenize($bezier,'\s+')[3])) div 2"/>
+    <xsl:param name="y3" select="(sum(@vo) + number(tokenize($bezier,'\s+')[4])) div 2"/>
+    <xsl:param name="x4" select="(sum(@ho) + sum(@endho)) div 2"/>
+    <xsl:param name="y4" select="(sum(@vo) + sum(@endvo)) div 2"/>
+    <xsl:text>&#10;\shape #&apos;</xsl:text>
+    <xsl:value-of select="concat('((',$x1,' . ',$y1,') (',$x2,' . ',$y2,') (',$x3,' . ',$y3,') (',$x4,' . ',$y4,')) ')"/>
   </xsl:template>
   <!-- set color -->
   <xsl:template name="setColor">
@@ -3490,6 +3510,29 @@
       </xsl:when>
       <xsl:when test="contains(@glyphnum,'E5C8')">
         <xsl:text>\pralldown</xsl:text>
+      </xsl:when>
+      <!-- String techniques (U+E610 – U+E62F) -->
+      <xsl:when test="@glyphname='stringsThumbPosition' or contains(@glyphnum,'E4C0')">
+        <xsl:text>\markup {\musicglyph #"scripts.thumb"}</xsl:text>
+      </xsl:when>
+      <!-- Medieval and Renaissance miscellany (U+EA00 – U+EA1F) -->
+      <xsl:when test="@glyphname='mensuralSignumUp' or contains(@glyphnum,'EA00')">
+        <xsl:text>\markup {\musicglyph #"scripts.usignumcongruentiae"}</xsl:text>
+      </xsl:when>
+      <xsl:when test="@glyphname='mensuralSignumDown' or contains(@glyphnum,'EA01')">
+        <xsl:text>\markup {\musicglyph #"scripts.dsignumcongruentiae"}</xsl:text>
+      </xsl:when>
+    </xsl:choose>
+  </xsl:template>
+  <!-- If you use OpenLilyLib, then this would come in handy -->
+  <!-- Not active for now -->
+  <xsl:template name="setSmuflGlyphNative">
+    <xsl:choose>
+      <xsl:when test="@glyphname">
+        <xsl:value-of select="concat('\markup {\smuflglyph #&quot;',@glyphname,'&quot;}')"/>
+      </xsl:when>
+      <xsl:when test="@glyphnum">
+        <xsl:value-of select="concat('\markup {\smuflchar #',translate(@glyphnum,'U+','#x'),'}')"/>
       </xsl:when>
     </xsl:choose>
   </xsl:template>

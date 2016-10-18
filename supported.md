@@ -243,14 +243,19 @@ List of supported MEI elements and attributes
   * __`@startid`__
 
 * `<phrase>`
+  * `@bezier`
   * `@color`
   * `@curvedir` (for values 'above' and 'below')
   * __`@endid`__
+  * `@endho`
   * `@endvo`
+  * `@ho`
   * `@lform`
   * `@lwidth`
   * __`@startid`__
+  * `@startho`
   * `@startvo`
+  * `@vo`
 
 * `<publisher>`
 
@@ -332,14 +337,19 @@ List of supported MEI elements and attributes
 * `<section>`
 
 * `<slur>`
+  * `@bezier`
   * `@color`
   * `@curvedir` (for values 'above' and 'below')
   * __`@endid`__
+  * `@endho`
   * `@endvo`
+  * `@ho`
   * `@lform`
   * `@lwidth`
   * __`@startid`__
+  * `@startho`
   * `@startvo`
+  * `@vo`
 
 * `<space>`
   * `@dur`
@@ -405,12 +415,17 @@ List of supported MEI elements and attributes
   * `@vo`
 
 * `<tie>`
+  * `@bezier`
   * `@color`
   * `@curvedir` (for values 'above' and 'below')
+  * `@endho`
   * `@endvo`
+  * `@ho`
   * `@lwidth`
   * __`@startid`__
+  * `@startho`
   * `@startvo`
+  * `@vo`
 
 * `<trill>`
   * `@color`
