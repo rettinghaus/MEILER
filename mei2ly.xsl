@@ -6,7 +6,7 @@
 <!--        -->
 <!-- programmed by Klaus Rettinghaus -->
 <!--        -->
-<xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:saxon="http://saxon.sf.net/" exclude-result-prefixes="saxon">
+<xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:saxon="http://saxon.sf.net/" xmlns:local="NS:LOCAL" exclude-result-prefixes="saxon">
   <xsl:strip-space elements="*"/>
   <xsl:output method="text" indent="no" encoding="UTF-8"/>
   <xsl:template match="/">
@@ -2600,20 +2600,90 @@
     <xsl:text>&#10;\shape #&apos;</xsl:text>
     <xsl:value-of select="concat('((',$x1,' . ',$y1,') (',$x2,' . ',$y2,') (',$x3,' . ',$y3,') (',$x4,' . ',$y4,')) ')"/>
   </xsl:template>
+  
+  <xsl:variable name="namedColors">
+    <colors>
+      <color name="aqua" r="0" g="255" b="255"/>
+      <color name="black" r="0" g="0" b="0"/>
+      <color name="blue" r="0" g="0" b="255"/>
+      <color name="fuchsia" r="255" g="0" b="255"/>
+      <color name="gray" r="128" g="128" b="128"/>
+      <color name="green" r="0" g="128" b="0"/>
+      <color name="lime" r="0" g="255" b="0"/>
+      <color name="maroon" r="128" g="0" b="0"/>
+      <color name="navy" r="0" g="0" b="128"/>
+      <color name="olive" r="128" g="128" b="0"/>
+      <color name="purple" r="128" g="0" b="128"/>
+      <color name="red" r="255" g="0" b="0"/>
+      <color name="silver" r="208" g="208" b="208"/>
+      <color name="teal" r="0" g="128" b="128"/>
+      <color name="white" r="255" g="255" b="255"/>
+      <color name="yellow" r="255" g="255" b="0"/>  
+    </colors>
+  </xsl:variable>
+  
   <!-- set color -->
   <xsl:template name="setColor">
     <xsl:param name="color" select="@color"/>
-    <xsl:choose>
-      <xsl:when test="starts-with($color,'rgb')">
-        <xsl:variable name="redValue" select="substring-before(substring-after($color,'('),',')"/>
-        <xsl:variable name="greenValue" select="substring-before(substring-after($color,','),',')"/>
-        <xsl:variable name="blueValue" select="substring-after(substring-after(substring-before($color,')'),','),',')"/>
-        <xsl:value-of select="concat('(rgb-color ',number($redValue) div 255,' ',number($greenValue) div 255,' ',number($blueValue) div 255,') ')"/>
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:value-of select="concat('(x11-color &quot;',$color,'&quot;) ')"/>
-      </xsl:otherwise>
-    </xsl:choose>
+    
+    <xsl:variable name="colorComponents" as="xs:double+">
+      <xsl:choose>
+        <xsl:when test="starts-with($color, 'rgb')">
+          <xsl:sequence select="for $component in tokenize(substring-after($color, '('), '[^\d.\s]')
+                                return number($component) div 255"/>
+        </xsl:when>
+        <xsl:when test="starts-with($color, '#')">
+          <xsl:sequence select="for $i in 1 to 3
+                                return local:hex2number(substring($color, 2 * $i, 2)) div 255"/>
+        </xsl:when>
+        <xsl:when test="starts-with($color, 'hsl')">
+          <!-- hsl to rgb calculation as defined by http://www.w3.org/TR/css3-color/#hsl-color -->
+          <xsl:variable name="hslComponents" as="xs:double+">
+            <xsl:for-each select="tokenize(substring-after($color, '('), '[^\d]+')">
+              <xsl:copy-of select="number(.)"/>
+            </xsl:for-each>
+          </xsl:variable>
+          <xsl:variable name="h" select="$hslComponents[1] div 360" as="xs:double"/>
+          <xsl:variable name="s" select="$hslComponents[2] div 100" as="xs:double"/>
+          <xsl:variable name="l" select="$hslComponents[3] div 100" as="xs:double"/>
+          <xsl:variable name="m2" select="if ($l le .5)
+                                          then $l * ($s + 1)
+                                          else $l + $s - $l * $s" as="xs:double"/>
+          <xsl:variable name="m1" select="$l * 2 - $m2" as="xs:double"/>
+          
+          <xsl:for-each select="($h + 1 div 3, $h, $h - 1 div 3)">
+            <!-- Make sure h_ is between 0 and 1 -->
+            <xsl:variable name="h_" select="(. mod 1 + 1) mod 1"/>
+            <xsl:copy-of select="if ($h_ * 6 lt 1) 
+                                 then $m1 + ($m2 - $m1) * $h_ * 6
+                                 else if ($h_ * 2 lt 1) 
+                                 then $m2
+                                 else if ($h_ *3 lt 2) 
+                                 then $m1 + ($m2 - $m1) * (2 div 3 - $h_) * 6
+                                 else $m1"/>
+          </xsl:for-each>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:variable name="namedColor" select="$namedColors//color[@name=$color]" as="element()?"/>
+          <xsl:choose>
+            <xsl:when test="$namedColor">
+              <xsl:sequence select="for $component in $namedColor/(@r,@g,@b) return xs:integer($component) div 255"/>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:message select="concat('WARNING: Unknown color: ', $color)"/>
+              <xsl:sequence select="(0,0,0)"/>
+            </xsl:otherwise>
+          </xsl:choose>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+    
+    <xsl:if test="count($colorComponents) lt 3">
+      <!-- Color components might be > 3 if we have alpha info. Lilypond doesn't support it, so we discard it. -->
+      <xsl:message select="concat('WARNING: Color must have three color components: ', $color)"/>
+    </xsl:if>
+    <xsl:variable name="colorComponentStrings" select="for $component in $colorComponents[position() le 3] return string($component)"/>
+    <xsl:value-of select="concat('(rgb-color ', string-join($colorComponentStrings, ' '), ') ')"/>
   </xsl:template>
   <!-- set line width -->
   <xsl:template name="setLineWidth">
@@ -3636,4 +3706,40 @@
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
+  
+  <xsl:function name="local:hex2number" as="xs:integer">
+    <xsl:param name="hexString" as="xs:string"/>
+    <xsl:copy-of select="local:hex2number-recurse(string-to-codepoints(upper-case($hexString)), 0)"/>
+  </xsl:function>
+  
+  <xsl:function name="local:hex2number-recurse">
+    <xsl:param name="hexChars" as="xs:integer*"/>
+    <xsl:param name="sum" as="xs:integer"/>
+    <xsl:variable name="firstDigit" select="$hexChars[1]"/>
+    
+    <xsl:choose>
+      <xsl:when test="not($firstDigit)">
+        <xsl:value-of select="$sum"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:variable name="digitValue" as="xs:integer">
+          <xsl:choose>
+            <xsl:when test="$firstDigit ge 48 and $firstDigit le 57">
+              <!-- 0-9 => 0-9 -->
+              <xsl:copy-of select="$firstDigit - 48"/>
+            </xsl:when>
+            <xsl:when test="$firstDigit ge 65 and $firstDigit le 70">
+              <!-- A-F => 10-15 (hex2number() already does upper-case(), so no checking for a-f required) -->
+              <xsl:value-of select="$firstDigit - 55"/>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:message select="concat('WARNING: Invalid hex digit: ', codepoints-to-string($firstDigit))"/>
+              <xsl:copy-of select="0"/>
+            </xsl:otherwise>
+          </xsl:choose>
+        </xsl:variable>
+        <xsl:copy-of select="local:hex2number-recurse($hexChars[position() > 1], 16 * $sum + $digitValue)"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:function>
 </xsl:stylesheet>
