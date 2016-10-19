@@ -128,7 +128,7 @@
     <xsl:for-each select="descendant::mei:scoreDef[1]/descendant::mei:staffDef">
       <xsl:variable name="staffNumber" select="@n"/>
       <xsl:variable name="layerNumber" select="max(ancestor::mei:mdiv[1]//mei:staff[@n=$staffNumber]/mei:layer/@n)"/>
-      <xsl:value-of select="concat('mdiv',codepoints-to-string(xs:integer(64 + $mdivNumber)),'_staff',codepoints-to-string(xs:integer(64 + $staffNumber)),' = {&#10;')"/>
+      <xsl:value-of select="concat('mdiv',local:number2alpha($mdivNumber),'_staff',local:number2alpha($staffNumber),' = {&#10;')"/>
       <xsl:for-each select="ancestor::mei:mdiv[1]//mei:staff[@n=$staffNumber]">
         <xsl:text>&#32;&#32;</xsl:text>
         <!-- add volta brackets -->
@@ -230,7 +230,7 @@
       <xsl:text>}&#10;&#10;</xsl:text>
       <!-- lilypond figured bass -->
       <xsl:if test="ancestor::mei:mdiv[1]//mei:harm[descendant-or-self::*/@staff=$staffNumber]">
-        <xsl:value-of select="concat('mdiv',codepoints-to-string(xs:integer(64 + $mdivNumber)),'_staff',codepoints-to-string(xs:integer(64 + $staffNumber)),'_harm = \figuremode {&#10;')"/>
+        <xsl:value-of select="concat('mdiv',local:number2alpha($mdivNumber),'_staff',local:number2alpha($staffNumber),'_harm = \figuremode {&#10;')"/>
         <xsl:text>&#32;&#32;\set Staff.figuredBassAlterationDirection = #RIGHT&#10;</xsl:text>
         <xsl:for-each select="ancestor::mei:mdiv[1]//mei:measure">
           <xsl:text>&#32;&#32;</xsl:text>
@@ -246,7 +246,7 @@
       <xsl:if test="ancestor::mei:mdiv[1]//mei:staff[@n=$staffNumber]//mei:syl">
         <xsl:for-each select="ancestor::mei:mdiv[1]//mei:staff[@n=$staffNumber]//mei:verse/@n[not(.= preceding::mei:verse[ancestor::mei:staff/@n=$staffNumber]/@n)]">
           <xsl:variable name="verseNumber" select="."/>
-          <xsl:value-of select="concat('mdiv',codepoints-to-string(xs:integer(64 + $mdivNumber)),'_staff',codepoints-to-string(xs:integer(64 + $staffNumber)),'_verse',codepoints-to-string(xs:integer(64 + $verseNumber)),' = \lyricmode {&#10;')"/>
+          <xsl:value-of select="concat('mdiv',local:number2alpha($mdivNumber),'_staff',local:number2alpha($staffNumber),'_verse',local:number2alpha($verseNumber),' = \lyricmode {&#10;')"/>
           <xsl:if test="ancestor::mei:mdiv[1]//mei:staffDef[@n=$staffNumber][1]/@lyric.name">
             <xsl:value-of select="concat('\override Lyrics.LyricText.font-name = #&quot;',ancestor::mei:mdiv[1]//mei:staffDef[@n=$staffNumber][1]/@lyric.name,'&quot; ')"/>
           </xsl:if>
@@ -420,7 +420,7 @@
     </xsl:if>
     <!-- add figured bass context -->
     <xsl:if test="ancestor::mei:mdiv[1]//mei:harm[descendant::mei:fb]/@staff = $staffNumber">
-      <xsl:value-of select="concat('&#10;  \mdiv',codepoints-to-string(xs:integer(64 + $mdivNumber)),'_staff',codepoints-to-string(xs:integer(64 + $staffNumber)),'_harm')"/>
+      <xsl:value-of select="concat('&#10;  \mdiv',local:number2alpha($mdivNumber),'_staff',local:number2alpha($staffNumber),'_harm')"/>
       <xsl:value-of select="concat('&#10;  \context Staff = &quot;staff ',$staffNumber,'&quot;&#32;')"/>
     </xsl:if>
     <xsl:text>{&#10;    </xsl:text>
@@ -522,7 +522,7 @@
     <xsl:if test="ancestor::mei:mdiv/descendant::mei:measure[1]/@n &gt; 1">
       <xsl:value-of select="concat('\set Score.currentBarNumber = #',ancestor::mei:mdiv/descendant::mei:measure[1]/@n,' ')"/>
     </xsl:if>
-    <xsl:value-of select="concat('\mdiv',codepoints-to-string(xs:integer(64 + $mdivNumber)),'_staff',codepoints-to-string(xs:integer(64 + $staffNumber)))"/>
+    <xsl:value-of select="concat('\mdiv',local:number2alpha($mdivNumber),'_staff',local:number2alpha($staffNumber))"/>
     <xsl:text>&#32;}&#10;</xsl:text>
     <!-- put lyrics under staff -->
     <xsl:for-each select="ancestor::mei:mdiv[1]//mei:staff[@n=$staffNumber]//mei:verse/@n[not(.= preceding::mei:verse[ancestor::mei:staff/@n=$staffNumber]/@n)]">
@@ -535,7 +535,7 @@
           <xsl:text>\set ignoreMelismata = ##t </xsl:text>
         </xsl:otherwise>
       </xsl:choose>
-      <xsl:value-of select="concat('\mdiv',codepoints-to-string(xs:integer(64 + $mdivNumber)),'_staff',codepoints-to-string(xs:integer(64 + $staffNumber)),'_verse',codepoints-to-string(xs:integer(64 + .)),' }&#10;')"/>
+      <xsl:value-of select="concat('\mdiv',local:number2alpha($mdivNumber),'_staff',local:number2alpha($staffNumber),'_verse',local:number2alpha(.),' }&#10;')"/>
     </xsl:for-each>
   </xsl:template>
   <!-- MEI instrument definition -->
@@ -3741,5 +3741,16 @@
         <xsl:copy-of select="local:hex2number-recurse($hexChars[position() > 1], 16 * $sum + $digitValue)"/>
       </xsl:otherwise>
     </xsl:choose>
+  </xsl:function>
+
+  <!-- Lilypond doesn't accept numbers as part of names, so we need to use
+    "alphabetic numbering" (1 becomes A, 2 becomes B, 26 becomes Z, 27 becomes AA).
+    If an empty sequence is supplied (typical if there is no @n attribute), the default number is 1. -->
+  <!-- TODO: Handle 0 and negative numbers -->
+  <xsl:function name="local:number2alpha" as="xs:string">
+    <xsl:param name="numberArg" as="xs:decimal?"/>
+    <xsl:variable name="number" select="if ($numberArg) then $numberArg else 1" as="xs:decimal"/>   
+    <xsl:variable name="leadingDigits" select="if ($number le 26) then '' else local:number2alpha(floor($number div 26))"/>
+    <xsl:value-of select="concat($leadingDigits, codepoints-to-string(xs:integer(64 + $number mod 26)))"/>
   </xsl:function>
 </xsl:stylesheet>
