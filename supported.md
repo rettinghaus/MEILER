@@ -203,7 +203,7 @@ List of supported MEI elements and attributes
   * `@gliss`
   * `@grace`
   * `@head.color`
-  * `@head.shape` (for value 'x')
+  * `@head.shape`
   * `@oct`
   * `@ornam`
   * `@pname`
@@ -265,7 +265,11 @@ List of supported MEI elements and attributes
   * `@resp`
   * `@source`
 
+* `<ref>`
+
 * `<reg>`
+
+* `<reh>`
 
 * `<revisionDesc>`
 
@@ -477,7 +481,7 @@ List of supported MEI elements and attributes
 * `<workDesc>`
 
 
-`att.color` supports rgb values and color names
+`att.color` supports hex/RGB/HSL values and color names
 
 `att.pages` have to be defined in the first `<scoreDef>`
 

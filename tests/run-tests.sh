@@ -13,4 +13,4 @@ do
   rm ${file%.mei}.ly
 done
 echo done
-echo see tests.log for details 
+echo see tests.log for details
