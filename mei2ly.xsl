@@ -2310,7 +2310,10 @@
         <xsl:text>\marcato</xsl:text>
       </xsl:when>
       <xsl:when test="$articulation = 'marc-stacc'">
-        <xsl:text>\marcato\staccato</xsl:text>
+        <xsl:text>\marcato</xsl:text>
+        <xsl:call-template name="artic">
+          <xsl:with-param name="articList" select="'stacc'" />
+        </xsl:call-template>
       </xsl:when>
       <xsl:when test="$articulation = 'spiccato'">
         <xsl:text>\staccato</xsl:text>
