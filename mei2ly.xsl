@@ -2,7 +2,7 @@
 <!--        -->
 <!-- MEILER -->
 <!-- mei2ly -->
-<!-- v0.8.8 -->
+<!-- v0.8.9 -->
 <!--        -->
 <!-- programmed by -->
 <!-- Klaus Rettinghaus -->
@@ -128,7 +128,6 @@
     <!-- extracting musical content from staves -->
     <xsl:for-each select="descendant::mei:scoreDef[1]/descendant::mei:staffDef">
       <xsl:variable name="staffNumber" select="@n" />
-      <xsl:variable name="layerNumber" select="max(ancestor::mei:mdiv[1]//mei:staff[@n=$staffNumber]/mei:layer/@n)" />
       <xsl:value-of select="concat('mdiv',local:number2alpha($mdivNumber),'_staff',local:number2alpha($staffNumber),' = {&#10;')" />
       <xsl:for-each select="ancestor::mei:mdiv[1]//mei:staff[@n=$staffNumber]">
         <xsl:text>&#32;&#32;</xsl:text>
@@ -247,62 +246,9 @@
       </xsl:if>
       <!-- lilypond lyrics -->
       <xsl:if test="ancestor::mei:mdiv[1]//mei:staff[@n=$staffNumber]//mei:syl">
-        <xsl:for-each select="ancestor::mei:mdiv[1]//mei:staff[@n=$staffNumber]//mei:verse/@n[not(.= preceding::mei:verse[ancestor::mei:staff/@n=$staffNumber]/@n)]">
-          <xsl:variable name="verseNumber" select="." />
-          <xsl:value-of select="concat('mdiv',local:number2alpha($mdivNumber),'_staff',local:number2alpha($staffNumber),'_verse',local:number2alpha($verseNumber),' = \lyricmode {&#10;')" />
-          <xsl:if test="ancestor::mei:mdiv[1]//mei:staffDef[@n=$staffNumber][1]/@lyric.name">
-            <xsl:value-of select="concat('\override Lyrics.LyricText.font-name = #&quot;',ancestor::mei:mdiv[1]//mei:staffDef[@n=$staffNumber][1]/@lyric.name,'&quot; ')" />
-          </xsl:if>
-          <xsl:if test="ancestor::mei:mdiv[1]//mei:staffDef[@n=$staffNumber][1]/@lyric.fam">
-            <xsl:text>\override Lyrics.LyricText.font-family = #&apos;</xsl:text>
-            <xsl:value-of select="concat(ancestor::mei:mdiv[1]//mei:staffDef[@n=$staffNumber][1]/@lyric.fam,' ')" />
-          </xsl:if>
-          <xsl:if test="ancestor::mei:mdiv[1]//mei:staffDef[@n=$staffNumber][1]/@lyric.size">
-          </xsl:if>
-          <xsl:if test="ancestor::mei:mdiv[1]//mei:staffDef[@n=$staffNumber][1]/@lyric.style">
-            <xsl:text>\override Lyrics.LyricText.font-shape = #&apos;</xsl:text>
-            <xsl:value-of select="concat(ancestor::mei:mdiv[1]//mei:staffDef[@n=$staffNumber][1]/@lyric.style,' ')" />
-          </xsl:if>
-          <xsl:if test="ancestor::mei:mdiv[1]//mei:staffDef[@n=$staffNumber][1]/@lyric.weight">
-            <xsl:text>\override Lyrics.LyricText.font-series = #&apos;</xsl:text>
-            <xsl:value-of select="concat(ancestor::mei:mdiv[1]//mei:staffDef[@n=$staffNumber][1]/@lyric.weight,' ')" />
-          </xsl:if>
-          <xsl:for-each select="ancestor::mei:mdiv[1]//mei:staff[@n=$staffNumber]/mei:layer[1]">
-            <xsl:for-each select="descendant::*[self::mei:note or self::mei:rest or self::mei:mRest]">
-              <xsl:if test="not(@grace)">
-                <xsl:choose>
-                  <xsl:when test="descendant::mei:syl">
-                    <xsl:apply-templates select="mei:verse[@n=$verseNumber]|mei:syl" />
-                  </xsl:when>
-                  <xsl:when test="@syl">
-                    <xsl:value-of select="concat(' ',@syl)" />
-                  </xsl:when>
-                  <xsl:when test="self::mei:note or max(ancestor::mei:mdiv[1]//mei:staff[@n=$staffNumber]/mei:layer/@n) &gt; 1">
-                    <xsl:value-of select="'_'" />
-                  </xsl:when>
-                </xsl:choose>
-                <xsl:if test="$layerNumber != 1">
-                  <xsl:call-template name="setDuration" />
-                  <xsl:if test="not(@dur)">
-                    <xsl:value-of select="concat(preceding::mei:scoreDef[@meter.unit][1]//@meter.unit[1],'*',preceding::mei:scoreDef[@meter.count][1]//@meter.count)" />
-                  </xsl:if>
-                </xsl:if>
-                <xsl:choose>
-                  <xsl:when test="mei:verse[@n=$verseNumber]/mei:syl[position()=last()]/@con='d'">
-                    <xsl:value-of select="' -- '" />
-                  </xsl:when>
-                  <xsl:when test="mei:verse[@n=$verseNumber]/mei:syl[position()=last()]/@con='u'">
-                    <xsl:value-of select="' __ '" />
-                  </xsl:when>
-                  <xsl:otherwise>
-                    <xsl:value-of select="' '" />
-                  </xsl:otherwise>
-                </xsl:choose>
-              </xsl:if>
-            </xsl:for-each>
-          </xsl:for-each>
-          <xsl:text>&#10;}&#10;&#10;</xsl:text>
-        </xsl:for-each>
+        <xsl:call-template name="buildLyrics">
+          <xsl:with-param name="staffNumber" select="$staffNumber"/>
+        </xsl:call-template>
       </xsl:if>
     </xsl:for-each>
     <xsl:text>&#10;</xsl:text>
@@ -528,7 +474,19 @@
     <xsl:value-of select="concat('\mdiv',local:number2alpha($mdivNumber),'_staff',local:number2alpha($staffNumber))" />
     <xsl:text>&#32;}&#10;</xsl:text>
     <!-- put lyrics under staff -->
-    <xsl:for-each select="ancestor::mei:mdiv[1]//mei:staff[@n=$staffNumber]//mei:verse/@n[not(.= preceding::mei:verse[ancestor::mei:staff/@n=$staffNumber]/@n)]">
+    <xsl:if test="ancestor::mei:mdiv[1]//mei:staff[@n=$staffNumber]//mei:verse[not(@n)]">
+      <xsl:choose>
+        <xsl:when test="ancestor::mei:mdiv[1]//mei:staff[@n=$staffNumber]/mei:layer/@n and (max(ancestor::mei:mdiv[1]//mei:staff[@n=$staffNumber]/mei:layer/@n) != 1)">
+          <xsl:value-of select="'  \new Lyrics { '" />
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="'  \addlyrics { '" />
+          <xsl:text>\set ignoreMelismata = ##t </xsl:text>
+        </xsl:otherwise>
+      </xsl:choose>
+      <xsl:value-of select="concat('\mdiv',local:number2alpha($mdivNumber),'_staff',local:number2alpha($staffNumber),'_verse',local:number2alpha(1),' }&#10;')" />
+    </xsl:if>
+    <xsl:for-each select="ancestor::mei:mdiv[1]//mei:staff[@n=$staffNumber]//mei:verse/@n[not(. = preceding::mei:verse[ancestor::mei:staff/@n=$staffNumber]/@n)]">
       <xsl:choose>
         <xsl:when test="ancestor::mei:mdiv[1]//mei:staff[@n=$staffNumber]/mei:layer/@n and (max(ancestor::mei:mdiv[1]//mei:staff[@n=$staffNumber]/mei:layer/@n) != 1)">
           <xsl:value-of select="'  \new Lyrics { '" />
@@ -2023,14 +1981,14 @@
   </xsl:template>
   <!-- MEI syllable -->
   <xsl:template match="mei:syl">
-    <xsl:if test="contains(text(),' ')">
-      <xsl:text>&quot;</xsl:text>
+    <xsl:if test="child::mei:rend or contains(text(),' ')">
+      <xsl:text>\markup{</xsl:text>
     </xsl:if>
     <xsl:apply-templates/>
-    <xsl:if test="contains(text(),' ')">
-      <xsl:text>&quot;</xsl:text>
+    <xsl:if test="child::mei:rend or contains(text(),' ')">
+      <xsl:text>}</xsl:text>
     </xsl:if>
-    <xsl:if test="not(text())">
+    <xsl:if test="not(text() or child::*)">
       <xsl:text>_</xsl:text>
     </xsl:if>
     <xsl:choose>
@@ -2232,6 +2190,7 @@
   <!-- set accidental -->
   <xsl:template name="setAccidental">
     <xsl:param name="accidental" />
+    <!-- data.ACCIDENTAL.EXPLICIT -->
     <xsl:if test="$accidental = 's'">
       <xsl:text>is</xsl:text>
     </xsl:if>
@@ -2278,6 +2237,7 @@
       <xsl:text>\once \override Flag.stroke-style = #"grace" </xsl:text>
     </xsl:if>
     <xsl:choose>
+      <!-- data.GRACE -->
       <xsl:when test="@grace = 'acc'">
         <xsl:text>\appoggiatura </xsl:text>
       </xsl:when>
@@ -2292,6 +2252,7 @@
   <!-- set articulation -->
   <xsl:template name="setArticulation">
     <xsl:param name="articulation" />
+    <!-- data.ARTICULATION -->
     <xsl:choose>
       <!-- ly:Articulation scripts -->
       <xsl:when test="$articulation = 'acc'">
@@ -2373,6 +2334,7 @@
   </xsl:template>
   <!-- set ornaments -->
   <xsl:template name="setOrnament">
+    <!-- data.ORNAM.cmn -->
     <!-- ly:Ornament scripts -->
     <xsl:if test="contains(@ornam,'M')">
       <xsl:text>\prall</xsl:text>
@@ -2494,6 +2456,7 @@
   <xsl:template name="setBarLine">
     <xsl:param name="barLineStyle" />
     <xsl:text>\bar "</xsl:text>
+    <!-- data.BARRENDITION -->
     <xsl:choose>
       <xsl:when test="$barLineStyle='dashed'">
         <xsl:text>!</xsl:text>
@@ -3647,6 +3610,70 @@
     <!-- <xsl:value-of select="@page.panels"/>
   <xsl:value-of select="@page.scale"/> -->
     <xsl:text>}&#10;&#10;</xsl:text>
+  </xsl:template>
+  <!-- build lyrics -->
+  <xsl:template name="buildLyrics">
+    <xsl:param name="staffNumber" />
+    <xsl:param name="mdivNumber" select="ancestor::mei:mdiv/@n" />
+    <xsl:param name="verseNumber" select="1" />
+    <xsl:param name="layerCount" select="max(ancestor::mei:mdiv[1]//mei:staff[@n=$staffNumber]/mei:layer/@n)" />
+      <xsl:value-of select="concat('mdiv',local:number2alpha($mdivNumber),'_staff',local:number2alpha($staffNumber),'_verse',local:number2alpha($verseNumber),' = \lyricmode {&#10;')" />
+      <xsl:if test="ancestor::mei:mdiv[1]//mei:staffDef[@n=$staffNumber][1]/@lyric.name">
+        <xsl:value-of select="concat('\override Lyrics.LyricText.font-name = #&quot;',ancestor::mei:mdiv[1]//mei:staffDef[@n=$staffNumber][1]/@lyric.name,'&quot; ')" />
+      </xsl:if>
+      <xsl:if test="ancestor::mei:mdiv[1]//mei:staffDef[@n=$staffNumber][1]/@lyric.fam">
+        <xsl:text>\override Lyrics.LyricText.font-family = #&apos;</xsl:text>
+        <xsl:value-of select="concat(ancestor::mei:mdiv[1]//mei:staffDef[@n=$staffNumber][1]/@lyric.fam,' ')" />
+      </xsl:if>
+      <xsl:if test="ancestor::mei:mdiv[1]//mei:staffDef[@n=$staffNumber][1]/@lyric.size">
+      </xsl:if>
+      <xsl:if test="ancestor::mei:mdiv[1]//mei:staffDef[@n=$staffNumber][1]/@lyric.style">
+        <xsl:text>\override Lyrics.LyricText.font-shape = #&apos;</xsl:text>
+        <xsl:value-of select="concat(ancestor::mei:mdiv[1]//mei:staffDef[@n=$staffNumber][1]/@lyric.style,' ')" />
+      </xsl:if>
+      <xsl:if test="ancestor::mei:mdiv[1]//mei:staffDef[@n=$staffNumber][1]/@lyric.weight">
+        <xsl:text>\override Lyrics.LyricText.font-series = #&apos;</xsl:text>
+        <xsl:value-of select="concat(ancestor::mei:mdiv[1]//mei:staffDef[@n=$staffNumber][1]/@lyric.weight,' ')" />
+      </xsl:if>
+      <xsl:for-each select="ancestor::mei:mdiv[1]//mei:staff[@n=$staffNumber]/mei:layer[1]">
+        <xsl:for-each select="descendant::*[self::mei:note[not(@grace)] or self::mei:rest or self::mei:mRest]">
+            <xsl:choose>
+              <xsl:when test="descendant::mei:syl">
+                <xsl:apply-templates select="mei:verse[@n=$verseNumber or not(@n)]|mei:syl" />
+              </xsl:when>
+              <xsl:when test="@syl">
+                <xsl:value-of select="concat(' ',@syl)" />
+              </xsl:when>
+              <xsl:when test="self::mei:note or max(ancestor::mei:mdiv[1]//mei:staff[@n=$staffNumber]/mei:layer/@n) &gt; 1">
+                <xsl:value-of select="'_'" />
+              </xsl:when>
+            </xsl:choose>
+            <xsl:if test="$layerCount != 1">
+              <xsl:call-template name="setDuration" />
+              <xsl:if test="not(@dur)">
+                <xsl:value-of select="concat(preceding::mei:scoreDef[@meter.unit][1]//@meter.unit[1],'*',preceding::mei:scoreDef[@meter.count][1]//@meter.count)" />
+              </xsl:if>
+            </xsl:if>
+            <xsl:choose>
+              <xsl:when test="mei:verse[@n=$verseNumber or not(@n)]/mei:syl[position()=last()]/@con='d'">
+                <xsl:value-of select="' -- '" />
+              </xsl:when>
+              <xsl:when test="mei:verse[@n=$verseNumber or not(@n)]/mei:syl[position()=last()]/@con='u'">
+                <xsl:value-of select="' __ '" />
+              </xsl:when>
+              <xsl:otherwise>
+                <xsl:value-of select="' '" />
+              </xsl:otherwise>
+            </xsl:choose>
+        </xsl:for-each>
+      </xsl:for-each>
+      <xsl:text>&#10;}&#10;&#10;</xsl:text>
+      <xsl:if test="ancestor::mei:mdiv[1]//mei:staff[@n=$staffNumber]//mei:verse[@n=$verseNumber+1]">
+        <xsl:call-template name="buildLyrics">
+          <xsl:with-param name="staffNumber" select="$staffNumber"/>
+          <xsl:with-param name="verseNumber" select="$verseNumber+1" />
+        </xsl:call-template>
+      </xsl:if>
   </xsl:template>
   <!--               -->
   <!-- Make fraction -->
