@@ -453,21 +453,29 @@
         <xsl:with-param name="mensurSlash" select="ancestor-or-self::*[@mensur.slash][1]/@mensur.slash" />
       </xsl:call-template>
     </xsl:if>
-    <xsl:if test="ancestor-or-self::*/@*[starts-with(name(),'meter.')]">
-      <xsl:call-template name="meterSig">
-        <xsl:with-param name="meterSymbol" select="ancestor-or-self::*[@meter.sym][1]/@meter.sym" />
-        <xsl:with-param name="meterCount" select="ancestor-or-self::*[@meter.count][1]/@meter.count" />
-        <xsl:with-param name="meterUnit" select="ancestor-or-self::*[@meter.unit][1]/@meter.unit" />
-        <xsl:with-param name="meterRend" select="ancestor-or-self::*[@meter.rend][1]/@meter.rend" />
-      </xsl:call-template>
-    </xsl:if>
-    <xsl:apply-templates select="mei:meterSigGrp|mei:meterSig" />
+    <xsl:choose>
+      <xsl:when test="ancestor-or-self::*/@*[starts-with(name(),'meter.')] or descendant::*[starts-with(local-name(),'meter')] ">
+        <xsl:call-template name="meterSig">
+          <xsl:with-param name="meterSymbol" select="ancestor-or-self::*[@meter.sym][1]/@meter.sym" />
+          <xsl:with-param name="meterCount" select="ancestor-or-self::*[@meter.count][1]/@meter.count" />
+          <xsl:with-param name="meterUnit" select="ancestor-or-self::*[@meter.unit][1]/@meter.unit" />
+          <xsl:with-param name="meterRend" select="ancestor-or-self::*[@meter.rend][1]/@meter.rend" />
+        </xsl:call-template>
+        <xsl:apply-templates select="mei:meterSigGrp|mei:meterSig" />
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:text>\once \omit Staff.TimeSignature </xsl:text>
+        <xsl:text>\set Score.automaticBars = ##f </xsl:text>
+      </xsl:otherwise>
+    </xsl:choose>
     <xsl:if test="ancestor::mei:scoreDef/@meter.showchange = 'false'">
       <xsl:text>\override Staff.TimeSignature.break-visibility = #'#(#f #f #f)&#32;</xsl:text>
     </xsl:if>
+    <!-- stop drawing bar line -->
     <xsl:if test="(position() = last()) and ancestor::mei:staffGrp[2]/@barthru = 'false'">
       <xsl:value-of select="'\override Staff.BarLine.allow-span-bar = ##f&#32;'" />
     </xsl:if>
+    <!-- change current bar number -->
     <xsl:if test="ancestor::mei:mdiv/descendant::mei:measure[1]/@n &gt; 1">
       <xsl:value-of select="concat('\set Score.currentBarNumber = #',ancestor::mei:mdiv/descendant::mei:measure[1]/@n,' ')" />
     </xsl:if>
@@ -1175,7 +1183,7 @@
       </xsl:otherwise>
     </xsl:choose>
     <xsl:choose>
-      <xsl:when test="not(@glyphnum)">
+      <xsl:when test="not(@glyphname or @glyphnum)">
         <xsl:choose>
           <xsl:when test="@shape = 'square'">
             <xsl:text>\longfermata</xsl:text>
@@ -1205,7 +1213,7 @@
     </xsl:if>
     <xsl:call-template name="setMarkupDirection" />
     <xsl:choose>
-      <xsl:when test="not(@glyphnum)">
+      <xsl:when test="not(@glyphname or @glyphnum)">
         <xsl:choose>
           <xsl:when test="@form = 'inv'">
             <xsl:text>\prall</xsl:text>
@@ -1265,7 +1273,7 @@
         </xsl:if>
         <xsl:call-template name="setMarkupDirection" />
         <xsl:choose>
-          <xsl:when test="not(@glyphnum)">
+          <xsl:when test="not(@glyphname or @glyphnum)">
             <xml:text>\trill</xml:text>
           </xsl:when>
           <xsl:otherwise>
@@ -1291,7 +1299,7 @@
     </xsl:if>
     <xsl:call-template name="setMarkupDirection" />
     <xsl:choose>
-      <xsl:when test="not(@glyphnum)">
+      <xsl:when test="not(@glyphname or @glyphnum)">
         <xsl:choose>
           <xsl:when test="@form = 'inv'">
             <xsl:text>\reverseturn</xsl:text>
@@ -1888,6 +1896,7 @@
     </xsl:if>
     <xsl:if test="$meterRend">
       <xsl:choose>
+        <!-- att.meterSigDefault.vis -->
         <xsl:when test="$meterRend = 'num'">
           <xsl:text>\once \override Staff.TimeSignature.style = #'single-digit </xsl:text>
         </xsl:when>
@@ -3537,28 +3546,28 @@
         <xsl:text>\prallprall</xsl:text>
       </xsl:when>
       <!-- Precomposed trills and mordents (U+E5B0 – U+E5CF) -->
-      <xsl:when test="contains(@glyphnum,'E5B2')">
+      <xsl:when test="@glyphname='ornamentPrecompAppoggTrill' or contains(@glyphnum,'E5B2')">
         <xsl:text>\lineprall</xsl:text>
       </xsl:when>
-      <xsl:when test="contains(@glyphnum,'E5B5')">
+      <xsl:when test="@glyphname='ornamentPrecompSlideTrillDAnglebert' or contains(@glyphnum,'E5B5')">
         <xsl:text>\upprall</xsl:text>
       </xsl:when>
-      <xsl:when test="contains(@glyphnum,'E5B8')">
+      <xsl:when test="@glyphname='ornamentPrecompSlideTrillBach' or contains(@glyphnum,'E5B8')">
         <xsl:text>\upmordent</xsl:text>
       </xsl:when>
-      <xsl:when test="contains(@glyphnum,'E5BB')">
+      <xsl:when test="@glyphname='ornamentPrecompTrillSuffixDandrieu' or contains(@glyphnum,'E5BB')">
         <xsl:text>\prallup</xsl:text>
       </xsl:when>
-      <xsl:when test="contains(@glyphnum,'E5BD')">
+      <xsl:when test="@glyphname='ornamentPrecompTrillWithMordent' or contains(@glyphnum,'E5BD')">
         <xsl:text>\prallmordent</xsl:text>
       </xsl:when>
-      <xsl:when test="contains(@glyphnum,'E5C6')">
+      <xsl:when test="@glyphname='ornamentPrecompMordentUpperPrefix' or contains(@glyphnum,'E5C6')">
         <xsl:text>\downprall</xsl:text>
       </xsl:when>
-      <xsl:when test="contains(@glyphnum,'E5C7')">
+      <xsl:when test="@glyphname='ornamentPrecompInvertedMordentUpperPrefix' or contains(@glyphnum,'E5C7')">
         <xsl:text>\downmordent</xsl:text>
       </xsl:when>
-      <xsl:when test="contains(@glyphnum,'E5C8')">
+      <xsl:when test="@glyphname='ornamentPrecompTrillLowerSuffix' or contains(@glyphnum,'E5C8')">
         <xsl:text>\pralldown</xsl:text>
       </xsl:when>
       <!-- String techniques (U+E610 – U+E62F) -->
