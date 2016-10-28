@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.music-encoding.org/schema/3.0.0/mei-all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="http://www.music-encoding.org/schema/3.0.0/mei-all.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<mei xmlns="http://www.music-encoding.org/ns/mei" meiversion="3.0.0">
+  <meiHead>
+    <fileDesc>
+      <titleStmt>
+        <title/>
+      </titleStmt>
+      <pubStmt/>
+    </fileDesc>
+  </meiHead>
+  <music>
+    <body>
+      <mdiv>
+        <score>
+          <scoreDef>
+            <staffGrp>
+              <staffDef n="1" clef.line="2" clef.shape="G" lines="5"/>
+            </staffGrp>
+          </scoreDef>
+          <section>
+            <measure>
+              <staff n="1">
+                <layer n="1">
+                  <note xml:id="n1" dur="4" oct="4" pname="g"/>
+                  <note xml:id="n2" dur="4" oct="4" pname="g"/>
+                  <note xml:id="n3" dur="4" oct="4" pname="g"/>
+                  <note xml:id="n4" dur="4" oct="4" pname="g"/>
+                  <note xml:id="n5" dur="4" oct="4" pname="g"/>
+                  <note xml:id="n6" dur="4" oct="4" pname="g"/>
+                  <note xml:id="n7" dur="4" oct="4" pname="g"/>
+                  <note xml:id="n8" dur="4" oct="4" pname="g"/>
+                  <note xml:id="n9" dur="4" oct="4" pname="g"/>
+                </layer>
+              </staff>
+              <mordent place="above" startid="#n1" accidupper="n"/>
+              <mordent place="below" startid="#n2" accidlower="f"/>
+              <mordent place="below" startid="#n3" accidupper="s"/>
+              <trill place="above" startid="#n4" accidlower="x"/>
+              <trill place="below" startid="#n5" accidupper="n"/>
+              <trill place="below" startid="#n6" accidlower="f"/>
+              <turn place="above" startid="#n7" accidupper="s"/>
+              <turn place="below" startid="#n8" accidlower="x"/>
+              <turn place="below" startid="#n9" accidupper="n"/>
+              <trill glyphname="ornamentPrecompSlideTrillDAnglebert" place="above" startid="#n9" accidlower="f"/>
+            </measure>
+          </section>
+        </score>
+      </mdiv>
+    </body>
+  </music>
+</mei>

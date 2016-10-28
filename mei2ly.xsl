@@ -221,7 +221,9 @@
           </xsl:call-template>
         </xsl:if>
         <!-- print bar number -->
-        <xsl:value-of select="concat('%',ancestor::mei:measure/@n,'&#10;')" />
+        <xsl:if test="ancestor::mei:measure/@n">
+          <xsl:value-of select="concat('%',ancestor::mei:measure/@n,'&#10;')" />
+        </xsl:if>
         <!-- close volta brackets -->
         <xsl:if test="ancestor::mei:ending and not(ancestor::mei:ending/following-sibling::*[1][self::mei:ending])">
           <xsl:text>&#32;&#32;\set Score.repeatCommands = #'((volta #f))&#10;</xsl:text>
@@ -1244,6 +1246,9 @@
         <xsl:call-template name="setSmuflGlyph" />
       </xsl:otherwise>
     </xsl:choose>
+    <xsl:if test="@accidlower or @accidupper">
+      <xsl:call-template name="addOrnamentAccid" />
+    </xsl:if>
   </xsl:template>
   <!-- MEI ornament -->
   <xsl:template name="ornam" match="mei:ornam">
@@ -1296,6 +1301,9 @@
         </xsl:choose>
       </xsl:otherwise>
     </xsl:choose>
+    <xsl:if test="@accidlower or @accidupper">
+      <xsl:call-template name="addOrnamentAccid" />
+    </xsl:if>
   </xsl:template>
   <!-- MEI symbol -->
   <xsl:template name="symbol" match="mei:symbol">
@@ -1327,6 +1335,9 @@
         <xsl:call-template name="setSmuflGlyph" />
       </xsl:otherwise>
     </xsl:choose>
+    <xsl:if test="@accidlower or @accidupper">
+      <xsl:call-template name="addOrnamentAccid" />
+    </xsl:if>
   </xsl:template>
   <!-- MEI breath -->
   <xsl:template match="mei:breath" mode="pre">
@@ -2254,6 +2265,35 @@
       <xsl:text>isih</xsl:text>
     </xsl:if>
   </xsl:template>
+  <!-- add ornament accidental -->
+  <xsl:template name="addOrnamentAccid">
+    <!-- att.ornamentaccid -->
+    <xsl:choose>
+      <xsl:when test="(@accidlower and @place='above') or (@accidupper and @place='below')">
+        <xsl:text>-\tweak script-priority -10000</xsl:text>
+      </xsl:when>
+      <xsl:when test="(@accidlower and @place='below') or (@accidupper and @place='above')">
+        <xsl:text>-\tweak script-priority 10000</xsl:text>
+      </xsl:when>
+    </xsl:choose>
+    <xsl:call-template name="setMarkupDirection"/>
+    <xsl:text>\markup {\tiny</xsl:text>
+    <xsl:choose>
+      <xsl:when test="(@accidlower = 'f') or (@accidupper = 'f')">
+        <xsl:text>\flat</xsl:text>
+      </xsl:when>
+      <xsl:when test="(@accidlower = 's') or (@accidupper = 's')">
+        <xsl:text>\sharp</xsl:text>
+      </xsl:when>
+      <xsl:when test="(@accidlower = 'x') or (@accidupper = 'x')">
+        <xsl:text>\doublesharp</xsl:text>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:text>\natural</xsl:text>
+      </xsl:otherwise>
+    </xsl:choose>
+    <xsl:text>}</xsl:text>
+  </xsl:template>
   <!-- set grace notes -->
   <xsl:template name="setGraceNote">
     <xsl:if test="@stem.mod = '1slash'">
@@ -2815,7 +2855,7 @@
     <xsl:value-of select="concat('\set Score.currentBarNumber = #',ancestor-or-self::mei:measure/@n)" />
     <xsl:text>&#10;&#32;&#32;</xsl:text>
   </xsl:template>
-  <!-- set bar number -->
+  <!-- set notation type -->
   <xsl:template name="setNotationtype">
     <!-- data.NOTATIONTYPE -->
     <xsl:choose>

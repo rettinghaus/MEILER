@@ -168,6 +168,8 @@ List of supported MEI elements and attributes
   * `@func` (for value 'mixed')
 
 * `<mordent>`
+  * `@accidlower`
+  * `@accidupper`
   * `@color`
   * `@form`
   * `@glyphnum`
@@ -436,6 +438,8 @@ List of supported MEI elements and attributes
   * `@vo`
 
 * `<trill>`
+  * `@accidlower`
+  * `@accidupper`
   * `@color`
   * `@endid`
   * `@glyphnum`
@@ -466,6 +470,8 @@ List of supported MEI elements and attributes
   * `@startid`
 
 * `<turn>`
+  * `@accidlower`
+  * `@accidupper`
   * `@color`
   * `@form`
   * `@glyphnum`
