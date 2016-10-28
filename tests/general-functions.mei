@@ -93,7 +93,9 @@
                     </chord>
                   </bTrem>
                   <fTrem measperf="16">
-                    <note xml:id="testnote5" dur="8" oct="5" pname="d" stem.dir="down" stem.mod="3slash"/>
+                    <note xml:id="testnote5" dur="8" oct="5" pname="d" stem.dir="down" stem.mod="3slash">
+                      <accid accid="n" func="edit" enclose="paren"/>
+                    </note>
                     <note xml:id="testnote6" dur="8" oct="5" pname="f" stem.dir="down" stem.mod="3slash"/>
                   </fTrem>
                   <fTrem measperf="16">

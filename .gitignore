@@ -1,4 +1,5 @@
 ## Ignore test file outputs
 *.log
 *.ly
+*.midi
 *.pdf

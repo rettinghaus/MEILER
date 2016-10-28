@@ -2,7 +2,7 @@
 <!--        -->
 <!-- MEILER -->
 <!-- mei2ly -->
-<!-- v0.8.9 -->
+<!--v 0.8.10-->
 <!--        -->
 <!-- programmed by -->
 <!-- Klaus Rettinghaus -->
@@ -130,6 +130,7 @@
       <xsl:variable name="staffNumber" select="@n" />
       <xsl:value-of select="concat('mdiv',local:number2alpha($mdivNumber),'_staff',local:number2alpha($staffNumber),' = {&#10;')" />
       <xsl:for-each select="ancestor::mei:mdiv[1]//mei:staff[@n=$staffNumber]">
+        <xsl:variable name="currentMeasure" select="generate-id(ancestor::mei:measure)" />
         <xsl:text>&#32;&#32;</xsl:text>
         <!-- print rehearsal mark -->
         <xsl:apply-templates select="ancestor::mei:measure/mei:reh"/>
@@ -151,7 +152,7 @@
           <xsl:call-template name="setBarNumber" />
         </xsl:if>
         <!-- add clef change -->
-        <xsl:if test="ancestor::mei:measure/preceding-sibling::mei:staffDef[@n = $staffNumber][@clef.shape]/following-sibling::mei:measure[1]/@n = ancestor::mei:measure/@n">
+        <xsl:if test="generate-id(preceding::mei:staffDef[@n = $staffNumber][@clef.shape][1]/following::mei:measure[1]) = $currentMeasure">
           <xsl:call-template name="setClef">
             <xsl:with-param name="clefColor" select="preceding::mei:staffDef[@n = $staffNumber][@clef.shape][1]/@clef.color" />
             <xsl:with-param name="clefDis" select="preceding::mei:staffDef[@n = $staffNumber][@clef.shape][1]/@clef.dis" />
@@ -162,7 +163,7 @@
           <xsl:text>&#10;&#32;&#32;</xsl:text>
         </xsl:if>
         <!-- add key signature change -->
-        <xsl:if test="ancestor::mei:measure/preceding-sibling::*[contains(local-name(),'Def')][@*[starts-with(name(),'key')]][1]/following-sibling::mei:measure[1]/@n = ancestor::mei:measure/@n">
+        <xsl:if test="generate-id(ancestor::mei:measure/preceding-sibling::*[contains(local-name(),'Def')][@*[starts-with(name(),'key')]][1]/following-sibling::mei:measure[1]) = $currentMeasure">
           <xsl:call-template name="setKey">
             <xsl:with-param name="keyTonic" select="ancestor::mei:measure/preceding-sibling::*/@key.pname[1]" />
             <xsl:with-param name="keyAccid" select="ancestor::mei:measure/preceding-sibling::*/@key.accid[1]" />
@@ -173,7 +174,7 @@
           <xsl:text>&#32;&#32;</xsl:text>
         </xsl:if>
         <!-- add time signature change -->
-        <xsl:if test="ancestor::mei:measure/preceding-sibling::*[contains(local-name(),'Def')][@*[starts-with(name(),'meter')]][1]/following-sibling::mei:measure[1]/@n = ancestor::mei:measure/@n">
+        <xsl:if test="generate-id(ancestor::mei:measure/preceding-sibling::*[contains(local-name(),'Def')][@*[starts-with(name(),'meter')]][1]/following-sibling::mei:measure[1]) = $currentMeasure">
           <xsl:call-template name="meterSig">
             <xsl:with-param name="meterSymbol" select="ancestor::mei:measure/preceding-sibling::*[@meter.sym][1]/@meter.sym" />
             <xsl:with-param name="meterCount" select="ancestor::mei:measure/preceding-sibling::*[@meter.count][1]/@meter.count" />
@@ -182,7 +183,7 @@
           </xsl:call-template>
           <xsl:text>&#10;&#32;&#32;</xsl:text>
         </xsl:if>
-        <xsl:if test="ancestor::mei:measure/preceding::mei:meterSig[1]/preceding::mei:measure[1]/@n = ancestor::mei:measure/preceding-sibling::mei:measure[1]/@n">
+        <xsl:if test="generate-id(preceding::mei:meterSig[1]/following::mei:measure[1]) = $currentMeasure">
           <xsl:choose>
             <xsl:when test="ancestor::mei:measure/preceding::mei:meterSig[1]/parent::mei:meterSigGrp">
               <xsl:apply-templates select="ancestor::mei:measure/preceding::mei:meterSigGrp[1]" />
@@ -421,6 +422,7 @@
         <xsl:value-of select="'\autoBeamOff '" />
       </xsl:otherwise>
     </xsl:choose>
+    <!-- set MEILER default styles -->
     <xsl:text>\set tieWaitForNote = ##t&#10; </xsl:text>
     <xsl:if test="ancestor-or-self::*/@*[starts-with(name(),'clef.')]">
       <xsl:call-template name="setClef">
@@ -603,6 +605,9 @@
         <xsl:with-param name="color" select="$clefColor" />
       </xsl:call-template>
     </xsl:if>
+    <xsl:if test="@cautionary">
+      <xsl:value-of select="concat('\set Staff.forceClef = ##',substring(@cautionary,1,1),' ')"/>
+    </xsl:if>
     <xsl:value-of select="concat('\set Staff.clefGlyph = #','&quot;clefs.',$clefShape,'&quot; ')" />
     <xsl:value-of select="concat('\set Staff.clefPosition = #',$clefPos,' ')" />
     <xsl:value-of select="concat('\set Staff.clefTransposition = #',$clefTrans,' ')" />
@@ -684,6 +689,9 @@
     <xsl:if test="descendant-or-self::*/@accid or child::mei:accid/@func='caution'">
       <xml:text>!</xml:text>
     </xsl:if>
+    <xsl:if test="child::mei:accid/@func='edit' or child::mei:accid/@enclose='paren'">
+      <xml:text>?</xml:text>
+    </xsl:if>
     <xsl:if test="not(parent::mei:chord) and not(parent::mei:fTrem[@measperf])">
       <xsl:call-template name="setDuration" />
     </xsl:if>
@@ -733,6 +741,9 @@
         <xsl:with-param name="direction" select="ancestor::mei:measure/mei:phrase[@startid = $noteKey]/@curvedir" />
       </xsl:call-template>
       <xml:text>\(</xml:text>
+    </xsl:if>
+    <xsl:if test="@lv = 'true'">
+      <xml:text>\laissezVibrer</xml:text>
     </xsl:if>
     <xsl:if test="ancestor::mei:mdiv[1]//mei:hairpin/@endid = $noteKey or ancestor::mei:mdiv[1]//mei:dynam/@endid = $noteKey">
       <xml:text>\!</xml:text>
@@ -830,6 +841,9 @@
         <xsl:with-param name="direction" select="ancestor::mei:measure/mei:phrase[@startid = $chordKey]/@curvedir" />
       </xsl:call-template>
       <xml:text>\(</xml:text>
+    </xsl:if>
+    <xsl:if test="@lv = 'true'">
+      <xml:text>\laissezVibrer</xml:text>
     </xsl:if>
     <xsl:if test="ancestor::mei:measure/mei:arpeg[@startid = $chordKey or tokenize(@plist,' ') = $subChordKeys]">
       <xml:text>\arpeggio</xml:text>
@@ -1602,7 +1616,9 @@
       <xsl:text>-\tweak Fingering.extra-offset #&apos;</xsl:text>
       <xsl:call-template name="setOffset" />
     </xsl:if>
-    <xsl:call-template name="setMarkupDirection" />
+    <xsl:call-template name="setMarkupDirection">
+      <xsl:with-param name="direction" select="ancestor-or-self::*/@place[1]"/>
+    </xsl:call-template>
     <xsl:apply-templates/>
   </xsl:template>
   <!-- MEI figured bass -->
@@ -2123,10 +2139,8 @@
   </xsl:template>
   <!-- set stem direction -->
   <xsl:template name="setStemDir">
-    <xsl:variable name="staffPos" select="ancestor::mei:staff/@n" />
-    <xsl:variable name="measurePos" select="ancestor::mei:measure/@n" />
-    <xsl:variable name="layerPos" select="ancestor::mei:layer/@n" />
-    <xsl:if test="not(preceding::*[@stem.dir][1][ancestor::mei:music][ancestor::mei:layer/@n = $layerPos][ancestor::mei:staff/@n = $staffPos][ancestor::mei:measure/@n = $measurePos]) or (@stem.dir != preceding::*[@stem.dir][ancestor::mei:music][ancestor::mei:layer/@n = $layerPos][ancestor::mei:staff/@n = $staffPos][ancestor::mei:measure/@n = $measurePos][1]/@stem.dir)">
+    <xsl:variable name="currentLayer" select="generate-id(ancestor::mei:layer)" />
+    <xsl:if test="not(preceding::*[@stem.dir][generate-id(ancestor::mei:layer) = $currentLayer]) or (@stem.dir != preceding::*[@stem.dir][generate-id(ancestor::mei:layer) = $currentLayer]/@stem.dir)">
       <xsl:choose>
         <xsl:when test="@stem.dir='up'">
           <xsl:text>\stemUp </xsl:text>
@@ -2628,10 +2642,10 @@
     <xsl:variable name="colorComponents" as="xs:double+">
       <xsl:choose>
         <xsl:when test="starts-with($color, 'rgb')">
-          <xsl:sequence select="for $component in tokenize(substring-after($color, '('), '[^\d.\s]')                                return number($component) div 255" />
+          <xsl:sequence select="for $component in tokenize(substring-after($color, '('), '[^\d.\s]') return number($component) div 255" />
         </xsl:when>
         <xsl:when test="starts-with($color, '#')">
-          <xsl:sequence select="for $i in 1 to 3                                return local:hex2number(substring($color, 2 * $i, 2)) div 255" />
+          <xsl:sequence select="for $i in 1 to 3 return local:hex2number(substring($color, 2 * $i, 2)) div 255" />
         </xsl:when>
         <xsl:when test="starts-with($color, 'hsl')">
           <!-- hsl to rgb calculation as defined by http://www.w3.org/TR/css3-color/#hsl-color -->
@@ -2643,13 +2657,12 @@
           <xsl:variable name="h" select="$hslComponents[1] div 360" as="xs:double" />
           <xsl:variable name="s" select="$hslComponents[2] div 100" as="xs:double" />
           <xsl:variable name="l" select="$hslComponents[3] div 100" as="xs:double" />
-          <xsl:variable name="m2" select="if ($l le .5)                                          then $l * ($s + 1)                                          else $l + $s - $l * $s" as="xs:double" />
+          <xsl:variable name="m2" select="if ($l le .5) then $l * ($s + 1) else $l + $s - $l * $s" as="xs:double" />
           <xsl:variable name="m1" select="$l * 2 - $m2" as="xs:double" />
           <xsl:for-each select="($h + 1 div 3, $h, $h - 1 div 3)">
             <!-- Make sure h_ is between 0 and 1 -->
             <xsl:variable name="h_" select="(. mod 1 + 1) mod 1" />
-            <xsl:copy-of select="if ($h_ * 6 lt 1)                                  then $m1 + ($m2 - $m1) * $h_ * 6                                 else if ($h_ * 2 lt 1)                                  then $m2                                 else if ($h_ *3 lt 2)                                  then $m1 + ($m2 - $m1) * (2 div 3 - $h_) * 6                                 else $m1"
-            />
+            <xsl:copy-of select="if ($h_ * 6 lt 1) then $m1 + ($m2 - $m1) * $h_ * 6 else if ($h_ * 2 lt 1) then $m2 else if ($h_ *3 lt 2) then $m1 + ($m2 - $m1) * (2 div 3 - $h_) * 6 else $m1"/>
           </xsl:for-each>
         </xsl:when>
         <xsl:otherwise>

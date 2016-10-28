@@ -6,6 +6,8 @@ List of supported MEI elements and attributes
 
 * `<accid>`
   * `@color`
+  * `@edit` (for value 'paren')
+  * `@func`
   * `@ho`
   * `@place` (for value 'above')
   * `@vo`
@@ -47,6 +49,7 @@ List of supported MEI elements and attributes
   * `@dur`
   * `@fermata`
   * `@grace`
+  * `@lv`
   * `@oct`
   * `@ornam`
   * `@slur`
@@ -204,6 +207,7 @@ List of supported MEI elements and attributes
   * `@grace`
   * `@head.color`
   * `@head.shape`
+  * `@lv`
   * `@oct`
   * `@ornam`
   * `@pname`
