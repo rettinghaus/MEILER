@@ -27,6 +27,9 @@ List of supported MEI elements and attributes
   * `@place`
   * `@vo`
 
+* `<barLine>`
+  * `@form`
+
 * `<beam>`
   * `@color`
 

@@ -196,7 +196,7 @@
         </xsl:if>
         <!-- print bar line -->
         <xsl:if test="ancestor::mei:measure/@left">
-          <xsl:call-template name="setBarLine">
+          <xsl:call-template name="barLine">
             <xsl:with-param name="barLineStyle" select="ancestor::mei:measure/@left" />
           </xsl:call-template>
         </xsl:if>
@@ -216,7 +216,7 @@
         <xsl:text>&gt;&gt;&#32;</xsl:text>
         <!-- print bar line -->
         <xsl:if test="ancestor::mei:measure/@right">
-          <xsl:call-template name="setBarLine">
+          <xsl:call-template name="barLine">
             <xsl:with-param name="barLineStyle" select="ancestor::mei:measure/@right" />
           </xsl:call-template>
         </xsl:if>
@@ -284,8 +284,15 @@
     <xsl:if test="contains(@music.size,'pt')">
       <xsl:value-of select="concat('  #(layout-set-staff-size ',substring-before(@music.size,'pt'),')&#10;')" />
     </xsl:if>
-    <xsl:if test="@mnum.visible or @clef.color">
+    <xsl:if test="@barplace or @clef.color or @mnum.visible or @multi.number">
       <xsl:text> \context { \Score </xsl:text>
+      <xsl:if test="@barplace = 'takt'">
+        <xsl:text>defaultBarType = #"'" </xsl:text>
+      </xsl:if>
+      <xsl:if test="@multi.number">
+        <!-- att.multinummeasures -->
+        <xsl:value-of select="concat('countPercentRepeats = ##',substring(@multi.number,1,1),' ')" />
+      </xsl:if>
       <xsl:if test="@mnum.visible = 'false'">
         <xsl:text>\remove "Bar_number_engraver" </xsl:text>
       </xsl:if>
@@ -534,7 +541,7 @@
       <xsl:call-template name="setBarNumber" />
     </xsl:if>
     <xsl:if test="@left">
-      <xsl:call-template name="setBarLine">
+      <xsl:call-template name="barLine">
         <xsl:with-param name="barLineStyle" select="@left" />
       </xsl:call-template>
     </xsl:if>
@@ -543,7 +550,7 @@
     </xsl:if>
     <xsl:apply-templates/>
     <xsl:if test="@right">
-      <xsl:call-template name="setBarLine">
+      <xsl:call-template name="barLine">
         <xsl:with-param name="barLineStyle" select="@right" />
       </xsl:call-template>
     </xsl:if>
@@ -1049,6 +1056,57 @@
       <xsl:text>\once \override Accidental.extra-offset = #&apos;</xsl:text>
       <xsl:call-template name="setOffset" />
     </xsl:if>
+  </xsl:template>
+  <!-- MEI bar line -->
+  <xsl:template match="mei:barLine[@copyof]">
+    <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:barLine[@xml:id = substring-after(current()/@copyof,'#')]" />
+  </xsl:template>
+  <xsl:template name="barLine" match="mei:barLine">
+    <xsl:param name="barLineStyle" select="@form" />
+    <xsl:if test="@color">
+      <xsl:value-of select="'\once \override Staff.BarLine.color = #'" />
+      <xsl:call-template name="setColor" />
+    </xsl:if>
+    <xsl:text>\bar "</xsl:text>
+    <!-- data.BARRENDITION -->
+    <xsl:choose>
+      <xsl:when test="$barLineStyle='dashed'">
+        <xsl:text>!</xsl:text>
+      </xsl:when>
+      <xsl:when test="$barLineStyle='dotted'">
+        <xsl:text>;</xsl:text>
+      </xsl:when>
+      <xsl:when test="$barLineStyle='dbl'">
+        <xsl:text>||</xsl:text>
+      </xsl:when>
+      <xsl:when test="$barLineStyle='dbldashed'">
+        <xsl:text>!!</xsl:text>
+      </xsl:when>
+      <xsl:when test="$barLineStyle='dbldotted'">
+        <xsl:text>;;</xsl:text>
+      </xsl:when>
+      <xsl:when test="$barLineStyle='end'">
+        <xsl:text>|.</xsl:text>
+      </xsl:when>
+      <xsl:when test="$barLineStyle='invis'">
+      </xsl:when>
+      <xsl:when test="$barLineStyle='rptstart'">
+        <xsl:text>.|:</xsl:text>
+      </xsl:when>
+      <xsl:when test="$barLineStyle='rptboth'">
+        <xsl:text>:..:</xsl:text>
+      </xsl:when>
+      <xsl:when test="$barLineStyle='rptend'">
+        <xsl:text>:|.</xsl:text>
+      </xsl:when>
+      <xsl:when test="$barLineStyle='single'">
+        <xsl:text>|</xsl:text>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:text>|</xsl:text>
+      </xsl:otherwise>
+    </xsl:choose>
+    <xsl:text>" </xsl:text>
   </xsl:template>
   <!-- MEI beam -->
   <xsl:template match="mei:beam">
@@ -2514,50 +2572,6 @@
     <xsl:if test="@barthru">
       <xsl:value-of select="concat('  \override StaffGroup.BarLine.allow-span-bar = ##',substring(@barthru,1,1),'&#10;')" />
     </xsl:if>
-  </xsl:template>
-  <!-- set bar lines -->
-  <xsl:template name="setBarLine">
-    <xsl:param name="barLineStyle" />
-    <xsl:text>\bar "</xsl:text>
-    <!-- data.BARRENDITION -->
-    <xsl:choose>
-      <xsl:when test="$barLineStyle='dashed'">
-        <xsl:text>!</xsl:text>
-      </xsl:when>
-      <xsl:when test="$barLineStyle='dotted'">
-        <xsl:text>;</xsl:text>
-      </xsl:when>
-      <xsl:when test="$barLineStyle='dbl'">
-        <xsl:text>||</xsl:text>
-      </xsl:when>
-      <xsl:when test="$barLineStyle='dbldashed'">
-        <xsl:text>!!</xsl:text>
-      </xsl:when>
-      <xsl:when test="$barLineStyle='dbldotted'">
-        <xsl:text>;;</xsl:text>
-      </xsl:when>
-      <xsl:when test="$barLineStyle='end'">
-        <xsl:text>|.</xsl:text>
-      </xsl:when>
-      <xsl:when test="$barLineStyle='invis'">
-      </xsl:when>
-      <xsl:when test="$barLineStyle='rptstart'">
-        <xsl:text>.|:</xsl:text>
-      </xsl:when>
-      <xsl:when test="$barLineStyle='rptboth'">
-        <xsl:text>:..:</xsl:text>
-      </xsl:when>
-      <xsl:when test="$barLineStyle='rptend'">
-        <xsl:text>:|.</xsl:text>
-      </xsl:when>
-      <xsl:when test="$barLineStyle='single'">
-        <xsl:text>|</xsl:text>
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:text>|</xsl:text>
-      </xsl:otherwise>
-    </xsl:choose>
-    <xsl:text>" </xsl:text>
   </xsl:template>
   <!-- set simple markup diections -->
   <xsl:template name="setMarkupDirection">
