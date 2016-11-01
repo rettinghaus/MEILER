@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.music-encoding.org/schema/3.0.0/mei-all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="http://www.music-encoding.org/schema/3.0.0/mei-all.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<mei xmlns="http://www.music-encoding.org/ns/mei" meiversion="3.0.0">
+  <meiHead>
+    <fileDesc>
+      <titleStmt>
+        <title>Tafeln aus Versuch über die wahre Art</title>
+      </titleStmt>
+      <pubStmt/>
+    </fileDesc>
+  </meiHead>
+  <music>
+    <body>
+      <mdiv>
+        <score>
+          <scoreDef>
+            <staffGrp>
+              <staffDef n="1" clef.line="1" clef.shape="C" lines="5"/>
+            </staffGrp>
+          </scoreDef>
+          <section n="34" label="Fig. XXXIV.">
+            <measure right="single">
+              <staff n="1">
+                <layer n="1">
+                  <note xml:id="f34n1" dur="4" oct="4" pname="g"/>
+                </layer>
+              </staff>
+              <trill glyphname="ornamentPrecompSlideTrillDAnglebert" place="above" startid="#f34n1"/>
+            </measure>
+            <measure right="dbl">
+              <staff n="1">
+                <layer n="1">
+                  <beam>
+                    <note dur="32" oct="4" pname="f"/>
+                    <note dur="32" oct="4" pname="g"/>
+                    <note dur="32" oct="4" pname="a"/>
+                    <note dur="32" oct="4" pname="g"/>
+                    <note dur="32" oct="4" pname="a"/>
+                    <note dur="32" oct="4" pname="g"/>
+                    <note dur="32" oct="4" pname="a"/>
+                    <note dur="32" oct="4" pname="g"/>
+                    <note dur="32" oct="4" pname="a"/>
+                    <note dur="32" oct="4" pname="g"/>
+                  </beam>
+                </layer>
+              </staff>
+            </measure>
+            <measure right="single">
+              <staff n="1">
+                <layer n="1">
+                  <note grace="unknown" dur="8" oct="4" pname="f"/>
+                  <note xml:id="f34n2" dur="4" oct="4" pname="g"/>
+                </layer>
+              </staff>
+              <trill place="above" startid="#f34n2"/>
+              <reh place="above">(✴)</reh>
+            </measure>
+            <measure right="dbl">
+              <staff n="1">
+                <layer n="1">
+                  <beam>
+                    <note grace="unknown" dur="16" oct="4" pname="f"/>
+                    <note grace="unknown" dur="16" oct="4" pname="g"/>
+                  </beam>
+                  <note xml:id="f34n3" dur="4" oct="4" pname="g"/>
+                </layer>
+              </staff>
+              <trill place="above" startid="#f34n3"/>
+              <reh place="above">(✴)</reh>
+            </measure>
+          </section>
+        </score>
+      </mdiv>
+      <mdiv n="41" label="Fig. XLI.">
+        <score>
+          <section>
+            <scoreDef>
+              <staffGrp>
+                <staffDef n="1" clef.line="1" clef.shape="C" lines="5"/>
+              </staffGrp>
+            </scoreDef>
+            <measure right="single">
+              <staff n="1">
+                <layer n="1">
+                  <note xml:id="f41n1" dur="4" oct="4" pname="g"/>
+                </layer>
+              </staff>
+              <trill glyphname="ornamentPrecompMordentUpperPrefix" place="above" startid="#f41n1"/>
+            </measure>
+            <measure right="dbl">
+              <staff n="1">
+                <layer n="1">
+                  <beam>
+                    <note dur="32" oct="4" pname="a"/>
+                    <note dur="32" oct="4" pname="g"/>
+                    <note dur="32" oct="4" pname="f"/>
+                    <note dur="32" oct="4" pname="g"/>
+                    <note dur="32" oct="4" pname="a"/>
+                    <note dur="32" oct="4" pname="g"/>
+                    <note dur="32" oct="4" pname="a"/>
+                    <note dur="32" oct="4" pname="g"/>
+                    <note dur="32" oct="4" pname="a"/>
+                    <note dur="32" oct="4" pname="g"/>
+                    <note dur="32" oct="4" pname="a"/>
+                    <note dur="32" oct="4" pname="g"/>
+                  </beam>
+                </layer>
+              </staff>
+            </measure>
+            <measure right="single">
+              <staff n="1">
+                <layer n="1">
+                  <note xml:id="f41n2" dur="4" oct="5" pname="c"/>
+                </layer>
+                <layer n="2">
+                  <note xml:id="f41n2a" dur="4" oct="4" pname="c"/>
+                </layer>
+              </staff>
+              <reh place="above">(✴)</reh>
+            </measure>
+            <measure right="dbl">
+              <staff n="1">
+                <layer n="1">
+                  <note xml:id="f41n3" dur="2" oct="5" pname="c"/>
+                  <beam>
+                    <note grace="unknown" dur="16" oct="4" pname="b"/>
+                    <note grace="unknown" dur="16" oct="4" pname="a"/>
+                    <note grace="unknown" dur="16" oct="4" pname="g"/>
+                  </beam>
+                  <note xml:id="f41n4" dur="4" oct="4" pname="a"/>
+                </layer>
+                <layer n="2">
+                  <note dur="4" oct="4" pname="d"/>
+                  <note dur="4" oct="4" pname="d"/>
+                  <note dur="4" oct="4" pname="d"/>
+                  <note dur="4" oct="4" pname="d"/>
+                </layer>
+              </staff>
+              <trill place="above" startid="#f41n4"/>
+            </measure>
+          </section>
+        </score>
+      </mdiv>
+      <mdiv n="77" label="Fig. LXXVII.">
+        <score>
+          <section>
+            <scoreDef>
+              <staffGrp>
+                <staffDef n="1" clef.line="1" clef.shape="C" lines="5"/>
+              </staffGrp>
+            </scoreDef>
+            <measure right="single">
+              <staff n="1">
+                <layer n="1">
+                  <note xml:id="f77n1" dur="4" oct="4" pname="e" accid="f"/>
+                </layer>
+              </staff>
+              <dir startid="#f77n1"><rend fontstyle="italic">ad:</rend></dir>
+            </measure>
+            <measure right="dbl">
+              <staff n="1">
+                <layer n="1">
+                  <note xml:id="f77n2" dur="4" oct="4" pname="e">
+                  </note>
+                  <note xml:id="f77n3" dur="2" oct="4" pname="d" lv="true"/>
+                </layer>
+              </staff>
+              <trill glyphname="ornamentPrecompSlideTrillDAnglebert" place="above" startid="#f77n2"/>
+            </measure>
+            <measure right="dbl">
+              <staff n="1">
+                <layer n="1">
+                  <note xml:id="f77n4" dur="4" oct="4" pname="e">
+                  </note>
+                  <note xml:id="f77n5" dur="4" oct="4" pname="d"/>
+                  <note xml:id="f77n6" dur="2" oct="4" pname="d" lv="true"/>
+                </layer>
+              </staff>
+              <trill glyphname="ornamentPrecompSlideTrillDAnglebert" place="above" startid="#f77n4"/>
+              <trill glyphname="ornamentPrecompTrillWithMordent" place="above" startid="#f77n6"/>
+            </measure>
+          </section>
+        </score>
+      </mdiv>
+    </body>
+  </music>
+</mei>
