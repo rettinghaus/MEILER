@@ -23,15 +23,19 @@
             <measure>
               <staff n="1">
                 <layer n="1">
-                  <note xml:id="n1" dur="4" oct="4" pname="g"/>
+                  <note xml:id="n1" dur="4" oct="5" pname="g"/>
                   <note xml:id="n2" dur="4" oct="4" pname="g"/>
-                  <note xml:id="n3" dur="4" oct="4" pname="g"/>
+                  <note xml:id="n3" dur="4" oct="3" pname="g"/>
                   <note xml:id="n4" dur="4" oct="4" pname="g"/>
-                  <note xml:id="n5" dur="4" oct="4" pname="g"/>
+                  <note xml:id="n5" dur="4" oct="5" pname="g"/>
                   <note xml:id="n6" dur="4" oct="4" pname="g"/>
-                  <note xml:id="n7" dur="4" oct="4" pname="g"/>
+                  <note xml:id="n7" dur="4" oct="3" pname="g"/>
                   <note xml:id="n8" dur="4" oct="4" pname="g"/>
-                  <note xml:id="n9" dur="4" oct="4" pname="g"/>
+                  <note xml:id="n9" dur="4" oct="5" pname="g"/>
+                  <note xml:id="n10" dur="4" oct="4" pname="g"/>
+                  <note xml:id="n11" dur="4" oct="3" pname="g"/>
+                  <note xml:id="n12" dur="4" oct="4" pname="g"/>
+                  <note xml:id="n13" dur="4" oct="5" pname="g"/>
                 </layer>
               </staff>
               <mordent place="above" startid="#n1" accidupper="n"/>
@@ -43,7 +47,10 @@
               <turn place="above" startid="#n7" accidupper="s"/>
               <turn place="below" startid="#n8" accidlower="x"/>
               <turn place="below" startid="#n9" accidupper="n"/>
-              <trill glyphname="ornamentPrecompSlideTrillDAnglebert" place="above" startid="#n9" accidlower="f"/>
+              <mordent startid="#n10" accidlower="n"/>
+              <trill startid="#n11" accidupper="f"/>
+              <turn startid="#n12" accidlower="s"/>
+              <trill glyphname="ornamentPrecompSlideTrillDAnglebert" place="above" startid="#n13" accidlower="n" accidupper="s"/>
             </measure>
           </section>
         </score>

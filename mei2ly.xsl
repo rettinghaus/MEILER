@@ -2327,14 +2327,36 @@
   <xsl:template name="addOrnamentAccid">
     <!-- att.ornamentaccid -->
     <xsl:choose>
-      <xsl:when test="(@accidlower and @place='above') or (@accidupper and @place='below')">
-        <xsl:text>-\tweak script-priority -10000</xsl:text>
+      <xsl:when test="@place='below'">
+        <xsl:choose>
+          <xsl:when test="@accidupper">
+            <xsl:text>-\tweak script-priority -10000</xsl:text>
+          </xsl:when>
+          <xsl:when test="@accidlower">
+            <xsl:text>-\tweak script-priority 10000</xsl:text>
+          </xsl:when>
+        </xsl:choose>
       </xsl:when>
-      <xsl:when test="(@accidlower and @place='below') or (@accidupper and @place='above')">
-        <xsl:text>-\tweak script-priority 10000</xsl:text>
-      </xsl:when>
+      <xsl:otherwise>
+        <xsl:choose>
+          <xsl:when test="@accidupper">
+            <xsl:text>-\tweak script-priority 10000</xsl:text>
+          </xsl:when>
+          <xsl:when test="@accidlower">
+            <xsl:text>-\tweak script-priority -10000</xsl:text>
+          </xsl:when>
+        </xsl:choose>
+      </xsl:otherwise>
     </xsl:choose>
-    <xsl:call-template name="setMarkupDirection"/>
+    <!-- by default LilyPond puts ornaments above the staff -->
+    <xsl:choose>
+      <xsl:when test="not(@place)">
+        <xsl:text>^</xsl:text>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:call-template name="setMarkupDirection"/>
+      </xsl:otherwise>
+    </xsl:choose>
     <xsl:text>\markup {\tiny</xsl:text>
     <xsl:choose>
       <xsl:when test="(@accidlower = 'f') or (@accidupper = 'f')">
