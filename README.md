@@ -18,4 +18,5 @@ Along comes **silly.xsl** which *Strips Individual Layout for LilyPond*. It basi
 If you want to prevent a MIDI output by LilyPond (which gets triggered by the presence of MIDI attributes) use **remidial.xsl** to *REmove MIDI Attributes for Lilypond*. It is called *ReMIDIAL* because it performs a remedial action. (Yes, it's a bad pun.)
 
 ## Example ouput
+for [Debussy_Golliwogg'sCakewalk.mei](/examples/Debussy_Golliwogg'sCakewalk.mei):
 ![Example page](/examples/Debussy_Golliwogg'sCakewalk.png)
