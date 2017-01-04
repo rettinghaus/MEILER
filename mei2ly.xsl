@@ -337,8 +337,15 @@
       <xsl:text>}&#10;</xsl:text>
     </xsl:if>
     <xsl:text>}&#10;&#10;</xsl:text>
-    <xsl:if test="contains(@music.size,'pt')">
-      <xsl:value-of select="concat('&#10;#(set-global-staff-size ',substring-before(@music.size,'pt'),')&#10;')" />
+    <xsl:if test="@music.size">
+      <xsl:choose>
+        <xsl:when test="contains(@music.size,'pt')">
+          <xsl:value-of select="concat('&#10;#(set-global-staff-size ',substring-before(@music.size,'pt'),')&#10;')" />
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:message>INFO: Use point values (pt) for @music.size</xsl:message>
+        </xsl:otherwise>
+      </xsl:choose>
     </xsl:if>
   </xsl:template>
   <!-- MEI staff group -->
@@ -971,6 +978,9 @@
     </xsl:if>
     <xsl:if test="@loc">
       <xsl:value-of select="concat('\once \override MultiMeasureRest.staff-position = #',@loc - 4,' ')" />
+    </xsl:if>
+    <xsl:if test="@ploc or @oloc">
+      <xsl:message>WARNING: @ploc and @oloc on <xsl:value-of select="local-name(.)"/> <xsl:if test="@xml:id"><xsl:value-of select="concat('[',@xml:id,']')"/></xsl:if> not supported, use @loc instead</xsl:message>
     </xsl:if>
     <xml:text>R</xml:text>
     <xsl:choose>
@@ -2233,7 +2243,7 @@
       <xsl:when test="@dur='breve'">
         <xsl:text>\breve</xsl:text>
       </xsl:when>
-      <xsl:when test="number(@dur)">
+      <xsl:when test="number(@dur) &lt; 256">
         <xsl:value-of select="number(@dur)" />
       </xsl:when>
       <!-- data.DURATION.mensural -->
@@ -2262,6 +2272,12 @@
         <xsl:text>16</xsl:text>
       </xsl:when>
       <xsl:otherwise>
+        <xsl:if test="number(@dur) &gt; 128">
+          <xsl:message>
+            <xsl:value-of select="'WARNING: LilyPond does not support durations shorter than 128'" />
+          </xsl:message>
+        </xsl:if>
+        <xsl:text>1</xsl:text>
       </xsl:otherwise>
     </xsl:choose>
     <xsl:call-template name="setDots" />
@@ -2379,18 +2395,7 @@
     <xsl:if test="@stem.mod = '1slash'">
       <xsl:text>\once \override Flag.stroke-style = #"grace" </xsl:text>
     </xsl:if>
-    <xsl:choose>
-      <!-- data.GRACE -->
-      <xsl:when test="@grace = 'acc'">
-        <xsl:text>\appoggiatura </xsl:text>
-      </xsl:when>
-      <xsl:when test="@grace = 'unacc'">
-        <xsl:text>\acciaccatura </xsl:text>
-      </xsl:when>
-      <xsl:when test="@grace = 'unknown'">
-        <xsl:text>\grace </xsl:text>
-      </xsl:when>
-    </xsl:choose>
+    <xsl:text>\grace </xsl:text>
   </xsl:template>
   <!-- set articulation -->
   <xsl:template name="setArticulation">
