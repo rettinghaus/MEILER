@@ -10,6 +10,23 @@
 <xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:saxon="http://saxon.sf.net/" xmlns:local="NS:LOCAL" exclude-result-prefixes="saxon">
   <xsl:strip-space elements="*" />
   <xsl:output method="text" indent="no" encoding="UTF-8" />
+  <xsl:key name="id" match="*" use="@xml:id"/>
+  <xsl:key name="idref" match="*[@xml:id]" use="concat('#', @xml:id)"/>
+  <!-- The "isXYZ" keys are used to test whether an element is a certain thing with the help of generate-id().
+    Example for testing whether a note starts a beam with the help of a key:
+      key('isBeamStart', generate-id($myNote))
+    If the key function returns something, it is the start of a beam, otherwise it is not.
+    What the key function actually returns isn't relevant and should not be relied on or used for any further processing.  
+    In the case of the above example, it might return a <beam>, <beamSpan>, or the <note> itself, depending on how 
+    the beam was encoded. It might even return multiple of those things if the beam was encoded redundantly, e.g. 
+    both with an enclosing <beam> and @beam="i".
+  -->
+  <xsl:key name="isBeamStart" match="mei:beam" use=".//*[self::mei:note or self::mei:rest or self::mei:chord or self::mei:space][1]/generate-id()"/>
+  <xsl:key name="isBeamStart" match="@beam[contains(., 'i')]" use="generate-id(..)"/>
+  <xsl:key name="isBeamStart" match="mei:beamSpan[not(@beam.with)]" use="key('idref', @startid)/generate-id()"/>
+  <xsl:key name="isBeamEnd" match="mei:beam" use=".//*[self::mei:note or self::mei:rest or self::mei:chord or self::mei:space][last()]/generate-id()"/>
+  <xsl:key name="isBeamEnd" match="@beam[contains(., 't')]" use="generate-id(..)"/>
+  <xsl:key name="isBeamEnd" match="mei:beamSpan[not(@beam.with)]" use="key('idref', @endid)/generate-id()"/>
   <xsl:template match="/">
     <xsl:text>\version "2.18.2"&#10;</xsl:text>
     <xsl:text>#(ly:set-option 'point-and-click #f)&#10;</xsl:text>
@@ -732,12 +749,7 @@
       </xsl:if>
       <xml:text>~</xml:text>
     </xsl:if>
-    <xsl:if test="contains(@beam,'i') or (ancestor::mei:beam and position()=1) or (ancestor::mei:measure/mei:beamSpan[not(@beam.with)]/@startid = $noteKey)">
-      <xml:text>[</xml:text>
-    </xsl:if>
-    <xsl:if test="contains(@beam,'t') or (ancestor::mei:beam and position()=last()) or (ancestor::mei:mdiv[1]//mei:beamSpan[not(@beam.with)]/@endid = $noteKey)">
-      <xml:text>]</xml:text>
-    </xsl:if>
+    <xsl:apply-templates mode="addBeamMarkup" select="."/>
     <xsl:if test="contains(@slur,'t') or (ancestor::mei:mdiv[1]//mei:slur/@endid = $noteKey)">
       <xml:text>)</xml:text>
     </xsl:if>
@@ -832,12 +844,7 @@
       </xsl:if>
       <xml:text>~</xml:text>
     </xsl:if>
-    <xsl:if test="contains(@beam,'i') or (ancestor::mei:beam and position()=1) or (ancestor::mei:measure/mei:beamSpan[not(@beam.with)]/@startid = $chordKey)">
-      <xml:text>[</xml:text>
-    </xsl:if>
-    <xsl:if test="contains(@beam,'t') or (ancestor::mei:beam and position()=last()) or (ancestor::mei:mdiv[1]//mei:beamSpan[not(@beam.with)]/@endid = $chordKey)">
-      <xml:text>]</xml:text>
-    </xsl:if>
+    <xsl:apply-templates mode="addBeamMarkup" select="."/>
     <xsl:if test="contains(@slur,'t') or (ancestor::mei:mdiv[1]//mei:slur/@endid = $chordKey)">
       <xml:text>)</xml:text>
     </xsl:if>
@@ -939,12 +946,7 @@
         <xsl:call-template name="setDuration" />
       </xsl:otherwise>
     </xsl:choose>
-    <xsl:if test="contains(@beam,'i') or (ancestor::mei:beam and position()=1)">
-      <xml:text>[</xml:text>
-    </xsl:if>
-    <xsl:if test="contains(@beam,'t') or (ancestor::mei:beam and position()=last())">
-      <xml:text>]</xml:text>
-    </xsl:if>
+    <xsl:apply-templates mode="addBeamMarkup" select="."/>
     <xsl:if test="ancestor::mei:mdiv[1]//mei:hairpin/@endid = $restKey or ancestor::mei:mdiv[1]//mei:dynam/@endid = $restKey">
       <xml:text>\!</xml:text>
     </xsl:if>
@@ -3852,6 +3854,16 @@
         <xsl:value-of select="$gcd" />
       </xsl:otherwise>
     </xsl:choose>
+  </xsl:template>
+  <xsl:template mode="addBeamMarkup" match="*"/>
+  <xsl:template mode="addBeamMarkup" match="*[key('isBeamStart', generate-id())]">
+      <xml:text>[</xml:text>
+  </xsl:template>
+  <xsl:template mode="addBeamMarkup" match="*[key('isBeamEnd', generate-id())]">
+    <xml:text>]</xml:text>
+  </xsl:template>
+  <xsl:template mode="addBeamMarkup" match="*[key('isBeamEnd', generate-id()) and key('isBeamStart', generate-id())]" priority="10">
+    <xsl:message select="concat('WARNING: ', local-name(), ' element ', @xml:id,' both starts and ends a beam. This is not supported.')"/>
   </xsl:template>
   <!-- functions -->
   <xsl:function name="local:hex2number" as="xs:integer">
