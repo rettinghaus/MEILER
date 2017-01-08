@@ -687,20 +687,7 @@
     </xsl:if>
     <xsl:apply-templates select="mei:accid" mode="pre" />
     <xsl:value-of select="@pname" />
-    <xsl:if test="@accid or @accid.ges or child::mei:accid">
-      <xsl:choose>
-        <xsl:when test="not(@accid.ges)">
-          <xsl:call-template name="setAccidental">
-            <xsl:with-param name="accidental" select="descendant-or-self::*/@accid" />
-          </xsl:call-template>
-        </xsl:when>
-        <xsl:otherwise>
-          <xsl:call-template name="setAccidental">
-            <xsl:with-param name="accidental" select="descendant-or-self::*/@accid.ges" />
-          </xsl:call-template>
-        </xsl:otherwise>
-      </xsl:choose>
-    </xsl:if>
+    <xsl:apply-templates mode="setAccidental" select="(., mei:accid)/(@accid, @accid.ges)[1]"/>
     <xsl:call-template name="setOctave" />
     <xsl:if test="descendant-or-self::*/@accid or child::mei:accid/@func='caution'">
       <xml:text>!</xml:text>
@@ -1905,11 +1892,7 @@
     <xsl:choose>
       <xsl:when test="$keyTonic and $keyMode">
         <xsl:value-of select="concat('\key ',$keyTonic)" />
-        <xsl:if test="$keyAccid">
-          <xsl:call-template name="setAccidental">
-            <xsl:with-param name="accidental" select="$keyAccid" />
-          </xsl:call-template>
-        </xsl:if>
+        <xsl:apply-templates mode="setAccidental" select="$keyAccid"/>
         <xsl:value-of select="concat(' \',$keyMode,' ')" />
       </xsl:when>
       <xsl:when test="$keySig != 'mixed'">
@@ -2296,8 +2279,8 @@
     </xsl:if>
   </xsl:template>
   <!-- set accidental -->
-  <xsl:template name="setAccidental">
-    <xsl:param name="accidental" />
+  <xsl:template mode="setAccidental" match="@accid | @accid.ges">
+    <xsl:param name="accidental" select="."/>
     <!-- data.ACCIDENTAL.EXPLICIT -->
     <xsl:if test="$accidental = 's'">
       <xsl:text>is</xsl:text>
