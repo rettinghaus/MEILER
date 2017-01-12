@@ -10,6 +10,7 @@
 <xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:saxon="http://saxon.sf.net/" xmlns:local="NS:LOCAL" exclude-result-prefixes="saxon">
   <xsl:strip-space elements="*" />
   <xsl:output method="text" indent="no" encoding="UTF-8" />
+  <xsl:key name="lyrics-by-staff-number" match="mei:syl|@syl" use="ancestor::mei:staff[1]/@n"/>
   <xsl:key name="id" match="*" use="@xml:id"/>
   <xsl:key name="idref" match="*[@xml:id]" use="concat('#', @xml:id)"/>
   <!-- The "isXYZ" keys are used to test whether an element is a certain thing with the help of generate-id().
@@ -407,6 +408,11 @@
       <xsl:value-of select="concat('&#10;  \context Staff = &quot;staff ',$staffNumber,'&quot;&#32;')" />
     </xsl:if>
     <xsl:text>{&#10; </xsl:text>
+    <xsl:if test="key('lyrics-by-staff-number', $staffNumber)">
+      <!-- We're on a vocal staff, hence put dynamics above the staff -->
+      \override DynamicText.direction = #UP
+      \override DynamicLineSpanner.direction = #UP
+    </xsl:if>
     <xsl:apply-templates select="mei:instrDef" />
     <xsl:if test="@lines and @lines != '5'">
       <xsl:value-of select="concat('\override Staff.StaffSymbol.line-count = #',@lines,'&#10;    ')" />
