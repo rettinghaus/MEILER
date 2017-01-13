@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.music-encoding.org/schema/3.0.0/mei-all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="http://www.music-encoding.org/schema/3.0.0/mei-all.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<mei xmlns="http://www.music-encoding.org/ns/mei" meiversion="3.0.0" xmlns:meiler="NS:MEILER_TEST">
+  <meiHead>
+    <fileDesc>
+      <titleStmt>
+        <title>clef change tests</title>
+      </titleStmt>
+      <pubStmt/>
+    </fileDesc>
+    <extMeta>
+      <meiler:test system="bash" input="ly">
+        # Test strategy: We assigned ascending color values to elements in the order of appearance.
+        # We expect the order to be the same in the output.
+        testcolors=$(egrep -o 'rgb-color[^)]+' "$ly" | egrep --color=never -o '[0-9.].+')
+        # Clefs are flagged with a trailing 255 blue value (1 in lilypond)
+        cleftestcolors=$(echo "$testcolors" | grep --color=never '1$')
+        if echo "$cleftestcolors" | sort | uniq --count | egrep -v '^\s*1' > /dev/null
+        then
+          echo "At least one clef was output twice"
+          exit 1
+        fi
+        if [ $( echo "$cleftestcolors" | wc -l ) -ne 8 ]
+        then 
+          echo "Number of output clefs does not match number of defined clefs"
+          exit 1
+        fi
+        if [ "$testcolors" != "$( echo "$testcolors" | sort )" ]
+        then 
+          echo "At least one clef was output in the wrong place"
+          exit 1 
+        fi
+      </meiler:test>
+    </extMeta>
+  </meiHead>
+  <music>
+    <body>
+      <mdiv>
+        <score>
+          <scoreDef meter.count="4" meter.unit="4">
+            <staffGrp>
+              <staffDef lines="5" n="1">
+                <clef shape="C" line="3" color="rgb(1,0,255)"/>
+              </staffDef>
+              <staffDef clef.line="4" clef.shape="F" lines="5" n="2" clef.color="rgb(100,0,255)"/>
+            </staffGrp>
+          </scoreDef>
+          <section>
+            <measure n="1">
+              <staff n="1">
+                <layer n="1">
+                  <note dur="2" oct="5" pname="c" color="rgb(2,0,0)"/>
+                  <clef shape="F" line="4" color="rgb(3,0,255)"/>
+                  <rest dur="2" color="rgb(4,0,0)"/>
+                </layer>
+              </staff>
+              <staff n="2">
+                <layer n="1">
+                  <note dur="2" oct="3" pname="f" color="rgb(101,0,0)"/>
+                  <staffDef clef.shape="C" clef.line="3" n="2" clef.color="rgb(102,0,255)"/>
+                  <rest dur="2" color="rgb(103,0,0)"/>
+                </layer>
+              </staff>
+            </measure>
+            <measure n="2">
+              <staffDef n="1" clef.shape="G" clef.line="2" clef.color="rgb(5,0,255)"/>
+              <staff n="1">
+                <layer>
+                  <rest dur="2" color="rgb(6,0,0)"/>
+                  <clef shape="perc" line="3" color="rgb(7,0,255)"/>
+                  <rest dur="2" color="rgb(8,0,0)"/>
+                </layer>
+              </staff>
+              <staff n="2">
+                <staffDef n="2" clef.shape="F" clef.line="4" clef.color="rgb(104,0,255)"/>
+                <layer>
+                  <beam>
+                    <note dur="8" pname="c" oct="4" color="rgb(105,0,0)"/>
+                    <note dur="8" pname="c" oct="4" color="rgb(106,0,0)"/>
+                    <clef shape="G" line="2" color="rgb(107,0,255)"/>
+                    <note dur="8" pname="c" oct="4" color="rgb(108,0,0)"/>
+                    <note dur="8" pname="c" oct="4" color="rgb(109,0,0)"/>
+                  </beam>
+                  <rest dur="2" color="rgb(110,0,0)"/>
+                </layer>
+              </staff>
+            </measure>
+          </section>
+        </score>
+      </mdiv>
+    </body>
+  </music>
+</mei>
