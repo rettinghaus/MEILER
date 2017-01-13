@@ -28,6 +28,27 @@
   <xsl:key name="isBeamEnd" match="mei:beam" use=".//*[self::mei:note or self::mei:rest or self::mei:chord or self::mei:space][last()]/generate-id()"/>
   <xsl:key name="isBeamEnd" match="@beam[contains(., 't')]" use="generate-id(..)"/>
   <xsl:key name="isBeamEnd" match="mei:beamSpan[not(@beam.with)]" use="key('idref', @endid)/generate-id()"/>
+  <xsl:variable name="durationalTags" select="('bTrem', 'chord', 'fTrem', 'halfmRpt', 'mRest', 'mSpace', 'note', 'rest', 'space', 'beam', 'beatRpt', 'mRpt', 'mRpt2', 'multiRest', 'multiRpt', 'tuplet')"/>
+  <xsl:key name="staffDefByFirstAffectedElement" match="mei:staffDef">
+    <xsl:variable name="hasPrecedingLayerContent" as="xs:boolean" 
+      select="ancestor::mei:layer and preceding-sibling::mei:*[local-name()=$durationalTags]"/>
+    <xsl:variable name="firstAffectedLayerContentElement" 
+      select=".[$hasPrecedingLayerContent]/following-sibling::mei:*[name()=$durationalTags][1]"/>
+    <xsl:choose>
+      <xsl:when test="$firstAffectedLayerContentElement">
+        <!-- This staffDef takes effect in the middle of a layer -->
+        <xsl:value-of select="$firstAffectedLayerContentElement/generate-id()"/>
+      </xsl:when>
+      <xsl:when test="ancestor::mei:staff and not($hasPrecedingLayerContent)">
+        <!-- This <staffDef> affects the <staff> element it lives in. -->
+        <xsl:value-of select="ancestor::mei:staff[1]/generate-id()"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <!-- This <staffDef> takes effect in the next <staff> -->
+        <xsl:value-of select="following::mei:staff[@n=current()/@n][1]/generate-id()"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:key>
   <xsl:template match="/">
     <xsl:text>\version "2.18.2"&#10;</xsl:text>
     <xsl:text>#(ly:set-option 'point-and-click #f)&#10;</xsl:text>
@@ -170,16 +191,7 @@
           <xsl:call-template name="setBarNumber" />
         </xsl:if>
         <!-- add clef change -->
-        <xsl:if test="generate-id(preceding::mei:staffDef[@n = $staffNumber][@clef.shape][1]/following::mei:measure[1]) = $currentMeasure">
-          <xsl:call-template name="setClef">
-            <xsl:with-param name="clefColor" select="preceding::mei:staffDef[@n = $staffNumber][@clef.shape][1]/@clef.color" />
-            <xsl:with-param name="clefDis" select="preceding::mei:staffDef[@n = $staffNumber][@clef.shape][1]/@clef.dis" />
-            <xsl:with-param name="clefDisPlace" select="preceding::mei:staffDef[@n = $staffNumber][@clef.shape][1]/@clef.dis.place" />
-            <xsl:with-param name="clefLine" select="preceding::mei:staffDef[@n = $staffNumber][@clef.shape][1]/@clef.line" />
-            <xsl:with-param name="clefShape" select="preceding::mei:staffDef[@n = $staffNumber][@clef.shape][1]/@clef.shape" />
-          </xsl:call-template>
-          <xsl:text>&#10;&#32;&#32;</xsl:text>
-        </xsl:if>
+        <xsl:apply-templates select="(key('staffDefByFirstAffectedElement', generate-id())/(@clef.shape, mei:clef))[last()]"/>
         <!-- add key signature change -->
         <xsl:if test="generate-id(ancestor::mei:measure/preceding-sibling::*[contains(local-name(),'Def')][@*[starts-with(name(),'key')]][1]/following-sibling::mei:measure[1]) = $currentMeasure">
           <xsl:call-template name="setKey">
@@ -281,10 +293,10 @@
   </xsl:template>
   <!-- MEI score element -->
   <xsl:template match="mei:score">
-    <xsl:apply-templates select="descendant::mei:scoreDef[1]" />
+    <xsl:apply-templates select="descendant::mei:scoreDef[1]" mode="score-setup"/>
   </xsl:template>
   <!-- MEI score definition -->
-  <xsl:template match="mei:scoreDef">
+  <xsl:template match="mei:scoreDef" mode="score-setup">
     <!-- lilypond score block -->
     <xsl:text>\score { &lt;&lt;&#10;</xsl:text>
     <xsl:if test="ancestor::mei:mdiv[1]//@source">
@@ -295,7 +307,7 @@
       </xsl:for-each>
       <xsl:text>)&#10;</xsl:text>
     </xsl:if>
-    <xsl:apply-templates select="mei:staffGrp|mei:staffDef" />
+    <xsl:apply-templates select="mei:staffGrp|mei:staffDef" mode="score-setup"/>
     <xsl:text>&gt;&gt;&#10;</xsl:text>
     <!-- lilypond layout block -->
     <xsl:text>\layout {&#10;</xsl:text>
@@ -367,7 +379,7 @@
     </xsl:if>
   </xsl:template>
   <!-- MEI staff group -->
-  <xsl:template match="mei:staffGrp">
+  <xsl:template match="mei:staffGrp" mode="score-setup">
     <xsl:text>\new StaffGroup </xsl:text>
     <xsl:if test="@label or @label.abbr or child::mei:label">
       <xsl:text>\with { </xsl:text>
@@ -376,11 +388,11 @@
     </xsl:if>
     <xsl:text>&lt;&lt;&#10;</xsl:text>
     <xsl:call-template name="setStaffGrpStyle" />
-    <xsl:apply-templates select="mei:staffGrp|mei:staffDef" />
+    <xsl:apply-templates select="mei:staffGrp|mei:staffDef" mode="score-setup"/>
     <xsl:text>&gt;&gt;&#10;</xsl:text>
   </xsl:template>
   <!-- MEI staff definitons -->
-  <xsl:template match="mei:staffDef">
+  <xsl:template match="mei:staffDef" mode="score-setup">
     <xsl:variable name="mdivNumber" select="ancestor::mei:mdiv/@n" />
     <xsl:variable name="staffNumber" select="@n" />
     <xsl:text> \new </xsl:text>
@@ -463,16 +475,6 @@
     </xsl:choose>
     <!-- set MEILER default styles -->
     <xsl:text>\set tieWaitForNote = ##t&#10; </xsl:text>
-    <xsl:if test="ancestor-or-self::*/@*[starts-with(name(),'clef.')]">
-      <xsl:call-template name="setClef">
-        <xsl:with-param name="clefColor" select="@clef.color" />
-        <xsl:with-param name="clefDis" select="@clef.dis" />
-        <xsl:with-param name="clefDisPlace" select="@clef.dis.place" />
-        <xsl:with-param name="clefLine" select="@clef.line" />
-        <xsl:with-param name="clefShape" select="@clef.shape" />
-      </xsl:call-template>
-    </xsl:if>
-    <xsl:apply-templates select="mei:clef" />
     <xsl:call-template name="setKey">
       <xsl:with-param name="keyTonic" select="ancestor-or-self::*/@key.pname" />
       <xsl:with-param name="keyAccid" select="ancestor-or-self::*/@key.accid" />
@@ -565,7 +567,7 @@
     <xsl:text>}&#32;</xsl:text>
   </xsl:template>
   <!-- MEI measure -->
-  <xsl:template name="measure" match="mei:measure">
+  <xsl:template match="mei:measure">
     <xsl:value-of select="'  '" />
     <xsl:if test="(ancestor::mei:measure[@n and not(@metcon='false')]/@n != preceding::mei:measure[@n and not(@metcon='false')][1]/@n + 1)">
       <xsl:call-template name="setBarNumber" />
@@ -601,13 +603,25 @@
       <xml:text>\\ </xml:text>
     </xsl:if>
   </xsl:template>
+  <!-- MEI staffDef (inside musical flow) -->
+  <xsl:template match="mei:staffDef[ancestor::mei:layer]">
+    <xsl:apply-templates select="(mei:clef, @clef.shape)[1]"/>
+  </xsl:template>
   <!-- MEI clefs -->
-  <xsl:template name="setClef" match="mei:clef">
-    <xsl:param name="clefColor" select="@color" />
-    <xsl:param name="clefDis" select="@dis" />
-    <xsl:param name="clefDisPlace" select="@dis.place" />
-    <xsl:param name="clefLine" select="@line" />
-    <xsl:param name="clefShape" select="@shape" />
+  <xsl:template match="mei:clef|@clef.shape">
+    <xsl:param name="clefColor" select="@color|../@clef.color" />
+    <xsl:param name="clefDis" select="@dis|../@clef.dis" />
+    <xsl:param name="clefDisPlace" select="@dis.place|../@clef.dis.place" />
+    <xsl:param name="clefLine" select="@line|../@clef.line" />
+    <xsl:param name="clefShape" select="@shape|../@clef.shape" />
+    <xsl:variable name="mei2lyClefMap">
+      <clef mei="G" ly="G"/>
+      <clef mei="F" ly="F"/>
+      <clef mei="C" ly="C"/>
+      <clef mei="perc" ly="percussion"/>
+      <clef mei="TAB" ly="tab"/>
+      <clef mei="GG" ly="GG"/><!-- Not working in v2.18 and earlier? -->
+    </xsl:variable>
     <xsl:variable name="clefTrans">
       <xsl:choose>
         <xsl:when test="$clefDisPlace='above'">
@@ -647,7 +661,7 @@
     <xsl:if test="@cautionary">
       <xsl:value-of select="concat('\set Staff.forceClef = ##',substring(@cautionary,1,1),' ')"/>
     </xsl:if>
-    <xsl:value-of select="concat('\set Staff.clefGlyph = #','&quot;clefs.',$clefShape,'&quot; ')" />
+    <xsl:value-of select="concat('\set Staff.clefGlyph = #','&quot;clefs.', $mei2lyClefMap/*[@mei=$clefShape]/@ly,'&quot; ')" />
     <xsl:value-of select="concat('\set Staff.clefPosition = #',$clefPos,' ')" />
     <xsl:value-of select="concat('\set Staff.clefTransposition = #',$clefTrans,' ')" />
     <xsl:value-of select="concat('\set Staff.middleCPosition = #',$clefPos + $cOffset - $clefTrans,' ')" />
