@@ -2628,7 +2628,7 @@
   <xsl:template name="setOffset">
     <xsl:choose>
       <xsl:when test="@ho">
-        <xsl:value-of select="concat('(',@ho div 2)" />
+        <xsl:value-of select="concat('(',local:VU2LY(@ho))" />
       </xsl:when>
       <xsl:otherwise>
         <xsl:value-of select="'(0'" />
@@ -2637,7 +2637,7 @@
     <xsl:value-of select="' . '" />
     <xsl:choose>
       <xsl:when test="@vo">
-        <xsl:value-of select="concat(@vo div 2,') ')" />
+        <xsl:value-of select="concat(local:VU2LY(@vo),') ')" />
       </xsl:when>
       <xsl:otherwise>
         <xsl:value-of select="'0) '" />
@@ -2648,7 +2648,7 @@
   <xsl:template name="setOffset2">
     <xsl:choose>
       <xsl:when test="@startvo">
-        <xsl:value-of select="concat('(',@startvo div 2)" />
+        <xsl:value-of select="concat('(',local:VU2LY(@startvo))" />
       </xsl:when>
       <xsl:otherwise>
         <xsl:value-of select="'(0'" />
@@ -2657,7 +2657,7 @@
     <xsl:value-of select="' . '" />
     <xsl:choose>
       <xsl:when test="@endvo">
-        <xsl:value-of select="concat(@endvo div 2,') ')" />
+        <xsl:value-of select="concat(local:VU2LY(@endvo),') ')" />
       </xsl:when>
       <xsl:otherwise>
         <xsl:value-of select="'0) '" />
@@ -3897,5 +3897,21 @@
     <xsl:variable name="number" select="if ($numberArg) then $numberArg else 1" as="xs:decimal" />
     <xsl:variable name="leadingDigits" select="if ($number le 26) then '' else local:number2alpha(floor($number div 26))" />
     <xsl:value-of select="concat($leadingDigits, codepoints-to-string(xs:integer(64 + $number mod 26)))" />
+  </xsl:function>
+  <!-- Converts MEI virtual units to LilyPond's units -->
+  <xsl:function name="local:VU2LY" as="xs:double">
+    <xsl:param name="valueString" as="xs:string" />
+    <xsl:choose>
+      <xsl:when test="number($valueString)">
+        <xsl:value-of select="number($valueString) div 2"/>
+      </xsl:when>
+      <xsl:when test="substring($valueString,string-length($valueString)-1) = 'vu'">
+        <xsl:value-of select="number(substring($valueString,1,string-length($valueString)-2)) div 2"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:message select="concat('WARNING: Unsupported unit: ', substring($valueString,string-length($valueString)-1))" />
+        <xsl:value-of select="0"/>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:function>
 </xsl:stylesheet>
