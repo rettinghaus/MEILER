@@ -22,17 +22,17 @@
     the beam was encoded. It might even return multiple of those things if the beam was encoded redundantly, e.g.
     both with an enclosing <beam> and @beam="i".
   -->
-  <xsl:key name="isBeamStart" match="mei:beam" use=".//*[self::mei:note or self::mei:rest or self::mei:chord or self::mei:space][1]/generate-id()"/>
+  <xsl:key name="isBeamStart" match="mei:beam" use="(descendant::*[self::mei:note or self::mei:rest or self::mei:chord or self::mei:space])[1]/generate-id()"/>
   <xsl:key name="isBeamStart" match="@beam[contains(., 'i')]" use="generate-id(..)"/>
   <xsl:key name="isBeamStart" match="mei:beamSpan[not(@beam.with)]" use="key('idref', @startid)/generate-id()"/>
-  <xsl:key name="isBeamEnd" match="mei:beam" use=".//*[self::mei:note or self::mei:rest or self::mei:chord or self::mei:space][last()]/generate-id()"/>
+  <xsl:key name="isBeamEnd" match="mei:beam" use="(descendant::*[self::mei:note or self::mei:rest or self::mei:chord or self::mei:space])[last()]/generate-id()"/>
   <xsl:key name="isBeamEnd" match="@beam[contains(., 't')]" use="generate-id(..)"/>
   <xsl:key name="isBeamEnd" match="mei:beamSpan[not(@beam.with)]" use="key('idref', @endid)/generate-id()"/>
   <xsl:variable name="durationalTags" select="('bTrem', 'chord', 'fTrem', 'halfmRpt', 'mRest', 'mSpace', 'note', 'rest', 'space', 'beam', 'beatRpt', 'mRpt', 'mRpt2', 'multiRest', 'multiRpt', 'tuplet')"/>
   <xsl:key name="staffDefByFirstAffectedElement" match="mei:staffDef">
-    <xsl:variable name="hasPrecedingLayerContent" as="xs:boolean" 
+    <xsl:variable name="hasPrecedingLayerContent" as="xs:boolean"
       select="ancestor::mei:layer and preceding-sibling::mei:*[local-name()=$durationalTags]"/>
-    <xsl:variable name="firstAffectedLayerContentElement" 
+    <xsl:variable name="firstAffectedLayerContentElement"
       select=".[$hasPrecedingLayerContent]/following-sibling::mei:*[name()=$durationalTags][1]"/>
     <xsl:choose>
       <xsl:when test="$firstAffectedLayerContentElement">
