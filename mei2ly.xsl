@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--        -->
-<!-- MEILER -->
-<!-- mei2ly -->
-<!-- v0.8.7 -->
-<!--        -->
+<!--          -->
+<!--  MEILER  -->
+<!--  mei2ly  -->
+<!--  v0.8.12 -->
+<!--          -->
 <!-- programmed by Klaus Rettinghaus -->
-<!--        -->
+<!--          -->
 <xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:saxon="http://saxon.sf.net/" exclude-result-prefixes="saxon">
   <xsl:strip-space elements="*"/>
   <xsl:output method="text" indent="no" encoding="UTF-8"/>
@@ -1077,7 +1077,7 @@
   </xsl:template>
   <!-- MEI fingered tremolo -->
   <xsl:template match="mei:fTrem[@measperf]">
-    <xsl:value-of select="concat('\repeat tremolo ',@measperf div child::*[1]/@dur,' {')"/>
+    <xsl:value-of select="concat('\repeat tremolo ',@measperf div (2 * child::*[1]/@dur),' {')"/>
     <xsl:apply-templates/>
     <xsl:value-of select="'} '"/>
   </xsl:template>
