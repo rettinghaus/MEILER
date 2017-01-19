@@ -2,7 +2,7 @@
 <!--          -->
 <!--  MEILER  -->
 <!--  mei2ly  -->
-<!-- v 0.8.11 -->
+<!-- v 0.8.12 -->
 <!--          -->
 <!-- programmed by -->
 <!-- Klaus Rettinghaus -->
@@ -732,11 +732,18 @@
     <xsl:if test="child::mei:accid/@func='edit' or child::mei:accid/@enclose='paren'">
       <xml:text>?</xml:text>
     </xsl:if>
-    <xsl:if test="not(parent::mei:chord) and not(parent::mei:fTrem[@measperf])">
+    <xsl:if test="not(parent::mei:chord) and not(parent::mei:fTrem)">
       <xsl:call-template name="setDuration" />
     </xsl:if>
-    <xsl:if test="parent::mei:fTrem/@measperf">
-      <xsl:value-of select="parent::mei:fTrem/@measperf" />
+    <xsl:if test="parent::mei:fTrem">
+      <xsl:choose>
+        <xsl:when test="parent::mei:fTrem/@measperf">
+          <xsl:value-of select="parent::mei:fTrem/@measperf" />
+        </xsl:when>
+        <xsl:when test="parent::mei:fTrem/@slash">
+          <xsl:value-of select="local:slash2dur(parent::mei:fTrem/@slash)" />
+        </xsl:when>
+      </xsl:choose>
     </xsl:if>
     <xsl:if test="parent::mei:bTrem and not(@grace) and contains(@stem.mod,'slash')">
       <xsl:choose>
@@ -744,7 +751,7 @@
           <xsl:value-of select="concat(':',parent::mei:bTrem/@measperf)" />
         </xsl:when>
         <xsl:otherwise>
-          <xsl:value-of select="concat(':',8 * number(substring(@stem.mod,1,1)))" />
+          <xsl:value-of select="concat(':',local:slash2dur(substring(@stem.mod,1,1)))" />
         </xsl:otherwise>
       </xsl:choose>
     </xsl:if>
@@ -1155,8 +1162,15 @@
     <xsl:apply-templates/>
   </xsl:template>
   <!-- MEI fingered tremolo -->
-  <xsl:template match="mei:fTrem[@measperf]">
-    <xsl:value-of select="concat('\repeat tremolo ',@measperf div child::*[1]/@dur,' {')" />
+  <xsl:template match="mei:fTrem">
+    <xsl:choose>
+      <xsl:when test="@measperf">
+        <xsl:value-of select="concat('\repeat tremolo ',@measperf div (2 * child::*[1]/@dur),' {')" />
+      </xsl:when>
+      <xsl:when test="@slash">
+        <xsl:value-of select="concat('\repeat tremolo ',local:slash2dur(@slash) div (2 * child::*[1]/@dur),' {')" />
+      </xsl:when>
+    </xsl:choose>
     <xsl:apply-templates/>
     <xsl:value-of select="'} '" />
   </xsl:template>
@@ -3924,6 +3938,34 @@
       </xsl:when>
       <xsl:otherwise>
         <xsl:message select="concat('WARNING: Unsupported unit: ', substring($valueString,string-length($valueString)-1))" />
+        <xsl:value-of select="0"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:function>
+  <!-- Converts MEI slashes to matching duration -->
+  <xsl:function name="local:slash2dur" as="xs:integer">
+    <xsl:param name="slashNum" as="xs:string" />
+    <xsl:choose>
+      <xsl:when test="$slashNum = '1'">
+        <xsl:value-of select="8"/>
+      </xsl:when>
+      <xsl:when test="$slashNum = '2'">
+        <xsl:value-of select="16"/>
+      </xsl:when>
+      <xsl:when test="$slashNum = '3'">
+        <xsl:value-of select="32"/>
+      </xsl:when>
+      <xsl:when test="$slashNum = '4'">
+        <xsl:value-of select="64"/>
+      </xsl:when>
+      <xsl:when test="$slashNum = '5'">
+        <xsl:value-of select="128"/>
+      </xsl:when>
+      <xsl:when test="$slashNum = '6'">
+        <xsl:value-of select="256"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:message select="'WARNING: Unsupported number of slashes'" />
         <xsl:value-of select="0"/>
       </xsl:otherwise>
     </xsl:choose>
