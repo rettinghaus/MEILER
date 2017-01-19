@@ -846,7 +846,7 @@
           <xsl:value-of select="concat(':',parent::mei:bTrem/@measperf)" />
         </xsl:when>
         <xsl:otherwise>
-          <xsl:value-of select="concat(':',8 * number(substring(@stem.mod,1,1)))" />
+          <xsl:value-of select="concat(':',local:slash2dur(substring(@stem.mod,1,1)))" />
         </xsl:otherwise>
       </xsl:choose>
     </xsl:if>
