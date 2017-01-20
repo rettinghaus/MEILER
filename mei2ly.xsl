@@ -2,7 +2,7 @@
 <!--          -->
 <!--  MEILER  -->
 <!--  mei2ly  -->
-<!-- v 0.8.12 -->
+<!-- v 0.8.13 -->
 <!--          -->
 <!-- programmed by -->
 <!-- Klaus Rettinghaus -->
@@ -22,10 +22,10 @@
     the beam was encoded. It might even return multiple of those things if the beam was encoded redundantly, e.g.
     both with an enclosing <beam> and @beam="i".
   -->
-  <xsl:key name="isBeamStart" match="mei:beam" use="(descendant::*[self::mei:note or self::mei:rest or self::mei:chord or self::mei:space])[1]/generate-id()"/>
+  <xsl:key name="isBeamStart" match="mei:beam" use="(descendant::*[self::mei:note[not(parent::mei:chord)] or self::mei:rest or self::mei:chord or self::mei:space])[1]/generate-id()"/>
   <xsl:key name="isBeamStart" match="@beam[contains(., 'i')]" use="generate-id(..)"/>
   <xsl:key name="isBeamStart" match="mei:beamSpan[not(@beam.with)]" use="key('idref', @startid)/generate-id()"/>
-  <xsl:key name="isBeamEnd" match="mei:beam" use="(descendant::*[self::mei:note or self::mei:rest or self::mei:chord or self::mei:space])[last()]/generate-id()"/>
+  <xsl:key name="isBeamEnd" match="mei:beam" use="(descendant::*[self::mei:note[not(parent::mei:chord)] or self::mei:rest or self::mei:chord or self::mei:space])[last()]/generate-id()"/>
   <xsl:key name="isBeamEnd" match="@beam[contains(., 't')]" use="generate-id(..)"/>
   <xsl:key name="isBeamEnd" match="mei:beamSpan[not(@beam.with)]" use="key('idref', @endid)/generate-id()"/>
   <xsl:variable name="durationalTags" select="('bTrem', 'chord', 'fTrem', 'halfmRpt', 'mRest', 'mSpace', 'note', 'rest', 'space', 'beam', 'beatRpt', 'mRpt', 'mRpt2', 'multiRest', 'multiRpt', 'tuplet')"/>
@@ -525,7 +525,7 @@
     <xsl:value-of select="concat('\mdiv',local:number2alpha($mdivNumber),'_staff',local:number2alpha($staffNumber))" />
     <xsl:text>&#32;}&#10;</xsl:text>
     <!-- put lyrics under staff -->
-    <xsl:if test="ancestor::mei:mdiv[1]//mei:staff[@n=$staffNumber]//mei:verse[not(@n)]">
+    <xsl:if test="ancestor::mei:mdiv[1]//mei:staff[@n=$staffNumber]//mei:verse[not(number(@n))]">
       <xsl:choose>
         <xsl:when test="ancestor::mei:mdiv[1]//mei:staff[@n=$staffNumber]/mei:layer/@n and (max(ancestor::mei:mdiv[1]//mei:staff[@n=$staffNumber]/mei:layer/@n) != 1)">
           <xsl:value-of select="'  \new Lyrics { '" />
@@ -537,18 +537,20 @@
       </xsl:choose>
       <xsl:value-of select="concat('\mdiv',local:number2alpha($mdivNumber),'_staff',local:number2alpha($staffNumber),'_verse',local:number2alpha(1),' }&#10;')" />
     </xsl:if>
-    <xsl:for-each select="ancestor::mei:mdiv[1]//mei:staff[@n=$staffNumber]//mei:verse/@n[not(. = preceding::mei:verse[ancestor::mei:staff/@n=$staffNumber]/@n)]">
-      <xsl:choose>
-        <xsl:when test="ancestor::mei:mdiv[1]//mei:staff[@n=$staffNumber]/mei:layer/@n and (max(ancestor::mei:mdiv[1]//mei:staff[@n=$staffNumber]/mei:layer/@n) != 1)">
-          <xsl:value-of select="'  \new Lyrics { '" />
-        </xsl:when>
-        <xsl:otherwise>
-          <xsl:value-of select="'  \addlyrics { '" />
-          <xsl:text>\set ignoreMelismata = ##t </xsl:text>
-        </xsl:otherwise>
-      </xsl:choose>
-      <xsl:value-of select="concat('\mdiv',local:number2alpha($mdivNumber),'_staff',local:number2alpha($staffNumber),'_verse',local:number2alpha(.),' }&#10;')" />
-    </xsl:for-each>
+    <xsl:if test="ancestor::mei:mdiv[1]//mei:staff[@n=$staffNumber]//mei:verse[number(@n)]">
+      <xsl:for-each select="ancestor::mei:mdiv[1]//mei:staff[@n=$staffNumber]//mei:verse/@n[not(. = preceding::mei:verse[ancestor::mei:staff/@n=$staffNumber]/@n)]">
+        <xsl:choose>
+          <xsl:when test="ancestor::mei:mdiv[1]//mei:staff[@n=$staffNumber]/mei:layer/@n and (max(ancestor::mei:mdiv[1]//mei:staff[@n=$staffNumber]/mei:layer/@n) != 1)">
+            <xsl:value-of select="'  \new Lyrics { '" />
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="'  \addlyrics { '" />
+            <xsl:text>\set ignoreMelismata = ##t </xsl:text>
+          </xsl:otherwise>
+        </xsl:choose>
+        <xsl:value-of select="concat('\mdiv',local:number2alpha($mdivNumber),'_staff',local:number2alpha($staffNumber),'_verse',local:number2alpha(.),' }&#10;')" />
+      </xsl:for-each>
+    </xsl:if>
   </xsl:template>
   <!-- MEI instrument definition -->
   <xsl:template match="mei:instrDef">
@@ -662,10 +664,18 @@
       <xsl:value-of select="concat('\set Staff.forceClef = ##',substring(@cautionary,1,1),' ')"/>
     </xsl:if>
     <xsl:value-of select="concat('\set Staff.clefGlyph = #','&quot;clefs.', $mei2lyClefMap/*[@mei=$clefShape]/@ly,'&quot; ')" />
-    <xsl:value-of select="concat('\set Staff.clefPosition = #',$clefPos,' ')" />
-    <xsl:value-of select="concat('\set Staff.clefTransposition = #',$clefTrans,' ')" />
-    <xsl:value-of select="concat('\set Staff.middleCPosition = #',$clefPos + $cOffset - $clefTrans,' ')" />
-    <xsl:value-of select="concat('\set Staff.middleCClefPosition = #',$clefPos + $cOffset - $clefTrans,' ')" />
+    <xsl:choose>
+      <xsl:when test="number($clefPos)">
+        <xsl:value-of select="concat('\set Staff.clefPosition = #',$clefPos,' ')" />
+        <xsl:value-of select="concat('\set Staff.clefTransposition = #',$clefTrans,' ')" />
+        <xsl:value-of select="concat('\set Staff.middleCPosition = #',$clefPos + $cOffset - $clefTrans,' ')" />
+        <xsl:value-of select="concat('\set Staff.middleCClefPosition = #',$clefPos + $cOffset - $clefTrans,' ')" />
+      </xsl:when>
+      <xsl:otherwise>
+        <!-- if no clef position is defined put it in the middle of the staff, leave the rest untouched -->
+        <xsl:value-of select="'\set Staff.clefPosition = #0 '" />
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
   <!-- MEI notes -->
   <xsl:template match="mei:note[@pname]">
@@ -732,19 +742,17 @@
     <xsl:if test="child::mei:accid/@func='edit' or child::mei:accid/@enclose='paren'">
       <xml:text>?</xml:text>
     </xsl:if>
-    <xsl:if test="not(parent::mei:chord) and not(parent::mei:fTrem)">
-      <xsl:call-template name="setDuration" />
-    </xsl:if>
-    <xsl:if test="parent::mei:fTrem">
-      <xsl:choose>
-        <xsl:when test="parent::mei:fTrem/@measperf">
-          <xsl:value-of select="parent::mei:fTrem/@measperf" />
-        </xsl:when>
-        <xsl:when test="parent::mei:fTrem/@slash">
-          <xsl:value-of select="local:slash2dur(parent::mei:fTrem/@slash)" />
-        </xsl:when>
-      </xsl:choose>
-    </xsl:if>
+    <xsl:choose>
+      <xsl:when test="not(parent::mei:chord) and not(parent::mei:fTrem)">
+        <xsl:call-template name="setDuration" />
+      </xsl:when>
+      <xsl:when test="parent::mei:fTrem/@measperf">
+        <xsl:value-of select="parent::mei:fTrem/@measperf" />
+      </xsl:when>
+      <xsl:when test="parent::mei:fTrem/@slash">
+        <xsl:value-of select="local:slash2dur(parent::mei:fTrem/@slash)" />
+      </xsl:when>
+    </xsl:choose>
     <xsl:if test="parent::mei:bTrem and not(@grace) and contains(@stem.mod,'slash')">
       <xsl:choose>
         <xsl:when test="parent::mei:bTrem[@measperf]">
@@ -810,7 +818,7 @@
     <xsl:if test="(starts-with(@tuplet,'t') or (ancestor::mei:mdiv[1]//mei:tupletSpan/@endid = $noteKey)) and not(ancestor::mei:tuplet)">
       <xsl:value-of select="' }'" />
     </xsl:if>
-    <xsl:if test="@grace and ancestor::mei:beam and position()=last()">
+    <xsl:if test="@grace and not(preceding-sibling::mei:note[not(@grace)]) and ancestor::mei:beam and position()=last()">
       <xml:text>}</xml:text>
     </xsl:if>
     <xsl:if test="ancestor::mei:mdiv[1]//mei:octave/@endid = $noteKey">
@@ -2291,11 +2299,14 @@
         <xsl:text>16</xsl:text>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:if test="number(@dur) &gt; 128">
-          <xsl:message>
-            <xsl:value-of select="'WARNING: LilyPond does not support durations shorter than 128'" />
-          </xsl:message>
-        </xsl:if>
+        <xsl:choose>
+          <xsl:when test="number(@dur) &gt; 128">
+            <xsl:message select="'WARNING: LilyPond does not support durations shorter than 128'" />
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:message>WARNING: No duration for <xsl:value-of select="local-name(.)"/><xsl:if test="@xml:id"><xsl:value-of select="concat(' [',@xml:id,']')"/></xsl:if> found</xsl:message>
+          </xsl:otherwise>
+        </xsl:choose>
         <xsl:text>1</xsl:text>
       </xsl:otherwise>
     </xsl:choose>
@@ -3761,7 +3772,7 @@
         <xsl:for-each select="descendant::*[self::mei:note[not(@grace)] or self::mei:rest or self::mei:mRest]">
             <xsl:choose>
               <xsl:when test="descendant::mei:syl">
-                <xsl:apply-templates select="mei:verse[@n=$verseNumber or not(@n)]|mei:syl" />
+                <xsl:apply-templates select="mei:verse[not(number(@n)) or @n=$verseNumber]|mei:syl" />
               </xsl:when>
               <xsl:when test="@syl">
                 <xsl:value-of select="concat(' ',@syl)" />
@@ -3777,10 +3788,10 @@
               </xsl:if>
             </xsl:if>
             <xsl:choose>
-              <xsl:when test="mei:verse[@n=$verseNumber or not(@n)]/mei:syl[position()=last()]/@con='d'">
+              <xsl:when test="mei:verse[not(number(@n)) or @n=$verseNumber]/mei:syl[position()=last()]/@con='d'">
                 <xsl:value-of select="' -- '" />
               </xsl:when>
-              <xsl:when test="mei:verse[@n=$verseNumber or not(@n)]/mei:syl[position()=last()]/@con='u'">
+              <xsl:when test="mei:verse[not(number(@n)) or @n=$verseNumber]/mei:syl[position()=last()]/@con='u'">
                 <xsl:value-of select="' __ '" />
               </xsl:when>
               <xsl:otherwise>
@@ -3790,7 +3801,7 @@
         </xsl:for-each>
       </xsl:for-each>
       <xsl:text>&#10;}&#10;&#10;</xsl:text>
-      <xsl:if test="ancestor::mei:mdiv[1]//mei:staff[@n=$staffNumber]//mei:verse[@n=$verseNumber+1]">
+      <xsl:if test="ancestor::mei:mdiv[1]//mei:staff[@n=$staffNumber]//mei:verse[number(@n)=$verseNumber+1]">
         <xsl:call-template name="buildLyrics">
           <xsl:with-param name="staffNumber" select="$staffNumber"/>
           <xsl:with-param name="verseNumber" select="$verseNumber+1" />
@@ -3806,7 +3817,7 @@
     <xml:text>]</xml:text>
   </xsl:template>
   <xsl:template mode="addBeamMarkup" match="*[key('isBeamEnd', generate-id()) and key('isBeamStart', generate-id())]" priority="10">
-    <xsl:message select="concat('WARNING: ', local-name(), ' element ', @xml:id,' both starts and ends a beam. This is not supported.')"/>
+    <xsl:message>WARNING: <xsl:value-of select="local-name(.)"/> element <xsl:if test="@xml:id"><xsl:value-of select="concat('[',@xml:id,']')"/></xsl:if> both starts and ends a beam</xsl:message>
   </xsl:template>
   <!--               -->
   <!-- Make fraction -->
