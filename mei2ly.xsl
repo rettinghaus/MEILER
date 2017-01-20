@@ -230,7 +230,7 @@
             <xsl:with-param name="barLineStyle" select="ancestor::mei:measure/@left" />
           </xsl:call-template>
         </xsl:if>
-        <xsl:apply-templates select="ancestor::mei:measure/mei:tempo[contains(concat(' ',@staff,' '),concat(' ',$staffNumber,' '))][@tstamp = 1]" mode="pre" />
+        <xsl:apply-templates select="ancestor::mei:measure/mei:tempo[@copyof or contains(concat(' ',@staff,' '),concat(' ',$staffNumber,' '))][@tstamp='1']" mode="pre" />
         <xsl:if test="ancestor::mei:measure/@metcon='false'">
           <xsl:value-of select="concat('\partial ',min(ancestor::mei:measure/descendant::*/@dur),'&#32;')" />
         </xsl:if>
@@ -1143,6 +1143,9 @@
     <xsl:text>" </xsl:text>
   </xsl:template>
   <!-- MEI beam -->
+  <xsl:template match="mei:beam[@copyof]">
+    <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:beam[@xml:id = substring-after(current()/@copyof,'#')]" />
+  </xsl:template>
   <xsl:template match="mei:beam">
     <xsl:if test="@color">
       <xsl:value-of select="'\once \override Beam.color = #'" />
@@ -1241,6 +1244,9 @@
     </xsl:choose>
   </xsl:template>
   <!-- MEI articulation -->
+  <xsl:template match="mei:artic[@copyof]">
+    <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:artic[@xml:id = substring-after(current()/@copyof,'#')]" />
+  </xsl:template>
   <xsl:template name="artic" match="mei:artic">
     <xsl:param name="articList" select="@artic" />
     <xsl:if test="self::mei:artic">
@@ -1271,10 +1277,16 @@
     </xsl:choose>
   </xsl:template>
   <!-- MEI dot -->
+  <xsl:template match="mei:dot[@copyof]">
+    <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:dot[@xml:id = substring-after(current()/@copyof,'#')]" />
+  </xsl:template>
   <xsl:template match="mei:dot">
     <xsl:text>.</xsl:text>
   </xsl:template>
   <!-- MEI fermata -->
+  <xsl:template match="mei:fermata[@copyof]">
+    <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:fermata[@xml:id = substring-after(current()/@copyof,'#')]" />
+  </xsl:template>
   <xsl:template name="fermata" match="mei:fermata">
     <xsl:choose>
       <xsl:when test="self::mei:fermata">
@@ -1317,6 +1329,9 @@
     </xsl:choose>
   </xsl:template>
   <!-- MEI mordent -->
+  <xsl:template match="mei:mordent[@copyof]">
+    <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:mordent[@xml:id = substring-after(current()/@copyof,'#')]" />
+  </xsl:template>
   <xsl:template name="mordent" match="mei:mordent">
     <xsl:if test="@color">
       <xsl:value-of select="'-\tweak Script.color #'" />
@@ -1350,10 +1365,16 @@
     </xsl:if>
   </xsl:template>
   <!-- MEI ornament -->
+  <xsl:template match="mei:ornam[@copyof]">
+    <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:ornam[@xml:id = substring-after(current()/@copyof,'#')]" />
+  </xsl:template>
   <xsl:template name="ornam" match="mei:ornam">
     <!-- Not yet implemented -->
   </xsl:template>
   <!-- MEI trill -->
+  <xsl:template match="mei:trill[@copyof]">
+    <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:trill[@xml:id = substring-after(current()/@copyof,'#')]" />
+  </xsl:template>
   <xsl:template name="trill" match="mei:trill">
     <xsl:choose>
       <xsl:when test="@endid and @endid != @startid">
@@ -1409,6 +1430,9 @@
     <xsl:call-template name="setSmuflGlyph" />
   </xsl:template>
   <!-- MEI turn -->
+  <xsl:template match="mei:turn[@copyof]">
+    <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:turn[@xml:id = substring-after(current()/@copyof,'#')]" />
+  </xsl:template>
   <xsl:template name="turn" match="mei:turn">
     <xsl:if test="@color">
       <xsl:value-of select="'-\tweak Script.color #'" />
@@ -1439,6 +1463,9 @@
     </xsl:if>
   </xsl:template>
   <!-- MEI breath -->
+  <xsl:template match="mei:breath[@copyof]">
+    <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:breath[@xml:id = substring-after(current()/@copyof,'#')]" />
+  </xsl:template>
   <xsl:template match="mei:breath" mode="pre">
     <xsl:if test="@color">
       <xsl:value-of select="'\once \override BreathingSign.color = '" />
@@ -1453,6 +1480,9 @@
     <xsl:text>\breathe</xsl:text>
   </xsl:template>
   <!-- MEI octave -->
+  <xsl:template match="mei:octave[@copyof]" mode="pre">
+    <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:octave[@xml:id = substring-after(current()/@copyof,'#')]" mode="pre" />
+  </xsl:template>
   <xsl:template match="mei:octave" mode="pre">
     <xsl:if test="@color">
       <xsl:value-of select="'\once \override Staff.OttavaBracket.color = #'" />
@@ -1650,6 +1680,9 @@
     </xsl:choose>
   </xsl:template>
   <!-- MEI harmony -->
+  <xsl:template match="mei:harm[@copyof]">
+    <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:harm[@xml:id = substring-after(current()/@copyof,'#')]" />
+  </xsl:template>
   <xsl:template match="mei:harm[mei:fb]">
     <xsl:param name="meterCount">
       <xsl:choose>
@@ -1716,10 +1749,16 @@
     <xsl:text>&#32;</xsl:text>
   </xsl:template>
   <!-- MEI finger group -->
+  <xsl:template match="mei:fingGrp[@copyof]">
+    <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:fingGrp[@xml:id = substring-after(current()/@copyof,'#')]" />
+  </xsl:template>
   <xsl:template match="mei:fingGrp">
     <xsl:apply-templates/>
   </xsl:template>
   <!-- MEI finger -->
+  <xsl:template match="mei:fing[@copyof]">
+    <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:fing[@xml:id = substring-after(current()/@copyof,'#')]" />
+  </xsl:template>
   <xsl:template match="mei:fing" mode="pre" />
   <xsl:template match="mei:fing">
     <xsl:if test="@ho or @vo">
@@ -1732,12 +1771,18 @@
     <xsl:apply-templates/>
   </xsl:template>
   <!-- MEI figured bass -->
+  <xsl:template match="mei:fb[@copyof]">
+    <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:fb[@xml:id = substring-after(current()/@copyof,'#')]" />
+  </xsl:template>
   <xsl:template match="mei:fb">
     <xsl:text>&lt;</xsl:text>
     <xsl:apply-templates/>
     <xsl:text>&gt;</xsl:text>
   </xsl:template>
   <!-- MEI figure from figured bass -->
+  <xsl:template match="mei:f[@copyof]">
+    <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:f[@xml:id = substring-after(current()/@copyof,'#')]" />
+  </xsl:template>
   <xsl:template match="mei:f">
     <xsl:if test="string-length() = string-length(translate(.,'123456789',''))">
       <xsl:text>_</xsl:text>
@@ -1766,12 +1811,18 @@
     <xsl:text>&#32;</xsl:text>
   </xsl:template>
   <!-- MEI ligature -->
+  <xsl:template match="mei:ligature[@copyof]">
+    <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:ligature[@xml:id = substring-after(current()/@copyof,'#')]" />
+  </xsl:template>
   <xsl:template match="mei:ligature">
     <xsl:text>\[&#32;</xsl:text>
     <xsl:apply-templates/>
     <xsl:text>&#32;\]&#32;</xsl:text>
   </xsl:template>
   <!-- MEI tempo -->
+  <xsl:template match="mei:tempo[@copyof]" mode="pre">
+    <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:tempo[@xml:id = substring-after(current()/@copyof,'#')]" mode="pre" />
+  </xsl:template>
   <xsl:template match="mei:tempo" mode="pre">
     <xsl:variable name="tempoString" select="string(.)" />
     <xsl:if test="$tempoString or (@mm.unit and @mm)">
