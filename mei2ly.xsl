@@ -2,7 +2,7 @@
 <!--          -->
 <!--  MEILER  -->
 <!--  mei2ly  -->
-<!-- v 0.8.13 -->
+<!-- v 0.8.14 -->
 <!--          -->
 <!-- programmed by -->
 <!-- Klaus Rettinghaus -->
@@ -15,7 +15,7 @@
   <xsl:key name="idref" match="*[@xml:id]" use="concat('#', @xml:id)"/>
   <!-- The "isXYZ" keys are used to test whether an element is a certain thing with the help of generate-id().
     Example for testing whether a note starts a beam with the help of a key:
-      key('isBeamStart', generate-id($myNote))
+      key('isBeamStart', generate-id($myNote))q2
     If the key function returns something, it is the start of a beam, otherwise it is not.
     What the key function actually returns isn't relevant and should not be relied on or used for any further processing.
     In the case of the above example, it might return a <beam>, <beamSpan>, or the <note> itself, depending on how
@@ -665,7 +665,7 @@
     </xsl:if>
     <xsl:value-of select="concat('\set Staff.clefGlyph = #','&quot;clefs.', $mei2lyClefMap/*[@mei=$clefShape]/@ly,'&quot; ')" />
     <xsl:choose>
-      <xsl:when test="number($clefPos)">
+      <xsl:when test="number($clefLine)">
         <xsl:value-of select="concat('\set Staff.clefPosition = #',$clefPos,' ')" />
         <xsl:value-of select="concat('\set Staff.clefTransposition = #',$clefTrans,' ')" />
         <xsl:value-of select="concat('\set Staff.middleCPosition = #',$clefPos + $cOffset - $clefTrans,' ')" />
@@ -1918,13 +1918,16 @@
       <xsl:value-of select="concat('&quot;',@fontname,'&quot;')" />
       <xsl:text>) </xsl:text>
     </xsl:if>
-    <xsl:if test="@fontsize and not(contains(@fontsize,'%'))">
+    <xsl:if test="@fontsize">
       <xsl:choose>
         <xsl:when test="number(@fontsize)">
           <xsl:value-of select="concat('\abs-fontsize #',@fontsize,' ')" />
         </xsl:when>
         <xsl:when test="contains(@fontsize,'pt')">
           <xsl:value-of select="concat('\abs-fontsize #',substring-before(@fontsize,'pt'),' ')" />
+        </xsl:when>
+        <xsl:when test="contains(@fontsize,'%')">
+          <xsl:value-of select="concat('\magnify #',number(substring-before(@fontsize,'%')) div 100,' ')" />
         </xsl:when>
         <xsl:otherwise>
           <xsl:call-template name="setRelFontsize" />
@@ -3040,7 +3043,9 @@
       <xsl:when test="@fontsize ='larger'">
         <xsl:value-of select="'\larger '" />
       </xsl:when>
-      <xsl:otherwise/>
+      <xsl:otherwise>
+        <xsl:message>WARNING: Unsupported fontsize: <xsl:value-of select="@fontsize"/></xsl:message>
+      </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
   <!-- set relative fontsize -->
