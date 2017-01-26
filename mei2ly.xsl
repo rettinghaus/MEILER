@@ -560,7 +560,7 @@
   <xsl:template match="mei:section">
     <xsl:text>{&#32;</xsl:text>
     <xsl:apply-templates/>
-    <xsl:text>}&#32;</xsl:text>
+    <xsl:text>}&#32;&#10;</xsl:text>
   </xsl:template>
   <!-- MEI ending -->
   <xsl:template match="mei:ending">
@@ -1903,7 +1903,7 @@
   </xsl:template>
   <!-- MEI reh -->
   <xsl:template match="mei:reh">
-    <xsl:text>\mark \markup { </xsl:text>
+    <xsl:text>\mark \markup {</xsl:text>
     <xsl:apply-templates/>
     <xsl:text>}&#32;</xsl:text>
   </xsl:template>
