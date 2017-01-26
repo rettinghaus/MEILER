@@ -2,7 +2,7 @@
 <!--          -->
 <!--  MEILER  -->
 <!--  mei2ly  -->
-<!-- v 0.8.14 -->
+<!-- v 0.8.15 -->
 <!--          -->
 <!-- programmed by -->
 <!-- Klaus Rettinghaus -->
@@ -212,6 +212,10 @@
             <xsl:with-param name="meterRend" select="ancestor::mei:measure/preceding-sibling::*[@meter.rend][1]/@meter.rend" />
           </xsl:call-template>
           <xsl:text>&#10;&#32;&#32;</xsl:text>
+        </xsl:if>
+        <!-- change default distances -->
+        <xsl:if test="generate-id(ancestor::mei:measure/preceding-sibling::*[contains(local-name(),'Def')][@*[contains(name(),'.dist')]][1]/following-sibling::mei:measure[1]) = $currentMeasure">
+          <xsl:apply-templates select="ancestor::mei:measure/preceding-sibling::*[contains(local-name(),'Def')][1]/@*[contains(name(),'.dist')]"/>
         </xsl:if>
         <xsl:if test="generate-id(preceding::mei:meterSig[1]/following::mei:measure[1]) = $currentMeasure">
           <xsl:choose>
@@ -465,6 +469,7 @@
     <xsl:if test="@*[starts-with(name(),'trans')]">
       <xsl:call-template name="setTransposition" />
     </xsl:if>
+    <xsl:apply-templates select="ancestor-or-self::*/@*[contains(name(),'.dist')]"/>
     <xsl:choose>
       <xsl:when test="ancestor-or-self::*/@beam.group">
         <xsl:call-template name="setBeaming" />
@@ -475,14 +480,7 @@
     </xsl:choose>
     <!-- set MEILER default styles -->
     <xsl:text>\set tieWaitForNote = ##t&#10; </xsl:text>
-    <xsl:call-template name="setKey">
-      <xsl:with-param name="keyTonic" select="ancestor-or-self::*/@key.pname" />
-      <xsl:with-param name="keyAccid" select="ancestor-or-self::*/@key.accid" />
-      <xsl:with-param name="keyMode" select="ancestor-or-self::*/@key.mode" />
-      <xsl:with-param name="keySig" select="ancestor-or-self::*/@key.sig" />
-      <xsl:with-param name="keySigMixed" select="ancestor-or-self::*/@key.sig.mixed" />
-    </xsl:call-template>
-    <xsl:apply-templates select="mei:keySig" />
+    <xsl:apply-templates select="(mei:keySig, @*[starts-with(name(),'key.')])[1]" />
     <xsl:if test="ancestor-or-self::*/@*[starts-with(name(),'mensur.')]">
       <xsl:if test="ancestor-or-self::*/@mensur.color">
         <xsl:value-of select="'\override Staff.TimeSignature.color = #'" />
@@ -608,6 +606,7 @@
   <!-- MEI staffDef (inside musical flow) -->
   <xsl:template match="mei:staffDef[ancestor::mei:layer]">
     <xsl:apply-templates select="(mei:clef, @clef.shape)[1]"/>
+    <xsl:apply-templates select="(mei:keySig, @*[starts-with(name(),'key.')])[1]" />
   </xsl:template>
   <!-- MEI clefs -->
   <xsl:template match="mei:clef|@clef.shape">
@@ -814,6 +813,7 @@
     <xsl:if test="contains(@gliss,'i') or (ancestor::mei:measure/mei:gliss/@startid = $noteKey)">
       <xsl:text>\glissando</xsl:text>
     </xsl:if>
+    <!-- add control elements -->
     <xsl:apply-templates select="ancestor::mei:measure/*[@startid = $noteKey]" />
     <xsl:if test="(starts-with(@tuplet,'t') or (ancestor::mei:mdiv[1]//mei:tupletSpan/@endid = $noteKey)) and not(ancestor::mei:tuplet)">
       <xsl:value-of select="' }'" />
@@ -1825,34 +1825,36 @@
   </xsl:template>
   <xsl:template match="mei:tempo" mode="pre">
     <xsl:variable name="tempoString" select="string(.)" />
-    <xsl:if test="$tempoString or (@mm.unit and @mm)">
-      <xsl:if test="@place = 'below'">
-        <xsl:value-of select="'\once \override Score.MetronomeMark.direction = #DOWN '" />
-      </xsl:if>
-      <xsl:if test="@ho or @vo">
-        <xsl:text>\once \override Score.MetronomeMark.extra-offset = #&apos;</xsl:text>
-        <xsl:call-template name="setOffset" />
-      </xsl:if>
-      <xsl:value-of select="'\tempo '" />
-      <xsl:if test="$tempoString">
-        <xsl:value-of select="'\markup {'" />
-        <xsl:apply-templates/>
-        <xsl:value-of select="'} '" />
-      </xsl:if>
-      <xsl:if test="@mm.unit and @mm">
+    <xsl:if test="@place = 'below'">
+      <xsl:value-of select="'\once \override Score.MetronomeMark.direction = #DOWN '" />
+    </xsl:if>
+    <xsl:if test="@ho or @vo">
+      <xsl:text>\once \override Score.MetronomeMark.extra-offset = #&apos;</xsl:text>
+      <xsl:call-template name="setOffset" />
+    </xsl:if>
+    <xsl:if test="@midi.bpm and not(@mm)">
+      <xsl:text>\once \set Score.tempoHideNote = ##t&#32;</xsl:text>
+    </xsl:if>
+    <xsl:value-of select="'\tempo '" />
+    <xsl:if test="$tempoString">
+      <xsl:value-of select="'\markup {'" />
+      <xsl:apply-templates/>
+      <xsl:value-of select="'} '" />
+    </xsl:if>
+    <xsl:choose>
+      <xsl:when test="@mm.unit and @mm">
         <xsl:value-of select="@mm.unit" />
         <xsl:call-template name="setDots">
           <xsl:with-param name="dots" select="@mm.dots" />
         </xsl:call-template>
         <xsl:value-of select="concat(' = ',@mm)" />
-      </xsl:if>
-      <xsl:value-of select="'&#10;  '" />
-    </xsl:if>
-    <xsl:if test="@midi.bpm and not(@mm)">
-      <xsl:text>\once \set Score.tempoHideNote = ##t&#32;</xsl:text>
-      <xsl:value-of select="concat('\tempo 4 = ',@midi.bpm,'&#10;  ')" />
-    </xsl:if>
+      </xsl:when>
+      <xsl:when test="@midi.bpm and not(@mm)">
+        <xsl:value-of select="concat('4 = ',@midi.bpm,'&#10;  ')" />
+      </xsl:when>
+    </xsl:choose>
   </xsl:template>
+  <xsl:template match="mei:tempo"/>
   <!-- MEI directive -->
   <xsl:template match="mei:dir" mode="pre" />
   <xsl:template match="mei:dir">
@@ -1981,12 +1983,12 @@
   <xsl:template match="mei:keySig[@copyof]">
     <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:keySig[@xml:id = substring-after(current()/@copyof,'#')]" />
   </xsl:template>
-  <xsl:template name="setKey" match="mei:keySig">
-    <xsl:param name="keyTonic" select="@pname" />
-    <xsl:param name="keyAccid" select="@accid" />
-    <xsl:param name="keyMode" select="@mode" />
-    <xsl:param name="keySig" select="@sig" />
-    <xsl:param name="keySigMixed" select="@sig.mixed" />
+  <xsl:template name="setKey" match="mei:keySig|@*[starts-with(name(),'key')]">
+    <xsl:param name="keyTonic" select="@pname|ancestor::*/@key.pname" />
+    <xsl:param name="keyAccid" select="@accid|ancestor::*/@key.accid" />
+    <xsl:param name="keyMode" select="@mode|ancestor::*/@key.mode" />
+    <xsl:param name="keySig" select="@sig|ancestor::*/@key.sig" />
+    <xsl:param name="keySigMixed" select="@sig.mixed|ancestor::*/@key.sig.mixed" />
     <xsl:choose>
       <xsl:when test="$keyTonic and $keyMode">
         <xsl:value-of select="concat('\key ',$keyTonic)" />
@@ -2003,6 +2005,7 @@
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
+  <!-- set mensur -->
   <xsl:template name="setMensur">
     <xsl:param name="mensurDot" select="@dot" />
     <xsl:param name="mensurSign" select="@sign" />
@@ -3775,6 +3778,18 @@
       </xsl:when>
     </xsl:choose>
   </xsl:template>
+  <!-- set distances from the staff -->
+  <!-- att.distances -->
+  <xsl:template match="@dynam.dist">
+    <xsl:value-of select="concat('\override DynamicLineSpanner.staff-padding = #',local:VU2LY(.),' ')" />
+  </xsl:template>
+  <xsl:template match="@harm.dist">
+    <xsl:message select="'INFO: @harm.dist not supported'" />
+  </xsl:template>
+  <xsl:template match="@text.dist">
+    <xsl:value-of select="concat('\override Score.MetronomeMark.padding = #',local:VU2LY(.),' ')" />
+    <xsl:value-of select="concat('\override TextScript.staff-padding = #',local:VU2LY(.),' ')" />
+  </xsl:template>
   <!-- page layout -->
   <xsl:template match="mei:scoreDef" mode="makePageLayout">
     <xsl:text>\paper {&#10;</xsl:text>
@@ -3795,6 +3810,9 @@
     </xsl:if>
     <xsl:if test="not(number(@page.botmar)) and not(contains(@page.botmar,'vu'))">
       <xsl:value-of select="concat('  bottom-margin = ',substring(@page.botmar,1,string-length(@page.botmar)-2),'\',substring(@page.botmar,string-length(@page.botmar)-1),'&#10;')" />
+    </xsl:if>
+    <xsl:if test="not(number(@system.leftmar)) and not(contains(@system.leftmar,'vu'))">
+      <xsl:value-of select="concat('  indent = ',substring(@system.leftmar,1,string-length(@system.leftmar)-2),'\',substring(@system.leftmar,string-length(@system.leftmar)-1),'&#10;')" />
     </xsl:if>
     <!-- <xsl:value-of select="@page.panels"/>
   <xsl:value-of select="@page.scale"/> -->
