@@ -317,6 +317,7 @@ List of supported MEI elements and attributes
     * `@clef.dis.place`
     * `@clef.line`
     * `@clef.shape`
+    * `@dynam.dist`
     * `@ending.rend` (for values 'top' and 'grouped')
     * `@key.accid`
     * `@key.mode`
@@ -346,6 +347,8 @@ List of supported MEI elements and attributes
     * `@page.topmar`
     * `@page.width`
     * `@pedal.style` (for values 'line' and 'pedstar')
+    * `@system.leftmar` (affects only first system)
+    * `@text.dist`
 
 * `<section>`
 
@@ -377,6 +380,7 @@ List of supported MEI elements and attributes
   * `@clef.dis.place`
   * `@clef.line`
   * `@clef.shape`
+  * `@dynam.dist`
   * `@key.accid`
   * `@key.mode`
   * `@key.pname`
@@ -401,6 +405,7 @@ List of supported MEI elements and attributes
   * `@scale` (!! *lilypond 2.19 and up* !!)
   * `@slur.lform`
   * `@slur.lwidth`
+  * `@text.dist`
   * `@tie.lwidth`
   * `@trans.diat`
   * `@trans.semi`
@@ -499,5 +504,3 @@ List of supported MEI elements and attributes
 `att.pages` have to be defined in the first `<scoreDef>`
 
 data.LINEWIDTH (`@lwidth`) works for values from data.LINEWIDTHTERM
-
-data.FONTSIZE (`@fontsize`) works for values from data.FONTSIZENUMERIC and data.FONTSIZETERM
