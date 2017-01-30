@@ -50,6 +50,9 @@
     </xsl:choose>
   </xsl:key>
   <xsl:template match="/">
+    <xsl:if test="not(mei:mei/@meiversion='3.0.0')">
+      <xsl:message>WARNING: mei2ly.xsl is designed for MEI version 3.0.0 and may not work properly with elder versions.</xsl:message>
+    </xsl:if>
     <xsl:text>\version "2.18.2"&#10;</xsl:text>
     <xsl:text>#(ly:set-option 'point-and-click #f)&#10;</xsl:text>
     <xsl:text>% automatically converted by mei2ly.xsl&#10;&#10;</xsl:text>
@@ -204,12 +207,12 @@
           <xsl:text>&#32;&#32;</xsl:text>
         </xsl:if>
         <!-- add time signature change -->
-        <xsl:if test="generate-id(ancestor::mei:measure/preceding-sibling::*[contains(local-name(),'Def')][@*[starts-with(name(),'meter')]][1]/following-sibling::mei:measure[1]) = $currentMeasure">
+        <xsl:if test="generate-id(ancestor::mei:measure/preceding-sibling::*[contains(local-name(),'Def')][//@*[starts-with(name(),'meter')]][1]/following-sibling::mei:measure[1]) = $currentMeasure">
           <xsl:call-template name="meterSig">
-            <xsl:with-param name="meterSymbol" select="ancestor::mei:measure/preceding-sibling::*[@meter.sym][1]/@meter.sym" />
-            <xsl:with-param name="meterCount" select="ancestor::mei:measure/preceding-sibling::*[@meter.count][1]/@meter.count" />
-            <xsl:with-param name="meterUnit" select="ancestor::mei:measure/preceding-sibling::*[@meter.unit][1]/@meter.unit" />
-            <xsl:with-param name="meterRend" select="ancestor::mei:measure/preceding-sibling::*[@meter.rend][1]/@meter.rend" />
+            <xsl:with-param name="meterSymbol" select="preceding::*[contains(local-name(),'Def')][@meter.sym][1]/@meter.sym" />
+            <xsl:with-param name="meterCount" select="preceding::*[contains(local-name(),'Def')][@meter.count][1]/@meter.count" />
+            <xsl:with-param name="meterUnit" select="preceding::*[contains(local-name(),'Def')][@meter.unit][1]/@meter.unit" />
+            <xsl:with-param name="meterRend" select="preceding::*[contains(local-name(),'Def')][@meter.rend][1]/@meter.rend" />
           </xsl:call-template>
           <xsl:text>&#10;&#32;&#32;</xsl:text>
         </xsl:if>
@@ -3793,25 +3796,25 @@
   <!-- page layout -->
   <xsl:template match="mei:scoreDef" mode="makePageLayout">
     <xsl:text>\paper {&#10;</xsl:text>
-    <xsl:if test="not(number(@page.height)) and not(contains(@page.height,'vu'))">
+    <xsl:if test="@page.height and not(number(@page.height) or contains(@page.height,'vu'))">
       <xsl:value-of select="concat('  paper-height = ',substring(@page.height,1,string-length(@page.height)-2),'\',substring(@page.height,string-length(@page.height)-1),'&#10;')" />
     </xsl:if>
-    <xsl:if test="not(number(@page.width)) and not(contains(@page.width,'vu'))">
+    <xsl:if test="@page.width and not(number(@page.width) or contains(@page.width,'vu'))">
       <xsl:value-of select="concat('  paper-width = ',substring(@page.width,1,string-length(@page.width)-2),'\',substring(@page.width,string-length(@page.width)-1),'&#10;')" />
     </xsl:if>
-    <xsl:if test="not(number(@page.topmar)) and not(contains(@page.topmar,'vu'))">
+    <xsl:if test="@page.topmar and not(number(@page.topmar) or contains(@page.topmar,'vu'))">
       <xsl:value-of select="concat('  top-margin = ',substring(@page.topmar,1,string-length(@page.topmar)-2),'\',substring(@page.topmar,string-length(@page.topmar)-1),'&#10;')" />
     </xsl:if>
-    <xsl:if test="not(number(@page.rightmar)) and not(contains(@page.rightmar,'vu'))">
+    <xsl:if test="@page.rightmar and not(number(@page.rightmar) or contains(@page.rightmar,'vu'))">
       <xsl:value-of select="concat('  right-margin = ',substring(@page.rightmar,1,string-length(@page.rightmar)-2),'\',substring(@page.rightmar,string-length(@page.rightmar)-1),'&#10;')" />
     </xsl:if>
-    <xsl:if test="not(number(@page.leftmar)) and not(contains(@page.leftmar,'vu'))">
+    <xsl:if test="@page.leftmar and not(number(@page.leftmar) or contains(@page.leftmar,'vu'))">
       <xsl:value-of select="concat('  left-margin = ',substring(@page.leftmar,1,string-length(@page.leftmar)-2),'\',substring(@page.leftmar,string-length(@page.leftmar)-1),'&#10;')" />
     </xsl:if>
-    <xsl:if test="not(number(@page.botmar)) and not(contains(@page.botmar,'vu'))">
+    <xsl:if test="@page.botmar and not(number(@page.botmar) or contains(@page.botmar,'vu'))">
       <xsl:value-of select="concat('  bottom-margin = ',substring(@page.botmar,1,string-length(@page.botmar)-2),'\',substring(@page.botmar,string-length(@page.botmar)-1),'&#10;')" />
     </xsl:if>
-    <xsl:if test="not(number(@system.leftmar)) and not(contains(@system.leftmar,'vu'))">
+    <xsl:if test="@system.leftmar and not(number(@system.leftmar) or contains(@system.leftmar,'vu'))">
       <xsl:value-of select="concat('  indent = ',substring(@system.leftmar,1,string-length(@system.leftmar)-2),'\',substring(@system.leftmar,string-length(@system.leftmar)-1),'&#10;')" />
     </xsl:if>
     <!-- <xsl:value-of select="@page.panels"/>
