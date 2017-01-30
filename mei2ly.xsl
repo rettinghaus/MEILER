@@ -28,6 +28,14 @@
   <xsl:key name="isBeamEnd" match="mei:beam" use="(descendant::*[self::mei:note[not(parent::mei:chord)] or self::mei:rest or self::mei:chord or self::mei:space])[last()]/generate-id()"/>
   <xsl:key name="isBeamEnd" match="@beam[contains(., 't')]" use="generate-id(..)"/>
   <xsl:key name="isBeamEnd" match="mei:beamSpan[not(@beam.with)]" use="key('idref', @endid)/generate-id()"/>
+  <!-- TODO: Implement notesByBeam for <beamSpan>s to support grace <beamSpan>s -->
+  <xsl:key name="notesByBeam" match="mei:note" use="ancestor::mei:beam/generate-id()"/>
+  <xsl:key name="isGraceBeam" match="mei:beam">
+    <xsl:variable name="gracelessNote" select="key('notesByBeam', generate-id())[not((.,parent::mei:chord)/@grace)]"/>
+    <xsl:value-of select="if ($gracelessNote) then () else generate-id()"/>
+  </xsl:key>
+  <xsl:key name="isGraceBeamStart" match="mei:beam[key('isGraceBeam', generate-id())]" use="key('notesByBeam', generate-id())[1]/generate-id()"/>
+  <xsl:key name="isGraceBeamEnd" match="mei:beam[key('isGraceBeam', generate-id())]" use="key('notesByBeam', generate-id())[last()]/generate-id()"/>
   <xsl:variable name="durationalTags" select="('bTrem', 'chord', 'fTrem', 'halfmRpt', 'mRest', 'mSpace', 'note', 'rest', 'space', 'beam', 'beatRpt', 'mRpt', 'mRpt2', 'multiRest', 'multiRpt', 'tuplet')"/>
   <xsl:key name="staffDefByFirstAffectedElement" match="mei:staffDef">
     <xsl:variable name="hasPrecedingLayerContent" as="xs:boolean"
@@ -699,12 +707,7 @@
       </xsl:call-template>
     </xsl:if>
     <xsl:call-template name="setStemDir" />
-    <xsl:if test="@grace and not(preceding::mei:note[1]/@grace)">
-      <xsl:call-template name="setGraceNote" />
-      <xsl:if test="ancestor::mei:beam and position()=1">
-        <xml:text>{</xml:text>
-      </xsl:if>
-    </xsl:if>
+    <xsl:apply-templates select="@grace" mode="setGraceNote"/>
     <xsl:if test="(starts-with(@tuplet,'i') or (ancestor::mei:measure/mei:tupletSpan/@startid = $noteKey)) and not(ancestor::mei:tuplet)">
       <xsl:value-of select="concat('\tuplet ',ancestor::mei:measure/mei:tupletSpan[@startid = $noteKey]/@num,'/',ancestor::mei:measure/mei:tupletSpan[@startid = $noteKey]/@numbase,' { ')" />
     </xsl:if>
@@ -818,6 +821,7 @@
     <xsl:if test="(starts-with(@tuplet,'t') or (ancestor::mei:mdiv[1]//mei:tupletSpan/@endid = $noteKey)) and not(ancestor::mei:tuplet)">
       <xsl:value-of select="' }'" />
     </xsl:if>
+    <xsl:apply-templates select="@grace" mode="closeGraceBeamGroup"/>
     <xsl:if test="@grace and not(preceding-sibling::mei:note[not(@grace)]) and ancestor::mei:beam and position()=last()">
       <xml:text>}</xml:text>
     </xsl:if>
@@ -841,6 +845,7 @@
       <xml:text>\once \hideNotes </xml:text>
     </xsl:if>
     <xsl:call-template name="setStemDir" />
+    <xsl:apply-templates select="@grace" mode="setGraceNote"/>
     <xsl:if test="(starts-with(@tuplet,'i') or (ancestor::mei:measure/mei:tupletSpan/@startid = $chordKey)) and not(ancestor::mei:tuplet)">
       <xsl:value-of select="concat('\tuplet ',ancestor::mei:measure/mei:tupletSpan[@startid = $chordKey]/@num,'/',ancestor::mei:measure/mei:tupletSpan[@startid = $chordKey]/@numbase,' { ')" />
     </xsl:if>
@@ -923,6 +928,7 @@
     <xsl:if test="(starts-with(@tuplet,'t') or (ancestor::mei:mdiv[1]//mei:tupletSpan/@endid = $chordKey)) and not(ancestor::mei:tuplet)">
       <xsl:value-of select="' }'" />
     </xsl:if>
+    <xsl:apply-templates select="@grace" mode="closeGraceBeamGroup"/>
     <xsl:if test="ancestor::mei:mdiv[1]//mei:octave/@endid = $chordKey">
       <xsl:value-of select="'\ottava #0'" />
     </xsl:if>
@@ -2478,14 +2484,25 @@
     <xsl:text>}</xsl:text>
   </xsl:template>
   <!-- set grace notes -->
-  <xsl:template name="setGraceNote">
-    <xsl:if test="@stem.mod = '1slash'">
-      <xsl:text>\once \override Flag.stroke-style = #"grace" </xsl:text>
+  <xsl:template mode="setGraceNote" match="mei:note/@grace[ancestor::mei:chord]"/>
+  <xsl:template mode="setGraceNote" match="@grace">
+    <xsl:if test="not(preceding::mei:note[1][ancestor::mei:layer[1] is current()/ancestor::mei:layer[1]]/(., ancestor::mei:chord[1])/@grace)">
+      <xsl:if test="../@stem.mod = '1slash'">
+        <xsl:text>\once \override Flag.stroke-style = #"grace" </xsl:text>
+      </xsl:if>
+      <xsl:text>\grace </xsl:text>
+      <xsl:if test="(.., ../mei:note)/key('isGraceBeamStart', generate-id())">
+        <xml:text>{</xml:text>
+      </xsl:if>
     </xsl:if>
-    <xsl:text>\grace </xsl:text>
+  </xsl:template>
+  <xsl:template mode="closeGraceBeamGroup" match="mei:note/@grace[ancestor::mei:chord]" priority="10"/>
+  <xsl:template mode="closeGraceBeamGroup" match="@grace"/>
+  <xsl:template mode="closeGraceBeamGroup" match="@grace[(.., ../mei:note)[key('isGraceBeamEnd', generate-id())]]" priority="5">
+    <xml:text>}</xml:text>
   </xsl:template>
   <!-- set articulation -->
-  <xsl:template name="setArticulation">
+  <xsl:template name="setArticulation" mode="setArticulation" match="mei:artic|*[@artic]">
     <xsl:param name="articulation" />
     <!-- data.ARTICULATION -->
     <xsl:choose>

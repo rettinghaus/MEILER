@@ -33,7 +33,19 @@
                          <note pname="g" oct="4" dur="8"/>
                          <handShift/>
                        </beam>
+                       <beam>
+                         <handShift/>
+                         <note pname="e" oct="4" dur="8" grace="unknown"/>
+                         <note pname="f" oct="4" dur="8" grace="unknown"/>
+                       </beam>
                        <note pname="g" oct="4" dur="8"/>
+                       <beam>
+                         <chord dur="8" grace="unknown">
+                           <note pname="e" oct="4" dur="8" grace="unknown" />
+                           <note pname="g" oct="4" dur="8" />
+                         </chord>
+                         <note pname="f" oct="4" dur="8" grace="unknown"/>
+                       </beam>
                        <note pname="g" oct="4" dur="8"/>
                        <note pname="g" oct="4" dur="8" xml:id="note6"/>
                        <note pname="g" oct="4" dur="8" xml:id="note7"/>
@@ -53,6 +65,22 @@
                        <note pname="g" oct="4" dur="8"/>
                        <note pname="g" oct="4" dur="8"/>
                        <note pname="g" oct="4" dur="8"/>
+                       <note pname="f" oct="4" dur="8" grace="unknown"/>
+                     </layer>
+                     <layer n="2">
+                       <note pname="d" oct="4" dur="8" grace="unknown" stem.dir="down"/>
+                       <note pname="e" oct="4" dur="2" stem.dir="down"/>
+                       <beam>
+                         <chord stem.dir="down" grace="unknown" dur="8">
+                           <note pname="c" oct="4" dur="8" grace="unknown"/>
+                           <note pname="e" oct="4" dur="8" grace="unknown"/>
+                         </chord>
+                         <chord stem.dir="down" dur="8" grace="unknown">
+                           <note pname="d" oct="4" dur="8" grace="unknown"/>
+                           <note pname="f" oct="4" dur="8" grace="unknown"/>
+                         </chord>
+                       </beam>
+                       <note pname="e" oct="4" dur="2" stem.dir="down"/>
                      </layer>
                    </staff>
                  </measure>
