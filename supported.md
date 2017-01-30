@@ -37,7 +37,10 @@ List of supported MEI elements and attributes
   * `@color`
 
 * `<bTrem>`
-  * __`@measperf`__
+  * `@measperf`
+  * `@num`
+  * `@num.place`
+  * `@num.visible`
 
 * `<change>`
 

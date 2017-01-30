@@ -2,7 +2,7 @@
 <!--          -->
 <!--  MEILER  -->
 <!--  mei2ly  -->
-<!-- v 0.8.15 -->
+<!-- v 0.8.16 -->
 <!--          -->
 <!-- programmed by -->
 <!-- Klaus Rettinghaus -->
@@ -1173,16 +1173,31 @@
   </xsl:template>
   <!-- MEI bowed tremolo -->
   <xsl:template match="mei:bTrem">
+    <xsl:if test="@num">
+      <xsl:if test="@num.visible='false'">
+        <xsl:value-of select="'\once \omit TupletNumber '" />
+      </xsl:if>
+      <xsl:choose>
+        <xsl:when test="@num.place='above'">
+          <xsl:value-of select="'\once \tupletUp '" />
+        </xsl:when>
+        <xsl:when test="@num.place='below'">
+          <xsl:value-of select="'\once \tupletDown '" />
+        </xsl:when>
+      </xsl:choose>
+      <xsl:value-of select="'\tuplet '" />
+      <xsl:value-of select="concat(@num,'/',local:slash2dur(substring(mei:note/@stem.mod,1,1)) div mei:note/@dur,' ')" />
+    </xsl:if>
     <xsl:apply-templates/>
   </xsl:template>
   <!-- MEI fingered tremolo -->
   <xsl:template match="mei:fTrem">
     <xsl:choose>
       <xsl:when test="@measperf">
-        <xsl:value-of select="concat('\repeat tremolo ',@measperf div (2 * child::*[1]/@dur),' {')" />
+        <xsl:value-of select="concat('\repeat tremolo ',@measperf div (2 * child::*[1]/@dur),' { ')" />
       </xsl:when>
       <xsl:when test="@slash">
-        <xsl:value-of select="concat('\repeat tremolo ',local:slash2dur(@slash) div (2 * child::*[1]/@dur),' {')" />
+        <xsl:value-of select="concat('\repeat tremolo ',local:slash2dur(@slash) div (2 * child::*[1]/@dur),' { ')" />
       </xsl:when>
     </xsl:choose>
     <xsl:apply-templates/>
@@ -2257,6 +2272,7 @@
   <xsl:template match="mei:expansion" />
   <xsl:template match="mei:extMeta" />
   <xsl:template match="mei:front" />
+  <xsl:template match="mei:handShift" />
   <xsl:template match="mei:incip" />
   <xsl:template match="mei:midi" />
   <xsl:template match="mei:orig" />
