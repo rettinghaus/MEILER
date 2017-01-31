@@ -1186,7 +1186,7 @@
         </xsl:when>
       </xsl:choose>
       <xsl:value-of select="'\tuplet '" />
-      <xsl:value-of select="concat(@num,'/',local:slash2dur(substring(mei:note/@stem.mod,1,1)) div mei:note/@dur,' ')" />
+      <xsl:value-of select="concat(@num,'/',local:slash2dur(substring(child::*/@stem.mod,1,1)) div child::*/@dur,' ')" />
     </xsl:if>
     <xsl:apply-templates/>
   </xsl:template>
