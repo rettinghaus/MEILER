@@ -318,8 +318,8 @@
     <xsl:text>&gt;&gt;&#10;</xsl:text>
     <!-- lilypond layout block -->
     <xsl:text>\layout {&#10;</xsl:text>
-    <xsl:if test="contains(@music.size,'pt')">
-      <xsl:value-of select="concat('  #(layout-set-staff-size ',substring-before(@music.size,'pt'),')&#10;')" />
+    <xsl:if test="contains(@vu.height,'pt')">
+      <xsl:value-of select="concat('  #(layout-set-staff-size ',8 * number(substring-before(@vu.height,'pt')),')&#10;')" />
     </xsl:if>
     <xsl:if test="@barplace or @clef.color or @mnum.visible or @multi.number">
       <xsl:text> \context { \Score </xsl:text>
@@ -362,6 +362,14 @@
       </xsl:if>
       <xsl:text>}&#10;</xsl:text>
     </xsl:if>
+    <xsl:if test="@*[starts-with(name(),'spacing')]">
+      <xsl:text> \context { \Score </xsl:text>
+      <xsl:if test="@spacing.staff">
+        <xsl:text>\override StaffGrouper.staff-staff-spacing.minimum-distance = #</xsl:text>
+        <xsl:value-of select="concat(local:VU2LY(@spacing.staff),' ')" />
+      </xsl:if>
+      <xsl:text>}&#10;</xsl:text>
+    </xsl:if>
     <xsl:if test="@optimize = 'false'">
       <xsl:text> \context { \Staff \RemoveEmptyStaves \override VerticalAxisGroup.remove-first = ##t }&#10;</xsl:text>
     </xsl:if>
@@ -374,13 +382,14 @@
       <xsl:text>}&#10;</xsl:text>
     </xsl:if>
     <xsl:text>}&#10;&#10;</xsl:text>
-    <xsl:if test="@music.size">
+    <!-- following lines are needed because of a lilypond bug -->
+    <xsl:if test="@vu.height">
       <xsl:choose>
-        <xsl:when test="contains(@music.size,'pt')">
-          <xsl:value-of select="concat('&#10;#(set-global-staff-size ',substring-before(@music.size,'pt'),')&#10;')" />
+        <xsl:when test="contains(@vu.height,'pt')">
+          <xsl:value-of select="concat('&#10;#(set-global-staff-size ',8 * number(substring-before(@vu.height,'pt')),')&#10;')" />
         </xsl:when>
         <xsl:otherwise>
-          <xsl:message>INFO: Use point values (pt) for @music.size</xsl:message>
+          <xsl:message>INFO: Use point values (pt) for @vu.height</xsl:message>
         </xsl:otherwise>
       </xsl:choose>
     </xsl:if>
@@ -701,7 +710,16 @@
         <xsl:with-param name="color" select="@head.color" />
       </xsl:call-template>
     </xsl:if>
+    <xsl:if test="@ho">
+      <xsl:text>\once \override NoteHead.extra-offset = #&apos;</xsl:text>
+      <xsl:call-template name="setOffset" />
+      <xsl:text>\once \override Stem.extra-offset = #&apos;</xsl:text>
+      <xsl:call-template name="setOffset" />
+    </xsl:if>
     <xsl:call-template name="setStemDir" />
+    <xsl:if test="@stem.len">
+      <xsl:value-of select="concat('\once \override Stem.length = #', local:VU2LY(@stem.len) * 2, ' ')" />
+    </xsl:if>
     <xsl:if test="@grace and not(preceding::mei:note[1]/@grace)">
       <xsl:call-template name="setGraceNote" />
       <xsl:if test="ancestor::mei:beam and position()=1">
@@ -844,6 +862,9 @@
       <xml:text>\once \hideNotes </xml:text>
     </xsl:if>
     <xsl:call-template name="setStemDir" />
+    <xsl:if test="@stem.len">
+      <xsl:value-of select="concat('\once \override Stem.length = #', local:VU2LY(@stem.len) * 2, ' ')" />
+    </xsl:if>
     <xsl:if test="(starts-with(@tuplet,'i') or (ancestor::mei:measure/mei:tupletSpan/@startid = $chordKey)) and not(ancestor::mei:tuplet)">
       <xsl:value-of select="concat('\tuplet ',ancestor::mei:measure/mei:tupletSpan[@startid = $chordKey]/@num,'/',ancestor::mei:measure/mei:tupletSpan[@startid = $chordKey]/@numbase,' { ')" />
     </xsl:if>
@@ -2002,11 +2023,11 @@
     <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:keySig[@xml:id = substring-after(current()/@copyof,'#')]" />
   </xsl:template>
   <xsl:template name="setKey" match="mei:keySig|@*[starts-with(name(),'key')]">
-    <xsl:param name="keyTonic" select="@pname|ancestor::*/@key.pname" />
-    <xsl:param name="keyAccid" select="@accid|ancestor::*/@key.accid" />
-    <xsl:param name="keyMode" select="@mode|ancestor::*/@key.mode" />
-    <xsl:param name="keySig" select="@sig|ancestor::*/@key.sig" />
-    <xsl:param name="keySigMixed" select="@sig.mixed|ancestor::*/@key.sig.mixed" />
+    <xsl:param name="keyTonic" select="(@pname|ancestor::*/@key.pname)[1]" />
+    <xsl:param name="keyAccid" select="(@accid|ancestor::*/@key.accid)[1]" />
+    <xsl:param name="keyMode" select="(@mode|ancestor::*/@key.mode)[1]" />
+    <xsl:param name="keySig" select="(@sig|ancestor::*/@key.sig)[1]" />
+    <xsl:param name="keySigMixed" select="(@sig.mixed|ancestor::*/@key.sig.mixed)[1]" />
     <xsl:choose>
       <xsl:when test="$keyTonic and $keyMode">
         <xsl:value-of select="concat('\key ',$keyTonic)" />
@@ -2334,6 +2355,10 @@
     </xsl:if>
     <xsl:if test="not(parent::mei:chord) and not(@stem.dir) and (preceding::mei:chord[1][@stem.dir] or preceding::mei:note[1][not(parent::mei:chord)][@stem.dir])">
       <xsl:text>\stemNeutral </xsl:text>
+    </xsl:if>
+    <!-- set stem position -->
+    <xsl:if test="@stem.pos">
+      <xsl:message>INFO: position and direction of a stem can't be seperated in LilyPond</xsl:message>
     </xsl:if>
   </xsl:template>
   <!-- set duration -->
@@ -3812,26 +3837,53 @@
   <!-- page layout -->
   <xsl:template match="mei:scoreDef" mode="makePageLayout">
     <xsl:text>\paper {&#10;</xsl:text>
-    <xsl:if test="@page.height and not(number(@page.height) or contains(@page.height,'vu'))">
-      <xsl:value-of select="concat('  paper-height = ',substring(@page.height,1,string-length(@page.height)-2),'\',substring(@page.height,string-length(@page.height)-1),'&#10;')" />
+    <xsl:if test="@page.height">
+      <xsl:value-of select="'  paper-height = '" />
+      <xsl:if test="@page.scale">
+        <xsl:value-of select="concat(number(substring-before(@page.scale,'%')) div 100,'*')" />
+      </xsl:if>
+      <xsl:call-template name="convertUnits">
+        <xsl:with-param name="valueString" select="@page.height"/>
+      </xsl:call-template>
     </xsl:if>
-    <xsl:if test="@page.width and not(number(@page.width) or contains(@page.width,'vu'))">
-      <xsl:value-of select="concat('  paper-width = ',substring(@page.width,1,string-length(@page.width)-2),'\',substring(@page.width,string-length(@page.width)-1),'&#10;')" />
+    <xsl:if test="@page.width">
+      <xsl:value-of select="'  paper-width = '" />
+      <xsl:if test="@page.scale">
+        <xsl:value-of select="concat(number(substring-before(@page.scale,'%')) div 100,'*')" />
+      </xsl:if>
+      <xsl:call-template name="convertUnits">
+        <xsl:with-param name="valueString" select="@page.width"/>
+      </xsl:call-template>
     </xsl:if>
-    <xsl:if test="@page.topmar and not(number(@page.topmar) or contains(@page.topmar,'vu'))">
-      <xsl:value-of select="concat('  top-margin = ',substring(@page.topmar,1,string-length(@page.topmar)-2),'\',substring(@page.topmar,string-length(@page.topmar)-1),'&#10;')" />
+    <xsl:if test="@page.topmar">
+      <xsl:value-of select="'  top-margin = '" />
+      <xsl:call-template name="convertUnits">
+        <xsl:with-param name="valueString" select="@page.topmar"/>
+      </xsl:call-template>
     </xsl:if>
-    <xsl:if test="@page.rightmar and not(number(@page.rightmar) or contains(@page.rightmar,'vu'))">
-      <xsl:value-of select="concat('  right-margin = ',substring(@page.rightmar,1,string-length(@page.rightmar)-2),'\',substring(@page.rightmar,string-length(@page.rightmar)-1),'&#10;')" />
+    <xsl:if test="@page.rightmar">
+      <xsl:value-of select="'  right-margin = '" />
+      <xsl:call-template name="convertUnits">
+        <xsl:with-param name="valueString" select="@page.rightmar"/>
+      </xsl:call-template>
     </xsl:if>
-    <xsl:if test="@page.leftmar and not(number(@page.leftmar) or contains(@page.leftmar,'vu'))">
-      <xsl:value-of select="concat('  left-margin = ',substring(@page.leftmar,1,string-length(@page.leftmar)-2),'\',substring(@page.leftmar,string-length(@page.leftmar)-1),'&#10;')" />
+    <xsl:if test="@page.leftmar">
+      <xsl:value-of select="'  left-margin = '" />
+      <xsl:call-template name="convertUnits">
+        <xsl:with-param name="valueString" select="@page.leftmar"/>
+      </xsl:call-template>
     </xsl:if>
-    <xsl:if test="@page.botmar and not(number(@page.botmar) or contains(@page.botmar,'vu'))">
-      <xsl:value-of select="concat('  bottom-margin = ',substring(@page.botmar,1,string-length(@page.botmar)-2),'\',substring(@page.botmar,string-length(@page.botmar)-1),'&#10;')" />
+    <xsl:if test="@page.botmar">
+      <xsl:value-of select="'  bottom-margin = '" />
+      <xsl:call-template name="convertUnits">
+        <xsl:with-param name="valueString" select="@page.botmar"/>
+      </xsl:call-template>
     </xsl:if>
-    <xsl:if test="@system.leftmar and not(number(@system.leftmar) or contains(@system.leftmar,'vu'))">
-      <xsl:value-of select="concat('  indent = ',substring(@system.leftmar,1,string-length(@system.leftmar)-2),'\',substring(@system.leftmar,string-length(@system.leftmar)-1),'&#10;')" />
+    <xsl:if test="@system.leftmar">
+      <xsl:value-of select="'  indent = '" />
+      <xsl:call-template name="convertUnits">
+        <xsl:with-param name="valueString" select="@system.leftmar"/>
+      </xsl:call-template>
     </xsl:if>
     <!-- <xsl:value-of select="@page.panels"/>
   <xsl:value-of select="@page.scale"/> -->
@@ -4034,7 +4086,7 @@
   <xsl:function name="local:VU2LY" as="xs:double">
     <xsl:param name="valueString" as="xs:string" />
     <xsl:choose>
-      <xsl:when test="number($valueString)">
+      <xsl:when test="number($valueString) or $valueString='0'">
         <xsl:value-of select="number($valueString) div 2"/>
       </xsl:when>
       <xsl:when test="substring($valueString,string-length($valueString)-1) = 'vu'">
@@ -4046,6 +4098,29 @@
       </xsl:otherwise>
     </xsl:choose>
   </xsl:function>
+  <!-- Converts MEI units to LilyPond's units -->
+  <xsl:template name="convertUnits">
+    <!-- data.MEASUREMENTREL -->
+    <xsl:param name="valueString" as="xs:string" />
+    <xsl:choose>
+      <xsl:when test="contains($valueString,'px')">
+        <xsl:message select="'ERROR: Unsupported unit: px'" />
+        <xsl:value-of select="'x'"/>
+      </xsl:when>
+      <xsl:when test="number($valueString) or $valueString='0'">
+        <xsl:value-of select="concat(number($valueString) div 2, '\staff-space&#10;')"/>
+      </xsl:when>
+      <xsl:when test="contains($valueString,'vu')">
+        <xsl:value-of select="concat(number(substring($valueString,1,string-length($valueString)-2)) div 2, '\staff-space&#10;')"/>
+      </xsl:when>
+      <xsl:when test="contains($valueString,'pc')">
+        <xsl:value-of select="concat(number(substring($valueString,1,string-length($valueString)-2)) * 12, '\pt&#10;')"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="concat(substring($valueString,1,string-length($valueString)-2),'\',substring($valueString,string-length($valueString)-1),'&#10;')" />
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
   <!-- Converts MEI slashes to matching duration -->
   <xsl:function name="local:slash2dur" as="xs:integer">
     <xsl:param name="slashNum" as="xs:string" />
