@@ -2,7 +2,7 @@
 <!--                                      -->
 <!-- silly.xsl                            -->
 <!-- Strip Individual Layout for Lilypond -->
-<!-- v0.1.0                               -->
+<!-- v0.1.1                               -->
 <!-- programmed by Klaus Rettinghaus      -->
 <!--                                      -->
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:mei="http://www.music-encoding.org/ns/mei">
@@ -20,10 +20,17 @@
   <xsl:template match="@curvedir"/>
   <!-- strip stem styling -->
   <xsl:template match="@stem.dir"/>
+  <xsl:template match="@stem.len"/>
   <xsl:template match="@stem.y"/>
   <!-- strip positioning of rests -->
   <xsl:template match="@ploc"/>
   <xsl:template match="@oloc"/>
+  <!-- strip default distances from the staff -->
+  <xsl:template match="@dynam.dist"/>
+  <xsl:template match="@harm.dist"/>
+  <xsl:template match="@text.dist"/>
+  <!-- strip default staff spacing -->
+  <xsl:template match="@spacing.staff"/>
   <!-- strip breaks -->
   <xsl:template match="mei:sb"/>
   <xsl:template match="mei:pb"/>
