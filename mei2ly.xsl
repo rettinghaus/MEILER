@@ -241,7 +241,7 @@
         </xsl:if>
         <xsl:apply-templates select="ancestor::mei:measure/mei:tempo[@copyof or contains(concat(' ',@staff,' '),concat(' ',$staffNumber,' '))][@tstamp='1']" mode="pre" />
         <xsl:if test="ancestor::mei:measure/@metcon='false'">
-          <xsl:value-of select="concat('\partial ',min(ancestor::mei:measure/descendant::*/@dur),'&#32;')" />
+          <xsl:apply-templates select="descendant::mei:layer[1]" mode="setPartial"/>
         </xsl:if>
         <xsl:text>&lt;&lt;&#32;</xsl:text>
         <xsl:choose>
@@ -595,7 +595,7 @@
       </xsl:call-template>
     </xsl:if>
     <xsl:if test="@metcon='false'">
-      <xsl:value-of select="concat('\partial ',min(ancestor::mei:measure/descendant::*/@dur),'&#32;')" />
+      <xsl:apply-templates select="descendant::mei:layer[1]" mode="setPartial"/>
     </xsl:if>
     <xsl:apply-templates/>
     <xsl:if test="@right">
@@ -4153,5 +4153,39 @@
         <xsl:value-of select="0"/>
       </xsl:otherwise>
     </xsl:choose>
+  </xsl:function>
+  <xsl:template match="mei:layer" mode="setPartial">
+    <xsl:variable name="durElements" select="descendant::*[@dur][not(ancestor::mei:chord)]" as="element()*"/>
+    <!-- Seems paradox: To get the smallest @dur, we use max() (16ths are smaller than 8th) -->
+    <xsl:variable name="smallestDur" select="max($durElements/@dur/xs:integer(.))" as="xs:integer"/>
+    <xsl:variable name="largestDots" select="max(($durElements/@dots/xs:integer(.), 0))" as="xs:integer"/>
+    <xsl:variable name="durUnit" select="$smallestDur * round(local:power(2, $largestDots))" as="xs:integer"/>
+    <xsl:variable name="dursInUnit" as="xs:integer*">
+      <xsl:apply-templates select="$durElements" mode="addToDurSum">
+        <xsl:with-param name="durUnit" select="$durUnit"/>
+      </xsl:apply-templates>
+    </xsl:variable>
+    <!-- We might have a measure with non-numerical @durs, so test if we'd output something valid -->
+    <xsl:if test="$dursInUnit[1]">
+      <xsl:value-of select="concat('\set Timing.measurePosition = #(ly:make-moment -', sum($dursInUnit), '/', $durUnit, ') ')"/>
+    </xsl:if>
+  </xsl:template>
+  <xsl:template mode="addToDurSum" name="addToDurSum" match="*[@dur]">
+    <xsl:param name="durUnit"/>
+    <xsl:param name="durInUnits" select="$durUnit idiv xs:integer(@dur)"/>
+    <xsl:param name="dots" select="if (@dots) then xs:integer(@dots) else 0"/>
+    <xsl:sequence select="$durInUnits"/>
+    <xsl:if test="$dots gt 0">
+      <xsl:apply-templates select="." mode="addToDurSum">
+        <xsl:with-param name="dots" select="$dots - 1"/>
+        <xsl:with-param name="durInUnits" select="$durInUnits idiv 2"/>
+        <xsl:with-param name="durUnit" select="$durUnit"/>
+      </xsl:apply-templates>
+    </xsl:if>
+  </xsl:template>
+  <xsl:function name="local:power">
+    <xsl:param name="radix" as="xs:integer"/>
+    <xsl:param name="exponent" as="xs:integer"/>
+    <xsl:sequence select="if ($exponent le 0) then 1 else $radix * local:power($radix, $exponent - 1)"/>
   </xsl:function>
 </xsl:stylesheet>
