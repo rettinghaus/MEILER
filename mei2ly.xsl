@@ -209,12 +209,12 @@
           <xsl:text>&#32;&#32;</xsl:text>
         </xsl:if>
         <!-- add time signature change -->
-        <xsl:if test="generate-id(ancestor::mei:measure/preceding-sibling::*[contains(local-name(),'Def')][//@*[starts-with(name(),'meter')]][1]/following-sibling::mei:measure[1]) = $currentMeasure">
+        <xsl:if test="generate-id(ancestor::mei:measure/preceding-sibling::*[@*[starts-with(name(),'meter')]][1]/following-sibling::mei:measure[1]) = $currentMeasure">
           <xsl:call-template name="meterSig">
-            <xsl:with-param name="meterSymbol" select="preceding::*[contains(local-name(),'Def')][@meter.sym][1]/@meter.sym" />
-            <xsl:with-param name="meterCount" select="preceding::*[contains(local-name(),'Def')][@meter.count][1]/@meter.count" />
-            <xsl:with-param name="meterUnit" select="preceding::*[contains(local-name(),'Def')][@meter.unit][1]/@meter.unit" />
-            <xsl:with-param name="meterRend" select="preceding::*[contains(local-name(),'Def')][@meter.rend][1]/@meter.rend" />
+            <xsl:with-param name="meterSymbol" select="preceding::*[@meter.sym][1]/@meter.sym" />
+            <xsl:with-param name="meterCount" select="preceding::*[@meter.count][1]/@meter.count" />
+            <xsl:with-param name="meterUnit" select="preceding::*[@meter.unit][1]/@meter.unit" />
+            <xsl:with-param name="meterRend" select="preceding::*[@meter.rend][1]/@meter.rend" />
           </xsl:call-template>
           <xsl:text>&#10;&#32;&#32;</xsl:text>
         </xsl:if>
@@ -759,7 +759,7 @@
     </xsl:if>
     <xsl:apply-templates select="mei:accid" mode="pre" />
     <xsl:value-of select="@pname" />
-    <xsl:apply-templates mode="setAccidental" select="(., mei:accid)/(@accid, @accid.ges)[1]"/>
+    <xsl:apply-templates mode="setAccidental" select="(mei:accid, .[not(mei:accid)])/(@accid, @accid.ges)[1]"/>
     <xsl:call-template name="setOctave" />
     <xsl:if test="descendant-or-self::*/@accid or child::mei:accid/@func='caution'">
       <xml:text>!</xml:text>
