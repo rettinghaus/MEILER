@@ -55,6 +55,9 @@
     <xsl:if test="not(mei:mei/@meiversion='3.0.0')">
       <xsl:message>WARNING: mei2ly.xsl is designed for MEI version 3.0.0 and may not work properly with elder versions.</xsl:message>
     </xsl:if>
+    <xsl:if test="//@endid[not(starts-with(.,'#'))] or //@startid[not(starts-with(.,'#'))] ">
+      <xsl:message>WARNING: There are references not pointing anywhere!</xsl:message>
+    </xsl:if>
     <xsl:text>\version "2.18.2"&#10;</xsl:text>
     <xsl:text>#(ly:set-option 'point-and-click #f)&#10;</xsl:text>
     <xsl:text>% automatically converted by mei2ly.xsl&#10;&#10;</xsl:text>
@@ -198,13 +201,13 @@
         <!-- add clef change -->
         <xsl:apply-templates select="(key('staffDefByFirstAffectedElement', generate-id())/(@clef.shape, mei:clef))[last()]"/>
         <!-- add key signature change -->
-        <xsl:if test="generate-id(ancestor::mei:measure/preceding-sibling::*[contains(local-name(),'Def')][@*[starts-with(name(),'key')]][1]/following-sibling::mei:measure[1]) = $currentMeasure">
+        <xsl:if test="generate-id(ancestor::mei:measure/preceding-sibling::*[@*[starts-with(name(),'key')]][1]/following-sibling::mei:measure[1]) = $currentMeasure">
           <xsl:call-template name="setKey">
-            <xsl:with-param name="keyTonic" select="ancestor::mei:measure/preceding-sibling::*/@key.pname[1]" />
-            <xsl:with-param name="keyAccid" select="ancestor::mei:measure/preceding-sibling::*/@key.accid[1]" />
-            <xsl:with-param name="keyMode" select="ancestor::mei:measure/preceding-sibling::*/@key.mode[1]" />
-            <xsl:with-param name="keySig" select="ancestor::mei:measure/preceding-sibling::*/@key.sig[1]" />
-            <xsl:with-param name="keySigMixed" select="ancestor::mei:measure/preceding-sibling::*/@key.sig.mixed[1]" />
+            <xsl:with-param name="keyTonic" select="ancestor::mei:measure/preceding-sibling::*[@*[starts-with(name(),'key')]][1]/@key.pname" />
+            <xsl:with-param name="keyAccid" select="ancestor::mei:measure/preceding-sibling::*[@*[starts-with(name(),'key')]][1]/@key.accid" />
+            <xsl:with-param name="keyMode" select="ancestor::mei:measure/preceding-sibling::*[@*[starts-with(name(),'key')]][1]/@key.mode" />
+            <xsl:with-param name="keySig" select="ancestor::mei:measure/preceding-sibling::*[@*[starts-with(name(),'key')]][1]/@key.sig" />
+            <xsl:with-param name="keySigMixed" select="ancestor::mei:measure/preceding-sibling::*[@*[starts-with(name(),'key')]][1]/@key.sig.mixed" />
           </xsl:call-template>
           <xsl:text>&#32;&#32;</xsl:text>
         </xsl:if>
@@ -2028,11 +2031,11 @@
     <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:keySig[@xml:id = substring-after(current()/@copyof,'#')]" />
   </xsl:template>
   <xsl:template name="setKey" match="mei:keySig|@*[starts-with(name(),'key')]">
-    <xsl:param name="keyTonic" select="(@pname|ancestor::*/@key.pname)[1]" />
-    <xsl:param name="keyAccid" select="(@accid|ancestor::*/@key.accid)[1]" />
-    <xsl:param name="keyMode" select="(@mode|ancestor::*/@key.mode)[1]" />
-    <xsl:param name="keySig" select="(@sig|ancestor::*/@key.sig)[1]" />
-    <xsl:param name="keySigMixed" select="(@sig.mixed|ancestor::*/@key.sig.mixed)[1]" />
+    <xsl:param name="keyTonic" select="(@pname|ancestor-or-self::*/@key.pname)[1]" />
+    <xsl:param name="keyAccid" select="(@accid|ancestor-or-self::*/@key.accid)[1]" />
+    <xsl:param name="keyMode" select="(@mode|ancestor-or-self::*/@key.mode)[1]" />
+    <xsl:param name="keySig" select="(@sig|ancestor-or-self::*/@key.sig)[1]" />
+    <xsl:param name="keySigMixed" select="(@sig.mixed|ancestor-or-self::*/@key.sig.mixed)[1]" />
     <xsl:choose>
       <xsl:when test="$keyTonic and $keyMode">
         <xsl:value-of select="concat('\key ',$keyTonic)" />

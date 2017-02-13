@@ -20,3 +20,6 @@ If you want to prevent a MIDI output by LilyPond (which gets triggered by the pr
 ## Example ouput
 for [Debussy_Golliwogg'sCakewalk.mei](/examples/Debussy_Golliwogg'sCakewalk.mei):
 ![Example page](/examples/Debussy_Golliwogg'sCakewalk.png)
+
+
+(See more tests [here](https://github.com/rettinghaus/mei-test-set/).)
