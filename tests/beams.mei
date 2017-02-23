@@ -5,14 +5,10 @@
          <title></title>
        </titleStmt>
        <pubStmt></pubStmt>
+       <seriesStmt>
+         <title>MEILER test files</title>
+       </seriesStmt>
      </fileDesc>
-     <workDesc>
-       <work>
-         <titleStmt>
-           <title></title>
-         </titleStmt>
-       </work>
-     </workDesc>
    </meiHead>
    <music>
       <body>

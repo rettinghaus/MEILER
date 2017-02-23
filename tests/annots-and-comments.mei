@@ -5,6 +5,9 @@
         <title/>
       </titleStmt>
       <pubStmt/>
+      <seriesStmt>
+        <title>MEILER test files</title>
+      </seriesStmt>
     </fileDesc>
   </meiHead>
   <music>
@@ -23,7 +26,7 @@
                   <rest dur="1"/>
                   <!-- Some comment \ { @ ! -->
                   <annot>
-                    Some annot \ {@ ! 
+                    Some annot \ {@ !
                   </annot>
                 </layer>
               </staff>

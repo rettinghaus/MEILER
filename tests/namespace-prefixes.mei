@@ -5,6 +5,9 @@
          <mei:title></mei:title>
        </mei:titleStmt>
        <mei:pubStmt></mei:pubStmt>
+       <mei:seriesStmt>
+         <mei:title>MEILER test files</mei:title>
+       </mei:seriesStmt>
      </mei:fileDesc>
    </mei:meiHead>
    <mei:music>

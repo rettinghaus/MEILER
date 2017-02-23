@@ -8,10 +8,9 @@
         <title>Simple test file for MEILER</title>
       </titleStmt>
       <pubStmt/>
-      <sourceDesc>
-        <source>
-        </source>
-      </sourceDesc>
+      <seriesStmt>
+        <title>MEILER test files</title>
+      </seriesStmt>
     </fileDesc>
     <encodingDesc>
     </encodingDesc>
