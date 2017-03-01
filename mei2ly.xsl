@@ -1882,24 +1882,24 @@
     <xsl:if test="@midi.bpm and not(@mm)">
       <xsl:text>\once \set Score.tempoHideNote = ##t&#32;</xsl:text>
     </xsl:if>
-    <xsl:value-of select="'\tempo '" />
+    <xsl:if test="$tempoString or @midi.bpm or (@mm.unit and @mm)">
+      <xsl:value-of select="'\tempo '" />
+    </xsl:if>
     <xsl:if test="$tempoString">
       <xsl:value-of select="'\markup {'" />
       <xsl:apply-templates/>
       <xsl:value-of select="'} '" />
     </xsl:if>
-    <xsl:choose>
-      <xsl:when test="@mm.unit and @mm">
-        <xsl:value-of select="@mm.unit" />
-        <xsl:call-template name="setDots">
-          <xsl:with-param name="dots" select="@mm.dots" />
-        </xsl:call-template>
-        <xsl:value-of select="concat(' = ',@mm)" />
-      </xsl:when>
-      <xsl:when test="@midi.bpm and not(@mm)">
-        <xsl:value-of select="concat('4 = ',@midi.bpm,'&#10;  ')" />
-      </xsl:when>
-    </xsl:choose>
+    <xsl:if test="@mm.unit and @mm">
+      <xsl:value-of select="@mm.unit" />
+      <xsl:call-template name="setDots">
+        <xsl:with-param name="dots" select="@mm.dots" />
+      </xsl:call-template>
+      <xsl:value-of select="concat(' = ',@mm)" />
+    </xsl:if>
+    <xsl:if test="@midi.bpm and not(@mm)">
+      <xsl:value-of select="concat('4 = ',@midi.bpm,'&#10;  ')" />
+    </xsl:if>
   </xsl:template>
   <xsl:template match="mei:tempo"/>
   <!-- MEI directive -->
