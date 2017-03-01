@@ -1,3 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.music-encoding.org/schema/3.0.0/mei-all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="http://www.music-encoding.org/schema/3.0.0/mei-all.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <mei xmlns="http://www.music-encoding.org/ns/mei" meiversion="3.0.0">
   <meiHead>
     <fileDesc>
@@ -20,14 +23,14 @@
             </staffGrp>
           </scoreDef>
           <section>
-            <measure n="1" right="double">
+            <measure n="1" right="dbl">
               <staff n="1">
                 <layer n="1">
                   <multiRest num="12"/>
                 </layer>
               </staff>
             </measure>
-            <measure n="13" right="double">
+            <measure n="13" right="dbl">
               <staff n="1">
                 <layer n="1">
                   <multiRest num="8"/>
@@ -42,7 +45,7 @@
                 </layer>
               </staff>
               <reh>
-                <rend rend= "circle"> 21 </rend>
+                <rend rend="circle"> 21 </rend>
               </reh>
             </measure>
           </section>

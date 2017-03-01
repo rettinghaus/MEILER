@@ -3,15 +3,15 @@
 <?xml-model href="http://music-encoding.org/schema/3.0.0/mei-all.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <mei xmlns="http://www.music-encoding.org/ns/mei" meiversion="3.0.0">
     <meiHead>
-    <fileDesc>
-      <titleStmt>
-        <title/>
-      </titleStmt>
-      <pubStmt/>
-      <seriesStmt>
-        <title>MEILER test files</title>
-      </seriesStmt>
-    </fileDesc>
+        <fileDesc>
+            <titleStmt>
+                <title/>
+            </titleStmt>
+            <pubStmt/>
+            <seriesStmt>
+                <title>MEILER test files</title>
+            </seriesStmt>
+        </fileDesc>
     </meiHead>
     <music>
         <body>

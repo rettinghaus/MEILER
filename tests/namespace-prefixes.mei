@@ -1,39 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.music-encoding.org/schema/3.0.0/mei-all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="http://www.music-encoding.org/schema/3.0.0/mei-all.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <mei:mei xmlns:mei="http://www.music-encoding.org/ns/mei" meiversion="3.0.0">
-   <mei:meiHead>
-     <mei:fileDesc>
-       <mei:titleStmt>
-         <mei:title></mei:title>
-       </mei:titleStmt>
-       <mei:pubStmt></mei:pubStmt>
-       <mei:seriesStmt>
-         <mei:title>MEILER test files</mei:title>
-       </mei:seriesStmt>
-     </mei:fileDesc>
-   </mei:meiHead>
-   <mei:music>
-      <mei:body>
-         <mei:mdiv>
-            <mei:score>
-               <mei:scoreDef meter.count="4" meter.unit="4">
-                  <mei:staffGrp>
-                     <mei:staffDef n="1" clef.line="2" clef.shape="G" lines="5"/>
-                  </mei:staffGrp>
-               </mei:scoreDef>
-               <mei:section>
-                  <mei:measure n="1">
-                     <mei:staff n="1">
-                        <mei:layer n="1">
-                           <mei:note pname="g" oct="4" dur="1">
-                             <mei:verse n="1">
-                               <mei:syl>testlyrics</mei:syl>
-                             </mei:verse>
-                           </mei:note>
-                        </mei:layer>
-                     </mei:staff>
-                  </mei:measure>
-               </mei:section>
-            </mei:score>
-         </mei:mdiv>
-      </mei:body>
-   </mei:music>
+  <mei:meiHead>
+    <mei:fileDesc>
+      <mei:titleStmt>
+        <mei:title/>
+      </mei:titleStmt>
+      <mei:pubStmt/>
+      <mei:seriesStmt>
+        <mei:title>MEILER test files</mei:title>
+      </mei:seriesStmt>
+    </mei:fileDesc>
+  </mei:meiHead>
+  <mei:music>
+    <mei:body>
+      <mei:mdiv>
+        <mei:score>
+          <mei:scoreDef meter.count="4" meter.unit="4">
+            <mei:staffGrp>
+              <mei:staffDef n="1" clef.line="2" clef.shape="G" lines="5"/>
+            </mei:staffGrp>
+          </mei:scoreDef>
+          <mei:section>
+            <mei:measure n="1">
+              <mei:staff n="1">
+                <mei:layer n="1">
+                  <mei:note pname="g" oct="4" dur="1">
+                    <mei:verse n="1">
+                      <mei:syl>testlyrics</mei:syl>
+                    </mei:verse>
+                  </mei:note>
+                </mei:layer>
+              </mei:staff>
+            </mei:measure>
+          </mei:section>
+        </mei:score>
+      </mei:mdiv>
+    </mei:body>
+  </mei:music>
 </mei:mei>

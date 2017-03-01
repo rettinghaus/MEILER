@@ -12,14 +12,13 @@
         <title>MEILER test files</title>
       </seriesStmt>
     </fileDesc>
-    <encodingDesc>
-    </encodingDesc>
+    <encodingDesc> </encodingDesc>
     <workDesc>
-       <work>
-          <titleStmt>
-             <title>MEILER test</title>
-          </titleStmt>
-       </work>
+      <work>
+        <titleStmt>
+          <title>MEILER test</title>
+        </titleStmt>
+      </work>
     </workDesc>
   </meiHead>
   <music>
@@ -49,12 +48,19 @@
                 </layer>
               </staff>
               <tempo staff="1" tstamp="1"><rend>mäßig</rend></tempo>
-              <slur vo="-2" startho="1" startvo="4" color="blue" curvedir="below" lform="dashed" staff="1" tstamp="1" startid="#testnote1" endid="#testnote3"/>
-              <mordent color="red" vo="3.5vu" form="inv" long="true" place="above" staff="1" tstamp="1" startid="#testnote1"/>
-              <turn color="green" vo="-2" form="inv" place="above" staff="1" tstamp="1" startid="#testnote1"/>
-              <trill color="rgb(32,64,128)" vo="-8vu" lwidth="wide" place="above" staff="1" tstamp="3" startid="#testnote2" endid="#testnote3"/>
-              <gliss color="green" lform="dashed" lwidth="medium" staff="1" tstamp="3" startid="#testnote2" endid="#testnote3"/>
-              <phrase color="gray" bezier="-10 10 5 -5" startvo="2" endvo="-6" curvedir="above" lform="solid" lwidth="medium" staff="1" tstamp="1" startid="#testnote1" endid="#testnote7"/>
+              <slur vo="-2" startho="1" startvo="4" color="blue" curvedir="below" lform="dashed"
+                staff="1" tstamp="1" startid="#testnote1" endid="#testnote3"/>
+              <mordent color="red" vo="3.5vu" form="inv" long="true" place="above" staff="1"
+                tstamp="1" startid="#testnote1"/>
+              <turn color="green" vo="-2" form="inv" place="above" staff="1" tstamp="1"
+                startid="#testnote1"/>
+              <trill color="rgb(32,64,128)" vo="-8vu" lwidth="wide" place="above" staff="1"
+                tstamp="3" startid="#testnote2" endid="#testnote3"/>
+              <gliss color="green" lform="dashed" lwidth="medium" staff="1" tstamp="3"
+                startid="#testnote2" endid="#testnote3"/>
+              <phrase color="gray" bezier="-10 10 5 -5" startvo="2" endvo="-6" curvedir="above"
+                lform="solid" lwidth="medium" staff="1" tstamp="1" startid="#testnote1"
+                endid="#testnote7"/>
             </measure>
             <staffDef n="1">
               <meterSig count="3" unit="4"/>
@@ -92,20 +98,26 @@
                     </chord>
                   </bTrem>
                   <fTrem measperf="16">
-                    <note xml:id="testnote5" dur="8" oct="5" pname="d" stem.dir="down" stem.mod="3slash">
+                    <note xml:id="testnote5" dur="8" oct="5" pname="d" stem.dir="down"
+                      stem.mod="3slash">
                       <accid accid="n" func="edit" enclose="paren"/>
                     </note>
-                    <note xml:id="testnote6" dur="8" oct="5" pname="f" stem.dir="down" stem.mod="3slash"/>
+                    <note xml:id="testnote6" dur="8" oct="5" pname="f" stem.dir="down"
+                      stem.mod="3slash"/>
                   </fTrem>
                   <fTrem measperf="16">
-                    <note xml:id="testnote5.1" dur="8" oct="5" pname="g" stem.dir="down" stem.mod="3slash"/>
-                    <note xml:id="testnote6.1" dur="8" oct="5" pname="e" stem.dir="down" stem.mod="3slash"/>
+                    <note xml:id="testnote5.1" dur="8" oct="5" pname="g" stem.dir="down"
+                      stem.mod="3slash"/>
+                    <note xml:id="testnote6.1" dur="8" oct="5" pname="e" stem.dir="down"
+                      stem.mod="3slash"/>
                   </fTrem>
-                  <note xml:id="testnote7" dur="4" oct="5" pname="e" stem.dir="down" fermata="above" head.shape="x"/>
+                  <note xml:id="testnote7" dur="4" oct="5" pname="e" stem.dir="down" fermata="above"
+                    head.shape="x"/>
                 </layer>
               </staff>
               <tempo tstamp="1" mm="32" mm.unit="4"/>
-              <fermata place="below" color="blue" shape="square" vo="0.4" staff="1" tstamp="3" startid="#testchord4"/>
+              <fermata place="below" color="blue" shape="square" vo="0.4" staff="1" tstamp="3"
+                startid="#testchord4"/>
             </measure>
           </section>
         </score>
