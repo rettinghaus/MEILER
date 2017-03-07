@@ -2,7 +2,7 @@
 <!--          -->
 <!--  MEILER  -->
 <!--  mei2ly  -->
-<!-- v 0.8.15 -->
+<!-- v 0.8.16 -->
 <!--          -->
 <!-- programmed by -->
 <!-- Klaus Rettinghaus -->
@@ -10,6 +10,7 @@
 <xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:saxon="http://saxon.sf.net/" xmlns:local="NS:LOCAL" exclude-result-prefixes="saxon">
   <xsl:strip-space elements="*" />
   <xsl:output method="text" indent="no" encoding="UTF-8" />
+  <xsl:param name="forceLayout" select="'no'"/>
   <xsl:key name="lyrics-by-staff-number" match="mei:syl|@syl" use="ancestor::mei:staff[1]/@n"/>
   <xsl:key name="id" match="*" use="@xml:id"/>
   <xsl:key name="idref" match="*[@xml:id]" use="concat('#', @xml:id)"/>
@@ -28,6 +29,7 @@
   <xsl:key name="isBeamEnd" match="mei:beam" use="(descendant::*[self::mei:note[not(parent::mei:chord)] or self::mei:rest or self::mei:chord or self::mei:space])[last()]/generate-id()"/>
   <xsl:key name="isBeamEnd" match="@beam[contains(., 't')]" use="generate-id(..)"/>
   <xsl:key name="isBeamEnd" match="mei:beamSpan[not(@beam.with)]" use="key('idref', @endid)/generate-id()"/>
+  <xsl:key name="breaksByPrecedingMeasure" match="mei:sb|mei:pb" use="preceding::mei:measure[1]/generate-id()"/>
   <xsl:variable name="durationalTags" select="('bTrem', 'chord', 'fTrem', 'halfmRpt', 'mRest', 'mSpace', 'note', 'rest', 'space', 'beam', 'beatRpt', 'mRpt', 'mRpt2', 'multiRest', 'multiRpt', 'tuplet')"/>
   <xsl:key name="staffDefByFirstAffectedElement" match="mei:staffDef">
     <xsl:variable name="hasPrecedingLayerContent" as="xs:boolean"
@@ -50,6 +52,12 @@
     </xsl:choose>
   </xsl:key>
   <xsl:template match="/">
+    <xsl:if test="not(mei:mei/@meiversion='3.0.0')">
+      <xsl:message>WARNING: mei2ly.xsl is designed for MEI version 3.0.0 and may not work properly with elder versions.</xsl:message>
+    </xsl:if>
+    <xsl:if test="//@endid[not(starts-with(.,'#'))] or //@startid[not(starts-with(.,'#'))] ">
+      <xsl:message>WARNING: There are references not pointing anywhere!</xsl:message>
+    </xsl:if>
     <xsl:text>\version "2.18.2"&#10;</xsl:text>
     <xsl:text>#(ly:set-option 'point-and-click #f)&#10;</xsl:text>
     <xsl:text>% automatically converted by mei2ly.xsl&#10;&#10;</xsl:text>
@@ -193,23 +201,23 @@
         <!-- add clef change -->
         <xsl:apply-templates select="(key('staffDefByFirstAffectedElement', generate-id())/(@clef.shape, mei:clef))[last()]"/>
         <!-- add key signature change -->
-        <xsl:if test="generate-id(ancestor::mei:measure/preceding-sibling::*[contains(local-name(),'Def')][@*[starts-with(name(),'key')]][1]/following-sibling::mei:measure[1]) = $currentMeasure">
+        <xsl:if test="generate-id(ancestor::mei:measure/preceding-sibling::*[@*[starts-with(name(),'key')]][1]/following-sibling::mei:measure[1]) = $currentMeasure">
           <xsl:call-template name="setKey">
-            <xsl:with-param name="keyTonic" select="ancestor::mei:measure/preceding-sibling::*/@key.pname[1]" />
-            <xsl:with-param name="keyAccid" select="ancestor::mei:measure/preceding-sibling::*/@key.accid[1]" />
-            <xsl:with-param name="keyMode" select="ancestor::mei:measure/preceding-sibling::*/@key.mode[1]" />
-            <xsl:with-param name="keySig" select="ancestor::mei:measure/preceding-sibling::*/@key.sig[1]" />
-            <xsl:with-param name="keySigMixed" select="ancestor::mei:measure/preceding-sibling::*/@key.sig.mixed[1]" />
+            <xsl:with-param name="keyTonic" select="ancestor::mei:measure/preceding-sibling::*[@*[starts-with(name(),'key')]][1]/@key.pname" />
+            <xsl:with-param name="keyAccid" select="ancestor::mei:measure/preceding-sibling::*[@*[starts-with(name(),'key')]][1]/@key.accid" />
+            <xsl:with-param name="keyMode" select="ancestor::mei:measure/preceding-sibling::*[@*[starts-with(name(),'key')]][1]/@key.mode" />
+            <xsl:with-param name="keySig" select="ancestor::mei:measure/preceding-sibling::*[@*[starts-with(name(),'key')]][1]/@key.sig" />
+            <xsl:with-param name="keySigMixed" select="ancestor::mei:measure/preceding-sibling::*[@*[starts-with(name(),'key')]][1]/@key.sig.mixed" />
           </xsl:call-template>
           <xsl:text>&#32;&#32;</xsl:text>
         </xsl:if>
         <!-- add time signature change -->
-        <xsl:if test="generate-id(ancestor::mei:measure/preceding-sibling::*[contains(local-name(),'Def')][@*[starts-with(name(),'meter')]][1]/following-sibling::mei:measure[1]) = $currentMeasure">
+        <xsl:if test="generate-id(ancestor::mei:measure/preceding-sibling::*[@*[starts-with(name(),'meter')]][1]/following-sibling::mei:measure[1]) = $currentMeasure">
           <xsl:call-template name="meterSig">
-            <xsl:with-param name="meterSymbol" select="ancestor::mei:measure/preceding-sibling::*[@meter.sym][1]/@meter.sym" />
-            <xsl:with-param name="meterCount" select="ancestor::mei:measure/preceding-sibling::*[@meter.count][1]/@meter.count" />
-            <xsl:with-param name="meterUnit" select="ancestor::mei:measure/preceding-sibling::*[@meter.unit][1]/@meter.unit" />
-            <xsl:with-param name="meterRend" select="ancestor::mei:measure/preceding-sibling::*[@meter.rend][1]/@meter.rend" />
+            <xsl:with-param name="meterSymbol" select="preceding::*[@meter.sym][1]/@meter.sym" />
+            <xsl:with-param name="meterCount" select="preceding::*[@meter.count][1]/@meter.count" />
+            <xsl:with-param name="meterUnit" select="preceding::*[@meter.unit][1]/@meter.unit" />
+            <xsl:with-param name="meterRend" select="preceding::*[@meter.rend][1]/@meter.rend" />
           </xsl:call-template>
           <xsl:text>&#10;&#32;&#32;</xsl:text>
         </xsl:if>
@@ -236,7 +244,7 @@
         </xsl:if>
         <xsl:apply-templates select="ancestor::mei:measure/mei:tempo[@copyof or contains(concat(' ',@staff,' '),concat(' ',$staffNumber,' '))][@tstamp='1']" mode="pre" />
         <xsl:if test="ancestor::mei:measure/@metcon='false'">
-          <xsl:value-of select="concat('\partial ',min(ancestor::mei:measure/descendant::*/@dur),'&#32;')" />
+          <xsl:apply-templates select="descendant::mei:layer[1]" mode="setPartial"/>
         </xsl:if>
         <xsl:text>&lt;&lt;&#32;</xsl:text>
         <xsl:choose>
@@ -263,8 +271,11 @@
           <xsl:text>&#32;&#32;\set Score.repeatCommands = #'((volta #f))&#10;</xsl:text>
         </xsl:if>
         <!-- add breaks -->
-        <xsl:apply-templates select="following::mei:sb[following::mei:measure[1]/@n = current()/ancestor::mei:measure/@n + 1]" />
-        <xsl:apply-templates select="following::mei:pb[following::mei:measure[1]/@n = current()/ancestor::mei:measure/@n + 1]" />
+        <xsl:variable name="followingBreaks" select="key('breaksByPrecedingMeasure', ancestor::mei:measure[1]/generate-id())"/>
+        <xsl:apply-templates select="$followingBreaks"/>
+        <xsl:if test="$forceLayout='yes' and not($followingBreaks)">
+          <xsl:text>  { \noBreak }&#10;</xsl:text>
+        </xsl:if>
       </xsl:for-each>
       <xsl:text>}&#10;&#10;</xsl:text>
       <!-- lilypond figured bass -->
@@ -315,8 +326,8 @@
     <xsl:text>&gt;&gt;&#10;</xsl:text>
     <!-- lilypond layout block -->
     <xsl:text>\layout {&#10;</xsl:text>
-    <xsl:if test="contains(@music.size,'pt')">
-      <xsl:value-of select="concat('  #(layout-set-staff-size ',substring-before(@music.size,'pt'),')&#10;')" />
+    <xsl:if test="contains(@vu.height,'pt')">
+      <xsl:value-of select="concat('  #(layout-set-staff-size ',8 * number(substring-before(@vu.height,'pt')),')&#10;')" />
     </xsl:if>
     <xsl:if test="@barplace or @clef.color or @mnum.visible or @multi.number">
       <xsl:text> \context { \Score </xsl:text>
@@ -359,6 +370,14 @@
       </xsl:if>
       <xsl:text>}&#10;</xsl:text>
     </xsl:if>
+    <xsl:if test="@*[starts-with(name(),'spacing')]">
+      <xsl:text> \context { \Score </xsl:text>
+      <xsl:if test="@spacing.staff">
+        <xsl:text>\override StaffGrouper.staff-staff-spacing.minimum-distance = #</xsl:text>
+        <xsl:value-of select="concat(local:VU2LY(@spacing.staff),' ')" />
+      </xsl:if>
+      <xsl:text>}&#10;</xsl:text>
+    </xsl:if>
     <xsl:if test="@optimize = 'false'">
       <xsl:text> \context { \Staff \RemoveEmptyStaves \override VerticalAxisGroup.remove-first = ##t }&#10;</xsl:text>
     </xsl:if>
@@ -371,13 +390,14 @@
       <xsl:text>}&#10;</xsl:text>
     </xsl:if>
     <xsl:text>}&#10;&#10;</xsl:text>
-    <xsl:if test="@music.size">
+    <!-- following lines are needed because of a lilypond bug -->
+    <xsl:if test="@vu.height">
       <xsl:choose>
-        <xsl:when test="contains(@music.size,'pt')">
-          <xsl:value-of select="concat('&#10;#(set-global-staff-size ',substring-before(@music.size,'pt'),')&#10;')" />
+        <xsl:when test="contains(@vu.height,'pt')">
+          <xsl:value-of select="concat('&#10;#(set-global-staff-size ',8 * number(substring-before(@vu.height,'pt')),')&#10;')" />
         </xsl:when>
         <xsl:otherwise>
-          <xsl:message>INFO: Use point values (pt) for @music.size</xsl:message>
+          <xsl:message>INFO: Use point values (pt) for @vu.height</xsl:message>
         </xsl:otherwise>
       </xsl:choose>
     </xsl:if>
@@ -578,7 +598,7 @@
       </xsl:call-template>
     </xsl:if>
     <xsl:if test="@metcon='false'">
-      <xsl:value-of select="concat('\partial ',min(ancestor::mei:measure/descendant::*/@dur),'&#32;')" />
+      <xsl:apply-templates select="descendant::mei:layer[1]" mode="setPartial"/>
     </xsl:if>
     <xsl:apply-templates/>
     <xsl:if test="@right">
@@ -699,6 +719,16 @@
       </xsl:call-template>
     </xsl:if>
     <xsl:apply-templates mode="setStemDir" select="." />
+    <xsl:if test="@ho">
+      <xsl:text>\once \override NoteHead.extra-offset = #&apos;</xsl:text>
+      <xsl:call-template name="setOffset" />
+      <xsl:text>\once \override Stem.extra-offset = #&apos;</xsl:text>
+      <xsl:call-template name="setOffset" />
+    </xsl:if>
+    <xsl:call-template name="setStemDir" />
+    <xsl:if test="@stem.len">
+      <xsl:value-of select="concat('\once \override Stem.length = #', local:VU2LY(@stem.len) * 2, ' ')" />
+    </xsl:if>
     <xsl:if test="@grace and not(preceding::mei:note[1]/@grace)">
       <xsl:call-template name="setGraceNote" />
       <xsl:if test="ancestor::mei:beam and position()=1">
@@ -733,7 +763,7 @@
     </xsl:if>
     <xsl:apply-templates select="mei:accid" mode="pre" />
     <xsl:value-of select="@pname" />
-    <xsl:apply-templates mode="setAccidental" select="(., mei:accid)/(@accid, @accid.ges)[1]"/>
+    <xsl:apply-templates mode="setAccidental" select="(mei:accid, .[not(mei:accid)])/(@accid, @accid.ges)[1]"/>
     <xsl:call-template name="setOctave" />
     <xsl:if test="descendant-or-self::*/@accid or child::mei:accid/@func='caution'">
       <xml:text>!</xml:text>
@@ -841,6 +871,9 @@
       <xml:text>\once \hideNotes </xml:text>
     </xsl:if>
     <xsl:apply-templates mode="setStemDir" select="." />
+    <xsl:if test="@stem.len">
+      <xsl:value-of select="concat('\once \override Stem.length = #', local:VU2LY(@stem.len) * 2, ' ')" />
+    </xsl:if>
     <xsl:if test="(starts-with(@tuplet,'i') or (ancestor::mei:measure/mei:tupletSpan/@startid = $chordKey)) and not(ancestor::mei:tuplet)">
       <xsl:value-of select="concat('\tuplet ',ancestor::mei:measure/mei:tupletSpan[@startid = $chordKey]/@num,'/',ancestor::mei:measure/mei:tupletSpan[@startid = $chordKey]/@numbase,' { ')" />
     </xsl:if>
@@ -1170,16 +1203,31 @@
   </xsl:template>
   <!-- MEI bowed tremolo -->
   <xsl:template match="mei:bTrem">
+    <xsl:if test="@num">
+      <xsl:if test="@num.visible='false'">
+        <xsl:value-of select="'\once \omit TupletNumber '" />
+      </xsl:if>
+      <xsl:choose>
+        <xsl:when test="@num.place='above'">
+          <xsl:value-of select="'\once \tupletUp '" />
+        </xsl:when>
+        <xsl:when test="@num.place='below'">
+          <xsl:value-of select="'\once \tupletDown '" />
+        </xsl:when>
+      </xsl:choose>
+      <xsl:value-of select="'\tuplet '" />
+      <xsl:value-of select="concat(@num,'/',local:slash2dur(substring(child::*/@stem.mod,1,1)) div child::*/@dur,' ')" />
+    </xsl:if>
     <xsl:apply-templates/>
   </xsl:template>
   <!-- MEI fingered tremolo -->
   <xsl:template match="mei:fTrem">
     <xsl:choose>
       <xsl:when test="@measperf">
-        <xsl:value-of select="concat('\repeat tremolo ',@measperf div (2 * child::*[1]/@dur),' {')" />
+        <xsl:value-of select="concat('\repeat tremolo ',@measperf div (2 * child::*[1]/@dur),' { ')" />
       </xsl:when>
       <xsl:when test="@slash">
-        <xsl:value-of select="concat('\repeat tremolo ',local:slash2dur(@slash) div (2 * child::*[1]/@dur),' {')" />
+        <xsl:value-of select="concat('\repeat tremolo ',local:slash2dur(@slash) div (2 * child::*[1]/@dur),' { ')" />
       </xsl:when>
     </xsl:choose>
     <xsl:apply-templates/>
@@ -1835,24 +1883,24 @@
     <xsl:if test="@midi.bpm and not(@mm)">
       <xsl:text>\once \set Score.tempoHideNote = ##t&#32;</xsl:text>
     </xsl:if>
-    <xsl:value-of select="'\tempo '" />
+    <xsl:if test="$tempoString or @midi.bpm or (@mm.unit and @mm)">
+      <xsl:value-of select="'\tempo '" />
+    </xsl:if>
     <xsl:if test="$tempoString">
       <xsl:value-of select="'\markup {'" />
       <xsl:apply-templates/>
       <xsl:value-of select="'} '" />
     </xsl:if>
-    <xsl:choose>
-      <xsl:when test="@mm.unit and @mm">
-        <xsl:value-of select="@mm.unit" />
-        <xsl:call-template name="setDots">
-          <xsl:with-param name="dots" select="@mm.dots" />
-        </xsl:call-template>
-        <xsl:value-of select="concat(' = ',@mm)" />
-      </xsl:when>
-      <xsl:when test="@midi.bpm and not(@mm)">
-        <xsl:value-of select="concat('4 = ',@midi.bpm,'&#10;  ')" />
-      </xsl:when>
-    </xsl:choose>
+    <xsl:if test="@mm.unit and @mm">
+      <xsl:value-of select="@mm.unit" />
+      <xsl:call-template name="setDots">
+        <xsl:with-param name="dots" select="@mm.dots" />
+      </xsl:call-template>
+      <xsl:value-of select="concat(' = ',@mm)" />
+    </xsl:if>
+    <xsl:if test="@midi.bpm and not(@mm)">
+      <xsl:value-of select="concat('4 = ',@midi.bpm,'&#10;  ')" />
+    </xsl:if>
   </xsl:template>
   <xsl:template match="mei:tempo"/>
   <!-- MEI directive -->
@@ -1984,11 +2032,11 @@
     <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:keySig[@xml:id = substring-after(current()/@copyof,'#')]" />
   </xsl:template>
   <xsl:template name="setKey" match="mei:keySig|@*[starts-with(name(),'key')]">
-    <xsl:param name="keyTonic" select="@pname|ancestor::*/@key.pname" />
-    <xsl:param name="keyAccid" select="@accid|ancestor::*/@key.accid" />
-    <xsl:param name="keyMode" select="@mode|ancestor::*/@key.mode" />
-    <xsl:param name="keySig" select="@sig|ancestor::*/@key.sig" />
-    <xsl:param name="keySigMixed" select="@sig.mixed|ancestor::*/@key.sig.mixed" />
+    <xsl:param name="keyTonic" select="(@pname|ancestor-or-self::*/@key.pname)[1]" />
+    <xsl:param name="keyAccid" select="(@accid|ancestor-or-self::*/@key.accid)[1]" />
+    <xsl:param name="keyMode" select="(@mode|ancestor-or-self::*/@key.mode)[1]" />
+    <xsl:param name="keySig" select="(@sig|ancestor-or-self::*/@key.sig)[1]" />
+    <xsl:param name="keySigMixed" select="(@sig.mixed|ancestor-or-self::*/@key.sig.mixed)[1]" />
     <xsl:choose>
       <xsl:when test="$keyTonic and $keyMode">
         <xsl:value-of select="concat('\key ',$keyTonic)" />
@@ -2254,6 +2302,7 @@
   <xsl:template match="mei:expansion" />
   <xsl:template match="mei:extMeta" />
   <xsl:template match="mei:front" />
+  <xsl:template match="mei:handShift" />
   <xsl:template match="mei:incip" />
   <xsl:template match="mei:midi" />
   <xsl:template match="mei:orig" />
@@ -2314,6 +2363,10 @@
   </xsl:template>
   <xsl:template mode="setStemDir" match="*">
     <xsl:text>\stemNeutral </xsl:text>
+    <!-- set stem position -->
+    <xsl:if test="@stem.pos">
+      <xsl:message>INFO: position and direction of a stem can't be seperated in LilyPond</xsl:message>
+    </xsl:if>
   </xsl:template>
   <!-- set duration -->
   <xsl:template name="setDuration">
@@ -3791,26 +3844,53 @@
   <!-- page layout -->
   <xsl:template match="mei:scoreDef" mode="makePageLayout">
     <xsl:text>\paper {&#10;</xsl:text>
-    <xsl:if test="not(number(@page.height)) and not(contains(@page.height,'vu'))">
-      <xsl:value-of select="concat('  paper-height = ',substring(@page.height,1,string-length(@page.height)-2),'\',substring(@page.height,string-length(@page.height)-1),'&#10;')" />
+    <xsl:if test="@page.height">
+      <xsl:value-of select="'  paper-height = '" />
+      <xsl:if test="@page.scale">
+        <xsl:value-of select="concat(number(substring-before(@page.scale,'%')) div 100,'*')" />
+      </xsl:if>
+      <xsl:call-template name="convertUnits">
+        <xsl:with-param name="valueString" select="@page.height"/>
+      </xsl:call-template>
     </xsl:if>
-    <xsl:if test="not(number(@page.width)) and not(contains(@page.width,'vu'))">
-      <xsl:value-of select="concat('  paper-width = ',substring(@page.width,1,string-length(@page.width)-2),'\',substring(@page.width,string-length(@page.width)-1),'&#10;')" />
+    <xsl:if test="@page.width">
+      <xsl:value-of select="'  paper-width = '" />
+      <xsl:if test="@page.scale">
+        <xsl:value-of select="concat(number(substring-before(@page.scale,'%')) div 100,'*')" />
+      </xsl:if>
+      <xsl:call-template name="convertUnits">
+        <xsl:with-param name="valueString" select="@page.width"/>
+      </xsl:call-template>
     </xsl:if>
-    <xsl:if test="not(number(@page.topmar)) and not(contains(@page.topmar,'vu'))">
-      <xsl:value-of select="concat('  top-margin = ',substring(@page.topmar,1,string-length(@page.topmar)-2),'\',substring(@page.topmar,string-length(@page.topmar)-1),'&#10;')" />
+    <xsl:if test="@page.topmar">
+      <xsl:value-of select="'  top-margin = '" />
+      <xsl:call-template name="convertUnits">
+        <xsl:with-param name="valueString" select="@page.topmar"/>
+      </xsl:call-template>
     </xsl:if>
-    <xsl:if test="not(number(@page.rightmar)) and not(contains(@page.rightmar,'vu'))">
-      <xsl:value-of select="concat('  right-margin = ',substring(@page.rightmar,1,string-length(@page.rightmar)-2),'\',substring(@page.rightmar,string-length(@page.rightmar)-1),'&#10;')" />
+    <xsl:if test="@page.rightmar">
+      <xsl:value-of select="'  right-margin = '" />
+      <xsl:call-template name="convertUnits">
+        <xsl:with-param name="valueString" select="@page.rightmar"/>
+      </xsl:call-template>
     </xsl:if>
-    <xsl:if test="not(number(@page.leftmar)) and not(contains(@page.leftmar,'vu'))">
-      <xsl:value-of select="concat('  left-margin = ',substring(@page.leftmar,1,string-length(@page.leftmar)-2),'\',substring(@page.leftmar,string-length(@page.leftmar)-1),'&#10;')" />
+    <xsl:if test="@page.leftmar">
+      <xsl:value-of select="'  left-margin = '" />
+      <xsl:call-template name="convertUnits">
+        <xsl:with-param name="valueString" select="@page.leftmar"/>
+      </xsl:call-template>
     </xsl:if>
-    <xsl:if test="not(number(@page.botmar)) and not(contains(@page.botmar,'vu'))">
-      <xsl:value-of select="concat('  bottom-margin = ',substring(@page.botmar,1,string-length(@page.botmar)-2),'\',substring(@page.botmar,string-length(@page.botmar)-1),'&#10;')" />
+    <xsl:if test="@page.botmar">
+      <xsl:value-of select="'  bottom-margin = '" />
+      <xsl:call-template name="convertUnits">
+        <xsl:with-param name="valueString" select="@page.botmar"/>
+      </xsl:call-template>
     </xsl:if>
-    <xsl:if test="not(number(@system.leftmar)) and not(contains(@system.leftmar,'vu'))">
-      <xsl:value-of select="concat('  indent = ',substring(@system.leftmar,1,string-length(@system.leftmar)-2),'\',substring(@system.leftmar,string-length(@system.leftmar)-1),'&#10;')" />
+    <xsl:if test="@system.leftmar">
+      <xsl:value-of select="'  indent = '" />
+      <xsl:call-template name="convertUnits">
+        <xsl:with-param name="valueString" select="@system.leftmar"/>
+      </xsl:call-template>
     </xsl:if>
     <!-- <xsl:value-of select="@page.panels"/>
   <xsl:value-of select="@page.scale"/> -->
@@ -4013,7 +4093,7 @@
   <xsl:function name="local:VU2LY" as="xs:double">
     <xsl:param name="valueString" as="xs:string" />
     <xsl:choose>
-      <xsl:when test="number($valueString)">
+      <xsl:when test="number($valueString) or $valueString='0'">
         <xsl:value-of select="number($valueString) div 2"/>
       </xsl:when>
       <xsl:when test="substring($valueString,string-length($valueString)-1) = 'vu'">
@@ -4025,6 +4105,29 @@
       </xsl:otherwise>
     </xsl:choose>
   </xsl:function>
+  <!-- Converts MEI units to LilyPond's units -->
+  <xsl:template name="convertUnits">
+    <!-- data.MEASUREMENTREL -->
+    <xsl:param name="valueString" as="xs:string" />
+    <xsl:choose>
+      <xsl:when test="contains($valueString,'px')">
+        <xsl:message select="'ERROR: Unsupported unit: px'" />
+        <xsl:value-of select="'x'"/>
+      </xsl:when>
+      <xsl:when test="number($valueString) or $valueString='0'">
+        <xsl:value-of select="concat(number($valueString) div 2, '\staff-space&#10;')"/>
+      </xsl:when>
+      <xsl:when test="contains($valueString,'vu')">
+        <xsl:value-of select="concat(number(substring($valueString,1,string-length($valueString)-2)) div 2, '\staff-space&#10;')"/>
+      </xsl:when>
+      <xsl:when test="contains($valueString,'pc')">
+        <xsl:value-of select="concat(number(substring($valueString,1,string-length($valueString)-2)) * 12, '\pt&#10;')"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="concat(substring($valueString,1,string-length($valueString)-2),'\',substring($valueString,string-length($valueString)-1),'&#10;')" />
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
   <!-- Converts MEI slashes to matching duration -->
   <xsl:function name="local:slash2dur" as="xs:integer">
     <xsl:param name="slashNum" as="xs:string" />
@@ -4052,5 +4155,39 @@
         <xsl:value-of select="0"/>
       </xsl:otherwise>
     </xsl:choose>
+  </xsl:function>
+  <xsl:template match="mei:layer" mode="setPartial">
+    <xsl:variable name="durElements" select="descendant::*[@dur][not(ancestor::mei:chord)]" as="element()*"/>
+    <!-- Seems paradox: To get the smallest @dur, we use max() (16ths are smaller than 8th) -->
+    <xsl:variable name="smallestDur" select="max($durElements/@dur/xs:integer(.))" as="xs:integer"/>
+    <xsl:variable name="largestDots" select="max(($durElements/@dots/xs:integer(.), 0))" as="xs:integer"/>
+    <xsl:variable name="durUnit" select="$smallestDur * round(local:power(2, $largestDots))" as="xs:integer"/>
+    <xsl:variable name="dursInUnit" as="xs:integer*">
+      <xsl:apply-templates select="$durElements" mode="addToDurSum">
+        <xsl:with-param name="durUnit" select="$durUnit"/>
+      </xsl:apply-templates>
+    </xsl:variable>
+    <!-- We might have a measure with non-numerical @durs, so test if we'd output something valid -->
+    <xsl:if test="$dursInUnit[1]">
+      <xsl:value-of select="concat('\set Timing.measurePosition = #(ly:make-moment -', sum($dursInUnit), '/', $durUnit, ') ')"/>
+    </xsl:if>
+  </xsl:template>
+  <xsl:template mode="addToDurSum" name="addToDurSum" match="*[@dur]">
+    <xsl:param name="durUnit"/>
+    <xsl:param name="durInUnits" select="$durUnit idiv xs:integer(@dur)"/>
+    <xsl:param name="dots" select="if (@dots) then xs:integer(@dots) else 0"/>
+    <xsl:sequence select="$durInUnits"/>
+    <xsl:if test="$dots gt 0">
+      <xsl:apply-templates select="." mode="addToDurSum">
+        <xsl:with-param name="dots" select="$dots - 1"/>
+        <xsl:with-param name="durInUnits" select="$durInUnits idiv 2"/>
+        <xsl:with-param name="durUnit" select="$durUnit"/>
+      </xsl:apply-templates>
+    </xsl:if>
+  </xsl:template>
+  <xsl:function name="local:power">
+    <xsl:param name="radix" as="xs:integer"/>
+    <xsl:param name="exponent" as="xs:integer"/>
+    <xsl:sequence select="if ($exponent le 0) then 1 else $radix * local:power($radix, $exponent - 1)"/>
   </xsl:function>
 </xsl:stylesheet>

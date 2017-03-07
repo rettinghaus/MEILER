@@ -8,6 +8,9 @@
         <title/>
       </titleStmt>
       <pubStmt/>
+      <seriesStmt>
+        <title>MEILER test files</title>
+      </seriesStmt>
     </fileDesc>
   </meiHead>
   <music>
@@ -23,8 +26,7 @@
             <measure n="1">
               <staff n="1">
                 <layer n="1">
-                  <note artic="acc stacc ten stacciss" dur="4" oct="4" pname="g">
-                  </note>
+                  <note artic="acc stacc ten stacciss" dur="4" oct="4" pname="g"> </note>
                   <note artic="acc" dur="4" oct="4" pname="g">
                     <artic artic="acc"/>
                   </note>

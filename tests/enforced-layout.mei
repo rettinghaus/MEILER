@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.music-encoding.org/schema/3.0.0/mei-all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="http://www.music-encoding.org/schema/3.0.0/mei-all.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<mei xmlns="http://www.music-encoding.org/ns/mei" meiversion="3.0.0" xmlns:meiler="NS:MEILER_TEST">
+  <meiHead>
+     <fileDesc>
+       <titleStmt>
+         <title></title>
+       </titleStmt>
+       <pubStmt/>
+       <seriesStmt>
+         <title>MEILER test files</title>
+       </seriesStmt>
+     </fileDesc>
+     <extMeta>
+       <meiler:test system="bash" input="ly">
+         <meiler:param name="forceLayout" value="yes"/>
+         if [ $(grep '\noBreak' "$ly" | wc -l) -ne 3 ]
+         then
+            return 1;
+         fi
+       </meiler:test>
+     </extMeta>
+   </meiHead>
+   <music>
+      <body>
+         <mdiv>
+            <score>
+               <scoreDef meter.count="4" meter.unit="4">
+                  <staffGrp>
+                     <staffDef n="1" clef.line="2" clef.shape="G" lines="5"/>
+                  </staffGrp>
+               </scoreDef>
+               <section>
+                 <sb/>
+                 <measure n="1">
+                   <staff n="1">
+                     <layer n="1">
+                       <mRest dur="1"/>
+                     </layer>
+                   </staff>
+                 </measure>
+                 <measure n="2">
+                   <staff n="1">
+                     <layer n="1">
+                       <mRest dur="1"/>
+                     </layer>
+                   </staff>
+                 </measure>
+                 <sb/>
+                 <measure n="3">
+                   <staff n="1">
+                     <layer n="1">
+                       <mRest dur="1"/>
+                     </layer>
+                   </staff>
+                 </measure>
+                 <measure n="4">
+                   <staff n="1">
+                     <layer n="1">
+                       <mRest dur="1"/>
+                     </layer>
+                   </staff>
+                 </measure>
+                 <pb/>
+                 <measure n="5">
+                   <staff n="1">
+                     <layer n="1">
+                       <mRest dur="1"/>
+                     </layer>
+                   </staff>
+                 </measure>
+                 <sb/>
+                 <pb/>
+                 <measure n="6">
+                   <staff n="1">
+                     <layer n="1">
+                       <mRest dur="1"/>
+                     </layer>
+                   </staff>
+                 </measure>
+               </section>
+            </score>
+         </mdiv>
+      </body>
+   </music>
+</mei>

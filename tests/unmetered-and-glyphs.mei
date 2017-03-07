@@ -8,6 +8,9 @@
         <title/>
       </titleStmt>
       <pubStmt/>
+      <seriesStmt>
+        <title>MEILER test files</title>
+      </seriesStmt>
     </fileDesc>
   </meiHead>
   <music>
@@ -26,7 +29,8 @@
                   <note xml:id="f34n1" dur="4" oct="4" pname="g"/>
                 </layer>
               </staff>
-              <trill glyphname="ornamentPrecompSlideTrillDAnglebert" place="above" startid="#f34n1"/>
+              <trill glyphname="ornamentPrecompSlideTrillDAnglebert" place="above" startid="#f34n1"
+              />
             </measure>
             <measure right="dbl">
               <staff n="1">
@@ -148,23 +152,24 @@
                   <note xml:id="f77n1" dur="4" oct="4" pname="e" accid="f"/>
                 </layer>
               </staff>
-              <dir startid="#f77n1"><rend fontstyle="italic">ad:</rend></dir>
+              <dir startid="#f77n1">
+                <rend fontstyle="italic">ad:</rend>
+              </dir>
             </measure>
             <measure right="dbl">
               <staff n="1">
                 <layer n="1">
-                  <note xml:id="f77n2" dur="4" oct="4" pname="e">
-                  </note>
+                  <note xml:id="f77n2" dur="4" oct="4" pname="e"> </note>
                   <note xml:id="f77n3" dur="2" oct="4" pname="d" lv="true"/>
                 </layer>
               </staff>
-              <trill glyphname="ornamentPrecompSlideTrillDAnglebert" place="above" startid="#f77n2"/>
+              <trill glyphname="ornamentPrecompSlideTrillDAnglebert" place="above" startid="#f77n2"
+              />
             </measure>
             <measure right="dbl">
               <staff n="1">
                 <layer n="1">
-                  <note xml:id="f77n4" dur="4" oct="4" pname="e">
-                  </note>
+                  <note xml:id="f77n4" dur="4" oct="4" pname="e"> </note>
                   <note xml:id="f77n5" dur="4" oct="4" pname="d"/>
                   <note xml:id="f77n6" dur="2" oct="4" pname="d" lv="true"/>
                 </layer>

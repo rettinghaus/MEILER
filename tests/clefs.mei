@@ -8,6 +8,9 @@
         <title>clef change tests</title>
       </titleStmt>
       <pubStmt/>
+      <seriesStmt>
+        <title>MEILER test files</title>
+      </seriesStmt>
     </fileDesc>
     <extMeta>
       <meiler:test system="bash" input="ly">
@@ -22,14 +25,14 @@
           exit 1
         fi
         if [ $( echo "$cleftestcolors" | wc -l ) -ne 8 ]
-        then 
+        then
           echo "Number of output clefs does not match number of defined clefs"
           exit 1
         fi
         if [ "$testcolors" != "$( echo "$testcolors" | sort )" ]
-        then 
+        then
           echo "At least one clef was output in the wrong place"
-          exit 1 
+          exit 1
         fi
       </meiler:test>
     </extMeta>

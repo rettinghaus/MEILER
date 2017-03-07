@@ -37,7 +37,10 @@ List of supported MEI elements and attributes
   * `@color`
 
 * `<bTrem>`
-  * __`@measperf`__
+  * `@measperf`
+  * `@num`
+  * `@num.place`
+  * `@num.visible`
 
 * `<change>`
 
@@ -338,17 +341,19 @@ List of supported MEI elements and attributes
     * `@meter.unit`
     * `@midi.bpm`
     * `@mnum.visible`
-    * `@music.size` (for values in 'pt')
     * `@optimize`
     * `@page.botmar`
     * `@page.height`
     * `@page.leftmar`
     * `@page.rightmar`
+    * `@page.scale`
     * `@page.topmar`
     * `@page.width`
     * `@pedal.style` (for values 'line' and 'pedstar')
+    * `@spacing.staff`
     * `@system.leftmar` (affects only first system)
     * `@text.dist`
+    * `@vu.height` (for values in 'pt')
 
 * `<section>`
 

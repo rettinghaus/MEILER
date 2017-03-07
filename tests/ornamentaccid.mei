@@ -8,6 +8,9 @@
         <title/>
       </titleStmt>
       <pubStmt/>
+      <seriesStmt>
+        <title>MEILER test files</title>
+      </seriesStmt>
     </fileDesc>
   </meiHead>
   <music>
@@ -50,7 +53,8 @@
               <mordent startid="#n10" accidlower="n"/>
               <trill startid="#n11" accidupper="f"/>
               <turn startid="#n12" accidlower="s"/>
-              <trill glyphname="ornamentPrecompSlideTrillDAnglebert" place="above" startid="#n13" accidlower="n" accidupper="s"/>
+              <trill glyphname="ornamentPrecompSlideTrillDAnglebert" place="above" startid="#n13"
+                accidlower="n" accidupper="s"/>
             </measure>
           </section>
         </score>

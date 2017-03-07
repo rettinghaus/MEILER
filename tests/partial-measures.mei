@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="http://www.music-encoding.org/schema/3.0.0/mei-all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <?xml-model href="http://www.music-encoding.org/schema/3.0.0/mei-all.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-<mei xmlns="http://www.music-encoding.org/ns/mei" meiversion="3.0.0">
+<mei xmlns="http://www.music-encoding.org/ns/mei" meiversion="3.0.0" xmlns:meiler="NS:MEILER_TEST">
   <meiHead>
     <fileDesc>
       <titleStmt>
@@ -12,6 +12,16 @@
         <title>MEILER test files</title>
       </seriesStmt>
     </fileDesc>
+    <extMeta>
+      <meiler:test system="bash" input="ly">
+        # For the first measure, we expect the output `ly:make-moment -12/32`
+        # because we apply the largest @dots value to the smallest duration
+        # for the denominator (which is 1 dot applied to 16th notes, resulting
+        # in 32nd notes).
+        grep 'ly:make-moment -12/32' "$ly" \
+        &amp;&amp; grep 'ly:make-moment -5/8' "$ly"
+      </meiler:test>
+    </extMeta>
   </meiHead>
   <music>
     <body>
@@ -23,35 +33,35 @@
             </staffGrp>
           </scoreDef>
           <section>
-            <measure n="1">
+            <measure n="1" metcon="false">
               <staff n="1">
                 <layer n="1">
+                  <note pname="e" oct="4" dur="8"/>
                   <beam>
-                    <note pname="g" oct="4" dur="8"/>
-                    <note pname="g" oct="4" dur="8"/>
-                    <note pname="g" oct="4" dur="8"/>
-                    <handShift/>
+                    <note pname="f" oct="4" dur="8" dots="1"/>
+                    <note pname="g" oct="4" dur="16"/>
                   </beam>
-                  <note pname="g" oct="4" dur="8"/>
-                  <note pname="g" oct="4" dur="8"/>
-                  <note pname="g" oct="4" dur="8" xml:id="note6"/>
-                  <note pname="g" oct="4" dur="8" xml:id="note7"/>
-                  <note pname="g" oct="4" dur="8" xml:id="note8"/>
-                  <beamSpan startid="#note6" endid="#note8"/>
                 </layer>
               </staff>
             </measure>
             <measure n="2">
               <staff n="1">
                 <layer n="1">
+                  <note dur="2" pname="a" oct="4"/>
+                  <rest dur="8"/>
                   <note pname="g" oct="4" dur="8"/>
-                  <note pname="g" oct="4" dur="8"/>
-                  <note pname="g" oct="4" dur="8"/>
-                  <note pname="g" oct="4" dur="8" beam="i1"/>
-                  <note pname="g" oct="4" dur="8" beam="t1"/>
-                  <note pname="g" oct="4" dur="8"/>
-                  <note pname="g" oct="4" dur="8"/>
-                  <note pname="g" oct="4" dur="8"/>
+                  <beam>
+                    <note pname="f" oct="4" dur="8" dots="1"/>
+                    <note pname="e" oct="4" dur="16"/>
+                  </beam>
+                </layer>
+              </staff>
+            </measure>
+            <measure n="3" metcon="false">
+              <staff n="1">
+                <layer n="1">
+                  <note dur="2" pname="d" oct="4"/>
+                  <rest dur="8"/>
                 </layer>
               </staff>
             </measure>

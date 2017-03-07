@@ -247,6 +247,15 @@
             </changeDesc>
             <date isodate="2017-01-04"/>
          </change>
+         <change n="10">
+            <respStmt>
+               <persName>Klaus Rettinghaus</persName>
+            </respStmt>
+            <changeDesc>
+               <p>Corrected system breaks and page formatting</p>
+            </changeDesc>
+            <date isodate="2017-02-12"/>
+         </change>
       </revisionDesc>
    </meiHead>
    <music>
@@ -254,10 +263,10 @@
          <mdiv>
             <score>
                <scoreDef meter.count="2" meter.unit="4" key.sig="3f" key.mode="major"
-                  page.height="1545" page.width="1194" page.leftmar="70" page.rightmar="70"
-                  page.topmar="88" page.botmar="88" system.leftmar="0" system.rightmar="0"
-                  spacing.system="121" system.topmar="70" spacing.staff="93" music.name="Maestro"
-                  music.size="20.5" text.name="Times New Roman" vu.height="0.904mm">
+                  page.leftmar="20" page.rightmar="20" page.topmar="15" page.botmar="15"
+                  system.leftmar="0" system.rightmar="0" spacing.system="121" 
+                  spacing.staff="25" music.size="20" text.name="Times New Roman"
+                  vu.height="0.904mm">
                   <pgHead>
                      <anchoredText x="597" y="1440">
                         <rend fontsize="24" fontweight="bold" halign="center" valign="top"
@@ -364,7 +373,7 @@
                      <fing staff="1" place="above" startid="#d1e376">3</fing>
                      <fing staff="2" place="below" startid="#d1e470">2</fing>
                   </measure>
-                  <staffDef n="2" lines="5" clef.line="4" clef.shape="F"/>
+                  <staffDef n="2" clef.line="4" clef.shape="F"/>
                   <measure n="3" xml:id="d1e532" width="161">
                      <staff n="1">
                         <layer n="1">
@@ -408,7 +417,7 @@
                      <fing staff="1" place="above" startid="#d1e561">4</fing>
                      <fing staff="2" place="below" startid="#d1e664">1</fing>
                   </measure>
-                  <staffDef n="1" lines="5" clef.line="4" clef.shape="F"/>
+                  <staffDef n="1" clef.line="4" clef.shape="F"/>
                   <measure n="4" xml:id="d1e751" width="159">
                      <staff n="1">
                         <layer n="1">
@@ -464,6 +473,7 @@
                         tstamp2="0m+2.5"/>
                      <dynam tstamp="2.5" place="below" staff="1" startid="#d72e1">sff</dynam>
                   </measure>
+                  <sb source="#firstEdition"/>
                   <measure n="5" xml:id="d1e1058" width="113">
                      <staff n="1">
                         <layer n="1">
@@ -476,7 +486,6 @@
                         </layer>
                      </staff>
                   </measure>
-                  <sb source="#firstEdition"/>
                   <measure n="6" xml:id="d1e1080" width="147">
                      <staff n="1">
                         <layer n="1">
@@ -688,7 +697,8 @@
                      <hairpin tstamp="1.5" form="dim" place="below" staff="1" opening="0"
                         tstamp2="0m+3"/>
                   </measure>
-                  <staffDef n="1" lines="5" clef.line="2" clef.shape="G"/>
+                  <sb source="#firstEdition"/>
+                  <staffDef n="1" clef.line="2" clef.shape="G"/>
                   <measure n="10" xml:id="d1e2302" width="123">
                      <staff n="1">
                         <layer n="1">
@@ -762,7 +772,6 @@
                      <fing staff="1" place="above" startid="#d1e2340">4</fing>
                      <fing staff="1" place="above" startid="#d1e2384">3</fing>
                   </measure>
-                  <sb/>
                   <measure n="11" xml:id="d1e2710" width="126">
                      <staff n="1">
                         <layer n="1">
@@ -932,7 +941,7 @@
                         tstamp2="1m+1.25"/>
                   </measure>
                   <scoreDef spacing.system="114"/>
-                  <staffDef n="1" lines="5" clef.line="4" clef.shape="F"/>
+                  <staffDef n="1" clef.line="4" clef.shape="F"/>
                   <measure n="14" xml:id="d1e3559" width="228">
                      <staff n="1">
                         <layer n="1">
@@ -987,6 +996,7 @@
                         tstamp2="0m+3"/>
                      <fing staff="1" place="above" startid="#d1e3577">4</fing>
                   </measure>
+                  <sb source="#firstEdition"/>
                   <measure n="15" xml:id="d1e3874" width="151">
                      <staff n="1">
                         <layer n="1">
@@ -1041,7 +1051,6 @@
                      <hairpin tstamp="2" form="dim" place="below" staff="1" opening="0"
                         tstamp2="0m+3"/>
                   </measure>
-                  <sb/>
                   <measure n="16" xml:id="d1e4168" width="125">
                      <staff n="1">
                         <layer n="1">
@@ -1125,7 +1134,7 @@
                      </staff>
                      <fing staff="1" place="above" startid="#d1e4417">2</fing>
                   </measure>
-                  <staffDef n="1" lines="5" clef.line="2" clef.shape="G"/>
+                  <staffDef n="1" clef.line="2" clef.shape="G"/>
                   <measure n="18" xml:id="d1e4590" width="124">
                      <staff n="1">
                         <layer n="1">
@@ -1251,6 +1260,7 @@
                      <slur tstamp="1" curvedir="above" startid="#d1e4994" endid="#d1e5018" staff="1"
                         tstamp2="0m+1.25"/>
                   </measure>
+                  <sb source="#firstEdition"/>
                   <measure n="20" xml:id="d1e5343" width="156">
                      <staff n="1">
                         <layer n="1">
@@ -1312,8 +1322,6 @@
                      <arpeg tstamp="2.5" plist="#d1e5450 #d1e5474" staff="1" layer="1"/>
                      <dynam tstamp="2.5" place="below" staff="1" startid="#d681e1">sff</dynam>
                   </measure>
-                  <sb/>
-                  <scoreDef spacing.system="114"/>
                   <measure n="21" xml:id="d1e5657" width="253">
                      <staff n="1">
                         <layer n="1">
@@ -1575,7 +1583,9 @@
                      <slur tstamp="1" curvedir="above" startid="#d889e1" endid="#d896e1" staff="2"
                         tstamp2="0m+2"/>
                   </measure>
+                  <sb source="#firstEdition"/>
                   <pb n="25" source="#firstEdition"/>
+                  <staffDef n="2" clef.line="2" clef.shape="G"/>
                   <measure n="26" xml:id="d1e7034" width="250">
                      <staff n="1">
                         <layer n="1">
@@ -1818,7 +1828,7 @@
                      <slur tstamp="2" curvedir="below" startid="#d1e8366" endid="#d1e8405" staff="2"
                         tstamp2="0m+2.5"/>
                   </measure>
-                  <staffDef n="2" lines="5" clef.line="4" clef.shape="F"/>
+                  <staffDef n="2" clef.line="4" clef.shape="F"/>
                   <measure n="30" xml:id="d1e8430" width="125">
                      <staff n="1">
                         <layer n="1">
@@ -1855,7 +1865,7 @@
                      <tie tstamp="1" staff="1" curvedir="below" startid="#d1e8485" endid="#d1e8667"
                      />
                   </measure>
-                  <sb/>
+                  <sb source="#firstEdition"/>                  
                   <measure n="31" xml:id="d1e8624" width="125">
                      <staff n="1">
                         <layer n="1">
@@ -1919,7 +1929,7 @@
                      <slur tstamp="1" curvedir="below" startid="#d1e8863" endid="#d1e8887" staff="2"
                         tstamp2="0m+1.25"/>
                   </measure>
-                  <staffDef n="1" lines="5" clef.line="4" clef.shape="F"/>
+                  <staffDef n="1" clef.line="4" clef.shape="F"/>
                   <measure n="33" xml:id="d1e8971" width="264">
                      <staff n="1">
                         <layer n="1">
@@ -1971,8 +1981,8 @@
                         staff="2" tstamp2="0m+2"/>
                      <dynam tstamp="2.5" place="below" staff="1">ff</dynam>
                   </measure>
-                  <staffDef n="1" lines="5" clef.line="2" clef.shape="G"/>
-                  <staffDef n="2" lines="5" clef.line="2" clef.shape="G"/>
+                  <staffDef n="1" clef.line="2" clef.shape="G"/>
+                  <staffDef n="2" clef.line="2" clef.shape="G"/>
                   <measure n="34" xml:id="d1e9259" width="142">
                      <staff n="1">
                         <layer n="1">
@@ -2088,7 +2098,7 @@
                         </layer>
                      </staff>
                   </measure>
-                  <sb/>
+                  <sb source="#firstEdition"/>
                   <measure n="36" xml:id="d1e9943" width="118">
                      <staff n="1">
                         <layer n="1">
@@ -2329,8 +2339,7 @@
                         </layer>
                      </staff>
                   </measure>
-                  <scoreDef spacing.system="114"/>
-                  <staffDef n="2" lines="5" clef.line="4" clef.shape="F"/>
+                  <staffDef n="2" clef.line="4" clef.shape="F"/>
                   <measure n="40" xml:id="d1e11264" width="283">
                      <staff n="1">
                         <layer n="1">
@@ -2390,6 +2399,7 @@
                         staff="2" tstamp2="0m+1.75"/>
                      <dynam tstamp="2.5" place="below" staff="1">ff</dynam>
                   </measure>
+                  <sb source="#firstEdition"/>
                   <measure n="41" xml:id="d1e11579" width="133">
                      <staff n="1">
                         <layer n="1">
@@ -2572,10 +2582,10 @@
                      <slur tstamp="1" curvedir="below" startid="#d1e12488" endid="#d1e12508"
                         staff="2" tstamp2="0m+2"/>
                   </measure>
+                  <sb source="#firstEdition"/>
                </section>
                <section>
-                  <sb/>
-                  <scoreDef key.sig="6f" key.mode="major" spacing.system="114"/>
+                  <scoreDef key.sig="6f" key.mode="major"/>
                   <measure n="47" xml:id="d1e12529" width="267">
                      <staff n="1">
                         <layer n="1">
@@ -2829,6 +2839,7 @@
                      <slur tstamp="2" curvedir="below" startid="#d1e13754" endid="#d1e13773"
                         staff="1" tstamp2="0m+2"/>
                   </measure>
+                  <sb source="#firstEdition"/>
                   <pb n="26" source="#firstEdition"/>
                   <measure n="53" xml:id="d1e13886" width="220">
                      <staff n="1">
@@ -3027,6 +3038,7 @@
                      <slur tstamp="1.5" curvedir="below" startid="#d1e14688" endid="#d1e14713"
                         staff="1" tstamp2="0m+1.5"/>
                   </measure>
+                  <sb source="#firstEdition"/>
                   <measure n="58" xml:id="d1e14931" width="195">
                      <staff n="1">
                         <layer n="1">
@@ -3076,7 +3088,6 @@
                      <slur tstamp="2.5" curvedir="below" startid="#d1e15016" endid="#d1e15035"
                         staff="1" tstamp2="0m+2.5"/>
                   </measure>
-                  <sb/>
                   <measure n="59" xml:id="d1e15188" width="249">
                      <staff n="1">
                         <layer n="1">
@@ -3136,7 +3147,7 @@
                      <tie tstamp="1" staff="2" curvedir="above" startid="#d1e15399"
                         endid="#d1e15569"/>
                   </measure>
-                  <staffDef n="1" lines="5" clef.line="2" clef.shape="G"/>
+                  <staffDef n="1" clef.line="2" clef.shape="G"/>
                   <measure n="61" xml:id="d1e15475" width="111">
                      <staff n="1">
                         <layer n="1">
@@ -3183,8 +3194,8 @@
                         staff="1" tstamp2="2m+1"/>
                      <slur tstamp="2" curvedir="below" startid="#d1e15508" endid="#d1e16076"
                         staff="1" tstamp2="2m+1"/>
-                     <!-- <tie tstamp="2" staff="1" curvedir="below" startid="#d1e15508"
-                endid="#d1e15736"/> -->
+                     <tie tstamp="2" staff="1" curvedir="below" startid="#d1e15508"
+                endid="#d1e15736"/>
                   </measure>
                   <measure n="62" xml:id="d1e15696" width="130">
                      <staff n="1">
@@ -3227,6 +3238,7 @@
                         </layer>
                      </staff>
                   </measure>
+                  <sb source="#firstEdition"/>
                   <measure n="63" xml:id="d1e15861" width="240">
                      <staff n="1">
                         <layer n="1">
@@ -3414,8 +3426,6 @@
                         tstamp2="0m+3"/>
                      <slur tstamp="2" curvedir="above" startid="#d1e16781" endid="#d1e17184"
                         staff="1" tstamp2="2m+1"/>
-                     <slur tstamp="2" curvedir="below" startid="#d1e16816" endid="#d1e17164"
-                        staff="1" tstamp2="2m+1"/>
                      <tie tstamp="2" staff="1" curvedir="below" startid="#d1e16816"
                         endid="#d1e16902"/>
                   </measure>
@@ -3533,6 +3543,7 @@
                      <slur tstamp="2.5" curvedir="above" startid="#d1e17098" endid="#d1e17117"
                         staff="1" tstamp2="0m+2.5"/>
                   </measure>
+                  <sb source="#firstEdition"/>
                   <measure n="68" xml:id="d1e17446" width="210">
                      <staff n="1">
                         <layer n="1">
@@ -3765,6 +3776,7 @@
                      <tie tstamp="2.5" staff="2" curvedir="below" startid="#d1e18643"
                         endid="#d1e18753"/>
                   </measure>
+                  <sb source="#firstEdition"/>
                   <measure n="73" xml:id="d1e18667" width="152">
                      <staff n="1">
                         <layer n="1">
@@ -4012,6 +4024,7 @@
                      <hairpin tstamp="2.5" form="dim" place="below" staff="1" opening="1.5"
                         tstamp2="0m+3"/>
                   </measure>
+                  <sb source="#firstEdition"/>
                   <pb n="27" source="#firstEdition"/>
                   <measure n="78" xml:id="d1e19737" width="325">
                      <staff n="1">
@@ -4150,7 +4163,7 @@
                      </staff>
                      <dynam tstamp="1.5" place="below" staff="1">ff</dynam>
                   </measure>
-                  <staffDef n="2" lines="5" clef.line="4" clef.shape="F"/>
+                  <staffDef n="2" clef.line="4" clef.shape="F"/>
                   <measure n="81" xml:id="d1e20463" width="124">
                      <staff n="1">
                         <layer n="1">
@@ -4241,6 +4254,7 @@
                      <tupletSpan staff="2" num="3" numbase="2" num.visible="true" num.place="above"
                         num.format="count" startid="#d1e20912" endid="#d1e20964"/>
                   </measure>
+                  <sb source="#firstEdition"/>
                   <measure n="83" xml:id="d1e20992" width="110">
                      <staff n="1">
                         <layer n="1">
@@ -4280,7 +4294,6 @@
                      <tie tstamp="2" staff="2" curvedir="below" startid="#d1e21136"
                         endid="#d1e21233"/>
                   </measure>
-                  <sb/>
                   <measure n="84" xml:id="d1e21157" width="136">
                      <staff n="1">
                         <layer n="1">
@@ -4438,6 +4451,7 @@
                      <tie tstamp="1" staff="1" curvedir="below" startid="#d1e21762"
                         endid="#d1e22056"/>
                   </measure>
+                  <sb source="#firstEdition"/>
                   <measure n="88" xml:id="d1e21935" width="130">
                      <staff n="1">
                         <layer n="1">
@@ -4489,7 +4503,6 @@
                      <tie tstamp="2" staff="2" curvedir="below" startid="#d1e22160"
                         endid="#d1e22353"/>
                   </measure>
-                  <sb/>
                   <measure n="89" xml:id="d1e22183" right="dbl" width="127">
                      <staff n="1">
                         <layer n="1">
@@ -4585,6 +4598,7 @@
                      <slur tstamp="1" curvedir="below" startid="#d1e22521" endid="#d1e22545"
                         staff="1" tstamp2="0m+1.25"/>
                   </measure>
+                  <sb source="#firstEdition"/>
                   <measure n="92" xml:id="d1e22651" width="243">
                      <staff n="1">
                         <layer n="1">
@@ -4643,7 +4657,6 @@
                         staff="1" tstamp2="0m+2.5"/>
                      <arpeg tstamp="2.5" plist="#d1e22743 #d1e22768" staff="1" layer="1"/>
                   </measure>
-                  <sb/>
                   <measure n="93" xml:id="d1e22953" width="130">
                      <staff n="1">
                         <layer n="1">
@@ -4684,7 +4697,7 @@
                      <hairpin tstamp="1" form="dim" place="below" staff="1" opening="0" endto="-12"
                         tstamp2="1m+1.25"/>
                   </measure>
-                  <staffDef n="1" lines="5" clef.line="4" clef.shape="F"/>
+                  <staffDef n="1" clef.line="4" clef.shape="F"/>
                   <measure n="94" xml:id="d1e23145" width="140">
                      <staff n="1">
                         <layer n="1">
@@ -4837,6 +4850,7 @@
                      <slur tstamp="1" curvedir="below" startid="#d1e23881" endid="#d1e23905"
                         staff="2" tstamp2="0m+1.25"/>
                   </measure>
+                  <sb source="#firstEdition"/>
                   <measure n="97" xml:id="d1e23990" width="142">
                      <staff n="1">
                         <layer n="1">
@@ -4867,8 +4881,7 @@
                         </layer>
                      </staff>
                   </measure>
-                  <staffDef n="1" lines="5" clef.line="2" clef.shape="G"/>
-                  <sb/>
+                  <staffDef n="1" clef.line="2" clef.shape="G"/>
                   <measure n="98" xml:id="d1e24165" width="123">
                      <staff n="1">
                         <layer n="1">
@@ -5087,6 +5100,7 @@
                      <hairpin tstamp="1" form="dim" place="below" staff="1" opening="0"
                         tstamp2="0m+3"/>
                   </measure>
+                  <sb source="#firstEdition"/>
                   <pb n="28" source="#firstEdition"/>
                   <measure n="102" xml:id="d1e25422" width="277">
                      <staff n="1">
@@ -5302,7 +5316,7 @@
                      <slur tstamp="1" curvedir="below" startid="#d1e26499" endid="#d1e26559"
                         staff="2" tstamp2="0m+2"/>
                   </measure>
-                  <staffDef n="2" lines="5" clef.line="2" clef.shape="G"/>
+                  <staffDef n="2" clef.line="2" clef.shape="G"/>
                   <measure n="106" xml:id="d1e26611" width="168">
                      <staff n="1">
                         <layer n="1">
@@ -5375,7 +5389,6 @@
                      <slur tstamp="2" curvedir="below" startid="#d1e26747" endid="#d1e26787"
                         staff="1" tstamp2="0m+2.5"/>
                   </measure>
-                  <sb/>
                   <measure n="107" xml:id="d1e27007" width="152">
                      <staff n="1">
                         <layer n="1">
@@ -5425,7 +5438,7 @@
                         </layer>
                      </staff>
                   </measure>
-                  <scoreDef spacing.system="114"/>
+                  <sb source="#firstEdition"/>
                   <measure n="108" xml:id="d1e27288" width="215">
                      <staff n="1">
                         <layer n="1">
@@ -5552,7 +5565,8 @@
                      <slur tstamp="2" curvedir="below" startid="#d1e27946" endid="#d1e27985"
                         staff="2" tstamp2="0m+2.5"/>
                   </measure>
-                  <staffDef n="2" lines="5" clef.line="4" clef.shape="F"/>
+                  <staffDef n="1" clef.line="4" clef.shape="F"/>
+                  <staffDef n="2" clef.line="4" clef.shape="F"/>
                   <measure n="110" xml:id="d1e28010" width="187">
                      <staff n="1">
                         <layer n="1">
@@ -5652,8 +5666,6 @@
                      <slur tstamp="1" curvedir="below" startid="#d1e28301" endid="#d1e28327"
                         staff="2" tstamp2="0m+1.25"/>
                   </measure>
-                  <staffDef n="1" lines="5" clef.line="4" clef.shape="F"/>
-                  <sb/>
                   <measure n="112" xml:id="d1e28414" width="124">
                      <staff n="1">
                         <layer n="1">
@@ -5697,6 +5709,7 @@
                      <tie tstamp="1" staff="1" curvedir="above" startid="#d1e28469"
                         endid="#d1e28618"/>
                   </measure>
+                  <sb source="#firstEdition"/>
                   <measure n="113" xml:id="d1e28611" width="193">
                      <staff n="1">
                         <layer n="1">
@@ -5757,9 +5770,8 @@
                      <dynam tstamp="2" place="below" staff="1">sf</dynam>
                      <dynam tstamp="2" place="above" staff="2">f</dynam>
                   </measure>
-                  <scoreDef spacing.system="114"/>
-                  <staffDef n="1" lines="5" clef.line="2" clef.shape="G"/>
-                  <staffDef n="2" lines="5" clef.line="2" clef.shape="G"/>
+                  <staffDef n="1" clef.line="2" clef.shape="G"/>
+                  <staffDef n="2" clef.line="2" clef.shape="G"/>
                   <measure n="114" xml:id="d1e28945" width="229">
                      <staff n="1">
                         <layer n="1">
@@ -5947,7 +5959,6 @@
                      <slur tstamp="2" curvedir="below" startid="#d4002e1" endid="#d4054e1" staff="1"
                         tstamp2="1m+1"/>
                   </measure>
-                  <sb/>
                   <measure n="117" xml:id="d1e30008" width="120">
                      <staff n="1">
                         <layer n="1">
@@ -6004,6 +6015,7 @@
                      <slur tstamp="2" curvedir="below" startid="#d4091e1" endid="#d1e30313"
                         staff="2" tstamp2="0m+2.5"/>
                   </measure>
+                  <sb source="#firstEdition"/>
                   <measure n="118" xml:id="d1e30337" width="135">
                      <staff n="1">
                         <layer n="1">
@@ -6125,7 +6137,7 @@
                      <slur tstamp="1" curvedir="above" startid="#d1e30803" endid="#d1e30871"
                         staff="2" tstamp2="0m+2"/>
                   </measure>
-                  <staffDef n="2" lines="5" clef.line="4" clef.shape="F"/>
+                  <staffDef n="2" clef.line="4" clef.shape="F"/>
                   <measure n="120" xml:id="d1e30953" width="171">
                      <staff n="1">
                         <layer n="1">
@@ -6247,7 +6259,6 @@
                         </layer>
                      </staff>
                   </measure>
-                  <sb/>
                   <measure n="123" xml:id="d1e31594" width="126">
                      <staff n="1">
                         <layer n="1">
@@ -6293,6 +6304,7 @@
                      <hairpin tstamp="1.5" form="dim" place="below" staff="1" opening="0"
                         tstamp2="0m+3"/>
                   </measure>
+                  <sb source="#firstEdition"/>
                   <measure n="124" xml:id="d1e31845" width="92">
                      <staff n="1">
                         <layer n="1">
