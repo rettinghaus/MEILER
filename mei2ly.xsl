@@ -2348,7 +2348,7 @@
       </xsl:when>
     </xsl:choose>
   </xsl:template>
-  <!-- set stem direction -->
+  <!-- set stem direction / position -->
   <!-- Can't set individual stem directions for individual chord notes -->
   <xsl:template mode="setStemDir" match="mei:chord/mei:note" priority="10"/>
   <!-- In layers without stem.dir attributes, don't write any stem dir instructions (not even \stemNeutral). -->
@@ -2373,8 +2373,8 @@
       <xsl:message>INFO: @stem.dir is favored over @stem.pos on <xsl:value-of select="local-name(.)"/> <xsl:if test="@xml:id"><xsl:value-of select="concat('[',@xml:id,']')"/></xsl:if></xsl:message>
     </xsl:if>
   </xsl:template>
-  <!-- set stem position -->
   <xsl:template mode="setStemDir" match="*[@stem.pos and not(@stem.dir)]">
+    <!-- data.STEMPOSITION -->
     <xsl:value-of select="concat('\override Stem.direction = #', translate(@stem.pos, 'cefghilntr', 'CEFGHILNTR'), ' ')"/>
   </xsl:template>
   <xsl:template mode="setStemDir" match="*">
