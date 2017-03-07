@@ -2,7 +2,7 @@
 <!--          -->
 <!--  MEILER  -->
 <!--  mei2ly  -->
-<!-- v 0.8.16 -->
+<!-- v 0.8.17 -->
 <!--          -->
 <!-- programmed by -->
 <!-- Klaus Rettinghaus -->
@@ -718,14 +718,13 @@
         <xsl:with-param name="color" select="@head.color" />
       </xsl:call-template>
     </xsl:if>
-    <xsl:apply-templates mode="setStemDir" select="." />
     <xsl:if test="@ho">
       <xsl:text>\once \override NoteHead.extra-offset = #&apos;</xsl:text>
       <xsl:call-template name="setOffset" />
       <xsl:text>\once \override Stem.extra-offset = #&apos;</xsl:text>
       <xsl:call-template name="setOffset" />
     </xsl:if>
-    <xsl:call-template name="setStemDir" />
+    <xsl:apply-templates mode="setStemDir" select="." />
     <xsl:if test="@stem.len">
       <xsl:value-of select="concat('\once \override Stem.length = #', local:VU2LY(@stem.len) * 2, ' ')" />
     </xsl:if>
@@ -2355,18 +2354,31 @@
   <!-- In layers without stem.dir attributes, don't write any stem dir instructions (not even \stemNeutral). -->
   <xsl:key name="isLayerWithStemDirAttributes" match="@stem.dir" use="ancestor::mei:layer[1]/generate-id()"/>
   <xsl:template mode="setStemDir" match="*[not(key('isLayerWithStemDirAttributes', generate-id(ancestor::mei:layer)))]"/>
-  <xsl:template mode="setStemDir" match="*[@stem.dir='up']">
-    <xsl:text>\stemUp </xsl:text>
+  <xsl:template mode="setStemDir" match="*[@stem.dir]">
+    <xsl:choose>
+      <!-- data.STEMDIRECTION.basic -->
+      <xsl:when test="@stem.dir='down'">
+        <xsl:text>\stemDown </xsl:text>
+      </xsl:when>
+      <xsl:when test="@stem.dir='up'">
+        <xsl:text>\stemUp </xsl:text>
+      </xsl:when>
+      <!-- data.STEMDIRECTION.extended -->
+      <xsl:otherwise>
+        <xsl:text>\stemNeutral </xsl:text>
+        <xsl:message>INFO: LilyPond only supports basic stem directions</xsl:message>
+      </xsl:otherwise>
+    </xsl:choose>
+    <xsl:if test="@stem.pos">
+      <xsl:message>INFO: @stem.dir is favored over @stem.pos on <xsl:value-of select="local-name(.)"/> <xsl:if test="@xml:id"><xsl:value-of select="concat('[',@xml:id,']')"/></xsl:if></xsl:message>
+    </xsl:if>
   </xsl:template>
-  <xsl:template mode="setStemDir" match="*[@stem.dir='down']">
-    <xsl:text>\stemDown </xsl:text>
+  <!-- set stem position -->
+  <xsl:template mode="setStemDir" match="*[@stem.pos and not(@stem.dir)]">
+    <xsl:value-of select="concat('\override Stem.direction = #', translate(@stem.pos, 'cefghilntr', 'CEFGHILNTR'), ' ')"/>
   </xsl:template>
   <xsl:template mode="setStemDir" match="*">
     <xsl:text>\stemNeutral </xsl:text>
-    <!-- set stem position -->
-    <xsl:if test="@stem.pos">
-      <xsl:message>INFO: position and direction of a stem can't be seperated in LilyPond</xsl:message>
-    </xsl:if>
   </xsl:template>
   <!-- set duration -->
   <xsl:template name="setDuration">
