@@ -718,6 +718,7 @@
         <xsl:with-param name="color" select="@head.color" />
       </xsl:call-template>
     </xsl:if>
+    <xsl:apply-templates mode="setStemDir" select="." />
     <xsl:if test="@ho">
       <xsl:text>\once \override NoteHead.extra-offset = #&apos;</xsl:text>
       <xsl:call-template name="setOffset" />
@@ -869,7 +870,7 @@
     <xsl:if test="@visible='false'">
       <xml:text>\once \hideNotes </xml:text>
     </xsl:if>
-    <xsl:call-template name="setStemDir" />
+    <xsl:apply-templates mode="setStemDir" select="." />
     <xsl:if test="@stem.len">
       <xsl:value-of select="concat('\once \override Stem.length = #', local:VU2LY(@stem.len) * 2, ' ')" />
     </xsl:if>
@@ -2349,21 +2350,19 @@
     </xsl:choose>
   </xsl:template>
   <!-- set stem direction -->
-  <xsl:template name="setStemDir">
-    <xsl:variable name="currentLayer" select="generate-id(ancestor::mei:layer)" />
-    <xsl:if test="not(preceding::*[@stem.dir][generate-id(ancestor::mei:layer) = $currentLayer]) or (@stem.dir != preceding::*[@stem.dir][generate-id(ancestor::mei:layer) = $currentLayer]/@stem.dir)">
-      <xsl:choose>
-        <xsl:when test="@stem.dir='up'">
-          <xsl:text>\stemUp </xsl:text>
-        </xsl:when>
-        <xsl:when test="@stem.dir='down'">
-          <xsl:text>\stemDown </xsl:text>
-        </xsl:when>
-      </xsl:choose>
-    </xsl:if>
-    <xsl:if test="not(parent::mei:chord) and not(@stem.dir) and (preceding::mei:chord[1][@stem.dir] or preceding::mei:note[1][not(parent::mei:chord)][@stem.dir])">
-      <xsl:text>\stemNeutral </xsl:text>
-    </xsl:if>
+  <!-- Can't set individual stem directions for individual chord notes -->
+  <xsl:template mode="setStemDir" match="mei:chord/mei:note" priority="10"/>
+  <!-- In layers without stem.dir attributes, don't write any stem dir instructions (not even \stemNeutral). -->
+  <xsl:key name="isLayerWithStemDirAttributes" match="@stem.dir" use="ancestor::mei:layer[1]/generate-id()"/>
+  <xsl:template mode="setStemDir" match="*[not(key('isLayerWithStemDirAttributes', generate-id(ancestor::mei:layer)))]"/>
+  <xsl:template mode="setStemDir" match="*[@stem.dir='up']">
+    <xsl:text>\stemUp </xsl:text>
+  </xsl:template>
+  <xsl:template mode="setStemDir" match="*[@stem.dir='down']">
+    <xsl:text>\stemDown </xsl:text>
+  </xsl:template>
+  <xsl:template mode="setStemDir" match="*">
+    <xsl:text>\stemNeutral </xsl:text>
     <!-- set stem position -->
     <xsl:if test="@stem.pos">
       <xsl:message>INFO: position and direction of a stem can't be seperated in LilyPond</xsl:message>

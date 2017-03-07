@@ -1,0 +1,131 @@
+<mei xmlns="http://www.music-encoding.org/ns/mei" xmlns:meiler="NS:MEILER_TEST" meiversion="3.0.0">
+  <meiHead>
+    <fileDesc>
+      <titleStmt>
+        <title/>
+      </titleStmt>
+      <pubStmt/>
+    </fileDesc>
+    <extMeta>
+      <meiler:test system="bash" input="ly"><![CDATA[
+        if egrep -q "\\\\stem.+\s+b4" "$ly"
+        then
+          echo "Expected no stem direction instructions in measure 1" 
+          exit 1
+        fi
+        if ! (
+          egrep -q "\\\\stemUp\s+c'4" "$ly" && 
+          egrep -q "\\\\stemDown\s+d'4" "$ly" &&
+          egrep -q "\\\\stemUp\s+e'4" "$ly" &&
+          egrep -q "\\\\stemDown\s+f'4" "$ly"
+        )
+        then
+          echo "Unexpected stem direction instructions in measure 2"
+          exit 1
+        fi
+        if ! (
+          egrep -q "\\\\stemNeutral\s+g'4" "$ly" &&
+          egrep -q "\\\\stemDown\s+a'4" "$ly" &&
+          egrep -q "\\\\stemNeutral\s+b'4" "$ly" &&
+          egrep -q "\\\\stemDown\s+c''4" "$ly"
+        )
+        then
+          echo "Unexpected stem direction instructions in measure 3"
+          exit 1
+        fi
+        if ! (
+          egrep -q "\\\\stemNeutral\s+d''4" "$ly" &&
+          egrep -q "\\\\stemNeutral\s+e''4" "$ly" &&
+          egrep -q "\\\\stemDown\s*<" "$ly" &&
+          egrep -q "\\\\stemNeutral\s+a''4" "$ly"
+        )
+        then
+          echo "Unexpected stem direction instructions in measure 4"
+          exit 1
+        fi
+        if ! (
+          egrep -q "\\\\stemNeutral\s+b''4" "$ly" &&
+          egrep -q "\\\\stemUp\s+c'''4" "$ly" &&
+          egrep -q "\\\\stemDown\s*<" "$ly" &&
+          egrep -q "\\\\stemNeutral\s+f'''4" "$ly"
+        )
+        then
+          echo "Unexpected stem direction instructions in measure 5"
+          exit 1
+        fi
+        ]]>
+      </meiler:test>
+    </extMeta>
+  </meiHead>
+  <music>
+    <body>
+      <mdiv>
+        <score>
+          <scoreDef meter.count="4" meter.unit="4">
+            <staffGrp>
+              <staffDef n="1" clef.line="2" clef.shape="G" lines="5"/>
+            </staffGrp>
+          </scoreDef>
+          <section>
+            <measure n="1">
+              <staff n="1">
+                <layer n="1">
+                  <note pname="f" oct="3" dur="4" />
+                  <note pname="g" oct="3" dur="4" />
+                  <note pname="a" oct="3" dur="4" />
+                  <note pname="b" oct="3" dur="4" />
+                </layer>
+              </staff>
+            </measure>
+            <measure n="2">
+              <staff n="1">
+                <layer n="1">
+                  <note pname="c" oct="4" dur="4" stem.dir="up"/>
+                  <note pname="d" oct="4" dur="4" stem.dir="down"/>
+                  <note pname="e" oct="4" dur="4" stem.dir="up"/>
+                  <note pname="f" oct="4" dur="4" stem.dir="down"/>
+                </layer>
+              </staff>
+            </measure>
+            <measure n="3">
+              <staff n="1">
+                <layer n="1">
+                  <note pname="g" oct="4" dur="4" />
+                  <note pname="a" oct="4" dur="4" stem.dir="down"/>
+                  <note pname="b" oct="4" dur="4" />
+                  <note pname="c" oct="5" dur="4" stem.dir="down"/>
+                </layer>
+              </staff>
+            </measure>
+            <measure n="4">
+              <staff n="1">
+                <layer n="1">
+                  <note pname="d" oct="5" dur="4" />
+                  <note pname="e" oct="5" dur="4" />
+                  <chord stem.dir="down" dur="4" >
+                    <note pname="f" oct="5" dur="4" />
+                    <note pname="g" oct="5" dur="4" stem.dir="up" />
+                  </chord>
+                  <note pname="a" oct="5" dur="4" />
+                </layer>
+              </staff>
+            </measure>
+            <measure n="5">
+              <staff n="1">
+                <layer n="1">
+                  <note pname="b" oct="5" dur="4" />
+                  <note pname="c" oct="6" dur="4" stem.dir="up"/>
+                  <chord stem.dir="down" dur="4" >
+                    <note pname="d" oct="6" dur="4" />
+                    <note pname="e" oct="6" dur="4" stem.dir="down" />
+                  </chord>
+                  <note pname="f" oct="6" dur="4" />
+                </layer>
+              </staff>
+            </measure>
+          </section>
+        </score>
+      </mdiv>
+    </body>
+  </music>
+</mei>
