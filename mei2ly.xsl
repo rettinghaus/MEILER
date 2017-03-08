@@ -2351,21 +2351,18 @@
   <!-- set stem direction / position -->
   <!-- Can't set individual stem directions for individual chord notes -->
   <xsl:template mode="setStemDir" match="mei:chord/mei:note" priority="10"/>
-  <!-- In layers without stem.dir attributes, don't write any stem dir instructions (not even \stemNeutral). -->
-  <xsl:key name="isLayerWithStemDirAttributes" match="@stem.dir" use="ancestor::mei:layer[1]/generate-id()"/>
-  <xsl:template mode="setStemDir" match="*[not(key('isLayerWithStemDirAttributes', generate-id(ancestor::mei:layer)))]"/>
   <xsl:template mode="setStemDir" match="*[@stem.dir]">
     <xsl:choose>
       <!-- data.STEMDIRECTION.basic -->
       <xsl:when test="@stem.dir='down'">
-        <xsl:text>\stemDown </xsl:text>
+        <xsl:text>\once \stemDown </xsl:text>
       </xsl:when>
       <xsl:when test="@stem.dir='up'">
-        <xsl:text>\stemUp </xsl:text>
+        <xsl:text>\once \stemUp </xsl:text>
       </xsl:when>
       <!-- data.STEMDIRECTION.extended -->
       <xsl:otherwise>
-        <xsl:text>\stemNeutral </xsl:text>
+        <xsl:text>\once \stemNeutral </xsl:text>
         <xsl:message>INFO: LilyPond only supports basic stem directions</xsl:message>
       </xsl:otherwise>
     </xsl:choose>
@@ -2375,11 +2372,9 @@
   </xsl:template>
   <xsl:template mode="setStemDir" match="*[@stem.pos and not(@stem.dir)]">
     <!-- data.STEMPOSITION -->
-    <xsl:value-of select="concat('\override Stem.direction = #', translate(@stem.pos, 'cefghilntr', 'CEFGHILNTR'), ' ')"/>
+    <xsl:value-of select="concat('\once \override Stem.direction = #', translate(@stem.pos, 'cefghilntr', 'CEFGHILNTR'), ' ')"/>
   </xsl:template>
-  <xsl:template mode="setStemDir" match="*">
-    <xsl:text>\stemNeutral </xsl:text>
-  </xsl:template>
+  <xsl:template mode="setStemDir" match="*"/>
   <!-- set duration -->
   <xsl:template name="setDuration">
     <xsl:choose>
