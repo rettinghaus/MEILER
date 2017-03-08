@@ -61,6 +61,7 @@ List of supported MEI elements and attributes
   * `@slur`
   * `@stem.dir`
   * `@stem.mod`
+  * `@stem.pos`
   * `@tie`
   * `@visible`
 
@@ -223,6 +224,7 @@ List of supported MEI elements and attributes
   * `@staff`
   * `@stem.dir`
   * `@stem.mod`
+  * `@stem.pos`
   * `@tie`
   * `@visible`
 
@@ -503,9 +505,10 @@ List of supported MEI elements and attributes
 
 * `<workDesc>`
 
-
 `att.color` supports hex/RGB/HSL values and color names
 
 `att.pages` have to be defined in the first `<scoreDef>`
 
 data.LINEWIDTH (`@lwidth`) works for values from data.LINEWIDTHTERM
+data.STEMDIRECTION (`@stem.dir`) works for values from data.STEMDIRECTION.basic
+data.STEMPOSITION (`@stem.pos`) will only affect stem direction
