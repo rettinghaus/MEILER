@@ -122,12 +122,15 @@
   </xsl:template>
   <!-- MEI revision description -->
   <xsl:template match="mei:revisionDesc">
-    <xsl:text>&#10;</xsl:text>
+    <xsl:text>&#10;&#32;&#32;% Revision Description&#10;</xsl:text>
     <xsl:apply-templates/>
   </xsl:template>
   <!-- MEI change -->
   <xsl:template match="mei:change">
     <xsl:text>&#32;&#32;%&#32;</xsl:text>
+    <xsl:if test="@n">
+      <xsl:value-of select="concat(@n, '. ')"/>
+    </xsl:if>
     <xsl:apply-templates/>
     <xsl:text>&#10;</xsl:text>
   </xsl:template>
@@ -446,8 +449,8 @@
     <xsl:text>{&#10; </xsl:text>
     <xsl:if test="key('lyrics-by-staff-number', $staffNumber)">
       <!-- We're on a vocal staff, hence put dynamics above the staff -->
-      \override DynamicText.direction = #UP
-      \override DynamicLineSpanner.direction = #UP
+      <xsl:text>\override DynamicText.direction = #UP </xsl:text>
+      <xsl:text>\override DynamicLineSpanner.direction = #UP </xsl:text>
     </xsl:if>
     <xsl:apply-templates select="mei:instrDef" />
     <xsl:if test="@lines and @lines != '5'">
@@ -1969,14 +1972,14 @@
     </xsl:if>
     <xsl:if test="@fontsize">
       <xsl:choose>
-        <xsl:when test="number(@fontsize)">
-          <xsl:value-of select="concat('\abs-fontsize #',@fontsize,' ')" />
-        </xsl:when>
         <xsl:when test="contains(@fontsize,'pt')">
           <xsl:value-of select="concat('\abs-fontsize #',substring-before(@fontsize,'pt'),' ')" />
         </xsl:when>
         <xsl:when test="contains(@fontsize,'%')">
           <xsl:value-of select="concat('\magnify #',number(substring-before(@fontsize,'%')) div 100,' ')" />
+        </xsl:when>
+        <xsl:when test="number(@fontsize) or contains(@fontsize,'vu')">
+          <xsl:message>WARNING: font sizes in vu will be ignored</xsl:message>
         </xsl:when>
         <xsl:otherwise>
           <xsl:call-template name="setRelFontsize" />
@@ -2395,7 +2398,7 @@
       <xsl:when test="@dur='longa'">
         <xsl:text>\longa</xsl:text>
       </xsl:when>
-      <xsl:when test="@dur='brevis'">
+      <xsl:when test="@dur='b'">
         <xsl:text>\breve</xsl:text>
       </xsl:when>
       <xsl:when test="@dur='semibrevis'">
