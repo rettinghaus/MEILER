@@ -48,19 +48,20 @@
                 </layer>
               </staff>
               <tempo staff="1" tstamp="1"><rend>mäßig</rend></tempo>
-              <slur vo="-2" startho="1" startvo="4" color="blue" curvedir="below" lform="dashed"
-                staff="1" tstamp="1" startid="#testnote1" endid="#testnote3"/>
+              <slur xml:id="blue-dashed-slur" vo="-2" startho="1" startvo="4" color="blue"
+                curvedir="below" lform="dashed" staff="1" tstamp="1" startid="#testnote1"
+                endid="#testnote3"/>
               <mordent color="red" vo="3.5vu" form="inv" long="true" place="above" staff="1"
                 tstamp="1" startid="#testnote1"/>
-              <turn color="green" vo="-2" form="inv" place="above" staff="1" tstamp="1"
-                startid="#testnote1"/>
-              <trill color="rgb(32,64,128)" vo="-8vu" lwidth="wide" place="above" staff="1"
-                tstamp="3" startid="#testnote2" endid="#testnote3"/>
-              <gliss color="green" lform="dashed" lwidth="medium" staff="1" tstamp="3"
-                startid="#testnote2" endid="#testnote3"/>
-              <phrase color="gray" bezier="-10 10 5 -5" startvo="2" endvo="-6" curvedir="above"
-                lform="solid" lwidth="medium" staff="1" tstamp="1" startid="#testnote1"
-                endid="#testnote7"/>
+              <turn xml:id="turns-green" color="green" vo="-2" form="inv" place="above" staff="1"
+                tstamp="1" startid="#testnote1"/>
+              <trill xml:id="trills-long" color="rgb(32,64,128)" vo="-8vu" lwidth="wide"
+                place="above" staff="1" tstamp="3" startid="#testnote2" endid="#testnote3"/>
+              <gliss xml:id="dashed-glissando" color="green" lform="dashed" lwidth="medium"
+                staff="1" tstamp="3" startid="#testnote2" endid="#testnote3"/>
+              <phrase xml:id="whole-phrase" color="gray" bezier="-10 10 5 -5" startvo="2" endvo="-6"
+                curvedir="above" lform="solid" lwidth="medium" staff="1" tstamp="1"
+                startid="#testnote1" endid="#testnote7"/>
             </measure>
             <staffDef n="1">
               <meterSig count="3" unit="4"/>
@@ -71,7 +72,8 @@
                   <note xml:id="testnote3" dur="2" dots="1" oct="5" pname="e" stem.dir="down"/>
                 </layer>
               </staff>
-              <trill color="purple" place="below" staff="1" tstamp="1" startid="#testnote3"/>
+              <trill xml:id="trill-under" color="purple" place="below" staff="1" tstamp="1"
+                startid="#testnote3"/>
             </measure>
             <measure n="3">
               <staff n="1">
@@ -116,8 +118,9 @@
                 </layer>
               </staff>
               <tempo tstamp="1" mm="32" mm.unit="4"/>
-              <fermata place="below" color="blue" shape="square" vo="0.4" staff="1" tstamp="3"
-                startid="#testchord4"/>
+              <fermata xml:id="blue-squared-fermata" place="below" color="blue" shape="square"
+                vo="0.4" staff="1" tstamp="3" startid="#testchord4"/>
+              <dynam xml:id="finale" place="below" startid="#testnote7">sfz</dynam>
             </measure>
           </section>
         </score>

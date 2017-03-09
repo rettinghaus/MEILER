@@ -11,6 +11,7 @@ List of supported MEI elements and attributes
   * `@ho`
   * `@place` (for value 'above')
   * `@vo`
+  * `@xml:id`
 
 * `<app>`
 
@@ -19,6 +20,7 @@ List of supported MEI elements and attributes
   * `@order`
   * `@plist`
   * `@startid`
+  * `@xml:id`
 
 * `<artic>`
   * `@artic`
@@ -26,6 +28,7 @@ List of supported MEI elements and attributes
   * `@ho`
   * `@place`
   * `@vo`
+  * `@xml:id`
 
 * `<barLine>`
   * `@form`
@@ -79,6 +82,7 @@ List of supported MEI elements and attributes
   * `@place`
   * __`@startid`__
   * `@vo`
+  * `@xml:id`
 
 * `<editionStmt>`
 
@@ -99,6 +103,7 @@ List of supported MEI elements and attributes
   * `@shape`
   * __`@startid`__
   * `@vo`
+  * `@xml:id`
 
 * `<fileDesc>`
 
@@ -114,6 +119,7 @@ List of supported MEI elements and attributes
   * `@lform`
   * `@lwidth`
   * __`@startid`__
+  * `@xml:id`
 
 * `<group>`
 
@@ -125,6 +131,7 @@ List of supported MEI elements and attributes
   * `@lwidth`
   * `@place`
   * __`@startid`__
+  * `@xml:id`
 
 * `<harm>`
   * `@place`
@@ -185,6 +192,7 @@ List of supported MEI elements and attributes
   * `@place`
   * __`@startid`__
   * `@vo`
+  * `@xml:id`
 
 * `<mRest>`
   * `@color`
@@ -195,6 +203,7 @@ List of supported MEI elements and attributes
   * `@loc`
   * `@visible`
   * `@vo`
+  * `@xml:id`
 
 * `<mSpace>`
   * `@dur`
@@ -227,6 +236,7 @@ List of supported MEI elements and attributes
   * `@stem.pos`
   * `@tie`
   * `@visible`
+  * `@xml:id`
 
 * `<octave>`
   * `@color`
@@ -238,6 +248,7 @@ List of supported MEI elements and attributes
   * `@lwidth`
   * __`@startid`__
   * `@vo`
+  * `@xml:id`
 
 * `<orig>`
   * `@source`
@@ -255,6 +266,7 @@ List of supported MEI elements and attributes
   * `@lform`
   * `@lwidth`
   * __`@startid`__
+  * `@xml:id`
 
 * `<phrase>`
   * `@bezier`
@@ -270,6 +282,7 @@ List of supported MEI elements and attributes
   * `@startho`
   * `@startvo`
   * `@vo`
+  * `@xml:id`
 
 * `<publisher>`
 
@@ -284,6 +297,10 @@ List of supported MEI elements and attributes
 * `<reg>`
 
 * `<reh>`
+  * `@color`
+  * `@ho`
+  * `@vo`
+  * `@xml:id`
 
 * `<revisionDesc>`
 
@@ -309,6 +326,7 @@ List of supported MEI elements and attributes
   * `@ploc`
   * `@staff`
   * `@visible`
+  * `@xml:id`
 
 * `<sb>`
   * `@n`
@@ -373,6 +391,7 @@ List of supported MEI elements and attributes
   * `@startho`
   * `@startvo`
   * `@vo`
+  * `@xml:id`
 
 * `<space>`
   * `@dur`
@@ -426,6 +445,7 @@ List of supported MEI elements and attributes
 * `<syl>`
   * `@con`
   * `@wordpos`
+  * `@xml:id`
 
 * `<tempo>`
   * `@ho`
@@ -438,6 +458,7 @@ List of supported MEI elements and attributes
   * `@startid`
   * `@tstamp` (for value '1')
   * `@vo`
+  * `@xml:id`
 
 * `<tie>`
   * `@bezier`
@@ -451,6 +472,7 @@ List of supported MEI elements and attributes
   * `@startho`
   * `@startvo`
   * `@vo`
+  * `@xml:id`
 
 * `<trill>`
   * `@accidlower`
@@ -462,6 +484,7 @@ List of supported MEI elements and attributes
   * `@place`
   * __`@startid`__
   * `@vo`
+  * `@xml:id`
 
 * `<tuplet>`
   * `@bracket.place`
@@ -494,6 +517,7 @@ List of supported MEI elements and attributes
   * `@place`
   * __`@startid`__
   * `@vo`
+  * `@xml:id`
 
 * `<verse>`
   * `@color`
@@ -508,6 +532,8 @@ List of supported MEI elements and attributes
 `att.color` supports hex/RGB/HSL values and color names
 
 `att.pages` have to be defined in the first `<scoreDef>`
+
+`@xml:id` will be converted to `@id` in SVG
 
 data.LINEWIDTH (`@lwidth`) works for values from data.LINEWIDTHTERM
 data.STEMDIRECTION (`@stem.dir`) works for values from data.STEMDIRECTION.basic
