@@ -2,14 +2,16 @@
 <!--          -->
 <!--  MEILER  -->
 <!--  mei2ly  -->
-<!-- v 0.8.17 -->
+<!-- v 0.8.18 -->
 <!--          -->
 <!-- programmed by -->
 <!-- Klaus Rettinghaus -->
+<!-- and others -->
 <!--          -->
 <xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:saxon="http://saxon.sf.net/" xmlns:local="NS:LOCAL" exclude-result-prefixes="saxon">
   <xsl:strip-space elements="*" />
   <xsl:output method="text" indent="no" encoding="UTF-8" />
+  <xsl:param name="LilyPondVersion" select="'2.18.2'"/>
   <xsl:param name="forceLayout" select="'no'"/>
   <xsl:key name="lyrics-by-staff-number" match="mei:syl|@syl" use="ancestor::mei:staff[1]/@n"/>
   <xsl:key name="id" match="*" use="@xml:id"/>
@@ -58,8 +60,7 @@
     <xsl:if test="//@endid[not(starts-with(.,'#'))] or //@startid[not(starts-with(.,'#'))] ">
       <xsl:message>WARNING: There are references not pointing anywhere!</xsl:message>
     </xsl:if>
-    <xsl:text>\version "2.18.2"&#10;</xsl:text>
-    <xsl:text>#(ly:set-option 'point-and-click #f)&#10;</xsl:text>
+    <xsl:value-of select="concat('\version &quot;', $LilyPondVersion,'&quot;&#10;')"/>
     <xsl:text>% automatically converted by mei2ly.xsl&#10;&#10;</xsl:text>
     <xsl:apply-templates/>
   </xsl:template>
@@ -737,8 +738,8 @@
         <xml:text>{</xml:text>
       </xsl:if>
     </xsl:if>
-    <xsl:if test="(starts-with(@tuplet,'i') or (ancestor::mei:measure/mei:tupletSpan/@startid = $noteKey)) and not(ancestor::mei:tuplet)">
-      <xsl:value-of select="concat('\tuplet ',ancestor::mei:measure/mei:tupletSpan[@startid = $noteKey]/@num,'/',ancestor::mei:measure/mei:tupletSpan[@startid = $noteKey]/@numbase,' { ')" />
+    <xsl:if test="(starts-with(@tuplet,'i') or (ancestor::mei:measure/mei:tupletSpan[@endid]/@startid = $noteKey)) and not(ancestor::mei:tuplet)">
+      <xsl:value-of select="concat('\tuplet ',ancestor::mei:measure/mei:tupletSpan[@endid][@startid = $noteKey]/@num,'/',ancestor::mei:measure/mei:tupletSpan[@endid][@startid = $noteKey]/@numbase,' { ')" />
     </xsl:if>
     <xsl:if test="@head.shape">
       <!-- data.HEADSHAPE.list -->
@@ -876,8 +877,8 @@
     <xsl:if test="@stem.len">
       <xsl:value-of select="concat('\once \override Stem.length = #', local:VU2LY(@stem.len) * 2, ' ')" />
     </xsl:if>
-    <xsl:if test="(starts-with(@tuplet,'i') or (ancestor::mei:measure/mei:tupletSpan/@startid = $chordKey)) and not(ancestor::mei:tuplet)">
-      <xsl:value-of select="concat('\tuplet ',ancestor::mei:measure/mei:tupletSpan[@startid = $chordKey]/@num,'/',ancestor::mei:measure/mei:tupletSpan[@startid = $chordKey]/@numbase,' { ')" />
+    <xsl:if test="(starts-with(@tuplet,'i') or (ancestor::mei:measure/mei:tupletSpan[@endid]/@startid = $chordKey)) and not(ancestor::mei:tuplet)">
+      <xsl:value-of select="concat('\tuplet ',ancestor::mei:measure/mei:tupletSpan[@endid][@startid = $chordKey]/@num,'/',ancestor::mei:measure/mei:tupletSpan[@endid][@startid = $chordKey]/@numbase,' { ')" />
     </xsl:if>
     <xml:text>&lt; </xml:text>
     <xsl:apply-templates select="mei:note" />
