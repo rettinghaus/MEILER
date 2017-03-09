@@ -224,7 +224,9 @@ List of supported MEI elements and attributes
   * `@gliss`
   * `@grace`
   * `@head.color`
+  * `@head.mod`
   * `@head.shape`
+  * `@head.visible`
   * `@lv`
   * `@oct`
   * `@ornam`
@@ -533,7 +535,7 @@ List of supported MEI elements and attributes
 
 `att.pages` have to be defined in the first `<scoreDef>`
 
-`@xml:id` will be converted to `@id` in SVG
+`@xml:id` gets converted to `@id` in SVG
 
 data.LINEWIDTH (`@lwidth`) works for values from data.LINEWIDTHTERM
 data.STEMDIRECTION (`@stem.dir`) works for values from data.STEMDIRECTION.basic
