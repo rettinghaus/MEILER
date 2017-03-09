@@ -735,7 +735,7 @@
     <xsl:if test="@stem.len">
       <xsl:value-of select="concat('\once \override Stem.length = #', local:VU2LY(@stem.len) * 2, ' ')" />
     </xsl:if>
-    <xsl:if test="@grace and not(preceding::mei:note[1]/@grace)">
+    <xsl:if test="@grace and not(preceding-sibling::mei:note[1]/@grace or preceding-sibling::mei:chord[1]/@grace )">
       <xsl:call-template name="setGraceNote" />
       <xsl:if test="ancestor::mei:beam and position()=1">
         <xml:text>{</xml:text>
@@ -808,12 +808,7 @@
         </xsl:otherwise>
       </xsl:choose>
     </xsl:if>
-    <xsl:if test="contains(@tie,'i') or contains(@tie,'m') or (ancestor::mei:measure/mei:tie/@startid = $noteKey)">
-      <xsl:if test="ancestor::mei:measure/mei:tie/@startid = $noteKey">
-        <xsl:call-template name="setMarkupDirection">
-          <xsl:with-param name="direction" select="ancestor::mei:measure/mei:tie[@startid = $noteKey]/@curvedir" />
-        </xsl:call-template>
-      </xsl:if>
+    <xsl:if test="contains(@tie,'i') or contains(@tie,'m')">
       <xml:text>~</xml:text>
     </xsl:if>
     <xsl:apply-templates mode="addBeamMarkup" select="."/>
@@ -911,12 +906,7 @@
         </xsl:otherwise>
       </xsl:choose>
     </xsl:if>
-    <xsl:if test="contains(@tie,'i') or contains(@tie,'m') or (ancestor::mei:measure/mei:tie/@startid = $chordKey)">
-      <xsl:if test="ancestor::mei:measure/mei:tie/@startid = $chordKey">
-        <xsl:call-template name="setMarkupDirection">
-          <xsl:with-param name="direction" select="ancestor::mei:measure/mei:tie[@startid = $chordKey]/@curvedir" />
-        </xsl:call-template>
-      </xsl:if>
+    <xsl:if test="contains(@tie,'i') or contains(@tie,'m')">
       <xml:text>~</xml:text>
     </xsl:if>
     <xsl:apply-templates mode="addBeamMarkup" select="."/>
@@ -1655,21 +1645,25 @@
   </xsl:template>
   <!-- MEI tie -->
   <xsl:template match="mei:tie" mode="pre">
-    <xsl:if test="@xml:id">
-      <xsl:value-of select="concat('\once \override Tie.id = #&quot;', @xml:id, '&quot; ')" />
-    </xsl:if>
-    <xsl:if test="@color">
-      <xsl:value-of select="'\once \override Tie.color = #'" />
-      <xsl:call-template name="setColor" />
-    </xsl:if>
     <xsl:if test="@*[contains(name(),'ho') or contains(name(),'vo')]">
       <xsl:call-template name="shapeCurve" />
       <xsl:text>Tie </xsl:text>
     </xsl:if>
+  </xsl:template>
+  <xsl:template match="mei:tie">
+    <xsl:if test="@xml:id">
+      <xsl:value-of select="concat('-\tweak Tie.id #&quot;', @xml:id, '&quot; ')" />
+    </xsl:if>
+    <xsl:if test="@color">
+      <xsl:value-of select="'-\tweak Tie.color #'" />
+      <xsl:call-template name="setColor" />
+    </xsl:if>
     <xsl:if test="@lwidth">
-      <xsl:text>\once \override Tie.thickness = #</xsl:text>
+      <xsl:text>-\tweak Tie.thickness #</xsl:text>
       <xsl:call-template name="setLineWidth" />
     </xsl:if>
+    <xsl:call-template name="setMarkupDirection"/>
+    <xml:text>~</xml:text>
   </xsl:template>
   <!-- MEI arpeggio -->
   <xsl:template match="mei:arpeg" mode="pre">
