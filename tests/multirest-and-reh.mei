@@ -26,7 +26,21 @@
             <measure n="1" right="dbl">
               <staff n="1">
                 <layer n="1">
-                  <multiRest num="12"/>
+                  <multiRest num="4"/>
+                </layer>
+              </staff>
+            </measure>
+            <measure n="5" right="dbl">
+              <staff n="1">
+                <layer n="1">
+                  <multiRest num="4" block="true"/>
+                </layer>
+              </staff>
+            </measure>
+            <measure n="9" right="dbl">
+              <staff n="1">
+                <layer n="1">
+                  <multiRest num="4"/>
                 </layer>
               </staff>
             </measure>

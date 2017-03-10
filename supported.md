@@ -110,6 +110,7 @@ List of supported MEI elements and attributes
 * `<fing>`
   * `@place`
   * __`@startid`__
+  * `@xml:id`
 
 * `<fTrem>`
   * __`@measperf`__
@@ -209,6 +210,7 @@ List of supported MEI elements and attributes
   * `@dur`
 
 * `<multiRest>`
+  * `@block`
   * `@loc`
   * __`@num`__
 
@@ -469,6 +471,7 @@ List of supported MEI elements and attributes
   * `@endho`
   * `@endvo`
   * `@ho`
+  * `@lform`
   * `@lwidth`
   * __`@startid`__
   * `@startho`

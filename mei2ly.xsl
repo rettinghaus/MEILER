@@ -2,7 +2,7 @@
 <!--          -->
 <!--  MEILER  -->
 <!--  mei2ly  -->
-<!-- v 0.8.19 -->
+<!-- v 0.8.20 -->
 <!--          -->
 <!-- programmed by -->
 <!-- Klaus Rettinghaus -->
@@ -528,7 +528,7 @@
         </xsl:call-template>
         <xsl:apply-templates select="mei:meterSigGrp|mei:meterSig" />
       </xsl:when>
-      <xsl:when test="not(ancestor-or-self::*/@*[starts-with(name(),'meter.')] or descendant::*[starts-with(local-name(),'meter')])">
+      <xsl:when test="not(descendant::*[starts-with(local-name(),'meter')])">
         <xsl:text>\once \omit Staff.TimeSignature </xsl:text>
         <xsl:text>\set Score.automaticBars = ##f </xsl:text>
       </xsl:when>
@@ -593,7 +593,7 @@
   <!-- MEI measure -->
   <xsl:template match="mei:measure">
     <xsl:value-of select="'  '" />
-    <xsl:if test="(ancestor::mei:measure[@n and not(@metcon='false')]/@n != preceding::mei:measure[@n and not(@metcon='false')][1]/@n + 1)">
+    <xsl:if test="(not(@metcon='false') and @n != preceding::mei:measure[@n and not(@metcon='false')][1]/@n + 1)">
       <xsl:call-template name="setBarNumber" />
     </xsl:if>
     <xsl:if test="@left">
@@ -617,14 +617,14 @@
   </xsl:template>
   <!-- MEI layers -->
   <xsl:template match="mei:layer">
-    <xml:text>{ </xml:text>
+    <xsl:text>{ </xsl:text>
     <xsl:if test="@beam.group">
       <xsl:call-template name="setBeaming" />
     </xsl:if>
     <xsl:apply-templates/>
-    <xml:text>} </xml:text>
+    <xsl:text>} </xsl:text>
     <xsl:if test="following-sibling::mei:layer">
-      <xml:text>\\ </xml:text>
+      <xsl:text>\\ </xsl:text>
     </xsl:if>
   </xsl:template>
   <!-- MEI staffDef (inside musical flow) -->
@@ -703,43 +703,43 @@
   <!-- MEI notes -->
   <xsl:template match="mei:note[@pname]">
     <xsl:variable name="noteKey" select="concat('#',./@xml:id)" />
-    <xsl:apply-templates select="ancestor::mei:measure/descendant::*[@startid = $noteKey]" mode="pre" />
+    <xsl:apply-templates select="descendant::*|ancestor::mei:measure/descendant::*[@startid = $noteKey]" mode="pre" />
     <xsl:if test="@staff and @staff != ancestor::mei:staff/@n">
       <xsl:value-of select="concat('\change Staff = &quot;staff ',@staff,'&quot;&#32;')" />
     </xsl:if>
+    <xsl:if test="@grace and not(preceding-sibling::mei:note[1]/@grace or preceding-sibling::mei:chord[1]/@grace )">
+      <xsl:call-template name="setGraceNote" />
+      <xsl:if test="ancestor::mei:beam and position()=1">
+        <xsl:text>{</xsl:text>
+      </xsl:if>
+    </xsl:if>
     <xsl:if test="@visible='false'">
-      <xml:text>\once \hideNotes </xml:text>
+      <xsl:text>\once \hideNotes </xsl:text>
     </xsl:if>
     <xsl:if test="@xml:id">
       <xsl:value-of select="concat('\tweak id #&quot;', @xml:id, '&quot; ')" />
     </xsl:if>
     <xsl:if test="@color and not(parent::mei:chord)">
-      <xsl:value-of select="'\once \override Accidental.color = #'" />
-      <xsl:call-template name="setColor" />
-      <xsl:value-of select="'\once \override NoteHead.color = #'" />
-      <xsl:call-template name="setColor" />
-      <xsl:value-of select="'\once \override Stem.color = #'" />
-      <xsl:call-template name="setColor" />
-    </xsl:if>
-    <xsl:if test="@color and parent::mei:chord">
       <xsl:value-of select="'\tweak color #'" />
       <xsl:call-template name="setColor" />
+      <xsl:if test="not(parent::mei:chord)">
+        <xsl:value-of select="'\tweak Accidental.color #'" />
+        <xsl:call-template name="setColor" />
+        <xsl:value-of select="'\tweak Stem.color #'" />
+        <xsl:call-template name="setColor" />
+      </xsl:if>
     </xsl:if>
     <xsl:if test="@ho">
-      <xsl:text>\once \override NoteHead.extra-offset = #&apos;</xsl:text>
+      <xsl:text>\tweak extra-offset #&apos;</xsl:text>
       <xsl:call-template name="setOffset" />
-      <xsl:text>\once \override Stem.extra-offset = #&apos;</xsl:text>
+      <xsl:text>\tweak Flag.extra-offset #&apos;</xsl:text>
+      <xsl:call-template name="setOffset" />
+      <xsl:text>\tweak Stem.extra-offset #&apos;</xsl:text>
       <xsl:call-template name="setOffset" />
     </xsl:if>
     <xsl:apply-templates mode="setStemDir" select="." />
     <xsl:if test="@stem.len">
-      <xsl:value-of select="concat('\once \override Stem.length = #', local:VU2LY(@stem.len) * 2, ' ')" />
-    </xsl:if>
-    <xsl:if test="@grace and not(preceding-sibling::mei:note[1]/@grace or preceding-sibling::mei:chord[1]/@grace )">
-      <xsl:call-template name="setGraceNote" />
-      <xsl:if test="ancestor::mei:beam and position()=1">
-        <xml:text>{</xml:text>
-      </xsl:if>
+      <xsl:value-of select="concat('\tweak Stem.length #', local:VU2LY(@stem.len) * 2, ' ')" />
     </xsl:if>
     <xsl:if test="(starts-with(@tuplet,'i') or (ancestor::mei:measure/mei:tupletSpan[@endid]/@startid = $noteKey)) and not(ancestor::mei:tuplet)">
       <xsl:value-of select="concat('\tuplet ',ancestor::mei:measure/mei:tupletSpan[@endid][@startid = $noteKey]/@num,'/',ancestor::mei:measure/mei:tupletSpan[@endid][@startid = $noteKey]/@numbase,' { ')" />
@@ -758,34 +758,33 @@
       <!-- data.HEADSHAPE.list -->
       <xsl:choose>
         <xsl:when test="@head.shape = 'diamond'">
-          <xml:text>\tweak style #'harmonic </xml:text>
+          <xsl:text>\tweak style #'harmonic </xsl:text>
         </xsl:when>
         <xsl:when test="@head.shape = '+'">
-          <xml:text>\tweak stencil #ly:text-interface::print \tweak text #(markup #:musicglyph "scripts.stopped") </xml:text>
+          <xsl:text>\tweak stencil #ly:text-interface::print \tweak text #(markup #:musicglyph "scripts.stopped") </xsl:text>
         </xsl:when>
         <xsl:when test="@head.shape = 'rtriangle'">
-          <xml:text>\tweak style #'triangle </xml:text>
+          <xsl:text>\tweak style #'triangle </xsl:text>
         </xsl:when>
         <xsl:when test="@head.shape = 'slash'">
-          <xml:text>\tweak style #'slash </xml:text>
+          <xsl:text>\tweak style #'slash </xsl:text>
         </xsl:when>
         <xsl:when test="@head.shape = 'x'">
-          <xml:text>\tweak style #'cross </xml:text>
+          <xsl:text>\tweak style #'cross </xsl:text>
         </xsl:when>
       </xsl:choose>
     </xsl:if>
     <xsl:if test="@head.visible = 'false'">
-      <xml:text>\tweak transparent ##t </xml:text>
+      <xsl:text>\tweak transparent ##t </xsl:text>
     </xsl:if>
-    <xsl:apply-templates select="mei:accid" mode="pre" />
     <xsl:value-of select="@pname" />
     <xsl:apply-templates mode="setAccidental" select="(mei:accid, .[not(mei:accid)])/(@accid, @accid.ges)[1]"/>
     <xsl:call-template name="setOctave" />
     <xsl:if test="descendant-or-self::*/@accid or child::mei:accid/@func='caution'">
-      <xml:text>!</xml:text>
+      <xsl:text>!</xsl:text>
     </xsl:if>
     <xsl:if test="child::mei:accid/@func='edit' or child::mei:accid/@enclose='paren'">
-      <xml:text>?</xml:text>
+      <xsl:text>?</xsl:text>
     </xsl:if>
     <xsl:choose>
       <xsl:when test="not(parent::mei:chord) and not(parent::mei:fTrem)">
@@ -809,41 +808,30 @@
       </xsl:choose>
     </xsl:if>
     <xsl:if test="contains(@tie,'i') or contains(@tie,'m')">
-      <xml:text>~</xml:text>
+      <xsl:text>~</xsl:text>
     </xsl:if>
     <xsl:apply-templates mode="addBeamMarkup" select="."/>
     <xsl:if test="contains(@slur,'t') or (ancestor::mei:mdiv[1]//mei:slur/@endid = $noteKey)">
-      <xml:text>)</xml:text>
+      <xsl:text>)</xsl:text>
     </xsl:if>
     <xsl:if test="ancestor::mei:mdiv[1]//mei:phrase/@endid = $noteKey">
-      <xml:text>\)</xml:text>
+      <xsl:text>\)</xsl:text>
     </xsl:if>
-    <xsl:if test="contains(@slur,'i') or (ancestor::mei:measure/mei:slur/@startid = $noteKey)">
-      <xsl:if test="ancestor::mei:measure/mei:slur/@startid = $noteKey">
-        <xsl:call-template name="setMarkupDirection">
-          <xsl:with-param name="direction" select="ancestor::mei:measure/mei:slur[@startid = $noteKey]/@curvedir" />
-        </xsl:call-template>
-      </xsl:if>
-      <xml:text>(</xml:text>
-    </xsl:if>
-    <xsl:if test="ancestor::mei:measure/mei:phrase/@startid = $noteKey">
-      <xsl:call-template name="setMarkupDirection">
-        <xsl:with-param name="direction" select="ancestor::mei:measure/mei:phrase[@startid = $noteKey]/@curvedir" />
-      </xsl:call-template>
-      <xml:text>\(</xml:text>
+    <xsl:if test="contains(@slur,'i')">
+      <xsl:text>(</xsl:text>
     </xsl:if>
     <xsl:if test="@lv = 'true'">
-      <xml:text>\laissezVibrer</xml:text>
+      <xsl:text>\laissezVibrer</xsl:text>
     </xsl:if>
     <xsl:if test="ancestor::mei:mdiv[1]//mei:hairpin/@endid = $noteKey or ancestor::mei:mdiv[1]//mei:dynam/@endid = $noteKey">
-      <xml:text>\!</xml:text>
+      <xsl:text>\!</xsl:text>
     </xsl:if>
     <xsl:if test="@artic">
       <xsl:call-template name="artic" />
     </xsl:if>
     <xsl:apply-templates select="mei:artic" />
     <xsl:if test="ancestor::mei:mdiv[1]//mei:trill/@endid = $noteKey">
-      <xml:text>\stopTrillSpan</xml:text>
+      <xsl:text>\stopTrillSpan</xsl:text>
     </xsl:if>
     <xsl:if test="@ornam">
       <xsl:call-template name="setOrnament" />
@@ -860,7 +848,7 @@
       <xsl:value-of select="' }'" />
     </xsl:if>
     <xsl:if test="@grace and not(preceding-sibling::mei:note[not(@grace)]) and ancestor::mei:beam and position()=last()">
-      <xml:text>}</xml:text>
+      <xsl:text>}</xsl:text>
     </xsl:if>
     <xsl:if test="ancestor::mei:mdiv[1]//mei:octave/@endid = $noteKey">
       <xsl:value-of select="'\ottava #0 '" />
@@ -879,7 +867,7 @@
     <xsl:variable name="subChordKeys" select="descendant-or-self::*/concat('#',./@xml:id)" />
     <xsl:apply-templates select="ancestor::mei:measure/descendant::*[@startid = $chordKey or tokenize(@plist,' ') = $subChordKeys]" mode="pre" />
     <xsl:if test="@visible='false'">
-      <xml:text>\once \hideNotes </xml:text>
+      <xsl:text>\once \hideNotes </xsl:text>
     </xsl:if>
     <xsl:if test="@color">
       <xsl:value-of select="'\once \override Stem.color = #'" />
@@ -892,9 +880,9 @@
     <xsl:if test="(starts-with(@tuplet,'i') or (ancestor::mei:measure/mei:tupletSpan[@endid]/@startid = $chordKey)) and not(ancestor::mei:tuplet)">
       <xsl:value-of select="concat('\tuplet ',ancestor::mei:measure/mei:tupletSpan[@endid][@startid = $chordKey]/@num,'/',ancestor::mei:measure/mei:tupletSpan[@endid][@startid = $chordKey]/@numbase,' { ')" />
     </xsl:if>
-    <xml:text>&lt; </xml:text>
+    <xsl:text>&lt; </xsl:text>
     <xsl:apply-templates select="mei:note" />
-    <xml:text>&gt;</xml:text>
+    <xsl:text>&gt;</xsl:text>
     <xsl:call-template name="setDuration" />
     <xsl:if test="parent::mei:bTrem and not(@grace) and contains(@stem.mod,'slash')">
       <xsl:choose>
@@ -907,37 +895,27 @@
       </xsl:choose>
     </xsl:if>
     <xsl:if test="contains(@tie,'i') or contains(@tie,'m')">
-      <xml:text>~</xml:text>
+      <xsl:text>~</xsl:text>
     </xsl:if>
     <xsl:apply-templates mode="addBeamMarkup" select="."/>
     <xsl:if test="contains(@slur,'t') or (ancestor::mei:mdiv[1]//mei:slur/@endid = $chordKey)">
-      <xml:text>)</xml:text>
+      <xsl:text>)</xsl:text>
     </xsl:if>
     <xsl:if test="ancestor::mei:mdiv[1]//mei:phrase/@endid = $chordKey">
-      <xml:text>\)</xml:text>
+      <xsl:text>\)</xsl:text>
     </xsl:if>
-    <xsl:if test="contains(@slur,'i') or (//mei:slur/@startid = $chordKey)">
-      <xsl:if test="ancestor::mei:measure/mei:slur/@startid = $chordKey">
-        <xsl:call-template name="setMarkupDirection">
-          <xsl:with-param name="direction" select="ancestor::mei:measure/mei:slur[@startid = $chordKey]/@curvedir" />
-        </xsl:call-template>
-      </xsl:if>
-      <xml:text>(</xml:text>
+    <xsl:if test="contains(@slur,'i')">
+      <xsl:text>(</xsl:text>
     </xsl:if>
-    <xsl:if test="ancestor::mei:measure/mei:phrase/@startid = $chordKey">
-      <xsl:call-template name="setMarkupDirection">
-        <xsl:with-param name="direction" select="ancestor::mei:measure/mei:phrase[@startid = $chordKey]/@curvedir" />
-      </xsl:call-template>
-      <xml:text>\(</xml:text>
-    </xsl:if>
+    <xsl:apply-templates select="ancestor::mei:measure/mei:phrase[@startid = $chordKey]" />
     <xsl:if test="@lv = 'true'">
-      <xml:text>\laissezVibrer</xml:text>
+      <xsl:text>\laissezVibrer</xsl:text>
     </xsl:if>
     <xsl:if test="ancestor::mei:measure/mei:arpeg[@startid = $chordKey or tokenize(@plist,' ') = $subChordKeys]">
-      <xml:text>\arpeggio</xml:text>
+      <xsl:text>\arpeggio</xsl:text>
     </xsl:if>
     <xsl:if test="ancestor::mei:mdiv[1]//mei:hairpin/@endid = $chordKey or ancestor::mei:mdiv[1]//mei:dynam/@endid = $chordKey">
-      <xml:text>\!</xml:text>
+      <xsl:text>\!</xsl:text>
     </xsl:if>
     <xsl:if test="@artic">
       <xsl:call-template name="artic" />
@@ -946,7 +924,7 @@
     <xsl:apply-templates select="ancestor::mei:measure/mei:dynam[@startid = $chordKey]" />
     <xsl:apply-templates select="ancestor::mei:measure/mei:hairpin[@startid = $chordKey]" />
     <xsl:if test="ancestor::mei:mdiv[1]//mei:trill/@endid = $chordKey">
-      <xml:text>\stopTrillSpan</xml:text>
+      <xsl:text>\stopTrillSpan</xsl:text>
     </xsl:if>
     <xsl:apply-templates select="ancestor::mei:measure/mei:gliss[@startid = $chordKey]" />
     <xsl:apply-templates select="ancestor::mei:measure/mei:mordent[@startid = $chordKey]" />
@@ -1005,13 +983,13 @@
         <xsl:value-of select="'\rest'" />
       </xsl:when>
       <xsl:otherwise>
-        <xml:text>r</xml:text>
+        <xsl:text>r</xsl:text>
         <xsl:call-template name="setDuration" />
       </xsl:otherwise>
     </xsl:choose>
     <xsl:apply-templates mode="addBeamMarkup" select="."/>
     <xsl:if test="ancestor::mei:mdiv[1]//mei:hairpin/@endid = $restKey or ancestor::mei:mdiv[1]//mei:dynam/@endid = $restKey">
-      <xml:text>\!</xml:text>
+      <xsl:text>\!</xsl:text>
     </xsl:if>
     <xsl:apply-templates select="ancestor::mei:measure/mei:*[@startid = $restKey]" />
     <xsl:if test="@fermata and not(ancestor::mei:measure/mei:fermata/@startid = $restKey)">
@@ -1031,26 +1009,26 @@
   </xsl:template>
   <xsl:template name="setMeasureRest" match="mei:mRest">
     <xsl:if test="@visible='false'">
-      <xml:text>\once \omit MultiMeasureRest </xml:text>
+      <xsl:text>\tweak transparent ##t</xsl:text>
     </xsl:if>
     <xsl:if test="@xml:id">
-      <xsl:value-of select="concat('\once \override MultiMeasureRest.id = #&quot;', @xml:id, '&quot; ')" />
+      <xsl:value-of select="concat('\tweak id #&quot;', @xml:id, '&quot; ')" />
     </xsl:if>
     <xsl:if test="@color">
-      <xsl:value-of select="'\once \override MultiMeasureRest.color = #'" />
+      <xsl:value-of select="'\tweak color #'" />
       <xsl:call-template name="setColor" />
     </xsl:if>
     <xsl:if test="@ho or @vo">
-      <xsl:text>\once \override MultiMeasureRest.extra-offset = #&apos;</xsl:text>
+      <xsl:text>\tweak extra-offset #&apos;</xsl:text>
       <xsl:call-template name="setOffset" />
     </xsl:if>
     <xsl:if test="@loc">
-      <xsl:value-of select="concat('\once \override MultiMeasureRest.staff-position = #',@loc - 4,' ')" />
+      <xsl:value-of select="concat('\tweak staff-position #',@loc - 4,' ')" />
     </xsl:if>
     <xsl:if test="@ploc or @oloc">
       <xsl:message>WARNING: @ploc and @oloc on <xsl:value-of select="local-name(.)"/> <xsl:if test="@xml:id"><xsl:value-of select="concat('[',@xml:id,']')"/></xsl:if> not supported, use @loc instead</xsl:message>
     </xsl:if>
-    <xml:text>R</xml:text>
+    <xsl:text>R</xsl:text>
     <xsl:choose>
       <xsl:when test="@dur">
         <xsl:call-template name="setDuration" />
@@ -1065,7 +1043,10 @@
         <xsl:text>1</xsl:text>
       </xsl:otherwise>
     </xsl:choose>
-    <xsl:if test="@fermata or (ancestor::mei:measure/mei:fermata/@startid = concat('#',@xml:id))">
+    <xsl:if test="@fermata or ancestor::mei:measure/mei:fermata/@startid = concat('#',@xml:id)">
+      <xsl:call-template name="setMarkupDirection">
+        <xsl:with-param name="direction" select="@fermata|ancestor::mei:measure/mei:fermata/@place"/>
+      </xsl:call-template>
       <xsl:call-template name="fermata" />
       <xsl:value-of select="'Markup'" />
     </xsl:if>
@@ -1073,11 +1054,14 @@
   </xsl:template>
   <!-- MEI multiple rest -->
   <xsl:template match="mei:multiRest[@num]">
-    <xsl:if test="@loc">
-      <xsl:value-of select="concat('\once \override MultiMeasureRest.staff-position = #',@loc - 4,' ')" />
+    <xsl:text>\once \compressFullBarRests </xsl:text>
+    <xsl:if test="@block = 'true'">
+      <xsl:value-of select="'\tweak expand-limit #1 '" />
     </xsl:if>
-    <xml:text>\once \compressFullBarRests </xml:text>
-    <xml:text>R1*</xml:text>
+    <xsl:if test="@loc">
+      <xsl:value-of select="concat('\tweak staff-position #',@loc - 4,' ')" />
+    </xsl:if>
+    <xsl:text>R1*</xsl:text>
     <xsl:choose>
       <xsl:when test="preceding::mei:meterSig">
         <xsl:call-template name="durationMultiplier">
@@ -1091,20 +1075,20 @@
       </xsl:otherwise>
     </xsl:choose>
     <xsl:if test="ancestor::mei:measure/mei:fermata/@startid = concat('#',@xml:id)">
-      <xsl:call-template name="fermata" />
+      <xsl:apply-templates select="ancestor::mei:measure/mei:fermata[@startid = concat('#',current()/@xml:id)]"/>
       <xsl:value-of select="'Markup'" />
     </xsl:if>
     <xsl:value-of select="' '" />
   </xsl:template>
   <!-- MEI spaces -->
   <xsl:template match="mei:space">
-    <xml:text>s</xml:text>
+    <xsl:text>s</xsl:text>
     <xsl:call-template name="setDuration" />
     <xsl:value-of select="' '" />
   </xsl:template>
   <!-- MEI measure space -->
   <xsl:template name="setMeasureSpace" match="mei:mSpace">
-    <xml:text>s</xml:text>
+    <xsl:text>s</xsl:text>
     <xsl:choose>
       <xsl:when test="@dur">
         <xsl:call-template name="setDuration" />
@@ -1123,12 +1107,15 @@
   </xsl:template>
   <!-- MEI accidental -->
   <xsl:template match="mei:accid" mode="pre">
+    <xsl:if test="@xml:id">
+      <xsl:value-of select="concat('\once \override Accidental.id = #&quot;', @xml:id, '&quot; ')" />
+    </xsl:if>
     <xsl:if test="@color">
       <xsl:value-of select="'\once \override Accidental.color = #'" />
       <xsl:call-template name="setColor" />
     </xsl:if>
     <xsl:if test="@place='above'">
-      <xml:text>\once \set suggestAccidentals = ##t </xml:text>
+      <xsl:text>\once \set suggestAccidentals = ##t </xsl:text>
     </xsl:if>
     <xsl:if test="@ho or @vo">
       <xsl:text>\once \override Accidental.extra-offset = #&apos;</xsl:text>
@@ -1233,6 +1220,12 @@
   </xsl:template>
   <!-- MEI fingered tremolo -->
   <xsl:template match="mei:fTrem">
+    <xsl:if test="@beams.float">
+      <xsl:value-of select="concat('\once \override Beam.gap-count = #', @beams.float, ' ')" />
+    </xsl:if>
+    <xsl:if test="@float.gap">
+      <xsl:value-of select="concat('\once \override Beam.gap = #', @float.gap, ' ')" />
+    </xsl:if>
     <xsl:choose>
       <xsl:when test="@measperf">
         <xsl:value-of select="concat('\repeat tremolo ',@measperf div (2 * child::*[1]/@dur),' { ')" />
@@ -1468,7 +1461,7 @@
       <xsl:call-template name="setOffset" />
     </xsl:if>
     <xsl:call-template name="setMarkupDirection" />
-    <xml:text>\startTrillSpan</xml:text>
+    <xsl:text>\startTrillSpan</xsl:text>
     <xsl:if test="@accidlower or @accidupper">
       <xsl:call-template name="addOrnamentAccid" />
     </xsl:if>
@@ -1488,7 +1481,7 @@
     <xsl:call-template name="setMarkupDirection" />
     <xsl:choose>
       <xsl:when test="not(@glyphname or @glyphnum)">
-        <xml:text>\trill</xml:text>
+        <xsl:text>\trill</xsl:text>
       </xsl:when>
       <xsl:otherwise>
         <xsl:call-template name="setSmuflGlyph" />
@@ -1583,11 +1576,11 @@
     <xsl:choose>
       <xsl:when test="@dis.place = 'above'">
         <xsl:value-of select="concat('\ottava #',round(number(@dis) div 8),' ')" />
-        <xml:text>\unset Staff.middleCPosition </xml:text>
+        <xsl:text>\unset Staff.middleCPosition </xsl:text>
       </xsl:when>
       <xsl:when test="@dis.place = 'below'">
         <xsl:value-of select="concat('\ottava #-',round(number(@dis) div 8),' ')" />
-        <xml:text>\unset Staff.middleCPosition </xml:text>
+        <xsl:text>\unset Staff.middleCPosition </xsl:text>
       </xsl:when>
       <xsl:otherwise>
       </xsl:otherwise>
@@ -1595,37 +1588,37 @@
   </xsl:template>
   <!-- MEI phrase -->
   <xsl:template match="mei:phrase" mode="pre">
+    <xsl:if test="@lform">
+      <xsl:value-of select="concat('\once \phrasingSlur',translate(substring(@lform,1,1),'ds','DS'),substring(@lform,2),' ')" />
+    </xsl:if>
+    <xsl:if test="@*[contains(name(),'ho') or contains(name(),'vo')]">
+      <xsl:call-template name="shapeCurve" />
+      <xsl:text>PhrasingSlur</xsl:text>
+    </xsl:if>
+  </xsl:template>
+  <xsl:template match="mei:phrase">
     <xsl:if test="@xml:id">
-      <xsl:value-of select="concat('\once \override PhrasingSlur.id = #&quot;', @xml:id, '&quot; ')" />
+      <xsl:value-of select="concat('-\tweak PhrasingSlur.id #&quot;', @xml:id, '&quot; ')" />
     </xsl:if>
     <xsl:if test="@color">
-      <xsl:value-of select="'\once \override PhrasingSlur.color = #'" />
+      <xsl:value-of select="'-\tweak PhrasingSlur.color #'" />
       <xsl:call-template name="setColor" />
     </xsl:if>
     <!--     <xsl:if test="(@startvo or @endvo or @startho or @endho)">
     <xsl:text>\once \override PhrasingSlur.positions = #&apos;</xsl:text>
     <xsl:call-template name="setOffset2"/>
     </xsl:if>    -->
-    <xsl:if test="@*[contains(name(),'ho') or contains(name(),'vo')]">
-      <xsl:call-template name="shapeCurve" />
-      <xsl:text>PhrasingSlur </xsl:text>
-    </xsl:if>
-    <xsl:if test="@lform">
-      <xsl:value-of select="concat('\once \phrasingSlur',translate(substring(@lform,1,1),'ds','DS'),substring(@lform,2),' ')" />
-    </xsl:if>
     <xsl:if test="@lwidth">
-      <xsl:text>\once \override PhrasingSlur.thickness = #</xsl:text>
+      <xsl:text>-\tweak PhrasingSlur.thickness #</xsl:text>
       <xsl:call-template name="setLineWidth" />
     </xsl:if>
+    <xsl:call-template name="setMarkupDirection" />
+    <xsl:text>\(</xsl:text>
   </xsl:template>
   <!-- MEI slur -->
   <xsl:template match="mei:slur" mode="pre">
-    <xsl:if test="@xml:id">
-      <xsl:value-of select="concat('\once \override Slur.id = #&quot;', @xml:id, '&quot; ')" />
-    </xsl:if>
-    <xsl:if test="@color">
-      <xsl:value-of select="'\once \override Slur.color = #'" />
-      <xsl:call-template name="setColor" />
+    <xsl:if test="@lform">
+      <xsl:value-of select="concat('\once \slur',translate(substring(@lform,1,1),'ds','DS'),substring(@lform,2),' ')" />
     </xsl:if>
     <!--    <xsl:if test="(@startvo or @endvo or @startho or @endho)">
     <xsl:text>\once \override Slur.positions = #&apos;</xsl:text>
@@ -1633,21 +1626,32 @@
     </xsl:if>    -->
     <xsl:if test="@*[contains(name(),'ho') or contains(name(),'vo')]">
       <xsl:call-template name="shapeCurve" />
-      <xsl:text>Slur </xsl:text>
+      <xsl:text>Slur</xsl:text>
     </xsl:if>
-    <xsl:if test="@lform">
-      <xsl:value-of select="concat('\once \slur',translate(substring(@lform,1,1),'ds','DS'),substring(@lform,2),' ')" />
+  </xsl:template>
+  <xsl:template match="mei:slur">
+    <xsl:if test="@xml:id">
+      <xsl:value-of select="concat('-\tweak Slur.id #&quot;', @xml:id, '&quot; ')" />
+    </xsl:if>
+    <xsl:if test="@color">
+      <xsl:value-of select="'-\tweak Slur.color #'" />
+      <xsl:call-template name="setColor" />
     </xsl:if>
     <xsl:if test="@lwidth">
-      <xsl:text>\once \override Slur.thickness = #</xsl:text>
+      <xsl:text>-\tweak Slur.thickness #</xsl:text>
       <xsl:call-template name="setLineWidth" />
     </xsl:if>
+    <xsl:call-template name="setMarkupDirection"/>
+    <xsl:text>(</xsl:text>
   </xsl:template>
   <!-- MEI tie -->
   <xsl:template match="mei:tie" mode="pre">
+    <xsl:if test="@lform">
+      <xsl:value-of select="concat('\once \Tie',translate(substring(@lform,1,1),'ds','DS'),substring(@lform,2),' ')" />
+    </xsl:if>
     <xsl:if test="@*[contains(name(),'ho') or contains(name(),'vo')]">
       <xsl:call-template name="shapeCurve" />
-      <xsl:text>Tie </xsl:text>
+      <xsl:text>Tie</xsl:text>
     </xsl:if>
   </xsl:template>
   <xsl:template match="mei:tie">
@@ -1663,7 +1667,7 @@
       <xsl:call-template name="setLineWidth" />
     </xsl:if>
     <xsl:call-template name="setMarkupDirection"/>
-    <xml:text>~</xml:text>
+    <xsl:text>~</xsl:text>
   </xsl:template>
   <!-- MEI arpeggio -->
   <xsl:template match="mei:arpeg" mode="pre">
@@ -1676,13 +1680,13 @@
     </xsl:if>
     <xsl:choose>
       <xsl:when test="@order = 'up'">
-        <xml:text>\once \arpeggioArrowUp </xml:text>
+        <xsl:text>\once \arpeggioArrowUp </xsl:text>
       </xsl:when>
       <xsl:when test="@order = 'down'">
-        <xml:text>\once \arpeggioArrowDown </xml:text>
+        <xsl:text>\once \arpeggioArrowDown </xsl:text>
       </xsl:when>
       <xsl:when test="@order = 'nonarp'">
-        <xml:text>\once \arpeggioBracket </xml:text>
+        <xsl:text>\once \arpeggioBracket </xsl:text>
       </xsl:when>
     </xsl:choose>
   </xsl:template>
@@ -1738,10 +1742,10 @@
     <xsl:call-template name="setMarkupDirection" />
     <xsl:choose>
       <xsl:when test="@form = 'cres'">
-        <xml:text>\&lt;</xml:text>
+        <xsl:text>\&lt;</xsl:text>
       </xsl:when>
       <xsl:when test="@form = 'dim'">
-        <xml:text>\&gt;</xml:text>
+        <xsl:text>\&gt;</xsl:text>
       </xsl:when>
     </xsl:choose>
   </xsl:template>
@@ -1776,16 +1780,16 @@
   <xsl:template match="mei:pedal">
     <xsl:choose>
       <xsl:when test="@dir = 'down'">
-        <xml:text>\sustainOn</xml:text>
+        <xsl:text>\sustainOn</xsl:text>
       </xsl:when>
       <xsl:when test="@dir = 'up'">
-        <xml:text>\sustainOff</xml:text>
+        <xsl:text>\sustainOff</xsl:text>
       </xsl:when>
       <xsl:when test="@dir = 'half'">
         <xsl:message>INFO: Half pedal not supported</xsl:message>
       </xsl:when>
       <xsl:when test="@dir = 'bounce'">
-        <xml:text>\sustainOff\sustainOn</xml:text>
+        <xsl:text>\sustainOff\sustainOn</xsl:text>
       </xsl:when>
     </xsl:choose>
   </xsl:template>
@@ -1871,6 +1875,9 @@
   </xsl:template>
   <xsl:template match="mei:fing" mode="pre" />
   <xsl:template match="mei:fing">
+    <xsl:if test="@xml:id">
+      <xsl:value-of select="concat('-\tweak Fingering.id #&quot;', @xml:id, '&quot; ')" />
+    </xsl:if>
     <xsl:if test="@ho or @vo">
       <xsl:text>-\tweak Fingering.extra-offset #&apos;</xsl:text>
       <xsl:call-template name="setOffset" />
@@ -2185,33 +2192,38 @@
     <xsl:param name="meterCount" select="@count" />
     <xsl:param name="meterUnit" select="@unit" />
     <xsl:param name="meterRend" select="@form" />
+    <xsl:if test="@xml:id">
+      <xsl:value-of select="concat('\tweak TimeSignature.id #&quot;', @xml:id, '&quot; ')" />
+    </xsl:if>
     <xsl:if test="@fontfam">
-      <xsl:text>\once \override Staff.TimeSignature.font-family = #&apos;</xsl:text>
+      <xsl:text>\tweak TimeSignature.font-family #&apos;</xsl:text>
       <xsl:value-of select="concat(@fontfam,' ')" />
     </xsl:if>
     <xsl:if test="@fontname">
-      <xsl:value-of select="concat('\once \override Staff.TimeSignature.font-name = #&quot;',@fontname,'&quot; ')" />
+      <xsl:value-of select="concat('\tweak TimeSignature.font-name #&quot;',@fontname,'&quot; ')" />
     </xsl:if>
     <xsl:if test="@fontstyle">
-      <xsl:text>\once \override Staff.TimeSignature.font-shape = #&apos;</xsl:text>
+      <xsl:text>\tweak TimeSignature.font-shape #&apos;</xsl:text>
       <xsl:value-of select="concat(@fontstyle,' ')" />
     </xsl:if>
     <xsl:if test="@fontweight">
-      <xsl:text>\once \override Staff.TimeSignature.font-series = #&apos;</xsl:text>
+      <xsl:text>\tweak TimeSignature.font-series #&apos;</xsl:text>
       <xsl:value-of select="concat(@fontweight,' ')" />
     </xsl:if>
     <xsl:if test="$meterRend">
       <xsl:choose>
         <!-- att.meterSigDefault.vis -->
         <xsl:when test="$meterRend = 'num'">
-          <xsl:text>\once \override Staff.TimeSignature.style = #'single-digit </xsl:text>
+          <xsl:text>\tweak TimeSignature.style #'single-digit </xsl:text>
         </xsl:when>
         <xsl:when test="$meterRend = 'denomsym'">
+          <!-- not supported -->
         </xsl:when>
         <xsl:when test="$meterRend = 'norm'">
+          <xsl:text>\tweak TimeSignature.style #'numbered </xsl:text>
         </xsl:when>
         <xsl:when test="$meterRend = 'invis'">
-          <xsl:text>\once \override Staff.TimeSignature.transparent = ##t </xsl:text>
+          <xsl:text>\tweak TimeSignature.transparent ##t </xsl:text>
         </xsl:when>
       </xsl:choose>
     </xsl:if>
@@ -2233,7 +2245,7 @@
       </xsl:when>
       <xsl:otherwise>
         <xsl:if test="($meterCount = $meterUnit) and not($meterSymbol)">
-          <xsl:text>\once \numericTimeSignature </xsl:text>
+          <xsl:text>\tweak TimeSignature.style #'numbered </xsl:text>
         </xsl:if>
         <xsl:value-of select="concat('\time ',$meterCount,'/',$meterUnit,' ')" />
       </xsl:otherwise>
@@ -2241,6 +2253,9 @@
   </xsl:template>
   <!-- MEI meter signature group -->
   <xsl:template name="meterSigGrp" match="mei:meterSigGrp">
+    <xsl:if test="@xml:id">
+      <xsl:value-of select="concat('\tweak TimeSignature.id #&quot;', @xml:id, '&quot; ')" />
+    </xsl:if>
     <xsl:choose>
       <xsl:when test="@func = 'alternating'">
       </xsl:when>
@@ -2438,14 +2453,14 @@
     <xsl:choose>
       <!-- data.STEMDIRECTION.basic -->
       <xsl:when test="@stem.dir='down'">
-        <xsl:text>\once \stemDown </xsl:text>
+        <xsl:text>\tweak Stem.direction #DOWN </xsl:text>
       </xsl:when>
       <xsl:when test="@stem.dir='up'">
-        <xsl:text>\once \stemUp </xsl:text>
+        <xsl:text>\tweak Stem.direction #UP </xsl:text>
       </xsl:when>
       <!-- data.STEMDIRECTION.extended -->
       <xsl:otherwise>
-        <xsl:text>\once \stemNeutral </xsl:text>
+        <xsl:text>\tweak Stem.direction #0 </xsl:text>
         <xsl:message>INFO: LilyPond only supports basic stem directions</xsl:message>
       </xsl:otherwise>
     </xsl:choose>
@@ -2455,7 +2470,7 @@
   </xsl:template>
   <xsl:template mode="setStemDir" match="*[@stem.pos and not(@stem.dir)]">
     <!-- data.STEMPOSITION -->
-    <xsl:value-of select="concat('\once \override Stem.direction = #', translate(@stem.pos, 'cefghilntr', 'CEFGHILNTR'), ' ')"/>
+    <xsl:value-of select="concat('\tweak Stem.direction #', translate(@stem.pos, 'cefghilntr', 'CEFGHILNTR'), ' ')"/>
   </xsl:template>
   <xsl:template mode="setStemDir" match="*"/>
   <!-- set duration -->
@@ -2830,7 +2845,7 @@
   </xsl:template>
   <!-- set simple markup diections -->
   <xsl:template name="setMarkupDirection">
-    <xsl:param name="direction" select="@place" />
+    <xsl:param name="direction" select="@place|@curvedir" />
     <xsl:choose>
       <xsl:when test="$direction='above'">
         <xsl:text>^</xsl:text>
@@ -3218,7 +3233,7 @@
     <!-- data.NOTEHEADMODIFIER -->
     <xsl:choose>
       <xsl:when test="@head.mod ='slash'">
-        <xml:text>\once \override NoteHead.style = #'slash </xml:text>
+        <xsl:text>\once \override NoteHead.style = #'slash </xsl:text>
       </xsl:when>
       <xsl:when test="@head.mod ='backslash'">
       </xsl:when>
@@ -4053,10 +4068,10 @@
   <!-- add beams -->
   <xsl:template mode="addBeamMarkup" match="*"/>
   <xsl:template mode="addBeamMarkup" match="*[key('isBeamStart', generate-id())]">
-      <xml:text>[</xml:text>
+      <xsl:text>[</xsl:text>
   </xsl:template>
   <xsl:template mode="addBeamMarkup" match="*[key('isBeamEnd', generate-id())]">
-    <xml:text>]</xml:text>
+    <xsl:text>]</xsl:text>
   </xsl:template>
   <xsl:template mode="addBeamMarkup" match="*[key('isBeamEnd', generate-id()) and key('isBeamStart', generate-id())]" priority="10">
     <xsl:message>WARNING: <xsl:value-of select="local-name(.)"/> element <xsl:if test="@xml:id"><xsl:value-of select="concat('[',@xml:id,']')"/></xsl:if> both starts and ends a beam</xsl:message>
