@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.music-encoding.org/schema/3.0.0/mei-all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="http://www.music-encoding.org/schema/3.0.0/mei-all.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<mei xmlns="http://www.music-encoding.org/ns/mei" meiversion="3.0.0" xmlns:meiler="NS:MEILER_TEST">
+  <meiHead>
+    <fileDesc>
+      <titleStmt>
+        <title></title>
+      </titleStmt>
+      <pubStmt/>
+      <seriesStmt>
+        <title>MEILER test files</title>
+      </seriesStmt>
+    </fileDesc>
+    <extMeta>
+      <meiler:test system="bash" input="lystderr">
+        <meiler:param name="forceContinueVoices" value="yes"/>
+        if grep 'unterminated' "$lystderr"
+        then
+            echo "Unterminated spanners" 
+            exit 1
+        fi
+      </meiler:test>
+    </extMeta>
+  </meiHead>
+  <music xml:id="music1">
+    <body xml:id="body1">
+      <mdiv xml:id="mdiv1">
+        <score xml:id="score1">
+          <section xml:id="section1">
+            <scoreDef xml:id="scoreDef1" meter.count="4" meter.unit="4">
+              <staffGrp xml:id="staffGrp1">
+                <staffDef xml:id="staffDef1" n="1" clef.shape="G" clef.line="2" lines="5"/>
+              </staffGrp>
+            </scoreDef>
+            <measure xml:id="measure1" n="1">
+              <staff xml:id="staff1" n="1">
+                <layer xml:id="layer1" n="1">
+                  <note xml:id="note1" pname="a" oct="4" dur="1"/>
+                </layer>
+                <layer xml:id="layer2" n="2">
+                  <rest xml:id="rest1" dur="2"/>
+                  <note xml:id="note2" pname="f" oct="4" dur="2" tie="i"/>
+                </layer>
+              </staff>
+              <slur startid="#note1" endid="#note5"></slur>
+            </measure>
+            <measure xml:id="measure2" n="2">
+              <staff xml:id="staff2" n="1">
+                <layer xml:id="layer3" n="2">
+                  <note xml:id="note3" pname="f" oct="4" dur="2" tie="t"/>
+                  <rest xml:id="rest2" dur="2"/>
+                </layer>
+              </staff>
+            </measure>
+            <measure xml:id="measure3" n="3">
+              <staff xml:id="staff3" n="1">
+                <layer xml:id="layer4" n="1">
+                  <rest xml:id="rest3" dur="2" dots="2"/>
+                  <note xml:id="note4" pname="a" oct="4" dur="8"/>
+                </layer>
+              </staff>
+              <beamSpan xml:id="beamSpan1" startid="#note4" endid="#note5"/>
+            </measure>
+            <measure xml:id="measure4" n="4">
+              <staff xml:id="staff4" n="1">
+                <layer xml:id="layer5" n="1">
+                  <note xml:id="note5" pname="a" oct="4" dur="8"/>
+                  <rest xml:id="rest4" dur="2" dots="2"/>
+                </layer>
+                <layer xml:id="layer6" n="2">
+                  <note xml:id="note6" pname="f" oct="4" dur="1"/>
+                </layer>
+              </staff>
+            </measure>
+          </section>
+        </score>
+      </mdiv>
+    </body>
+  </music>
+</mei>
