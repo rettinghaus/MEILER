@@ -12,7 +12,7 @@
   <xsl:strip-space elements="*" />
   <xsl:output method="text" indent="no" encoding="UTF-8" />
   <xsl:param name="LilyPondVersion" select="'2.18.2'"/>
-  <xsl:param name="forceLayout" select="false()"/>
+  <xsl:param name="forceLayout" select="false()" as="xs:boolean"/>
   <xsl:key name="lyrics-by-staff-number" match="mei:syl|@syl" use="ancestor::mei:staff[1]/@n"/>
   <xsl:key name="id" match="*" use="@xml:id"/>
   <xsl:key name="idref" match="*[@xml:id]" use="concat('#', @xml:id)"/>
