@@ -112,6 +112,8 @@ List of supported MEI elements and attributes
   * __`@startid`__
   * `@xml:id`
 
+* `<fingGrp>`
+
 * `<fTrem>`
   * __`@measperf`__
 
