@@ -12,13 +12,13 @@
   <xsl:strip-space elements="*" />
   <xsl:output method="text" indent="no" encoding="UTF-8" />
   <xsl:param name="LilyPondVersion" select="'2.18.2'"/>
-  <xsl:param name="forceLayout" select="'no'"/>
+  <xsl:param name="forceLayout" select="false()"/>
   <xsl:key name="lyrics-by-staff-number" match="mei:syl|@syl" use="ancestor::mei:staff[1]/@n"/>
   <xsl:key name="id" match="*" use="@xml:id"/>
   <xsl:key name="idref" match="*[@xml:id]" use="concat('#', @xml:id)"/>
   <!-- The "isXYZ" keys are used to test whether an element is a certain thing with the help of generate-id().
     Example for testing whether a note starts a beam with the help of a key:
-      key('isBeamStart', generate-id($myNote))q2
+      key('isBeamStart', generate-id($myNote))
     If the key function returns something, it is the start of a beam, otherwise it is not.
     What the key function actually returns isn't relevant and should not be relied on or used for any further processing.
     In the case of the above example, it might return a <beam>, <beamSpan>, or the <note> itself, depending on how
@@ -277,7 +277,7 @@
         <!-- add breaks -->
         <xsl:variable name="followingBreaks" select="key('breaksByPrecedingMeasure', ancestor::mei:measure[1]/generate-id())"/>
         <xsl:apply-templates select="$followingBreaks"/>
-        <xsl:if test="$forceLayout='yes' and not($followingBreaks)">
+        <xsl:if test="$forceLayout and not($followingBreaks)">
           <xsl:text>  { \noBreak }&#10;</xsl:text>
         </xsl:if>
       </xsl:for-each>
@@ -703,7 +703,7 @@
   <!-- MEI notes -->
   <xsl:template match="mei:note[@pname]">
     <xsl:variable name="noteKey" select="concat('#',./@xml:id)" />
-    <xsl:apply-templates select="descendant::*|ancestor::mei:measure/descendant::*[@startid = $noteKey]" mode="pre" />
+    <xsl:apply-templates select="mei:accid|ancestor::mei:measure/descendant::*[@startid = $noteKey]" mode="pre" />
     <xsl:if test="@staff and @staff != ancestor::mei:staff/@n">
       <xsl:value-of select="concat('\change Staff = &quot;staff ',@staff,'&quot;&#32;')" />
     </xsl:if>
@@ -783,7 +783,7 @@
     <xsl:if test="descendant-or-self::*/@accid or child::mei:accid/@func='caution'">
       <xsl:text>!</xsl:text>
     </xsl:if>
-    <xsl:if test="child::mei:accid/@func='edit' or child::mei:accid/@enclose='paren'">
+    <xsl:if test="child::mei:accid/@enclose='paren'">
       <xsl:text>?</xsl:text>
     </xsl:if>
     <xsl:choose>
@@ -1107,18 +1107,18 @@
   </xsl:template>
   <!-- MEI accidental -->
   <xsl:template match="mei:accid" mode="pre">
-    <xsl:if test="@xml:id">
-      <xsl:value-of select="concat('\once \override Accidental.id = #&quot;', @xml:id, '&quot; ')" />
-    </xsl:if>
-    <xsl:if test="@color">
-      <xsl:value-of select="'\once \override Accidental.color = #'" />
-      <xsl:call-template name="setColor" />
-    </xsl:if>
-    <xsl:if test="@place='above'">
+    <xsl:if test="(@func='edit' or @place='above') and not(ancestor::mei:chord) ">
       <xsl:text>\once \set suggestAccidentals = ##t </xsl:text>
     </xsl:if>
+    <xsl:if test="@xml:id">
+      <xsl:value-of select="concat('\tweak Accidental.id #&quot;', @xml:id, '&quot; ')" />
+    </xsl:if>
+    <xsl:if test="@color">
+      <xsl:value-of select="'\tweak Accidental.color #'" />
+      <xsl:call-template name="setColor" />
+    </xsl:if>
     <xsl:if test="@ho or @vo">
-      <xsl:text>\once \override Accidental.extra-offset = #&apos;</xsl:text>
+      <xsl:text>\tweak Accidental.extra-offset #&apos;</xsl:text>
       <xsl:call-template name="setOffset" />
     </xsl:if>
   </xsl:template>
