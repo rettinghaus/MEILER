@@ -2,7 +2,7 @@
 <!--          -->
 <!--  MEILER  -->
 <!--  mei2ly  -->
-<!-- v 0.8.20 -->
+<!-- v 0.8.21 -->
 <!--          -->
 <!-- programmed by -->
 <!-- Klaus Rettinghaus -->
@@ -764,12 +764,14 @@
     <xsl:if test="@xml:id">
       <xsl:value-of select="concat('\tweak id #&quot;', @xml:id, '&quot; ')" />
     </xsl:if>
-    <xsl:if test="@color and not(parent::mei:chord)">
+    <xsl:if test="ancestor-or-self::*/@color">
       <xsl:value-of select="'\tweak color #'" />
       <xsl:call-template name="setColor" />
-      <xsl:if test="not(parent::mei:chord)">
+      <xsl:if test="mei:accid[not(@color)] or @accid">
         <xsl:value-of select="'\tweak Accidental.color #'" />
         <xsl:call-template name="setColor" />
+      </xsl:if>
+      <xsl:if test="not(parent::mei:chord)">
         <xsl:value-of select="'\tweak Stem.color #'" />
         <xsl:call-template name="setColor" />
       </xsl:if>
@@ -918,14 +920,14 @@
       <xsl:value-of select="'\once \override Stem.color = #'" />
       <xsl:call-template name="setColor" />
     </xsl:if>
-    <xsl:apply-templates mode="setStemDir" select="." />
-    <xsl:if test="@stem.len">
-      <xsl:value-of select="concat('\once \override Stem.length = #', local:VU2LY(@stem.len) * 2, ' ')" />
-    </xsl:if>
     <xsl:if test="(starts-with(@tuplet,'i') or (ancestor::mei:measure/mei:tupletSpan[@endid]/@startid = $chordKey)) and not(ancestor::mei:tuplet)">
       <xsl:value-of select="concat('\tuplet ',ancestor::mei:measure/mei:tupletSpan[@endid][@startid = $chordKey]/@num,'/',ancestor::mei:measure/mei:tupletSpan[@endid][@startid = $chordKey]/@numbase,' { ')" />
     </xsl:if>
     <xsl:text>&lt; </xsl:text>
+    <xsl:apply-templates mode="setStemDir" select="." />
+    <xsl:if test="@stem.len">
+      <xsl:value-of select="concat('\tweak Stem.length #', local:VU2LY(@stem.len) * 2, ' ')" />
+    </xsl:if>
     <xsl:apply-templates select="mei:note" />
     <xsl:text>&gt;</xsl:text>
     <xsl:call-template name="setDuration" />
@@ -3007,7 +3009,7 @@
     </valList>
   </xsl:variable>
   <xsl:template name="setColor">
-    <xsl:param name="color" select="@color" />
+    <xsl:param name="color" select="ancestor-or-self::*[@color][1]/@color" />
     <xsl:variable name="colorComponents" as="xs:double+">
       <xsl:choose>
         <xsl:when test="starts-with($color, 'rgb')">
