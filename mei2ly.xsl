@@ -659,7 +659,7 @@
   <xsl:template match="mei:layer">
     <xsl:param name="needsDivider" select="false()" as="xs:boolean"/>
     <xsl:param name="oneVoice" select="false()"/>
-    <xsl:if test="preceding-sibling::mei:layer or $needsDivider">
+    <xsl:if test="(not($forceContinueVoices) and preceding-sibling::mei:layer) or $needsDivider">
       <xml:text>\\ </xml:text>
     </xsl:if>
     <xsl:if test="$oneVoice">

@@ -64,12 +64,13 @@
             </measure>
             <measure xml:id="measure4" n="4">
               <staff xml:id="staff4" n="1">
+                <!-- Test "misordered layers -->
+                <layer xml:id="layer6" n="2">
+                  <note xml:id="note6" pname="f" oct="4" dur="1"/>
+                </layer>
                 <layer xml:id="layer5" n="1">
                   <note xml:id="note5" pname="a" oct="4" dur="8"/>
                   <rest xml:id="rest4" dur="2" dots="2"/>
-                </layer>
-                <layer xml:id="layer6" n="2">
-                  <note xml:id="note6" pname="f" oct="4" dur="1"/>
                 </layer>
               </staff>
             </measure>
