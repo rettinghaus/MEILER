@@ -13,7 +13,7 @@
   <xsl:output method="text" indent="no" encoding="UTF-8" />
   <xsl:param name="LilyPondVersion" select="'2.18.2'"/>
   <xsl:param name="forceLayout" select="false()" as="xs:boolean"/>
-  <!-- forceContinueVoices ensures that within a staff, the number of voices remains constant. 
+  <!-- forceContinueVoices ensures that within a staff, the number of voices remains constant.
     If the number of <layer> elements changes in MEI, dummy voices are created filled with spacers.
     This is useful when getting "unterminated tie" warnings, but does not cover cases where in MEI,
     a tie continues on a different layer nubmer than it started.
@@ -73,10 +73,10 @@
       <xsl:with-param name="layerNs" tunnel="yes">
         <xsl:if test="$forceContinueVoices">
           <layerNs>
-            <xsl:for-each-group select="key('elementsByTagName', 'staff', .)" 
+            <xsl:for-each-group select="key('elementsByTagName', 'staff', .)"
                 group-by="(@n, count(preceding-sibling::mei:staff) + 1)[1]">
               <staff n="{current-grouping-key()}">
-                <xsl:for-each-group select="current-group()/key('elementsByTagName', 'layer', .)" 
+                <xsl:for-each-group select="current-group()/key('elementsByTagName', 'layer', .)"
                     group-by="(@n, count(preceding-sibling::mei:layer) + 1)[1]">
                   <layer n="{current-grouping-key()}"/>
                 </xsl:for-each-group>
@@ -1635,9 +1635,6 @@
   </xsl:template>
   <!-- MEI phrase -->
   <xsl:template match="mei:phrase" mode="pre">
-    <xsl:if test="@lform">
-      <xsl:value-of select="concat('\once \phrasingSlur',translate(substring(@lform,1,1),'ds','DS'),substring(@lform,2),' ')" />
-    </xsl:if>
     <xsl:if test="@*[contains(name(),'ho') or contains(name(),'vo')]">
       <xsl:call-template name="shapeCurve" />
       <xsl:text>PhrasingSlur</xsl:text>
@@ -1655,6 +1652,9 @@
     <xsl:text>\once \override PhrasingSlur.positions = #&apos;</xsl:text>
     <xsl:call-template name="setOffset2"/>
     </xsl:if>    -->
+    <xsl:if test="@lform">
+      <xsl:value-of select="concat('-\single \phrasingSlur',translate(substring(@lform,1,1),'ds','DS'),substring(@lform,2),' ')" />
+    </xsl:if>
     <xsl:if test="@lwidth">
       <xsl:text>-\tweak PhrasingSlur.thickness #</xsl:text>
       <xsl:call-template name="setLineWidth" />
@@ -1664,9 +1664,6 @@
   </xsl:template>
   <!-- MEI slur -->
   <xsl:template match="mei:slur" mode="pre">
-    <xsl:if test="@lform">
-      <xsl:value-of select="concat('\once \slur',translate(substring(@lform,1,1),'ds','DS'),substring(@lform,2),' ')" />
-    </xsl:if>
     <!--    <xsl:if test="(@startvo or @endvo or @startho or @endho)">
     <xsl:text>\once \override Slur.positions = #&apos;</xsl:text>
     <xsl:call-template name="setOffset2"/>
@@ -1684,6 +1681,9 @@
       <xsl:value-of select="'-\tweak Slur.color #'" />
       <xsl:call-template name="setColor" />
     </xsl:if>
+    <xsl:if test="@lform">
+      <xsl:value-of select="concat('-\single \slur',translate(substring(@lform,1,1),'ds','DS'),substring(@lform,2),' ')" />
+    </xsl:if>
     <xsl:if test="@lwidth">
       <xsl:text>-\tweak Slur.thickness #</xsl:text>
       <xsl:call-template name="setLineWidth" />
@@ -1693,9 +1693,6 @@
   </xsl:template>
   <!-- MEI tie -->
   <xsl:template match="mei:tie" mode="pre">
-    <xsl:if test="@lform">
-      <xsl:value-of select="concat('\once \Tie',translate(substring(@lform,1,1),'ds','DS'),substring(@lform,2),' ')" />
-    </xsl:if>
     <xsl:if test="@*[contains(name(),'ho') or contains(name(),'vo')]">
       <xsl:call-template name="shapeCurve" />
       <xsl:text>Tie</xsl:text>
@@ -1708,6 +1705,9 @@
     <xsl:if test="@color">
       <xsl:value-of select="'-\tweak Tie.color #'" />
       <xsl:call-template name="setColor" />
+    </xsl:if>
+    <xsl:if test="@lform">
+      <xsl:value-of select="concat('-\single \tie',translate(substring(@lform,1,1),'ds','DS'),substring(@lform,2),' ')" />
     </xsl:if>
     <xsl:if test="@lwidth">
       <xsl:text>-\tweak Tie.thickness #</xsl:text>
@@ -2454,6 +2454,7 @@
   <xsl:template match="mei:incip" />
   <xsl:template match="mei:midi" />
   <xsl:template match="mei:orig" />
+  <xsl:template match="mei:pad" />
   <xsl:template match="mei:part" />
   <xsl:template match="mei:pgHead" />
   <xsl:template match="mei:pgFoot" />
