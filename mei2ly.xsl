@@ -2324,7 +2324,11 @@
   <xsl:template match="mei:sb">
     <xsl:text>&#32;&#32;</xsl:text>
     <xsl:call-template name="tag" />
-    <xsl:text>{ \break }</xsl:text>
+    <xsl:text>{ \break</xsl:text>
+    <xsl:if test="count(key('breaksByPrecedingMeasure', preceding::mei:measure[1]/generate-id())/self::mei:pb) = 0">
+      <xsl:text> \noPageBreak</xsl:text>
+    </xsl:if>
+    <xsl:text> }</xsl:text>
     <xsl:if test="@n">
       <xsl:value-of select="concat(' %',@n)" />
     </xsl:if>
