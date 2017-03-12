@@ -13,9 +13,16 @@
   <xsl:output method="text" indent="no" encoding="UTF-8" />
   <xsl:param name="LilyPondVersion" select="'2.18.2'"/>
   <xsl:param name="forceLayout" select="false()" as="xs:boolean"/>
+  <!-- forceContinueVoices ensures that within a staff, the number of voices remains constant. 
+    If the number of <layer> elements changes in MEI, dummy voices are created filled with spacers.
+    This is useful when getting "unterminated tie" warnings, but does not cover cases where in MEI,
+    a tie continues on a different layer nubmer than it started.
+  -->
+  <xsl:param name="forceContinueVoices" select="false()" as="xs:boolean"/>
   <xsl:key name="lyrics-by-staff-number" match="mei:syl|@syl" use="ancestor::mei:staff[1]/@n"/>
   <xsl:key name="id" match="*" use="@xml:id"/>
   <xsl:key name="idref" match="*[@xml:id]" use="concat('#', @xml:id)"/>
+  <xsl:key name="elementsByTagName" match="mei:*" use="local-name()"/>
   <!-- The "isXYZ" keys are used to test whether an element is a certain thing with the help of generate-id().
     Example for testing whether a note starts a beam with the help of a key:
       key('isBeamStart', generate-id($myNote))
@@ -62,7 +69,23 @@
     </xsl:if>
     <xsl:value-of select="concat('\version &quot;', $LilyPondVersion,'&quot;&#10;')"/>
     <xsl:text>% automatically converted by mei2ly.xsl&#10;&#10;</xsl:text>
-    <xsl:apply-templates/>
+    <xsl:apply-templates>
+      <xsl:with-param name="layerNs" tunnel="yes">
+        <xsl:if test="$forceContinueVoices">
+          <layerNs>
+            <xsl:for-each-group select="key('elementsByTagName', 'staff', .)" 
+                group-by="(@n, count(preceding-sibling::mei:staff) + 1)[1]">
+              <staff n="{current-grouping-key()}">
+                <xsl:for-each-group select="current-group()/key('elementsByTagName', 'layer', .)" 
+                    group-by="(@n, count(preceding-sibling::mei:layer) + 1)[1]">
+                  <layer n="{current-grouping-key()}"/>
+                </xsl:for-each-group>
+              </staff>
+            </xsl:for-each-group>
+          </layerNs>
+        </xsl:if>
+      </xsl:with-param>
+    </xsl:apply-templates>
   </xsl:template>
   <!-- MEI.header -->
   <!-- MEI header -->
@@ -172,6 +195,7 @@
   </xsl:template>
   <!-- MEI musical division -->
   <xsl:template match="mei:mdiv">
+    <xsl:param name="layerNs" tunnel="yes"/>
     <xsl:variable name="mdivNumber" select="@n" />
     <xsl:if test="@label">
       <xsl:value-of select="concat('% Division ',@n,' &quot;',@label,'&quot;&#10;&#10;')" />
@@ -179,6 +203,7 @@
     <!-- extracting musical content from staves -->
     <xsl:for-each select="descendant::mei:scoreDef[1]/descendant::mei:staffDef">
       <xsl:variable name="staffNumber" select="@n" />
+      <xsl:variable name="layerNsInStaff" select="$layerNs//*:staff[@n=$staffNumber]/*:layer/@n"/>
       <xsl:value-of select="concat('mdiv',local:number2alpha($mdivNumber),'_staff',local:number2alpha($staffNumber),' = {&#10;')" />
       <xsl:for-each select="ancestor::mei:mdiv[1]//mei:staff[@n=$staffNumber]">
         <xsl:variable name="currentMeasure" select="generate-id(ancestor::mei:measure)" />
@@ -254,6 +279,21 @@
         <xsl:choose>
           <xsl:when test="@copyof">
             <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:staff[@xml:id = substring-after(current()/@copyof,'#')]" />
+          </xsl:when>
+          <xsl:when test="$forceContinueVoices">
+            <!-- We make sure that each measure in a staff has the same number of voices. -->
+            <xsl:variable name="staff" select="."/>
+            <xsl:variable name="measureDurFraction">
+              <xsl:apply-templates select=".[$forceContinueVoices]/descendant::mei:layer[1]" mode="getDurFraction"/>
+            </xsl:variable>
+            <xsl:for-each select="$layerNsInStaff">
+              <xsl:apply-templates select="$staff" mode="createContinuousVoices">
+                <xsl:with-param name="layerN" select="current()"/>
+                <xsl:with-param name="measureDurFraction" select="$measureDurFraction"/>
+                <xsl:with-param name="needsDivider" select="position() > 1"/>
+                <xsl:with-param name="oneVoice" select="count($staff/mei:layer) = 1"></xsl:with-param>
+              </xsl:apply-templates>
+            </xsl:for-each>
           </xsl:when>
           <xsl:otherwise>
             <xsl:apply-templates/>
@@ -617,15 +657,20 @@
   </xsl:template>
   <!-- MEI layers -->
   <xsl:template match="mei:layer">
+    <xsl:param name="needsDivider" select="false()" as="xs:boolean"/>
+    <xsl:param name="oneVoice" select="false()"/>
+    <xsl:if test="preceding-sibling::mei:layer or $needsDivider">
+      <xml:text>\\ </xml:text>
+    </xsl:if>
+    <xsl:if test="$oneVoice">
+      <xml:text>\oneVoice </xml:text>
+    </xsl:if>
     <xsl:text>{ </xsl:text>
     <xsl:if test="@beam.group">
       <xsl:call-template name="setBeaming" />
     </xsl:if>
     <xsl:apply-templates/>
     <xsl:text>} </xsl:text>
-    <xsl:if test="following-sibling::mei:layer">
-      <xsl:text>\\ </xsl:text>
-    </xsl:if>
   </xsl:template>
   <!-- MEI staffDef (inside musical flow) -->
   <xsl:template match="mei:staffDef[ancestor::mei:layer]">
@@ -4261,21 +4306,68 @@
       </xsl:otherwise>
     </xsl:choose>
   </xsl:function>
+  <xsl:template match="mei:staff" mode="createContinuousVoices">
+    <xsl:param name="layerN"/>
+    <xsl:param name="measureDurFraction"/>
+    <xsl:param name="needsDivider" as="xs:boolean"/>
+    <xsl:param name="oneVoice" as="xs:boolean"/>
+    <xsl:variable name="layer" select="mei:layer[@n = $layerN]"/>
+    <xsl:choose>
+      <xsl:when test="$layer">
+        <xsl:if test="count($layer) > 1">
+          <xsl:message select="$layer[1]/concat('WARNING: Multiple layers with n=', @n, ' in measure ', ancestor::mei:measure/@n, ', staff ', ancestor::mei:staff/@n)"/>
+        </xsl:if>
+        <xsl:apply-templates select="$layer">
+          <xsl:with-param name="needsDivider" select="$needsDivider"/>
+          <!-- When we're adding dummy voices to a measure where there's only one "real" voice, we're altering
+            stem directions and rest positions. To avoid this, we add \oneVoice.
+            of -->
+          <xsl:with-param name="oneVoice" select="$oneVoice"/>
+        </xsl:apply-templates>
+      </xsl:when>
+      <xsl:otherwise>
+        <!-- If a voice with the current voice number is not encoded in this measure, we create a dummy voice. -->
+        <xsl:if test="$needsDivider">
+          <xml:text>\\ </xml:text>
+        </xsl:if>
+        <xml:text>{ #(make-music 'SkipEvent 'duration (ly:make-duration 0 0 </xml:text>
+        <xsl:value-of select="$measureDurFraction"/>
+        <xml:text>)) } </xml:text>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
   <xsl:template match="mei:layer" mode="setPartial">
-    <xsl:variable name="durElements" select="descendant::*[@dur][not(ancestor::mei:chord)]" as="element()*"/>
-    <!-- Seems paradox: To get the smallest @dur, we use max() (16ths are smaller than 8th) -->
-    <xsl:variable name="smallestDur" select="max($durElements/@dur/xs:integer(.))" as="xs:integer"/>
-    <xsl:variable name="largestDots" select="max(($durElements/@dots/xs:integer(.), 0))" as="xs:integer"/>
-    <xsl:variable name="durUnit" select="$smallestDur * round(local:power(2, $largestDots))" as="xs:integer"/>
-    <xsl:variable name="dursInUnit" as="xs:integer*">
-      <xsl:apply-templates select="$durElements" mode="addToDurSum">
-        <xsl:with-param name="durUnit" select="$durUnit"/>
-      </xsl:apply-templates>
+    <xsl:variable name="durFraction">
+      <xsl:apply-templates select="." mode="getDurFraction"/>
     </xsl:variable>
-    <!-- We might have a measure with non-numerical @durs, so test if we'd output something valid -->
-    <xsl:if test="$dursInUnit[1]">
-      <xsl:value-of select="concat('\set Timing.measurePosition = #(ly:make-moment -', sum($dursInUnit), '/', $durUnit, ') ')"/>
+    <xsl:if test="$durFraction">
+      <xsl:value-of select="concat('\set Timing.measurePosition = #(ly:make-moment -', $durFraction, ') ')"/>
     </xsl:if>
+  </xsl:template>
+  <xsl:template match="mei:layer" mode="getDurFraction">
+    <xsl:variable name="durElements" select="descendant::*[@dur][not(ancestor::mei:chord or ancestor::mei:fTrem)]" as="element()*"/>
+    <!-- We might have a measure with non-numerical @durs, so test if we'd output something valid -->
+    <xsl:choose>
+      <xsl:when test="ancestor::mei:measure[1]/@metcon='false' and $durElements[1]">
+        <!-- TODO: This does not work for tuplets yet. That's why we only fall back to summing up durations
+           if @metcon is false. Using the current meter is more reliable for now. -->
+        <!-- Seems paradox: To get the smallest @dur, we use max() (16ths are smaller than 8th) -->
+        <xsl:variable name="smallestDur" select="max($durElements/@dur/xs:integer(.))" as="xs:integer"/>
+        <xsl:variable name="largestDots" select="max(($durElements/@dots/xs:integer(.), 0))" as="xs:integer"/>
+        <xsl:variable name="durUnit" select="$smallestDur * round(local:power(2, $largestDots))" as="xs:integer"/>
+        <xsl:variable name="dursInUnit" as="xs:integer*">
+          <xsl:apply-templates select="$durElements" mode="addToDurSum">
+            <xsl:with-param name="durUnit" select="$durUnit"/>
+          </xsl:apply-templates>
+        </xsl:variable>
+        <xsl:value-of select="concat(sum($dursInUnit), '/', $durUnit)"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <!-- TODO: This is quick and dirty. Use a better way of detecting the current meter. -->
+        <xsl:variable name="currentMeter" select="preceding::*[@meter.unit or self::mei:meterSig/@unit][1]"/>
+        <xsl:value-of select="$currentMeter/concat((@count, @meter.count)[1], '/', (@unit, @meter.unit)[1])"/>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
   <xsl:template mode="addToDurSum" name="addToDurSum" match="*[@dur]">
     <xsl:param name="durUnit"/>
