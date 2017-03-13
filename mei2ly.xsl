@@ -986,6 +986,8 @@
     </xsl:if>
     <xsl:apply-templates select="ancestor::mei:measure/mei:fermata[@startid = $chordKey]" />
     <xsl:apply-templates select="ancestor::mei:measure/mei:pedal[@startid = $chordKey]" />
+    <xsl:apply-templates select="ancestor::mei:measure/mei:slur[@startid = $chordKey]" />
+    <xsl:apply-templates select="ancestor::mei:measure/mei:tie[@startid = $chordKey]" />
     <xsl:if test="(starts-with(@tuplet,'t') or (ancestor::mei:mdiv[1]//mei:tupletSpan/@endid = $chordKey)) and not(ancestor::mei:tuplet)">
       <xsl:value-of select="' }'" />
     </xsl:if>
