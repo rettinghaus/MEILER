@@ -752,7 +752,7 @@
     <xsl:if test="@staff and @staff != ancestor::mei:staff/@n">
       <xsl:value-of select="concat('\change Staff = &quot;staff ',@staff,'&quot;&#32;')" />
     </xsl:if>
-    <xsl:if test="@grace and not(preceding-sibling::mei:note[1]/@grace or preceding-sibling::mei:chord[1]/@grace )">
+    <xsl:if test="@grace and not(preceding-sibling::*[1]/@grace)">
       <xsl:call-template name="setGraceNote" />
       <xsl:if test="ancestor::mei:beam and position()=1">
         <xsl:text>{</xsl:text>
@@ -954,12 +954,8 @@
     <xsl:if test="contains(@slur,'i')">
       <xsl:text>(</xsl:text>
     </xsl:if>
-    <xsl:apply-templates select="ancestor::mei:measure/mei:phrase[@startid = $chordKey]" />
     <xsl:if test="@lv = 'true'">
       <xsl:text>\laissezVibrer</xsl:text>
-    </xsl:if>
-    <xsl:if test="ancestor::mei:measure/mei:arpeg[@startid = $chordKey or tokenize(@plist,' ') = $subChordKeys]">
-      <xsl:text>\arpeggio</xsl:text>
     </xsl:if>
     <xsl:if test="ancestor::mei:mdiv[1]//mei:hairpin/@endid = $chordKey or ancestor::mei:mdiv[1]//mei:dynam/@endid = $chordKey">
       <xsl:text>\!</xsl:text>
@@ -968,26 +964,17 @@
       <xsl:call-template name="artic" />
     </xsl:if>
     <xsl:apply-templates select="mei:artic" />
-    <xsl:apply-templates select="ancestor::mei:measure/mei:dynam[@startid = $chordKey]" />
-    <xsl:apply-templates select="ancestor::mei:measure/mei:hairpin[@startid = $chordKey]" />
     <xsl:if test="ancestor::mei:mdiv[1]//mei:trill/@endid = $chordKey">
       <xsl:text>\stopTrillSpan</xsl:text>
     </xsl:if>
-    <xsl:apply-templates select="ancestor::mei:measure/mei:gliss[@startid = $chordKey]" />
-    <xsl:apply-templates select="ancestor::mei:measure/mei:mordent[@startid = $chordKey]" />
-    <xsl:apply-templates select="ancestor::mei:measure/mei:trill[@startid = $chordKey]" />
-    <xsl:apply-templates select="ancestor::mei:measure/mei:turn[@startid = $chordKey]" />
     <xsl:if test="@ornam">
       <xsl:call-template name="setOrnament" />
     </xsl:if>
-    <xsl:apply-templates select="ancestor::mei:measure/mei:dir[@startid = $chordKey]" />
     <xsl:if test="@fermata and not(ancestor::mei:measure/mei:fermata/@startid = $chordKey)">
       <xsl:call-template name="fermata" />
     </xsl:if>
-    <xsl:apply-templates select="ancestor::mei:measure/mei:fermata[@startid = $chordKey]" />
-    <xsl:apply-templates select="ancestor::mei:measure/mei:pedal[@startid = $chordKey]" />
-    <xsl:apply-templates select="ancestor::mei:measure/mei:slur[@startid = $chordKey]" />
-    <xsl:apply-templates select="ancestor::mei:measure/mei:tie[@startid = $chordKey]" />
+    <xsl:apply-templates select="ancestor::mei:measure/mei:arpeg[not(@startid)][tokenize(@plist,' ') = $subChordKeys]" />
+    <xsl:apply-templates select="ancestor::mei:measure/mei:*[@startid = $chordKey]" />
     <xsl:if test="(starts-with(@tuplet,'t') or (ancestor::mei:mdiv[1]//mei:tupletSpan/@endid = $chordKey)) and not(ancestor::mei:tuplet)">
       <xsl:value-of select="' }'" />
     </xsl:if>
@@ -1719,25 +1706,26 @@
     <xsl:text>~</xsl:text>
   </xsl:template>
   <!-- MEI arpeggio -->
-  <xsl:template match="mei:arpeg" mode="pre">
+  <xsl:template match="mei:arpeg">
     <xsl:if test="@xml:id">
-      <xsl:value-of select="concat('\once \override Arpeggio.id = #&quot;', @xml:id, '&quot; ')" />
+      <xsl:value-of select="concat('\tweak Arpeggio.id #&quot;', @xml:id, '&quot; ')" />
     </xsl:if>
     <xsl:if test="@color">
-      <xsl:value-of select="'\once \override Arpeggio.color = #'" />
+      <xsl:value-of select="'\tweak Arpeggio.color #'" />
       <xsl:call-template name="setColor" />
     </xsl:if>
     <xsl:choose>
       <xsl:when test="@order = 'up'">
-        <xsl:text>\once \arpeggioArrowUp </xsl:text>
+        <xsl:text>\single \arpeggioArrowUp </xsl:text>
       </xsl:when>
       <xsl:when test="@order = 'down'">
-        <xsl:text>\once \arpeggioArrowDown </xsl:text>
+        <xsl:text>\single \arpeggioArrowDown </xsl:text>
       </xsl:when>
       <xsl:when test="@order = 'nonarp'">
-        <xsl:text>\once \arpeggioBracket </xsl:text>
+        <xsl:text>\single \arpeggioBracket </xsl:text>
       </xsl:when>
     </xsl:choose>
+    <xsl:text>\arpeggio</xsl:text>
   </xsl:template>
   <!-- MEI glissando -->
   <xsl:template match="mei:gliss">
@@ -2689,10 +2677,10 @@
   </xsl:template>
   <!-- set grace notes -->
   <xsl:template name="setGraceNote">
-    <xsl:if test="@stem.mod = '1slash'">
-      <xsl:text>\once \override Flag.stroke-style = #"grace" </xsl:text>
-    </xsl:if>
     <xsl:text>\grace </xsl:text>
+    <xsl:if test="@stem.mod = '1slash'">
+      <xsl:text>\tweak Flag.stroke-style #"grace" </xsl:text>
+    </xsl:if>
   </xsl:template>
   <!-- set articulation -->
   <xsl:template name="setArticulation">
