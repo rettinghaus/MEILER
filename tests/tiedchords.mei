@@ -17,7 +17,7 @@
     <body>
       <mdiv>
         <score>
-          <scoreDef meter.count="3" meter.unit="2" >
+          <scoreDef meter.count="3" meter.unit="2">
             <staffGrp>
               <staffDef n="1" clef.line="2" clef.shape="G" lines="5"/>
             </staffGrp>
@@ -26,35 +26,35 @@
             <measure n="1">
               <staff n="1">
                 <layer n="1">
-                  <chord xml:id="chord-1" dur="4" >
-                    <note xml:id="note-c1" pname="c" oct="4" />
-                    <note xml:id="note-e1" pname="e" oct="4" />
-                    <note xml:id="note-g1" pname="g" oct="4" />
+                  <chord xml:id="chord-1" dur="4">
+                    <note xml:id="note-c1" pname="c" oct="4"/>
+                    <note xml:id="note-e1" pname="e" oct="4"/>
+                    <note xml:id="note-g1" pname="g" oct="4"/>
                   </chord>
-                  <chord xml:id="chord-2" dur="4" >
-                    <note xml:id="note-c2" pname="c" oct="4" />
-                    <note xml:id="note-e2" pname="e" oct="4" />
-                    <note xml:id="note-g2" pname="g" oct="4" />
+                  <chord xml:id="chord-2" dur="4">
+                    <note xml:id="note-c2" pname="c" oct="4"/>
+                    <note xml:id="note-e2" pname="e" oct="4"/>
+                    <note xml:id="note-g2" pname="g" oct="4"/>
                   </chord>
-                  <chord xml:id="chord-3" dur="4" >
-                    <note xml:id="note-c3" pname="c" oct="4" />
-                    <note xml:id="note-e3" pname="e" oct="4" />
-                    <note xml:id="note-g3" pname="g" oct="4" />
+                  <chord xml:id="chord-3" dur="4">
+                    <note xml:id="note-c3" pname="c" oct="4"/>
+                    <note xml:id="note-e3" pname="e" oct="4"/>
+                    <note xml:id="note-g3" pname="g" oct="4"/>
                   </chord>
-                  <chord xml:id="chord-4" dur="4" >
-                    <note xml:id="note-c4" pname="c" oct="4" />
-                    <note xml:id="note-e4" pname="e" oct="4" />
-                    <note xml:id="note-g4" pname="g" oct="4" />
+                  <chord xml:id="chord-4" dur="4">
+                    <note xml:id="note-c4" pname="c" oct="4"/>
+                    <note xml:id="note-e4" pname="e" oct="4"/>
+                    <note xml:id="note-g4" pname="g" oct="4"/>
                   </chord>
-                  <note xml:id="note-a1" dur="4" pname="a" oct="4" accid="f" />
-                  <note xml:id="note-a2" dur="4" pname="a" oct="4" accid="f" />
+                  <note xml:id="note-a1" dur="4" pname="a" oct="4" accid="f"/>
+                  <note xml:id="note-a2" dur="4" pname="a" oct="4" accid="f"/>
                 </layer>
               </staff>
-              <tie xml:id="tie-1"  startid="#note-c1" endid="#note-c2" lform="dashed" lwidth="narrow"/>
-              <tie xml:id="tie-2"  startid="#note-e1" endid="#note-e2" lform="solid" lwidth="medium"/>
-              <tie xml:id="tie-3"  startid="#note-g1" endid="#note-g2" lform="dotted" lwidth="wide"/>
-              <tie xml:id="tie-4"  startid="#chord-3" endid="#chord-4" lform="dotted"/>
-              <tie xml:id="tie-5"  startid="#note-a1" endid="#note-a2" lform="dashed"/>
+              <tie xml:id="tie-1" startid="#note-c1" endid="#note-c2" lform="dashed" lwidth="narrow"/>
+              <tie xml:id="tie-2" startid="#note-e1" endid="#note-e2" lform="solid" lwidth="medium"/>
+              <tie xml:id="tie-3" startid="#note-g1" endid="#note-g2" lform="dotted" lwidth="wide"/>
+              <tie xml:id="tie-4" startid="#chord-3" endid="#chord-4" lform="dotted"/>
+              <tie xml:id="tie-5" startid="#note-a1" endid="#note-a2" lform="dashed"/>
             </measure>
           </section>
         </score>

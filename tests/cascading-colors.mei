@@ -32,7 +32,7 @@
                     <note xml:id="third-note" pname="g" oct="4" color="red">
                       <accid xml:id="accid-colored" accid="s" color="yellow"/>
                     </note>
-                    <note xml:id="third-note" pname="c" oct="5" color="fuchsia">
+                    <note xml:id="forth-note" pname="c" oct="5" color="fuchsia">
                       <accid xml:id="accid-uncolord" accid="s"/>
                     </note>
                   </chord>
