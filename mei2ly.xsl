@@ -2981,6 +2981,15 @@
     <xsl:text>&#10;\shape #&apos;</xsl:text>
     <xsl:value-of select="concat('((',$x1,' . ',$y1,') (',$x2,' . ',$y2,') (',$x3,' . ',$y3,') (',$x4,' . ',$y4,')) ')" />
   </xsl:template>
+  <!-- set SVG attributes -->
+  <xsl:template name="setSvgAttr">
+    <xsl:text>\tweak output-attributes #&apos;(</xsl:text>
+    <xsl:value-of select="concat('(class . ', local-name(), ')')" />
+    <xsl:if test="@xml:id">
+      <xsl:value-of select="concat(' (id . ', @xml:id, ')')" />
+    </xsl:if>
+    <xsl:text>) </xsl:text>
+  </xsl:template>
   <!-- set color -->
   <!-- data.COLORNAMES -->
   <xsl:variable name="colorNames">
@@ -3079,7 +3088,7 @@
     </xsl:choose>
     <xsl:text>&#32;</xsl:text>
   </xsl:template>
-  <!-- set beaming -->
+  <!-- set transposition -->
   <xsl:template name="setTransposition">
     <xsl:text>\transposition </xsl:text>
     <!-- att.transposition -->
