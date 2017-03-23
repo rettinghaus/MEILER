@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.music-encoding.org/schema/3.0.0/mei-all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="http://www.music-encoding.org/schema/3.0.0/mei-all.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<mei xmlns="http://www.music-encoding.org/ns/mei" meiversion="3.0.0" xmlns:meiler="NS:MEILER_TEST">
+  <meiHead>
+    <fileDesc>
+      <titleStmt>
+        <title/>
+      </titleStmt>
+      <pubStmt/>
+      <seriesStmt>
+        <title>MEILER test files</title>
+      </seriesStmt>
+    </fileDesc>
+    <extMeta>
+      <meiler:test system="bash" input="ly"><![CDATA[
+        #!/bin/bash
+        if ! (
+          grep -qz "ottava #1 .* g''[^']" "$ly" \
+          && grep -qz "ottava #2 .* g'''[^']" "$ly" \
+          && grep -qz "ottava #0 .* g'[^']" "$ly" \
+          && grep -qz "ottava #-1 .* g[^',]" "$ly"
+        ) then
+          echo 'Wrong order of ottavas and notes'
+          exit 1
+        fi
+        ]]>
+      </meiler:test>
+    </extMeta>
+  </meiHead>
+  <music xml:id="m-22">
+    <body xml:id="m-23">
+      <mdiv xml:id="m-24">
+        <score xml:id="m-25">
+          <scoreDef xml:id="m-26" meter.count="4" meter.unit="4">
+            <staffGrp xml:id="m-27">
+              <staffDef xml:id="m-28" clef.line="2" clef.shape="G" key.mode="major" key.sig="0" lines="5" n="1">
+              </staffDef>
+            </staffGrp>
+          </scoreDef>
+          <section xml:id="m-31">
+            <sb xml:id="m-33"/>
+            <measure xml:id="m-32" label="1" n="1">
+              <staff xml:id="m-34" n="1">
+                <layer xml:id="m-35" n="1">
+                  <beam xml:id="m-38">
+                    <note xml:id="m-37" dur="8" oct="4" pname="g" pnum="67" stem.dir="up"/>
+                    <note xml:id="m-39" dur="8" oct="4" pname="g" pnum="67" stem.dir="up"/>
+                  </beam>
+                  <chord xml:id="m-40" dur="4" stem.dir="up">
+                    <note xml:id="m-41" dur="4" oct="4" pname="g" pnum="67"/>
+                    <note xml:id="m-42" dur="4" oct="4" pname="b" pnum="71"/>
+                  </chord>
+                  <chord xml:id="m-44" dur="2" stem.dir="up">
+                    <note xml:id="m-45" dur="2" oct="4" pname="g" pnum="67"/>
+                    <note xml:id="m-46" dur="2" oct="5" pname="c" pnum="72"/>
+                  </chord>
+                </layer>
+              </staff>
+              <octave xml:id="m-36" dis="8" dis.place="above" endid="#m-40" layer="1"
+                plist="#m-37 #m-39 #m-40" staff="1" startid="#m-37" tstamp="1" tstamp2="0m+3"/>
+              <octave xml:id="m-43" dis="15" dis.place="above" endid="#m-44"
+                layer="1" plist="#m-44" staff="1" startid="#m-44" tstamp="3" tstamp2="1m+1"/>
+            </measure>
+            <measure xml:id="m-47" n="2">
+              <staff xml:id="m-48" n="1">
+                <layer xml:id="m-49" n="1">
+                  <note xml:id="m-50" dur="1" oct="4" pname="g" pnum="67"
+                    stem.dir="up"/>
+                </layer>
+              </staff>
+            </measure>
+            <measure xml:id="m-51" n="3" right="end">
+              <staff xml:id="m-52" n="1">
+                <layer xml:id="m-53" n="1">
+                  <note xml:id="m-55" dur="1" oct="4" pname="g" pnum="67"
+                    stem.dir="up"/>
+                </layer>
+              </staff>
+              <octave xml:id="m-54" dis="8" dis.place="below" endid="#m-55"
+                layer="1" plist="#m-55" staff="1" startid="#m-55" tstamp="1" tstamp2="0m+5"/>
+            </measure>
+          </section>
+        </score>
+      </mdiv>
+    </body>
+  </music>
+</mei>

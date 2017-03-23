@@ -60,6 +60,13 @@
       </xsl:otherwise>
     </xsl:choose>
   </xsl:key>
+  <!-- So far, ottava only works for <octave> elements with @plist. -->
+  <xsl:key name="ottavaByNote" match="mei:octave"
+    use="local:getPlistRefs(@plist)/descendant-or-self::mei:note/generate-id()"/>
+  <xsl:key name="notesByOttava" match="mei:note" use="key('ottavaByNote', generate-id())/generate-id()"/>
+  <!-- For the the way we encapsulate measures/layers, the first and last notes in *each layer* -->
+  <xsl:key name="ottavaByStartEvent" match="mei:octave" use="key('notesByOttava', generate-id())[1]/(parent::mei:chord, .)[1]/generate-id()"/>
+  <xsl:key name="ottavaByEndEvent" match="mei:octave" use="key('notesByOttava', generate-id())[last()]/(parent::mei:chord, .)[1]/generate-id()"/>
   <xsl:template match="/">
     <xsl:if test="not(mei:mei/@meiversion='3.0.0')">
       <xsl:message>WARNING: mei2ly.xsl is designed for MEI version 3.0.0 and may not work properly with elder versions.</xsl:message>
@@ -826,7 +833,7 @@
     </xsl:if>
     <xsl:value-of select="@pname" />
     <xsl:apply-templates mode="setAccidental" select="(mei:accid, .[not(mei:accid)])/(@accid, @accid.ges)[1]"/>
-    <xsl:call-template name="setOctave" />
+    <xsl:apply-templates mode="setOctave" select="@oct" />
     <xsl:if test="descendant-or-self::*/@accid or child::mei:accid/@func='caution'">
       <xsl:text>!</xsl:text>
     </xsl:if>
@@ -897,9 +904,7 @@
     <xsl:if test="@grace and not(preceding-sibling::mei:note[not(@grace)]) and ancestor::mei:beam and position()=last()">
       <xsl:text>}</xsl:text>
     </xsl:if>
-    <xsl:if test="ancestor::mei:mdiv[1]//mei:octave/@endid = $noteKey">
-      <xsl:value-of select="'\ottava #0 '" />
-    </xsl:if>
+    <xsl:apply-templates select="key('ottavaByEndEvent', generate-id())" mode="unset-ottava"/>
     <xsl:value-of select="' '" />
     <xsl:if test="@staff and @staff != ancestor::mei:staff/@n">
       <xsl:value-of select="concat('\change Staff = &quot;staff ',ancestor::mei:staff/@n,'&quot;&#32;')" />
@@ -989,9 +994,7 @@
     <xsl:if test="(starts-with(@tuplet,'t') or (ancestor::mei:mdiv[1]//mei:tupletSpan/@endid = $chordKey)) and not(ancestor::mei:tuplet)">
       <xsl:value-of select="' }'" />
     </xsl:if>
-    <xsl:if test="ancestor::mei:mdiv[1]//mei:octave/@endid = $chordKey">
-      <xsl:value-of select="'\ottava #0'" />
-    </xsl:if>
+    <xsl:apply-templates mode="unset-ottava" select="key('ottavaByEndEvent', generate-id())"/>
     <xsl:value-of select="' '" />
   </xsl:template>
   <!-- MEI rests -->
@@ -1023,9 +1026,7 @@
     <xsl:choose>
       <xsl:when test="@ploc and @oloc">
         <xsl:value-of select="@ploc" />
-        <xsl:call-template name="setOctave">
-          <xsl:with-param name="oct" select="@oloc - 3" />
-        </xsl:call-template>
+        <xsl:apply-templates mode="setOctave" select="@oloc"/>
         <xsl:call-template name="setDuration" />
         <xsl:value-of select="'\rest'" />
       </xsl:when>
@@ -1620,18 +1621,11 @@
       <xsl:text>\once \override Staff.OttavaBracket.thickness = #</xsl:text>
       <xsl:call-template name="setLineWidth" />
     </xsl:if>
-    <xsl:choose>
-      <xsl:when test="@dis.place = 'above'">
-        <xsl:value-of select="concat('\ottava #',round(number(@dis) div 8),' ')" />
-        <xsl:text>\unset Staff.middleCPosition </xsl:text>
-      </xsl:when>
-      <xsl:when test="@dis.place = 'below'">
-        <xsl:value-of select="concat('\ottava #-',round(number(@dis) div 8),' ')" />
-        <xsl:text>\unset Staff.middleCPosition </xsl:text>
-      </xsl:when>
-      <xsl:otherwise>
-      </xsl:otherwise>
-    </xsl:choose>
+    <xsl:variable name="octDirection" select="if (@dis.place = 'below') then -1 else 1"/>
+    <xsl:value-of select="concat('\ottava #', $octDirection * ((xs:integer(@dis) - 1) idiv 7), ' ')" />
+  </xsl:template>
+  <xsl:template mode="unset-ottava" match="mei:octave">
+    <xsl:text>\ottava #0 </xsl:text>
   </xsl:template>
   <!-- MEI phrase -->
   <xsl:template match="mei:phrase" mode="pre">
@@ -2011,10 +2005,7 @@
       <xsl:value-of select="'} '" />
     </xsl:if>
     <xsl:if test="@mm.unit and @mm">
-      <xsl:value-of select="@mm.unit" />
-      <xsl:call-template name="setDots">
-        <xsl:with-param name="dots" select="@mm.dots" />
-      </xsl:call-template>
+      <xsl:value-of select="concat(@mm.unit, @mm.dots/local:repeatString('.', .))" />
       <xsl:value-of select="concat(' = ',@mm)" />
     </xsl:if>
     <xsl:if test="@midi.bpm and not(@mm)">
@@ -2480,22 +2471,24 @@
     </xsl:choose>
   </xsl:template>
   <!-- set octave -->
-  <xsl:template name="setOctave">
-    <xsl:param name="oct" select="@oct - 3" />
-    <xsl:choose>
-      <xsl:when test="$oct &lt; 0">
-        <xsl:text>,</xsl:text>
-        <xsl:call-template name="setOctave">
-          <xsl:with-param name="oct" select="$oct + 1" />
-        </xsl:call-template>
-      </xsl:when>
-      <xsl:when test="$oct &gt; 0">
-        <xsl:text>'</xsl:text>
-        <xsl:call-template name="setOctave">
-          <xsl:with-param name="oct" select="$oct - 1" />
-        </xsl:call-template>
-      </xsl:when>
-    </xsl:choose>
+  <xsl:template mode="setOctave" name="setOctave" match="@oct|@oloc">
+    <xsl:param name="ottava" select="key('ottavaByNote', generate-id(parent::mei:note))" as="element(mei:octave)*"/>
+    <xsl:param name="oct" as="xs:integer">
+      <xsl:choose>
+        <xsl:when test="count($ottava) > 1">
+          <xsl:message select="string-join(('WARNING: Multiple octave elements', $ottava/@xml:id, 'apply to note', ../@xml:id), ' ')"/>
+        </xsl:when>
+        <xsl:when test="$ottava">
+          <xsl:variable name="octDirection" select="if ($ottava/@dis.place = 'above') then 1 else -1"/>
+          <xsl:variable name="octDisplacement" select="$octDirection * ((xs:integer($ottava/@dis) - 1) idiv 7)"/>
+          <xsl:copy-of select="xs:integer(.) - 3 + $octDisplacement"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:copy-of select="xs:integer(.) - 3" />
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:param>
+    <xsl:value-of select='local:repeatString(if ($oct > 0) then "&apos;" else ",", abs($oct))'/>
   </xsl:template>
   <!-- set stem direction / position -->
   <!-- Can't set individual stem directions for individual chord notes -->
@@ -3175,7 +3168,7 @@
       </xsl:otherwise>
     </xsl:choose>
     <xsl:call-template name="setOctave">
-      <xsl:with-param name="oct" select="floor(@trans.diat div 8) + 1" />
+      <xsl:with-param name="oct" select="@trans.diat idiv 7" />
     </xsl:call-template>
     <xsl:text>&#32;</xsl:text>
   </xsl:template>
@@ -4392,5 +4385,15 @@
     <xsl:param name="radix" as="xs:integer"/>
     <xsl:param name="exponent" as="xs:integer"/>
     <xsl:sequence select="if ($exponent le 0) then 1 else $radix * local:power($radix, $exponent - 1)"/>
+  </xsl:function>
+  <xsl:function name="local:repeatString" as="xs:string">
+    <xsl:param name="string" as="xs:string"/>
+    <xsl:param name="n" as="xs:integer"/>
+    <xsl:value-of select="if ($n > 0) then concat($string, local:repeatString($string, $n - 1)) else ''"/>
+  </xsl:function>
+  <xsl:template mode="pre" match="node()|@*"/>
+  <xsl:function name="local:getPlistRefs">
+    <xsl:param name="plist" as="attribute()"/>
+    <xsl:sequence select="for $idref in tokenize($plist, '\s+') return $plist/key('idref', $idref)"/>
   </xsl:function>
 </xsl:stylesheet>
