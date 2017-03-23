@@ -2,7 +2,7 @@
 <!--          -->
 <!--  MEILER  -->
 <!--  mei2ly  -->
-<!-- v 0.8.21 -->
+<!-- v 0.8.22 -->
 <!--          -->
 <!-- programmed by -->
 <!-- Klaus Rettinghaus -->
@@ -11,7 +11,8 @@
 <xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:saxon="http://saxon.sf.net/" xmlns:local="NS:LOCAL" exclude-result-prefixes="saxon">
   <xsl:strip-space elements="*" />
   <xsl:output method="text" indent="no" encoding="UTF-8" />
-  <xsl:param name="LilyPondVersion" select="'2.18.2'"/>
+  <xsl:param name="LilyPondVersion" select="'2.19.56'"/>
+  <xsl:param name="useSvgBackend" select="false()" as="xs:boolean"/>
   <xsl:param name="forceLayout" select="false()" as="xs:boolean"/>
   <!-- forceContinueVoices ensures that within a staff, the number of voices remains constant.
     If the number of <layer> elements changes in MEI, dummy voices are created filled with spacers.
@@ -660,10 +661,10 @@
     <xsl:param name="needsDivider" select="false()" as="xs:boolean"/>
     <xsl:param name="oneVoice" select="false()"/>
     <xsl:if test="(not($forceContinueVoices) and preceding-sibling::mei:layer) or $needsDivider">
-      <xml:text>\\ </xml:text>
+      <xsl:text>\\ </xsl:text>
     </xsl:if>
     <xsl:if test="$oneVoice">
-      <xml:text>\oneVoice </xml:text>
+      <xsl:text>\oneVoice </xsl:text>
     </xsl:if>
     <xsl:text>{ </xsl:text>
     <xsl:if test="@beam.group">
@@ -677,7 +678,7 @@
     <xsl:apply-templates select="(mei:clef, @clef.shape)[1]"/>
     <xsl:apply-templates select="(mei:keySig, @*[starts-with(name(),'key.')])[1]" />
   </xsl:template>
-  <!-- MEI clefs -->
+  <!-- MEI clef -->
   <xsl:template match="mei:clef|@clef.shape">
     <xsl:param name="clefColor" select="@color|../@clef.color" />
     <xsl:param name="clefDis" select="@dis|../@clef.dis" />
@@ -745,7 +746,7 @@
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
-  <!-- MEI notes -->
+  <!-- MEI note -->
   <xsl:template match="mei:note[@pname]">
     <xsl:variable name="noteKey" select="concat('#',./@xml:id)" />
     <xsl:apply-templates select="mei:accid|ancestor::mei:measure/descendant::*[@startid = $noteKey]" mode="pre" />
@@ -761,8 +762,9 @@
     <xsl:if test="@visible='false'">
       <xsl:text>\once \hideNotes </xsl:text>
     </xsl:if>
-    <xsl:if test="@xml:id">
-      <xsl:value-of select="concat('\tweak id #&quot;', @xml:id, '&quot; ')" />
+    <xsl:if test="$useSvgBackend">
+      <xsl:text>\tweak output-attributes #&apos;</xsl:text>
+      <xsl:call-template name="setSvgAttr" />
     </xsl:if>
     <xsl:if test="ancestor-or-self::*/@color">
       <xsl:value-of select="'\tweak color #'" />
@@ -788,12 +790,9 @@
     <xsl:if test="@stem.len">
       <xsl:value-of select="concat('\tweak Stem.length #', local:VU2LY(@stem.len) * 2, ' ')" />
     </xsl:if>
-    <xsl:if test="(starts-with(@tuplet,'i') or (ancestor::mei:measure/mei:tupletSpan[@endid]/@startid = $noteKey)) and not(ancestor::mei:tuplet)">
-      <xsl:value-of select="concat('\tuplet ',ancestor::mei:measure/mei:tupletSpan[@endid][@startid = $noteKey]/@num,'/',ancestor::mei:measure/mei:tupletSpan[@endid][@startid = $noteKey]/@numbase,' { ')" />
-    </xsl:if>
     <!-- att.noteheads -->
     <xsl:if test="@head.color">
-      <xsl:value-of select="'\tweak color #'" />
+      <xsl:text>\tweak color #</xsl:text>
       <xsl:call-template name="setColor">
         <xsl:with-param name="color" select="@head.color" />
       </xsl:call-template>
@@ -891,7 +890,7 @@
     </xsl:if>
     <!-- add control elements -->
     <xsl:apply-templates select="ancestor::mei:measure/*[@startid = $noteKey]" />
-    <xsl:if test="(starts-with(@tuplet,'t') or (ancestor::mei:mdiv[1]//mei:tupletSpan/@endid = $noteKey)) and not(ancestor::mei:tuplet)">
+    <xsl:if test="ancestor::mei:mdiv[1]//mei:tupletSpan/@endid = $noteKey">
       <xsl:value-of select="' }'" />
     </xsl:if>
     <xsl:if test="@grace and not(preceding-sibling::mei:note[not(@grace)]) and ancestor::mei:beam and position()=last()">
@@ -905,7 +904,7 @@
       <xsl:value-of select="concat('\change Staff = &quot;staff ',ancestor::mei:staff/@n,'&quot;&#32;')" />
     </xsl:if>
   </xsl:template>
-  <!-- MEI chords -->
+  <!-- MEI chord -->
   <xsl:template match="mei:chord[@copyof]">
     <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:chord[@xml:id = substring-after(current()/@copyof,'#')]" />
   </xsl:template>
@@ -919,9 +918,6 @@
     <xsl:if test="@color">
       <xsl:value-of select="'\once \override Stem.color = #'" />
       <xsl:call-template name="setColor" />
-    </xsl:if>
-    <xsl:if test="(starts-with(@tuplet,'i') or (ancestor::mei:measure/mei:tupletSpan[@endid]/@startid = $chordKey)) and not(ancestor::mei:tuplet)">
-      <xsl:value-of select="concat('\tuplet ',ancestor::mei:measure/mei:tupletSpan[@endid][@startid = $chordKey]/@num,'/',ancestor::mei:measure/mei:tupletSpan[@endid][@startid = $chordKey]/@numbase,' { ')" />
     </xsl:if>
     <xsl:text>&lt; </xsl:text>
     <xsl:apply-templates mode="setStemDir" select="." />
@@ -975,7 +971,7 @@
     </xsl:if>
     <xsl:apply-templates select="ancestor::mei:measure/mei:arpeg[not(@startid)][tokenize(@plist,' ') = $subChordKeys]" />
     <xsl:apply-templates select="ancestor::mei:measure/mei:*[@startid = $chordKey]" />
-    <xsl:if test="(starts-with(@tuplet,'t') or (ancestor::mei:mdiv[1]//mei:tupletSpan/@endid = $chordKey)) and not(ancestor::mei:tuplet)">
+    <xsl:if test="ancestor::mei:mdiv[1]//mei:tupletSpan/@endid = $chordKey">
       <xsl:value-of select="' }'" />
     </xsl:if>
     <xsl:if test="ancestor::mei:mdiv[1]//mei:octave/@endid = $chordKey">
@@ -983,23 +979,22 @@
     </xsl:if>
     <xsl:value-of select="' '" />
   </xsl:template>
-  <!-- MEI rests -->
+  <!-- MEI rest -->
   <xsl:template match="mei:rest[@copyof]">
     <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:rest[@xml:id = substring-after(current()/@copyof,'#')]" />
   </xsl:template>
   <xsl:template match="mei:rest">
     <xsl:variable name="restKey" select="concat('#',./@xml:id)" />
+    <xsl:apply-templates select="ancestor::mei:measure/mei:*[@startid = $restKey]" mode="pre" />
     <xsl:if test="@staff and @staff != ancestor::mei:staff/@n">
       <xsl:value-of select="concat('\change Staff = &quot;staff ',@staff,'&quot;&#32;')" />
     </xsl:if>
-    <xsl:if test="(starts-with(@tuplet,'i') or (ancestor::mei:measure/mei:tupletSpan/@startid = $restKey)) and not(ancestor::mei:tuplet)">
-      <xsl:value-of select="concat('\tuplet ',ancestor::mei:measure/mei:tupletSpan[@startid = $restKey]/@num,'/',ancestor::mei:measure/mei:tupletSpan[@startid = $restKey]/@numbase,' { ')" />
-    </xsl:if>
-    <xsl:if test="@xml:id">
-      <xsl:value-of select="concat('\tweak id #&quot;', @xml:id, '&quot; ')" />
+    <xsl:if test="$useSvgBackend">
+      <xsl:text>\tweak output-attributes #&apos;</xsl:text>
+      <xsl:call-template name="setSvgAttr" />
     </xsl:if>
     <xsl:if test="@color">
-      <xsl:value-of select="'\tweak color #'" />
+      <xsl:text>\tweak color #</xsl:text>
       <xsl:call-template name="setColor" />
     </xsl:if>
     <xsl:if test="@ho or @vo">
@@ -1031,7 +1026,7 @@
     <xsl:if test="@fermata and not(ancestor::mei:measure/mei:fermata/@startid = $restKey)">
       <xsl:call-template name="fermata" />
     </xsl:if>
-    <xsl:if test="starts-with(@tuplet,'t') or (ancestor::mei:mdiv[1]//mei:tupletSpan/@endid = $restKey)">
+    <xsl:if test="ancestor::mei:mdiv[1]//mei:tupletSpan/@endid = $restKey">
       <xsl:value-of select="' }'" />
     </xsl:if>
     <xsl:value-of select="' '" />
@@ -1047,11 +1042,12 @@
     <xsl:if test="@visible='false'">
       <xsl:text>\tweak transparent ##t</xsl:text>
     </xsl:if>
-    <xsl:if test="@xml:id">
-      <xsl:value-of select="concat('\tweak id #&quot;', @xml:id, '&quot; ')" />
+    <xsl:if test="$useSvgBackend">
+      <xsl:text>\tweak output-attributes #&apos;</xsl:text>
+      <xsl:call-template name="setSvgAttr" />
     </xsl:if>
     <xsl:if test="@color">
-      <xsl:value-of select="'\tweak color #'" />
+      <xsl:text>\tweak color #</xsl:text>
       <xsl:call-template name="setColor" />
     </xsl:if>
     <xsl:if test="@ho or @vo">
@@ -1146,11 +1142,12 @@
     <xsl:if test="(@func='edit' or @place='above') and not(ancestor::mei:chord) ">
       <xsl:text>\once \set suggestAccidentals = ##t </xsl:text>
     </xsl:if>
-    <xsl:if test="@xml:id">
-      <xsl:value-of select="concat('\tweak Accidental.id #&quot;', @xml:id, '&quot; ')" />
+    <xsl:if test="$useSvgBackend">
+      <xsl:text>\tweak Accidental.output-attributes #&apos;</xsl:text>
+      <xsl:call-template name="setSvgAttr" />
     </xsl:if>
     <xsl:if test="@color">
-      <xsl:value-of select="'\tweak Accidental.color #'" />
+      <xsl:text>\tweak Accidental.color #</xsl:text>
       <xsl:call-template name="setColor" />
     </xsl:if>
     <xsl:if test="@ho or @vo">
@@ -1330,6 +1327,7 @@
         <xsl:value-of select="'\once \tupletDown '" />
       </xsl:when>
     </xsl:choose>
+    <xsl:value-of select="concat('\tuplet ', @num, '/', @numbase, ' { ')" />
   </xsl:template>
   <!-- MEI articulation -->
   <xsl:template match="mei:artic[@copyof]">
@@ -1338,15 +1336,16 @@
   <xsl:template name="artic" match="mei:artic">
     <xsl:param name="articList" select="@artic" />
     <xsl:if test="self::mei:artic">
-      <xsl:if test="@xml:id">
-        <xsl:value-of select="concat('-\tweak Script.id #&quot;', @xml:id, '&quot;')" />
+      <xsl:if test="$useSvgBackend">
+        <xsl:text>-\tweak output-attributes #&apos;</xsl:text>
+        <xsl:call-template name="setSvgAttr" />
       </xsl:if>
       <xsl:if test="@color">
-        <xsl:value-of select="'-\tweak Script.color #'" />
+        <xsl:text>-\tweak color #</xsl:text>
         <xsl:call-template name="setColor" />
       </xsl:if>
       <xsl:if test="@ho or @vo">
-        <xsl:text>-\tweak Script.extra-offset #&apos;</xsl:text>
+        <xsl:text>-\tweak extra-offset #&apos;</xsl:text>
         <xsl:call-template name="setOffset" />
       </xsl:if>
       <xsl:call-template name="setMarkupDirection" />
@@ -1381,15 +1380,16 @@
   <xsl:template name="fermata" match="mei:fermata">
     <xsl:choose>
       <xsl:when test="self::mei:fermata">
-        <xsl:if test="@xml:id">
-          <xsl:value-of select="concat('-\tweak Script.id #&quot;', @xml:id, '&quot;')" />
+        <xsl:if test="$useSvgBackend">
+          <xsl:text>-\tweak output-attributes #&apos;</xsl:text>
+          <xsl:call-template name="setSvgAttr" />
         </xsl:if>
         <xsl:if test="@color">
-          <xsl:value-of select="'-\tweak Script.color #'" />
+          <xsl:text>-\tweak color #</xsl:text>
           <xsl:call-template name="setColor" />
         </xsl:if>
         <xsl:if test="@ho or @vo">
-          <xsl:text>-\tweak Script.extra-offset #&apos;</xsl:text>
+          <xsl:text>-\tweak extra-offset #&apos;</xsl:text>
           <xsl:call-template name="setOffset" />
         </xsl:if>
         <xsl:call-template name="setMarkupDirection" />
@@ -1427,15 +1427,16 @@
     <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:mordent[@xml:id = substring-after(current()/@copyof,'#')]" />
   </xsl:template>
   <xsl:template name="mordent" match="mei:mordent">
-    <xsl:if test="@xml:id">
-      <xsl:value-of select="concat('-\tweak Script.id #&quot;', @xml:id, '&quot;')" />
+    <xsl:if test="$useSvgBackend">
+      <xsl:text>-\tweak output-attributes #&apos;</xsl:text>
+      <xsl:call-template name="setSvgAttr" />
     </xsl:if>
     <xsl:if test="@color">
-      <xsl:value-of select="'-\tweak Script.color #'" />
+      <xsl:text>-\tweak color #</xsl:text>
       <xsl:call-template name="setColor" />
     </xsl:if>
     <xsl:if test="@ho or @vo">
-      <xsl:text>-\tweak Script.extra-offset #&apos;</xsl:text>
+      <xsl:text>-\tweak extra-offset #&apos;</xsl:text>
       <xsl:call-template name="setOffset" />
     </xsl:if>
     <xsl:call-template name="setMarkupDirection" />
@@ -1473,27 +1474,28 @@
     <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:trill[@xml:id = substring-after(current()/@copyof,'#')]" />
   </xsl:template>
   <xsl:template match="mei:trill[@endid][@endid != @startid]">
-    <xsl:if test="@xml:id">
-      <xsl:value-of select="concat('-\tweak TrillSpanner.id #&quot;', @xml:id, '&quot;')" />
+    <xsl:if test="$useSvgBackend">
+      <xsl:text>-\tweak output-attributes #&apos;</xsl:text>
+      <xsl:call-template name="setSvgAttr" />
     </xsl:if>
     <xsl:if test="@color">
-      <xsl:value-of select="'-\tweak TrillSpanner.color #'" />
+      <xsl:text>-\tweak color #</xsl:text>
       <xsl:call-template name="setColor" />
     </xsl:if>
     <xsl:if test="@lform">
-      <xsl:text>-\tweak TrillSpanner.style #'</xsl:text>
+      <xsl:text>-\tweak style #&apos;</xsl:text>
       <xsl:call-template name="setLineForm" />
     </xsl:if>
     <xsl:if test="@lwidth">
-      <xsl:text>-\tweak TrillSpanner.thickness #</xsl:text>
+      <xsl:text>-\tweak thickness #</xsl:text>
       <xsl:call-template name="setLineWidth" />
     </xsl:if>
     <xsl:if test="@place and @place='below'">
-      <xsl:text>-\tweak TrillSpanner.direction #</xsl:text>
+      <xsl:text>-\tweak direction #</xsl:text>
       <xsl:call-template name="setDirection" />
     </xsl:if>
     <xsl:if test="@ho or @vo">
-      <xsl:text>-\tweak TrillSpanner.extra-offset #&apos;</xsl:text>
+      <xsl:text>-\tweak extra-offset #&apos;</xsl:text>
       <xsl:call-template name="setOffset" />
     </xsl:if>
     <xsl:call-template name="setMarkupDirection" />
@@ -1503,15 +1505,16 @@
     </xsl:if>
   </xsl:template>
   <xsl:template match="mei:trill">
-    <xsl:if test="@xml:id">
-      <xsl:value-of select="concat('-\tweak Script.id #&quot;', @xml:id, '&quot;')" />
+    <xsl:if test="$useSvgBackend">
+      <xsl:text>-\tweak output-attributes #&apos;</xsl:text>
+      <xsl:call-template name="setSvgAttr" />
     </xsl:if>
     <xsl:if test="@color">
-      <xsl:value-of select="'-\tweak Script.color #'" />
+      <xsl:text>-\tweak color #</xsl:text>
       <xsl:call-template name="setColor" />
     </xsl:if>
     <xsl:if test="@ho or @vo">
-      <xsl:text>-\tweak Script.extra-offset #&apos;</xsl:text>
+      <xsl:text>-\tweak extra-offset #&apos;</xsl:text>
       <xsl:call-template name="setOffset" />
     </xsl:if>
     <xsl:call-template name="setMarkupDirection" />
@@ -1536,15 +1539,16 @@
     <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:turn[@xml:id = substring-after(current()/@copyof,'#')]" />
   </xsl:template>
   <xsl:template name="turn" match="mei:turn">
-    <xsl:if test="@xml:id">
-      <xsl:value-of select="concat('-\tweak Script.id #&quot;', @xml:id, '&quot;')" />
+    <xsl:if test="$useSvgBackend">
+      <xsl:text>-\tweak output-attributes #&apos;</xsl:text>
+      <xsl:call-template name="setSvgAttr" />
     </xsl:if>
     <xsl:if test="@color">
-      <xsl:value-of select="'-\tweak Script.color #'" />
+      <xsl:text>-\tweak color #</xsl:text>
       <xsl:call-template name="setColor" />
     </xsl:if>
     <xsl:if test="@ho or @vo">
-      <xsl:text>-\tweak Script.extra-offset #&apos;</xsl:text>
+      <xsl:text>-\tweak extra-offset #&apos;</xsl:text>
       <xsl:call-template name="setOffset" />
     </xsl:if>
     <xsl:call-template name="setMarkupDirection" />
@@ -1572,11 +1576,12 @@
     <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:breath[@xml:id = substring-after(current()/@copyof,'#')]" />
   </xsl:template>
   <xsl:template match="mei:breath">
-    <xsl:if test="@xml:id">
-      <xsl:value-of select="concat('\tweak BreathingSign.id #&quot;', @xml:id, '&quot;')" />
+    <xsl:if test="$useSvgBackend">
+      <xsl:text>-\tweak BreathingSign.output-attributes #&apos;</xsl:text>
+      <xsl:call-template name="setSvgAttr" />
     </xsl:if>
     <xsl:if test="@color">
-      <xsl:value-of select="'\tweak BreathingSign.color '" />
+      <xsl:text>\tweak BreathingSign.color #</xsl:text>
       <xsl:call-template name="setColor" />
     </xsl:if>
     <xsl:if test="@ho or @vo">
@@ -1590,8 +1595,9 @@
     <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:octave[@xml:id = substring-after(current()/@copyof,'#')]" mode="pre" />
   </xsl:template>
   <xsl:template match="mei:octave" mode="pre">
-    <xsl:if test="@xml:id">
-      <xsl:value-of select="concat('\once \override Staff.OttavaBracket.id = #&quot;', @xml:id, '&quot; ')" />
+    <xsl:if test="$useSvgBackend">
+      <xsl:text>\once \override Staff.OttavaBracket.output-attributes = #&apos;</xsl:text>
+      <xsl:call-template name="setSvgAttr" />
     </xsl:if>
     <xsl:if test="@color">
       <xsl:value-of select="'\once \override Staff.OttavaBracket.color = #'" />
@@ -1602,7 +1608,7 @@
       <xsl:call-template name="setOffset" />
     </xsl:if>
     <xsl:if test="@lform">
-      <xsl:text>\once \override Staff.OttavaBracket.style = #'</xsl:text>
+      <xsl:text>\once \override Staff.OttavaBracket.style = #&apos;</xsl:text>
       <xsl:call-template name="setLineForm" />
     </xsl:if>
     <xsl:if test="@lwidth">
@@ -1630,11 +1636,12 @@
     </xsl:if>
   </xsl:template>
   <xsl:template match="mei:phrase">
-    <xsl:if test="@xml:id">
-      <xsl:value-of select="concat('-\tweak PhrasingSlur.id #&quot;', @xml:id, '&quot; ')" />
+    <xsl:if test="$useSvgBackend">
+      <xsl:text>-\tweak PhrasingSlur.output-attributes #&apos;</xsl:text>
+      <xsl:call-template name="setSvgAttr" />
     </xsl:if>
     <xsl:if test="@color">
-      <xsl:value-of select="'-\tweak PhrasingSlur.color #'" />
+      <xsl:text>-\tweak PhrasingSlur.color #</xsl:text>
       <xsl:call-template name="setColor" />
     </xsl:if>
     <!--     <xsl:if test="(@startvo or @endvo or @startho or @endho)">
@@ -1663,8 +1670,9 @@
     </xsl:if>
   </xsl:template>
   <xsl:template match="mei:slur">
-    <xsl:if test="@xml:id">
-      <xsl:value-of select="concat('-\tweak Slur.id #&quot;', @xml:id, '&quot; ')" />
+    <xsl:if test="$useSvgBackend">
+      <xsl:text>-\tweak Slur.output-attributes #&apos;</xsl:text>
+      <xsl:call-template name="setSvgAttr" />
     </xsl:if>
     <xsl:if test="@color">
       <xsl:value-of select="'-\tweak Slur.color #'" />
@@ -1688,11 +1696,12 @@
     </xsl:if>
   </xsl:template>
   <xsl:template match="mei:tie">
-    <xsl:if test="@xml:id">
-      <xsl:value-of select="concat('-\tweak Tie.id #&quot;', @xml:id, '&quot; ')" />
+    <xsl:if test="$useSvgBackend">
+      <xsl:text>-\tweak Tie.output-attributes #&apos;</xsl:text>
+      <xsl:call-template name="setSvgAttr" />
     </xsl:if>
     <xsl:if test="@color">
-      <xsl:value-of select="'-\tweak Tie.color #'" />
+      <xsl:text>-\tweak Tie.color#</xsl:text>
       <xsl:call-template name="setColor" />
     </xsl:if>
     <xsl:if test="@lform">
@@ -1707,41 +1716,43 @@
   </xsl:template>
   <!-- MEI arpeggio -->
   <xsl:template match="mei:arpeg">
-    <xsl:if test="@xml:id">
-      <xsl:value-of select="concat('\tweak Arpeggio.id #&quot;', @xml:id, '&quot; ')" />
+    <xsl:if test="$useSvgBackend">
+      <xsl:text>-\tweak Arpeggio.output-attributes #&apos;</xsl:text>
+      <xsl:call-template name="setSvgAttr" />
     </xsl:if>
     <xsl:if test="@color">
-      <xsl:value-of select="'\tweak Arpeggio.color #'" />
+      <xsl:text>-\tweak Arpeggio.color #</xsl:text>
       <xsl:call-template name="setColor" />
     </xsl:if>
     <xsl:choose>
       <xsl:when test="@order = 'up'">
-        <xsl:text>\single \arpeggioArrowUp </xsl:text>
+        <xsl:text>-\single \arpeggioArrowUp </xsl:text>
       </xsl:when>
       <xsl:when test="@order = 'down'">
-        <xsl:text>\single \arpeggioArrowDown </xsl:text>
+        <xsl:text>-\single \arpeggioArrowDown </xsl:text>
       </xsl:when>
       <xsl:when test="@order = 'nonarp'">
-        <xsl:text>\single \arpeggioBracket </xsl:text>
+        <xsl:text>-\single \arpeggioBracket </xsl:text>
       </xsl:when>
     </xsl:choose>
     <xsl:text>\arpeggio</xsl:text>
   </xsl:template>
   <!-- MEI glissando -->
   <xsl:template match="mei:gliss">
-    <xsl:if test="@xml:id">
-      <xsl:value-of select="concat('-\tweak Glissando.id #&quot;', @xml:id, '&quot;')" />
+    <xsl:if test="$useSvgBackend">
+      <xsl:text>-\tweak output-attributes #&apos;</xsl:text>
+      <xsl:call-template name="setSvgAttr" />
     </xsl:if>
     <xsl:if test="@color">
-      <xsl:value-of select="'-\tweak Glissando.color #'" />
+      <xsl:value-of select="'-\tweak color #'" />
       <xsl:call-template name="setColor" />
     </xsl:if>
     <xsl:if test="@lform">
-      <xsl:text>-\tweak Glissando.style #'</xsl:text>
+      <xsl:text>-\tweak style #&apos;</xsl:text>
       <xsl:call-template name="setLineForm" />
     </xsl:if>
     <xsl:if test="@lwidth">
-      <xsl:text>-\tweak Glissando.thickness #</xsl:text>
+      <xsl:text>-\tweak thickness #</xsl:text>
       <xsl:call-template name="setLineWidth" />
     </xsl:if>
     <xsl:text>\glissando</xsl:text>
@@ -1749,8 +1760,9 @@
   <!-- MEI dynamic -->
   <xsl:template match="mei:dynam" mode="pre" />
   <xsl:template match="mei:dynam">
-    <xsl:if test="@xml:id">
-      <xsl:value-of select="concat('-\tweak DynamicText.id #&quot;', @xml:id, '&quot;')" />
+    <xsl:if test="$useSvgBackend">
+      <xsl:text>-\tweak DynamicText.output-attributes #&apos;</xsl:text>
+      <xsl:call-template name="setSvgAttr" />
     </xsl:if>
     <xsl:if test="@ho or @vo">
       <xsl:text>-\tweak DynamicText.extra-offset #&apos;</xsl:text>
@@ -1761,15 +1773,16 @@
   </xsl:template>
   <!-- MEI hairpin -->
   <xsl:template match="mei:hairpin">
-    <xsl:if test="@xml:id">
-      <xsl:value-of select="concat('-\tweak Hairpin.id #&quot;', @xml:id, '&quot;')" />
+    <xsl:if test="$useSvgBackend">
+      <xsl:text>-\tweak Hairpin.output-attributes #&apos;</xsl:text>
+      <xsl:call-template name="setSvgAttr" />
     </xsl:if>
     <xsl:if test="@color">
       <xsl:value-of select="'-\tweak Hairpin.color #'" />
       <xsl:call-template name="setColor" />
     </xsl:if>
     <xsl:if test="@lform">
-      <xsl:text>-\tweak Hairpin.style #'</xsl:text>
+      <xsl:text>-\tweak Hairpin.style #&apos;</xsl:text>
       <xsl:call-template name="setLineForm" />
     </xsl:if>
     <xsl:if test="@lwidth">
@@ -1788,23 +1801,6 @@
   </xsl:template>
   <!-- MEI pedal -->
   <xsl:template match="mei:pedal" mode="pre">
-    <xsl:if test="@xml:id">
-      <xsl:value-of select="concat('\once \override SustainPedal.id = #&quot;', @xml:id, '&quot;')" />
-    </xsl:if>
-    <xsl:if test="@color">
-      <xsl:value-of select="'\once \override Staff.SustainPedal.color = #'" />
-      <xsl:call-template name="setColor" />
-      <xsl:value-of select="'\once \override Staff.PianoPedalBracket.color = #'" />
-      <xsl:call-template name="setColor" />
-    </xsl:if>
-    <xsl:if test="@lform">
-      <xsl:text>\once \override Staff.PianoPedalBracket.style = #'</xsl:text>
-      <xsl:call-template name="setLineForm" />
-    </xsl:if>
-    <xsl:if test="@lwidth">
-      <xsl:text>\once \override Staff.PianoPedalBracket.thickness = #</xsl:text>
-      <xsl:call-template name="setLineWidth" />
-    </xsl:if>
     <xsl:choose>
       <xsl:when test="@form = 'line'">
         <xsl:text>\once \set Staff.pedalSustainStyle = #'bracket </xsl:text>
@@ -1815,6 +1811,22 @@
     </xsl:choose>
   </xsl:template>
   <xsl:template match="mei:pedal">
+    <xsl:if test="$useSvgBackend">
+      <xsl:text>-\tweak output-attributes #&apos;</xsl:text>
+      <xsl:call-template name="setSvgAttr" />
+    </xsl:if>
+    <xsl:if test="@color">
+      <xsl:text>-\tweak color #</xsl:text>
+      <xsl:call-template name="setColor" />
+    </xsl:if>
+    <xsl:if test="@lform">
+      <xsl:text>-\tweak style #&apos;</xsl:text>
+      <xsl:call-template name="setLineForm" />
+    </xsl:if>
+    <xsl:if test="@lwidth">
+      <xsl:text>-\tweak thickness #&apos;</xsl:text>
+      <xsl:call-template name="setLineWidth" />
+    </xsl:if>
     <xsl:choose>
       <xsl:when test="@dir = 'down'">
         <xsl:text>\sustainOn</xsl:text>
@@ -1912,8 +1924,9 @@
   </xsl:template>
   <xsl:template match="mei:fing" mode="pre" />
   <xsl:template match="mei:fing">
-    <xsl:if test="@xml:id">
-      <xsl:value-of select="concat('-\tweak Fingering.id #&quot;', @xml:id, '&quot; ')" />
+    <xsl:if test="$useSvgBackend">
+      <xsl:text>-\tweak Fingering.output-attributes #&apos;</xsl:text>
+      <xsl:call-template name="setSvgAttr" />
     </xsl:if>
     <xsl:if test="@ho or @vo">
       <xsl:text>-\tweak Fingering.extra-offset #&apos;</xsl:text>
@@ -1979,8 +1992,9 @@
   </xsl:template>
   <xsl:template match="mei:tempo" mode="pre">
     <xsl:variable name="tempoString" select="string(.)" />
-    <xsl:if test="@xml:id">
-      <xsl:value-of select="concat('\once \override Score.MetronomeMark.id = #&quot;', @xml:id, '&quot; ')" />
+    <xsl:if test="$useSvgBackend">
+      <xsl:text>\once \override Score.MetronomeMark.output-attributes = #&apos;</xsl:text>
+      <xsl:call-template name="setSvgAttr" />
     </xsl:if>
     <xsl:if test="@place = 'below'">
       <xsl:value-of select="'\once \override Score.MetronomeMark.direction = #DOWN '" />
@@ -2015,8 +2029,9 @@
   <!-- MEI directive -->
   <xsl:template match="mei:dir" mode="pre" />
   <xsl:template match="mei:dir">
-    <xsl:if test="@xml:id">
-      <xsl:value-of select="concat('-\tweak TextScript.id #&quot;', @xml:id, '&quot; ')" />
+    <xsl:if test="$useSvgBackend">
+      <xsl:text>-\tweak TextScript.output-attributes #&apos;</xsl:text>
+      <xsl:call-template name="setSvgAttr" />
     </xsl:if>
     <xsl:if test="@ho or @vo">
       <xsl:text>-\tweak TextScript.extra-offset #&apos;</xsl:text>
@@ -2065,11 +2080,12 @@
   </xsl:template>
   <!-- MEI reh -->
   <xsl:template match="mei:reh">
-    <xsl:if test="@xml:id">
-      <xsl:value-of select="concat('\tweak RehearsalMark.id #&quot;', @xml:id, '&quot; ')" />
+    <xsl:if test="$useSvgBackend">
+      <xsl:text>\tweak RehearsalMark.output-attributes #&apos;</xsl:text>
+      <xsl:call-template name="setSvgAttr" />
     </xsl:if>
     <xsl:if test="@color">
-      <xsl:value-of select="'\tweak RehearsalMark.color #'" />
+      <xsl:text>\tweak RehearsalMark.color #</xsl:text>
       <xsl:call-template name="setColor" />
     </xsl:if>
     <xsl:if test="@ho or @vo">
@@ -2229,8 +2245,9 @@
     <xsl:param name="meterCount" select="@count" />
     <xsl:param name="meterUnit" select="@unit" />
     <xsl:param name="meterRend" select="@form" />
-    <xsl:if test="@xml:id">
-      <xsl:value-of select="concat('\tweak TimeSignature.id #&quot;', @xml:id, '&quot; ')" />
+    <xsl:if test="$useSvgBackend">
+      <xsl:text>\tweak TimeSignature.output-attributes #&apos;</xsl:text>
+      <xsl:call-template name="setSvgAttr" />
     </xsl:if>
     <xsl:if test="@fontfam">
       <xsl:text>\tweak TimeSignature.font-family #&apos;</xsl:text>
@@ -2277,7 +2294,7 @@
         </xsl:choose>
       </xsl:when>
       <xsl:when test="contains($meterCount,'+')">
-        <xsl:text>\compoundMeter #'</xsl:text>
+        <xsl:text>\compoundMeter #&apos;</xsl:text>
         <xsl:value-of select="concat('(',translate($meterCount,'+',' '),' ',$meterUnit,') ')" />
       </xsl:when>
       <xsl:otherwise>
@@ -2290,8 +2307,9 @@
   </xsl:template>
   <!-- MEI meter signature group -->
   <xsl:template name="meterSigGrp" match="mei:meterSigGrp">
-    <xsl:if test="@xml:id">
-      <xsl:value-of select="concat('\tweak TimeSignature.id #&quot;', @xml:id, '&quot; ')" />
+    <xsl:if test="$useSvgBackend">
+      <xsl:text>\tweak TimeSignature.output-attributes #&apos;</xsl:text>
+      <xsl:call-template name="setSvgAttr" />
     </xsl:if>
     <xsl:choose>
       <xsl:when test="@func = 'alternating'">
@@ -2352,8 +2370,9 @@
   </xsl:template>
   <!-- MEI syllable -->
   <xsl:template match="mei:syl">
-    <xsl:if test="@xml:id">
-      <xsl:value-of select="concat('\tweak id #&quot;', @xml:id, '&quot; ')" />
+    <xsl:if test="$useSvgBackend">
+      <xsl:text>\tweak output-attributes #&apos;</xsl:text>
+      <xsl:call-template name="setSvgAttr" />
     </xsl:if>
     <xsl:if test="child::mei:rend or contains(text(),' ')">
       <xsl:text>\markup{</xsl:text>
@@ -2457,14 +2476,14 @@
     <xsl:param name="tagList" select="@source" />
     <xsl:choose>
       <xsl:when test="contains($tagList,' ')">
-        <xsl:text>\tag #'</xsl:text>
+        <xsl:text>\tag #&apos;</xsl:text>
         <xsl:value-of select="concat(substring-after(substring-before($tagList,' '),'#'),' ')" />
         <xsl:call-template name="tag">
           <xsl:with-param name="tagList" select="substring-after($tagList,' ')" />
         </xsl:call-template>
       </xsl:when>
       <xsl:when test="string($tagList)">
-        <xsl:text>\tag #'</xsl:text>
+        <xsl:text>\tag #&apos;</xsl:text>
         <xsl:value-of select="concat(substring-after($tagList,'#'),' ')" />
       </xsl:when>
       <xsl:otherwise/>
@@ -2983,7 +3002,7 @@
   </xsl:template>
   <!-- set SVG attributes -->
   <xsl:template name="setSvgAttr">
-    <xsl:text>\tweak output-attributes #&apos;(</xsl:text>
+    <xsl:text>(</xsl:text>
     <xsl:value-of select="concat('(class . ', local-name(), ')')" />
     <xsl:if test="@xml:id">
       <xsl:value-of select="concat(' (id . ', @xml:id, ')')" />
@@ -4334,11 +4353,11 @@
       <xsl:otherwise>
         <!-- If a voice with the current voice number is not encoded in this measure, we create a dummy voice. -->
         <xsl:if test="$needsDivider">
-          <xml:text>\\ </xml:text>
+          <xsl:text>\\ </xsl:text>
         </xsl:if>
-        <xml:text>{ #(make-music 'SkipEvent 'duration (ly:make-duration 0 0 </xml:text>
+        <xsl:text>{ #(make-music 'SkipEvent 'duration (ly:make-duration 0 0 </xsl:text>
         <xsl:value-of select="$measureDurFraction"/>
-        <xml:text>)) } </xml:text>
+        <xsl:text>)) } </xsl:text>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
