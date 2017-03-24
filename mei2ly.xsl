@@ -1922,6 +1922,7 @@
   <xsl:template match="mei:fing[@copyof]">
     <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:fing[@xml:id = substring-after(current()/@copyof,'#')]" />
   </xsl:template>
+  <xsl:template match="mei:fing" mode="pre" />
   <xsl:template match="mei:fing">
     <xsl:if test="$useSvgBackend">
       <xsl:text>-\tweak output-attributes #&apos;</xsl:text>
