@@ -14,7 +14,7 @@
     </fileDesc>
     <extMeta>
       <meiler:test system="bash" input="lystderr">
-        <meiler:param name="forceContinueVoices" value="yes"/>
+        <meiler:param name="forceContinueVoices" value="true"/>
         if grep 'unterminated' "$lystderr"
         then
             echo "Unterminated spanners" 
