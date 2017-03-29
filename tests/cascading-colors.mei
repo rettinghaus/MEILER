@@ -26,7 +26,7 @@
             <measure n="1">
               <staff n="1">
                 <layer n="1">
-                  <chord xml:id="chord" dur="8" color="blue">
+                  <chord xml:id="chord" dur="8" color="blue" artic="stacc">
                     <note xml:id="first-note" pname="d" oct="4" accid="f"/>
                     <note xml:id="second-note" pname="f" oct="4" color="green"/>
                     <note xml:id="third-note" pname="g" oct="4" color="red">
@@ -35,6 +35,7 @@
                     <note xml:id="forth-note" pname="c" oct="5" color="fuchsia">
                       <accid xml:id="accid-uncolord" accid="s"/>
                     </note>
+                    <artic xml:id="artic-colord" color="gray" artic="marc" place="above"/>
                   </chord>
                 </layer>
               </staff>
