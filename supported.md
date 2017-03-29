@@ -35,15 +35,18 @@ List of supported MEI elements and attributes
 
 * `<beam>`
   * `@color`
+  * `@xml:id`
 
 * `<beamSpan>`
   * `@color`
+  * `@xml:id`
 
 * `<bTrem>`
   * `@measperf`
   * `@num`
   * `@num.place`
   * `@num.visible`
+  * `@xml:id`
 
 * `<change>`
 
@@ -116,6 +119,7 @@ List of supported MEI elements and attributes
 
 * `<fTrem>`
   * __`@measperf`__
+  * `@xml:id`
 
 * `<gliss>`
   * `@color`
@@ -215,6 +219,7 @@ List of supported MEI elements and attributes
   * `@block`
   * `@loc`
   * __`@num`__
+  * `@xml:id`
 
 * `<music>`
 

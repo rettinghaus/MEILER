@@ -2,7 +2,7 @@
 <!--          -->
 <!--  MEILER  -->
 <!--  mei2ly  -->
-<!-- v 0.8.22 -->
+<!-- v 0.8.23 -->
 <!--          -->
 <!-- programmed by -->
 <!-- Klaus Rettinghaus -->
@@ -1087,6 +1087,10 @@
   <!-- MEI multiple rest -->
   <xsl:template match="mei:multiRest[@num]">
     <xsl:text>\once \compressFullBarRests </xsl:text>
+    <xsl:if test="$useSvgBackend">
+      <xsl:text>\tweak MultiMeasureRest.output-attributes #&apos;</xsl:text>
+      <xsl:call-template name="setSvgAttr" />
+    </xsl:if>
     <xsl:if test="@block = 'true'">
       <xsl:value-of select="'\tweak expand-limit #1 '" />
     </xsl:if>
@@ -1211,8 +1215,12 @@
     <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:beam[@xml:id = substring-after(current()/@copyof,'#')]" />
   </xsl:template>
   <xsl:template match="mei:beam">
+    <xsl:if test="$useSvgBackend">
+      <xsl:text>\once \override Beam.output-attributes = #&apos;</xsl:text>
+      <xsl:call-template name="setSvgAttr" />
+    </xsl:if>
     <xsl:if test="@color">
-      <xsl:value-of select="'\once \override Beam.color = #'" />
+      <xsl:text>\once \override Beam.color = #</xsl:text>
       <xsl:call-template name="setColor" />
     </xsl:if>
     <xsl:choose>
@@ -1227,13 +1235,21 @@
   </xsl:template>
   <!-- MEI beam span-->
   <xsl:template match="mei:beamSpan" mode="pre">
+    <xsl:if test="$useSvgBackend">
+      <xsl:text>\once \override Beam.output-attributes = #&apos;</xsl:text>
+      <xsl:call-template name="setSvgAttr" />
+    </xsl:if>
     <xsl:if test="@color">
-      <xsl:value-of select="'\once \override Beam.color = #'" />
+      <xsl:text>\once \override Beam.color = #</xsl:text>
       <xsl:call-template name="setColor" />
     </xsl:if>
   </xsl:template>
   <!-- MEI bowed tremolo -->
   <xsl:template match="mei:bTrem">
+    <xsl:if test="$useSvgBackend">
+      <xsl:text>\once \override StemTremolo.output-attributes = #&apos;</xsl:text>
+      <xsl:call-template name="setSvgAttr" />
+    </xsl:if>
     <xsl:if test="@num">
       <xsl:if test="@num.visible='false'">
         <xsl:value-of select="'\once \omit TupletNumber '" />
@@ -1253,6 +1269,10 @@
   </xsl:template>
   <!-- MEI fingered tremolo -->
   <xsl:template match="mei:fTrem">
+    <xsl:if test="$useSvgBackend">
+      <xsl:text>\once \override Beam.output-attributes = #&apos;</xsl:text>
+      <xsl:call-template name="setSvgAttr" />
+    </xsl:if>
     <xsl:if test="@beams.float">
       <xsl:value-of select="concat('\once \override Beam.gap-count = #', @beams.float, ' ')" />
     </xsl:if>
@@ -1335,14 +1355,14 @@
   </xsl:template>
   <xsl:template name="artic" match="mei:artic">
     <xsl:param name="articList" select="@artic" />
+    <xsl:if test="ancestor-or-self::*/@color">
+      <xsl:text>-\tweak color #</xsl:text>
+      <xsl:call-template name="setColor" />
+    </xsl:if>
     <xsl:if test="self::mei:artic">
       <xsl:if test="$useSvgBackend">
         <xsl:text>-\tweak output-attributes #&apos;</xsl:text>
         <xsl:call-template name="setSvgAttr" />
-      </xsl:if>
-      <xsl:if test="@color">
-        <xsl:text>-\tweak color #</xsl:text>
-        <xsl:call-template name="setColor" />
       </xsl:if>
       <xsl:if test="@ho or @vo">
         <xsl:text>-\tweak extra-offset #&apos;</xsl:text>
