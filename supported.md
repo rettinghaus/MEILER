@@ -16,9 +16,12 @@ List of supported MEI elements and attributes
 * `<app>`
 
 * `<arpeg>`
+  * `@arrow`
   * `@color`
+  * `@ho`
   * `@order`
   * `@plist`
+  * `@vo`
   * `@startid`
   * `@xml:id`
 
@@ -123,9 +126,11 @@ List of supported MEI elements and attributes
 
 * `<gliss>`
   * `@color`
+  * `@ho`
   * `@lform`
   * `@lwidth`
   * __`@startid`__
+  * `@vo`
   * `@xml:id`
 
 * `<group>`
@@ -274,9 +279,11 @@ List of supported MEI elements and attributes
   * `@dir`
   * __`@endid`__
   * `@form` (for values 'line' and 'pedstar')
+  * `@ho`
   * `@lform`
   * `@lwidth`
   * __`@startid`__
+  * `@vo`
   * `@xml:id`
 
 * `<phrase>`
