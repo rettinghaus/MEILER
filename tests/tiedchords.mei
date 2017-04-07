@@ -53,6 +53,7 @@
               <tie xml:id="tie-1" startid="#note-c1" endid="#note-c2" lform="dashed" lwidth="narrow"/>
               <tie xml:id="tie-2" startid="#note-e1" endid="#note-e2" lform="solid" lwidth="medium"/>
               <tie xml:id="tie-3" startid="#note-g1" endid="#note-g2" lform="dotted" lwidth="wide"/>
+              <!-- tie elements can be used on chords, but will result in a non-valid SVG -->
               <tie xml:id="tie-4" startid="#chord-3" endid="#chord-4" lform="dotted"/>
               <tie xml:id="tie-5" startid="#note-a1" endid="#note-a2" lform="dashed"/>
             </measure>
