@@ -2,7 +2,7 @@
 <!--          -->
 <!--  MEILER  -->
 <!--  mei2ly  -->
-<!-- v 0.8.24 -->
+<!-- v 0.8.25 -->
 <!--          -->
 <!-- programmed by -->
 <!-- Klaus Rettinghaus -->
@@ -199,150 +199,152 @@
     <xsl:if test="@label">
       <xsl:value-of select="concat('% Division ',@n,' &quot;',@label,'&quot;&#10;&#10;')" />
     </xsl:if>
-    <!-- extracting musical content from staves -->
-    <xsl:for-each select="descendant::mei:scoreDef[1]/descendant::mei:staffDef">
-      <xsl:variable name="staffNumber" select="@n" />
-      <xsl:variable name="layerNsInStaff" select="$layerNs//*:staff[@n=$staffNumber]/*:layer/@n"/>
-      <xsl:value-of select="concat('mdiv',local:number2alpha($mdivNumber),'_staff',local:number2alpha($staffNumber),' = {&#10;')" />
-      <xsl:for-each select="ancestor::mei:mdiv[1]//mei:staff[@n=$staffNumber]">
-        <xsl:variable name="currentMeasure" select="generate-id(ancestor::mei:measure)" />
-        <xsl:text>&#32;&#32;</xsl:text>
-        <!-- print rehearsal mark -->
-        <xsl:apply-templates select="ancestor::mei:measure/mei:reh"/>
-        <!-- add volta brackets -->
-        <xsl:if test="ancestor::mei:ending and not(ancestor::mei:measure/preceding-sibling::mei:measure)">
-          <xsl:text>\set Score.repeatCommands = #'((volta "</xsl:text>
-          <xsl:value-of select="concat(ancestor::mei:ending/@n[1],'.')" />
-          <xsl:text>"))&#10;&#32;&#32;</xsl:text>
-        </xsl:if>
-        <xsl:if test="ancestor::mei:measure/preceding-sibling::mei:scoreDef/preceding::mei:measure[1]/@n = ancestor::mei:measure/preceding::mei:measure[1]/@n">
-          <xsl:if test="preceding::mei:scoreDef[1]/@meter.showchange">
-            <xsl:variable name="showchangeVal" select="substring(preceding::mei:scoreDef[1]/@meter.showchange,1,1)" />
-            <xsl:text>\override Staff.TimeSignature.break-visibility = #'#</xsl:text>
-            <xsl:value-of select="concat('(#',$showchangeVal,' #',$showchangeVal,' #',$showchangeVal,')&#10;&#32;&#32;')" />
-          </xsl:if>
-        </xsl:if>
-        <!-- set bar number -->
-        <xsl:if test="(ancestor::mei:measure[@n and not(@metcon='false')]/@n != preceding::mei:measure[@n and not(@metcon='false')][1]/@n + 1)">
-          <xsl:call-template name="setBarNumber" />
-        </xsl:if>
-        <!-- add clef change -->
-        <xsl:apply-templates select="(key('staffDefByFirstAffectedElement', generate-id())/(@clef.shape, mei:clef))[last()]"/>
-        <!-- add key signature change -->
-        <xsl:if test="generate-id(ancestor::mei:measure/preceding-sibling::*[@*[starts-with(name(),'key')]][1]/following-sibling::mei:measure[1]) = $currentMeasure">
-          <xsl:call-template name="setKey">
-            <xsl:with-param name="keyTonic" select="ancestor::mei:measure/preceding-sibling::*[@*[starts-with(name(),'key')]][1]/@key.pname" />
-            <xsl:with-param name="keyAccid" select="ancestor::mei:measure/preceding-sibling::*[@*[starts-with(name(),'key')]][1]/@key.accid" />
-            <xsl:with-param name="keyMode" select="ancestor::mei:measure/preceding-sibling::*[@*[starts-with(name(),'key')]][1]/@key.mode" />
-            <xsl:with-param name="keySig" select="ancestor::mei:measure/preceding-sibling::*[@*[starts-with(name(),'key')]][1]/@key.sig" />
-            <xsl:with-param name="keySigMixed" select="ancestor::mei:measure/preceding-sibling::*[@*[starts-with(name(),'key')]][1]/@key.sig.mixed" />
-          </xsl:call-template>
+    <xsl:if test="child::mei:score">
+      <!-- extracting musical content from staves -->
+      <xsl:for-each select="descendant::mei:scoreDef[1]/descendant::mei:staffDef">
+        <xsl:variable name="staffNumber" select="@n" />
+        <xsl:variable name="layerNsInStaff" select="$layerNs//*:staff[@n=$staffNumber]/*:layer/@n"/>
+        <xsl:value-of select="concat('mdiv',local:number2alpha($mdivNumber),'_staff',local:number2alpha($staffNumber),' = {&#10;')" />
+        <xsl:for-each select="ancestor::mei:mdiv[1]//mei:staff[@n=$staffNumber]">
+          <xsl:variable name="currentMeasure" select="generate-id(ancestor::mei:measure)" />
           <xsl:text>&#32;&#32;</xsl:text>
-        </xsl:if>
-        <!-- add time signature change -->
-        <xsl:if test="generate-id(ancestor::mei:measure/preceding-sibling::*[@*[starts-with(name(),'meter')]][1]/following-sibling::mei:measure[1]) = $currentMeasure">
-          <xsl:call-template name="meterSig">
-            <xsl:with-param name="meterSymbol" select="preceding::*[@meter.sym][1]/@meter.sym" />
-            <xsl:with-param name="meterCount" select="preceding::*[@meter.count][1]/@meter.count" />
-            <xsl:with-param name="meterUnit" select="preceding::*[@meter.unit][1]/@meter.unit" />
-            <xsl:with-param name="meterRend" select="preceding::*[@meter.rend][1]/@meter.rend" />
-          </xsl:call-template>
-          <xsl:text>&#10;&#32;&#32;</xsl:text>
-        </xsl:if>
-        <!-- change default distances -->
-        <xsl:if test="generate-id(ancestor::mei:measure/preceding-sibling::*[contains(local-name(),'Def')][@*[contains(name(),'.dist')]][1]/following-sibling::mei:measure[1]) = $currentMeasure">
-          <xsl:apply-templates select="ancestor::mei:measure/preceding-sibling::*[contains(local-name(),'Def')][1]/@*[contains(name(),'.dist')]"/>
-        </xsl:if>
-        <xsl:if test="generate-id(preceding::mei:meterSig[1]/following::mei:measure[1]) = $currentMeasure">
+          <!-- print rehearsal mark -->
+          <xsl:apply-templates select="ancestor::mei:measure/mei:reh"/>
+          <!-- add volta brackets -->
+          <xsl:if test="ancestor::mei:ending and not(ancestor::mei:measure/preceding-sibling::mei:measure)">
+            <xsl:text>\set Score.repeatCommands = #'((volta "</xsl:text>
+            <xsl:value-of select="concat(ancestor::mei:ending/@n[1],'.')" />
+            <xsl:text>"))&#10;&#32;&#32;</xsl:text>
+          </xsl:if>
+          <xsl:if test="ancestor::mei:measure/preceding-sibling::mei:scoreDef/preceding::mei:measure[1]/@n = ancestor::mei:measure/preceding::mei:measure[1]/@n">
+            <xsl:if test="preceding::mei:scoreDef[1]/@meter.showchange">
+              <xsl:variable name="showchangeVal" select="substring(preceding::mei:scoreDef[1]/@meter.showchange,1,1)" />
+              <xsl:text>\override Staff.TimeSignature.break-visibility = #'#</xsl:text>
+              <xsl:value-of select="concat('(#',$showchangeVal,' #',$showchangeVal,' #',$showchangeVal,')&#10;&#32;&#32;')" />
+            </xsl:if>
+          </xsl:if>
+          <!-- set bar number -->
+          <xsl:if test="(ancestor::mei:measure[@n and not(@metcon='false')]/@n != preceding::mei:measure[@n and not(@metcon='false')][1]/@n + 1)">
+            <xsl:call-template name="setBarNumber" />
+          </xsl:if>
+          <!-- add clef change -->
+          <xsl:apply-templates select="(key('staffDefByFirstAffectedElement', generate-id())/(@clef.shape, mei:clef))[last()]"/>
+          <!-- add key signature change -->
+          <xsl:if test="generate-id(ancestor::mei:measure/preceding-sibling::*[@*[starts-with(name(),'key')]][1]/following-sibling::mei:measure[1]) = $currentMeasure">
+            <xsl:call-template name="setKey">
+              <xsl:with-param name="keyTonic" select="ancestor::mei:measure/preceding-sibling::*[@*[starts-with(name(),'key')]][1]/@key.pname" />
+              <xsl:with-param name="keyAccid" select="ancestor::mei:measure/preceding-sibling::*[@*[starts-with(name(),'key')]][1]/@key.accid" />
+              <xsl:with-param name="keyMode" select="ancestor::mei:measure/preceding-sibling::*[@*[starts-with(name(),'key')]][1]/@key.mode" />
+              <xsl:with-param name="keySig" select="ancestor::mei:measure/preceding-sibling::*[@*[starts-with(name(),'key')]][1]/@key.sig" />
+              <xsl:with-param name="keySigMixed" select="ancestor::mei:measure/preceding-sibling::*[@*[starts-with(name(),'key')]][1]/@key.sig.mixed" />
+            </xsl:call-template>
+            <xsl:text>&#32;&#32;</xsl:text>
+          </xsl:if>
+          <!-- add time signature change -->
+          <xsl:if test="generate-id(ancestor::mei:measure/preceding-sibling::*[@*[starts-with(name(),'meter')]][1]/following-sibling::mei:measure[1]) = $currentMeasure">
+            <xsl:call-template name="meterSig">
+              <xsl:with-param name="meterSymbol" select="preceding::*[@meter.sym][1]/@meter.sym" />
+              <xsl:with-param name="meterCount" select="preceding::*[@meter.count][1]/@meter.count" />
+              <xsl:with-param name="meterUnit" select="preceding::*[@meter.unit][1]/@meter.unit" />
+              <xsl:with-param name="meterRend" select="preceding::*[@meter.rend][1]/@meter.rend" />
+            </xsl:call-template>
+            <xsl:text>&#10;&#32;&#32;</xsl:text>
+          </xsl:if>
+          <!-- change default distances -->
+          <xsl:if test="generate-id(ancestor::mei:measure/preceding-sibling::*[contains(local-name(),'Def')][@*[contains(name(),'.dist')]][1]/following-sibling::mei:measure[1]) = $currentMeasure">
+            <xsl:apply-templates select="ancestor::mei:measure/preceding-sibling::*[contains(local-name(),'Def')][1]/@*[contains(name(),'.dist')]"/>
+          </xsl:if>
+          <xsl:if test="generate-id(preceding::mei:meterSig[1]/following::mei:measure[1]) = $currentMeasure">
+            <xsl:choose>
+              <xsl:when test="ancestor::mei:measure/preceding::mei:meterSig[1]/parent::mei:meterSigGrp">
+                <xsl:apply-templates select="ancestor::mei:measure/preceding::mei:meterSigGrp[1]" />
+              </xsl:when>
+              <xsl:otherwise>
+                <xsl:apply-templates select="ancestor::mei:measure/preceding::mei:meterSig[1]" />
+              </xsl:otherwise>
+            </xsl:choose>
+            <xsl:text>&#10;&#32;&#32;</xsl:text>
+          </xsl:if>
+          <!-- print bar line -->
+          <xsl:if test="ancestor::mei:measure/@left">
+            <xsl:call-template name="barLine">
+              <xsl:with-param name="barLineStyle" select="ancestor::mei:measure/@left" />
+            </xsl:call-template>
+          </xsl:if>
+          <xsl:apply-templates select="ancestor::mei:measure/mei:tempo[@copyof or contains(concat(' ',@staff,' '),concat(' ',$staffNumber,' '))][@tstamp='1']" mode="pre" />
+          <xsl:if test="ancestor::mei:measure/@metcon='false'">
+            <xsl:apply-templates select="descendant::mei:layer[1]" mode="setPartial"/>
+          </xsl:if>
+          <xsl:text>&lt;&lt;&#32;</xsl:text>
           <xsl:choose>
-            <xsl:when test="ancestor::mei:measure/preceding::mei:meterSig[1]/parent::mei:meterSigGrp">
-              <xsl:apply-templates select="ancestor::mei:measure/preceding::mei:meterSigGrp[1]" />
+            <xsl:when test="@copyof">
+              <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:staff[@xml:id = substring-after(current()/@copyof,'#')]" />
+            </xsl:when>
+            <xsl:when test="$forceContinueVoices">
+              <!-- We make sure that each measure in a staff has the same number of voices. -->
+              <xsl:variable name="staff" select="."/>
+              <xsl:variable name="measureDurFraction">
+                <xsl:apply-templates select=".[$forceContinueVoices]/descendant::mei:layer[1]" mode="getDurFraction"/>
+              </xsl:variable>
+              <xsl:for-each select="$layerNsInStaff">
+                <xsl:apply-templates select="$staff" mode="createContinuousVoices">
+                  <xsl:with-param name="layerN" select="current()"/>
+                  <xsl:with-param name="measureDurFraction" select="$measureDurFraction"/>
+                  <xsl:with-param name="needsDivider" select="position() > 1"/>
+                  <xsl:with-param name="oneVoice" select="count($staff/mei:layer) = 1"></xsl:with-param>
+                </xsl:apply-templates>
+              </xsl:for-each>
             </xsl:when>
             <xsl:otherwise>
-              <xsl:apply-templates select="ancestor::mei:measure/preceding::mei:meterSig[1]" />
+              <xsl:apply-templates/>
             </xsl:otherwise>
           </xsl:choose>
-          <xsl:text>&#10;&#32;&#32;</xsl:text>
-        </xsl:if>
-        <!-- print bar line -->
-        <xsl:if test="ancestor::mei:measure/@left">
-          <xsl:call-template name="barLine">
-            <xsl:with-param name="barLineStyle" select="ancestor::mei:measure/@left" />
-          </xsl:call-template>
-        </xsl:if>
-        <xsl:apply-templates select="ancestor::mei:measure/mei:tempo[@copyof or contains(concat(' ',@staff,' '),concat(' ',$staffNumber,' '))][@tstamp='1']" mode="pre" />
-        <xsl:if test="ancestor::mei:measure/@metcon='false'">
-          <xsl:apply-templates select="descendant::mei:layer[1]" mode="setPartial"/>
-        </xsl:if>
-        <xsl:text>&lt;&lt;&#32;</xsl:text>
-        <xsl:choose>
-          <xsl:when test="@copyof">
-            <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:staff[@xml:id = substring-after(current()/@copyof,'#')]" />
-          </xsl:when>
-          <xsl:when test="$forceContinueVoices">
-            <!-- We make sure that each measure in a staff has the same number of voices. -->
-            <xsl:variable name="staff" select="."/>
-            <xsl:variable name="measureDurFraction">
-              <xsl:apply-templates select=".[$forceContinueVoices]/descendant::mei:layer[1]" mode="getDurFraction"/>
-            </xsl:variable>
-            <xsl:for-each select="$layerNsInStaff">
-              <xsl:apply-templates select="$staff" mode="createContinuousVoices">
-                <xsl:with-param name="layerN" select="current()"/>
-                <xsl:with-param name="measureDurFraction" select="$measureDurFraction"/>
-                <xsl:with-param name="needsDivider" select="position() > 1"/>
-                <xsl:with-param name="oneVoice" select="count($staff/mei:layer) = 1"></xsl:with-param>
-              </xsl:apply-templates>
-            </xsl:for-each>
-          </xsl:when>
-          <xsl:otherwise>
-            <xsl:apply-templates/>
-          </xsl:otherwise>
-        </xsl:choose>
-        <xsl:text>&gt;&gt;&#32;</xsl:text>
-        <!-- print bar line -->
-        <xsl:if test="ancestor::mei:measure/@right">
-          <xsl:call-template name="barLine">
-            <xsl:with-param name="barLineStyle" select="ancestor::mei:measure/@right" />
-          </xsl:call-template>
-        </xsl:if>
-        <!-- print bar number -->
-        <xsl:if test="ancestor::mei:measure/@n">
-          <xsl:value-of select="concat('%',ancestor::mei:measure/@n,'&#10;')" />
-        </xsl:if>
-        <!-- close volta brackets -->
-        <xsl:if test="ancestor::mei:ending and not(ancestor::mei:ending/following-sibling::*[1][self::mei:ending])">
-          <xsl:text>&#32;&#32;\set Score.repeatCommands = #'((volta #f))&#10;</xsl:text>
-        </xsl:if>
-        <!-- add breaks -->
-        <xsl:variable name="followingBreaks" select="key('breaksByPrecedingMeasure', ancestor::mei:measure[1]/generate-id())"/>
-        <xsl:apply-templates select="$followingBreaks"/>
-        <xsl:if test="$forceLayout and not($followingBreaks)">
-          <xsl:text>  { \noBreak }&#10;</xsl:text>
-        </xsl:if>
-      </xsl:for-each>
-      <xsl:text>}&#10;&#10;</xsl:text>
-      <!-- lilypond figured bass -->
-      <xsl:if test="ancestor::mei:mdiv[1]//mei:harm[descendant-or-self::*/@staff=$staffNumber]">
-        <xsl:value-of select="concat('mdiv',local:number2alpha($mdivNumber),'_staff',local:number2alpha($staffNumber),'_harm = \figuremode {&#10;')" />
-        <xsl:text>&#32;&#32;\set Staff.figuredBassAlterationDirection = #RIGHT&#10;</xsl:text>
-        <xsl:for-each select="ancestor::mei:mdiv[1]//mei:measure">
-          <xsl:text>&#32;&#32;</xsl:text>
-          <xsl:if test="not(descendant::mei:harm[@staff=$staffNumber])">
-            <xsl:call-template name="setMeasureSpace" />
+          <xsl:text>&gt;&gt;&#32;</xsl:text>
+          <!-- print bar line -->
+          <xsl:if test="ancestor::mei:measure/@right">
+            <xsl:call-template name="barLine">
+              <xsl:with-param name="barLineStyle" select="ancestor::mei:measure/@right" />
+            </xsl:call-template>
           </xsl:if>
-          <xsl:apply-templates select="mei:harm[@staff=$staffNumber]" />
-          <xsl:value-of select="concat('%',@n,'&#10;')" />
+          <!-- print bar number -->
+          <xsl:if test="ancestor::mei:measure/@n">
+            <xsl:value-of select="concat('%',ancestor::mei:measure/@n,'&#10;')" />
+          </xsl:if>
+          <!-- close volta brackets -->
+          <xsl:if test="ancestor::mei:ending and not(ancestor::mei:ending/following-sibling::*[1][self::mei:ending])">
+            <xsl:text>&#32;&#32;\set Score.repeatCommands = #'((volta #f))&#10;</xsl:text>
+          </xsl:if>
+          <!-- add breaks -->
+          <xsl:variable name="followingBreaks" select="key('breaksByPrecedingMeasure', ancestor::mei:measure[1]/generate-id())"/>
+          <xsl:apply-templates select="$followingBreaks"/>
+          <xsl:if test="$forceLayout and not($followingBreaks)">
+            <xsl:text>  { \noBreak }&#10;</xsl:text>
+          </xsl:if>
         </xsl:for-each>
         <xsl:text>}&#10;&#10;</xsl:text>
-      </xsl:if>
-      <!-- lilypond lyrics -->
-      <xsl:if test="ancestor::mei:mdiv[1]//mei:staff[@n=$staffNumber]//mei:syl">
-        <xsl:call-template name="buildLyrics">
-          <xsl:with-param name="staffNumber" select="$staffNumber"/>
-        </xsl:call-template>
-      </xsl:if>
-    </xsl:for-each>
-    <xsl:text>&#10;</xsl:text>
+        <!-- lilypond figured bass -->
+        <xsl:if test="ancestor::mei:mdiv[1]//mei:harm[descendant-or-self::*/@staff=$staffNumber]">
+          <xsl:value-of select="concat('mdiv',local:number2alpha($mdivNumber),'_staff',local:number2alpha($staffNumber),'_harm = \figuremode {&#10;')" />
+          <xsl:text>&#32;&#32;\set Staff.figuredBassAlterationDirection = #RIGHT&#10;</xsl:text>
+          <xsl:for-each select="ancestor::mei:mdiv[1]//mei:measure">
+            <xsl:text>&#32;&#32;</xsl:text>
+            <xsl:if test="not(descendant::mei:harm[@staff=$staffNumber])">
+              <xsl:call-template name="setMeasureSpace" />
+            </xsl:if>
+            <xsl:apply-templates select="mei:harm[@staff=$staffNumber]" />
+            <xsl:value-of select="concat('%',@n,'&#10;')" />
+          </xsl:for-each>
+          <xsl:text>}&#10;&#10;</xsl:text>
+        </xsl:if>
+        <!-- lilypond lyrics -->
+        <xsl:if test="ancestor::mei:mdiv[1]//mei:staff[@n=$staffNumber]//mei:syl">
+          <xsl:call-template name="buildLyrics">
+            <xsl:with-param name="staffNumber" select="$staffNumber"/>
+          </xsl:call-template>
+        </xsl:if>
+      </xsl:for-each>
+      <xsl:text>&#10;</xsl:text>
+    </xsl:if>
     <xsl:apply-templates/>
   </xsl:template>
   <!-- MEI music -->
@@ -920,7 +922,7 @@
       <xsl:text>}</xsl:text>
     </xsl:if>
     <xsl:if test="ancestor::mei:mdiv[1]//mei:octave/@endid = $noteKey">
-      <xsl:value-of select="'\ottava #0 '" />
+      <xsl:value-of select="'\unset Staff.ottavation '" />
     </xsl:if>
     <xsl:value-of select="' '" />
     <xsl:if test="@staff and @staff != ancestor::mei:staff/@n">
@@ -1008,7 +1010,7 @@
       <xsl:value-of select="' }'" />
     </xsl:if>
     <xsl:if test="ancestor::mei:mdiv[1]//mei:octave/@endid = $chordKey">
-      <xsl:value-of select="'\ottava #0'" />
+      <xsl:value-of select="'\unset Staff.ottavation'" />
     </xsl:if>
     <xsl:value-of select="' '" />
   </xsl:template>
@@ -1626,6 +1628,7 @@
     <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:octave[@xml:id = substring-after(current()/@copyof,'#')]" mode="pre" />
   </xsl:template>
   <xsl:template match="mei:octave" mode="pre">
+    <xsl:value-of select="concat('\set Staff.ottavation = #&quot;', @dis, '&quot; ')"/>
     <xsl:if test="$useSvgBackend">
       <xsl:text>\once \override Staff.OttavaBracket.output-attributes = #&apos;</xsl:text>
       <xsl:call-template name="setSvgAttr" />
@@ -1646,18 +1649,9 @@
       <xsl:text>\once \override Staff.OttavaBracket.thickness = #</xsl:text>
       <xsl:call-template name="setLineWidth" />
     </xsl:if>
-    <xsl:choose>
-      <xsl:when test="@dis.place = 'above'">
-        <xsl:value-of select="concat('\ottava #',round(number(@dis) div 8),' ')" />
-        <xsl:text>\unset Staff.middleCPosition </xsl:text>
-      </xsl:when>
-      <xsl:when test="@dis.place = 'below'">
-        <xsl:value-of select="concat('\ottava #-',round(number(@dis) div 8),' ')" />
-        <xsl:text>\unset Staff.middleCPosition </xsl:text>
-      </xsl:when>
-      <xsl:otherwise>
-      </xsl:otherwise>
-    </xsl:choose>
+    <xsl:if test="@dis.place = 'below'">
+      <xsl:text>\once \override Staff.OttavaBracket.direction = #DOWN </xsl:text>
+    </xsl:if>
   </xsl:template>
   <!-- MEI phrase -->
   <xsl:template match="mei:phrase" mode="pre">
