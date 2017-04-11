@@ -921,7 +921,7 @@
     <xsl:if test="@grace and not(preceding-sibling::mei:note[not(@grace)]) and ancestor::mei:beam and position()=last()">
       <xsl:text>}</xsl:text>
     </xsl:if>
-    <xsl:if test="ancestor::mei:mdiv[1]//mei:octave/@endid = $noteKey">
+    <xsl:if test="ancestor::mei:mdiv[1]//mei:octave[@endid = $noteKey]">
       <xsl:value-of select="'\unset Staff.ottavation '" />
     </xsl:if>
     <xsl:value-of select="' '" />
@@ -1009,7 +1009,7 @@
     <xsl:if test="ancestor::mei:mdiv[1]//mei:tupletSpan/@endid = $chordKey">
       <xsl:value-of select="' }'" />
     </xsl:if>
-    <xsl:if test="ancestor::mei:mdiv[1]//mei:octave/@endid = $chordKey">
+    <xsl:if test="ancestor::mei:mdiv[1]//mei:octave[@endid = $chordKey]">
       <xsl:value-of select="'\unset Staff.ottavation'" />
     </xsl:if>
     <xsl:value-of select="' '" />
