@@ -20,6 +20,7 @@
     a tie continues on a different layer nubmer than it started.
   -->
   <xsl:param name="forceContinueVoices" select="false()" as="xs:boolean"/>
+  <xsl:param name="checkReferences" select="false()" as="xs:boolean"/>
   <xsl:key name="lyrics-by-staff-number" match="mei:syl|@syl" use="ancestor::mei:staff[1]/@n"/>
   <xsl:key name="id" match="*" use="@xml:id"/>
   <xsl:key name="idref" match="*[@xml:id]" use="concat('#', @xml:id)"/>
@@ -65,8 +66,10 @@
     <xsl:if test="not(mei:mei/@meiversion='3.0.0')">
       <xsl:message>WARNING: mei2ly.xsl is designed for MEI version 3.0.0 and may not work properly with elder versions.</xsl:message>
     </xsl:if>
-    <xsl:if test="//@endid[not(starts-with(.,'#'))] or //@startid[not(starts-with(.,'#'))] ">
-      <xsl:message>WARNING: There are references not pointing anywhere!</xsl:message>
+    <xsl:if test="$checkReferences">
+      <xsl:if test="//@endid[not(starts-with(.,'#'))] or //@startid[not(starts-with(.,'#'))] ">
+        <xsl:message>WARNING: There are references not pointing anywhere!</xsl:message>
+      </xsl:if>
     </xsl:if>
     <xsl:value-of select="concat('\version &quot;', $LilyPondVersion,'&quot;&#10;')"/>
     <xsl:text>% automatically converted by mei2ly.xsl&#10;&#10;</xsl:text>
@@ -191,6 +194,23 @@
   <!-- MEI group -->
   <xsl:template match="mei:group">
     <xsl:apply-templates/>
+  </xsl:template>
+  <!-- MEI layer -->
+  <xsl:template match="mei:layer">
+    <xsl:param name="needsDivider" select="false()" as="xs:boolean"/>
+    <xsl:param name="oneVoice" select="false()"/>
+    <xsl:if test="(not($forceContinueVoices) and preceding-sibling::mei:layer) or $needsDivider">
+      <xsl:text>\\ </xsl:text>
+    </xsl:if>
+    <xsl:if test="$oneVoice">
+      <xsl:text>\oneVoice </xsl:text>
+    </xsl:if>
+    <xsl:text>{ </xsl:text>
+    <xsl:if test="@beam.group">
+      <xsl:call-template name="setBeaming" />
+    </xsl:if>
+    <xsl:apply-templates/>
+    <xsl:text>} </xsl:text>
   </xsl:template>
   <!-- MEI musical division -->
   <xsl:template match="mei:mdiv">
@@ -671,23 +691,6 @@
     </xsl:if>
     <xsl:text>&#10;</xsl:text>
   </xsl:template>
-  <!-- MEI layers -->
-  <xsl:template match="mei:layer">
-    <xsl:param name="needsDivider" select="false()" as="xs:boolean"/>
-    <xsl:param name="oneVoice" select="false()"/>
-    <xsl:if test="(not($forceContinueVoices) and preceding-sibling::mei:layer) or $needsDivider">
-      <xsl:text>\\ </xsl:text>
-    </xsl:if>
-    <xsl:if test="$oneVoice">
-      <xsl:text>\oneVoice </xsl:text>
-    </xsl:if>
-    <xsl:text>{ </xsl:text>
-    <xsl:if test="@beam.group">
-      <xsl:call-template name="setBeaming" />
-    </xsl:if>
-    <xsl:apply-templates/>
-    <xsl:text>} </xsl:text>
-  </xsl:template>
   <!-- MEI staffDef (inside musical flow) -->
   <xsl:template match="mei:staffDef[ancestor::mei:layer]">
     <xsl:apply-templates select="(mei:clef, @clef.shape)[1]"/>
@@ -764,7 +767,7 @@
   <!-- MEI note -->
   <xsl:template match="mei:note[@pname]">
     <xsl:variable name="noteKey" select="concat('#',./@xml:id)" />
-    <xsl:apply-templates select="mei:accid|ancestor::mei:measure/descendant::*[@startid = $noteKey]" mode="pre" />
+    <xsl:apply-templates select="mei:accid|ancestor::mei:measure/*[@startid = $noteKey]" mode="pre" />
     <xsl:if test="@staff and @staff != ancestor::mei:staff/@n">
       <xsl:value-of select="concat('\change Staff = &quot;staff ',@staff,'&quot;&#32;')" />
     </xsl:if>
@@ -872,7 +875,7 @@
       <xsl:text>~</xsl:text>
     </xsl:if>
     <xsl:apply-templates mode="addBeamMarkup" select="."/>
-    <xsl:for-each select="ancestor::mei:mdiv[1]//*[@endid = $noteKey]">
+    <xsl:for-each select="ancestor::mei:mdiv[1]//mei:measure/*[@endid = $noteKey]">
       <xsl:choose>
         <xsl:when test="self::mei:dynam or self::mei:hairpin">
           <xsl:text>\!</xsl:text>
@@ -915,13 +918,13 @@
     </xsl:if>
     <!-- add control elements -->
     <xsl:apply-templates select="ancestor::mei:measure/*[@startid = $noteKey]" />
-    <xsl:if test="ancestor::mei:mdiv[1]//mei:tupletSpan/@endid = $noteKey">
+    <xsl:if test="ancestor::mei:mdiv[1]//mei:measure/mei:tupletSpan[@endid = $noteKey]">
       <xsl:value-of select="' }'" />
     </xsl:if>
     <xsl:if test="@grace and not(preceding-sibling::mei:note[not(@grace)]) and ancestor::mei:beam and position()=last()">
       <xsl:text>}</xsl:text>
     </xsl:if>
-    <xsl:if test="ancestor::mei:mdiv[1]//mei:octave[@endid = $noteKey]">
+    <xsl:if test="ancestor::mei:mdiv[1]//mei:measure/mei:octave[@endid = $noteKey]">
       <xsl:value-of select="'\unset Staff.ottavation '" />
     </xsl:if>
     <xsl:value-of select="' '" />
@@ -936,7 +939,7 @@
   <xsl:template match="mei:chord">
     <xsl:variable name="chordKey" select="concat('#',./@xml:id)" />
     <xsl:variable name="subChordKeys" select="descendant-or-self::*/concat('#',./@xml:id)" />
-    <xsl:apply-templates select="ancestor::mei:measure/descendant::*[@startid = $chordKey or tokenize(@plist,' ') = $subChordKeys]" mode="pre" />
+    <xsl:apply-templates select="ancestor::mei:measure/*[@startid = $chordKey or tokenize(@plist,' ') = $subChordKeys]" mode="pre" />
     <xsl:if test="@visible='false'">
       <xsl:text>\once \hideNotes </xsl:text>
     </xsl:if>
@@ -966,7 +969,7 @@
       <xsl:text>~</xsl:text>
     </xsl:if>
     <xsl:apply-templates mode="addBeamMarkup" select="."/>
-    <xsl:for-each select="ancestor::mei:mdiv[1]//*[@endid = $chordKey]">
+    <xsl:for-each select="ancestor::mei:mdiv[1]//mei:measure/*[@endid = $chordKey]">
       <xsl:choose>
         <xsl:when test="self::mei:dynam or self::mei:hairpin">
           <xsl:text>\!</xsl:text>
@@ -1006,10 +1009,10 @@
     </xsl:if>
     <xsl:apply-templates select="ancestor::mei:measure/mei:arpeg[not(@startid)][tokenize(@plist,' ') = $subChordKeys]" />
     <xsl:apply-templates select="ancestor::mei:measure/mei:*[@startid = $chordKey]" />
-    <xsl:if test="ancestor::mei:mdiv[1]//mei:tupletSpan/@endid = $chordKey">
+    <xsl:if test="ancestor::mei:mdiv[1]//mei:measure/mei:tupletSpan[@endid = $chordKey]">
       <xsl:value-of select="' }'" />
     </xsl:if>
-    <xsl:if test="ancestor::mei:mdiv[1]//mei:octave[@endid = $chordKey]">
+    <xsl:if test="ancestor::mei:mdiv[1]//mei:measure/mei:octave[@endid = $chordKey]">
       <xsl:value-of select="'\unset Staff.ottavation'" />
     </xsl:if>
     <xsl:value-of select="' '" />
@@ -1054,14 +1057,14 @@
       </xsl:otherwise>
     </xsl:choose>
     <xsl:apply-templates mode="addBeamMarkup" select="."/>
-    <xsl:if test="ancestor::mei:mdiv[1]//mei:hairpin/@endid = $restKey or ancestor::mei:mdiv[1]//mei:dynam/@endid = $restKey">
+    <xsl:if test="ancestor::mei:mdiv[1]//mei:measure/mei:hairpin/@endid = $restKey or ancestor::mei:mdiv[1]//mei:measure/mei:dynam/@endid = $restKey">
       <xsl:text>\!</xsl:text>
     </xsl:if>
     <xsl:apply-templates select="ancestor::mei:measure/mei:*[@startid = $restKey]" />
     <xsl:if test="@fermata and not(ancestor::mei:measure/mei:fermata/@startid = $restKey)">
       <xsl:call-template name="fermata" />
     </xsl:if>
-    <xsl:if test="ancestor::mei:mdiv[1]//mei:tupletSpan/@endid = $restKey">
+    <xsl:if test="ancestor::mei:mdiv[1]//mei:measure/mei:tupletSpan[@endid = $restKey]">
       <xsl:value-of select="' }'" />
     </xsl:if>
     <xsl:value-of select="' '" />
@@ -1625,7 +1628,7 @@
   </xsl:template>
   <!-- MEI octave -->
   <xsl:template match="mei:octave[@copyof]" mode="pre">
-    <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:octave[@xml:id = substring-after(current()/@copyof,'#')]" mode="pre" />
+    <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:measure/mei:octave[@xml:id = substring-after(current()/@copyof,'#')]" mode="pre" />
   </xsl:template>
   <xsl:template match="mei:octave" mode="pre">
     <xsl:value-of select="concat('\set Staff.ottavation = #&quot;', @dis, '&quot; ')"/>
@@ -2351,12 +2354,13 @@
         <xsl:text>\compoundMeter #&apos;</xsl:text>
         <xsl:value-of select="concat('(',translate($meterCount,'+',' '),' ',$meterUnit,') ')" />
       </xsl:when>
-      <xsl:otherwise>
+      <xsl:when test="meterUnit">
         <xsl:if test="($meterCount = $meterUnit) and not($meterSymbol)">
           <xsl:text>\tweak TimeSignature.style #'numbered </xsl:text>
         </xsl:if>
         <xsl:value-of select="concat('\time ',$meterCount,'/',$meterUnit,' ')" />
-      </xsl:otherwise>
+      </xsl:when>
+      <xsl:otherwise/>
     </xsl:choose>
   </xsl:template>
   <!-- MEI meter signature group -->
