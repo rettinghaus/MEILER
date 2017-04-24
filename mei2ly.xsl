@@ -799,6 +799,10 @@
         <xsl:value-of select="'\tweak Stem.color #'" />
         <xsl:call-template name="setColor" />
       </xsl:if>
+      <xsl:if test="@dots">
+        <xsl:text>\tweak Dots.color #</xsl:text>
+        <xsl:call-template name="setColor" />
+      </xsl:if>
     </xsl:if>
     <xsl:if test="@ho">
       <xsl:text>\tweak extra-offset #&apos;</xsl:text>
@@ -1038,10 +1042,18 @@
     <xsl:if test="@color">
       <xsl:text>\tweak color #</xsl:text>
       <xsl:call-template name="setColor" />
+      <xsl:if test="@dots">
+        <xsl:text>\tweak Dots.color #</xsl:text>
+        <xsl:call-template name="setColor" />
+      </xsl:if>
     </xsl:if>
     <xsl:if test="@ho or @vo">
       <xsl:text>\tweak extra-offset #&apos;</xsl:text>
       <xsl:call-template name="setOffset" />
+      <xsl:if test="@dots">
+        <xsl:text>\tweak Dots.extra-offset #&apos;</xsl:text>
+        <xsl:call-template name="setOffset" />
+      </xsl:if>
     </xsl:if>
     <xsl:if test="@loc">
       <xsl:value-of select="concat('\tweak staff-position #',@loc - 4,' ')" />
