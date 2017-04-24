@@ -738,6 +738,10 @@
         </xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
+    <xsl:if test="$useSvgBackend">
+      <!-- no IDs -->
+      <xsl:text>\override Staff.Clef.output-attributes = #&apos;((class . clef)) </xsl:text>
+    </xsl:if>
     <xsl:if test="$clefColor">
       <xsl:if test="self::mei:clef">
         <xsl:value-of select="'\once '" />
@@ -2233,6 +2237,10 @@
     <xsl:param name="keyMode" select="(@mode|ancestor-or-self::*/@key.mode)[1]" />
     <xsl:param name="keySig" select="(@sig|ancestor-or-self::*/@key.sig)[1]" />
     <xsl:param name="keySigMixed" select="(@sig.mixed|ancestor-or-self::*/@key.sig.mixed)[1]" />
+    <xsl:if test="$useSvgBackend">
+      <!-- no IDs -->
+      <xsl:text>\tweak output-attributes #&apos;((class . keySig)) </xsl:text>
+    </xsl:if>
     <xsl:choose>
       <xsl:when test="$keyTonic and $keyMode">
         <xsl:value-of select="concat('\key ',$keyTonic)" />
@@ -2302,9 +2310,9 @@
     <xsl:param name="meterCount" select="@count" />
     <xsl:param name="meterUnit" select="@unit" />
     <xsl:param name="meterRend" select="@form" />
-    <xsl:if test="$useSvgBackend != $useSvgBackend">
-      <xsl:text>\tweak TimeSignature.output-attributes #&apos;</xsl:text>
-      <xsl:call-template name="setSvgAttr" />
+    <xsl:if test="$useSvgBackend">
+      <!-- no IDs -->
+      <xsl:text>\tweak TimeSignature.output-attributes #&apos;((class . meterSig)) </xsl:text>
     </xsl:if>
     <xsl:if test="@fontfam">
       <xsl:text>\tweak TimeSignature.font-family #&apos;</xsl:text>
@@ -2354,7 +2362,7 @@
         <xsl:text>\compoundMeter #&apos;</xsl:text>
         <xsl:value-of select="concat('(',translate($meterCount,'+',' '),' ',$meterUnit,') ')" />
       </xsl:when>
-      <xsl:when test="meterUnit">
+      <xsl:when test="$meterUnit">
         <xsl:if test="($meterCount = $meterUnit) and not($meterSymbol)">
           <xsl:text>\tweak TimeSignature.style #'numbered </xsl:text>
         </xsl:if>
