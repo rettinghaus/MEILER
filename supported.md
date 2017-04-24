@@ -61,6 +61,7 @@ List of supported MEI elements and attributes
   * `@artic`
   * `@beam`
   * `@copyof`
+  * `@dots`
   * `@dur`
   * `@fermata`
   * `@grace`
@@ -218,6 +219,7 @@ List of supported MEI elements and attributes
   * `@xml:id`
 
 * `<mSpace>`
+  * `@dots`
   * `@dur`
 
 * `<multiRest>`
@@ -233,6 +235,7 @@ List of supported MEI elements and attributes
   * `@accid.ges`
   * `@artic`
   * `@beam`
+  * `@dots`
   * `@dur`
   * `@fermata`
   * `@gliss`
@@ -337,6 +340,7 @@ List of supported MEI elements and attributes
   * `@beam`
   * `@color`
   * `@copyof`
+  * `@dots`
   * `@dur`
   * `@fermata`
   * `@loc`
