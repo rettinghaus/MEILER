@@ -19,7 +19,7 @@
     This is useful when getting "unterminated tie" warnings, but does not cover cases where in MEI,
     a tie continues on a different layer nubmer than it started.
   -->
-  <xsl:param name="forceContinueVoices" select="false()" as="xs:boolean"/>
+  <xsl:param name="forceContinueVoices" select="true()" as="xs:boolean"/>
   <xsl:param name="checkReferences" select="false()" as="xs:boolean"/>
   <xsl:key name="lyrics-by-staff-number" match="mei:syl|@syl" use="ancestor::mei:staff[1]/@n"/>
   <xsl:key name="id" match="*" use="@xml:id"/>
@@ -799,7 +799,7 @@
         <xsl:value-of select="'\tweak Stem.color #'" />
         <xsl:call-template name="setColor" />
       </xsl:if>
-      <xsl:if test="@dots">
+      <xsl:if test="ancestor-or-self::*/@dots">
         <xsl:text>\tweak Dots.color #</xsl:text>
         <xsl:call-template name="setColor" />
       </xsl:if>
