@@ -149,7 +149,9 @@
             <measure right="single">
               <staff n="1">
                 <layer n="1">
-                  <note xml:id="f77n1" dur="4" oct="4" pname="e" accid="f"/>
+                  <note xml:id="f77n1" dur="4" oct="4" pname="e">
+                    <accid accid="f"/>
+                  </note>
                 </layer>
               </staff>
               <dir startid="#f77n1">
