@@ -2,7 +2,7 @@
 <!--          -->
 <!--  MEILER  -->
 <!--  mei2ly  -->
-<!-- v 0.8.26 -->
+<!-- v 0.8.28 -->
 <!--          -->
 <!-- programmed by -->
 <!-- Klaus Rettinghaus -->
@@ -11,7 +11,7 @@
 <xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:saxon="http://saxon.sf.net/" xmlns:local="NS:LOCAL" exclude-result-prefixes="saxon">
   <xsl:strip-space elements="*" />
   <xsl:output method="text" indent="no" encoding="UTF-8" />
-  <xsl:param name="LilyPondVersion" select="'2.19.56'"/>
+  <xsl:param name="LilyPondVersion" select="'2.19.58'"/>
   <xsl:param name="useSvgBackend" select="false()" as="xs:boolean"/>
   <xsl:param name="forceLayout" select="false()" as="xs:boolean"/>
   <!-- forceContinueVoices ensures that within a staff, the number of voices remains constant.
@@ -134,22 +134,22 @@
       <xsl:value-of select="concat('  editor = \markup { ',normalize-space(mei:respStmt/mei:persName[@role='editor'][1]),' }&#10;')" />
     </xsl:if>
     <xsl:if test="mei:publisher">
-      <xsl:text> publisher = \markup { </xsl:text>
+      <xsl:text>  publisher = \markup { </xsl:text>
       <xsl:apply-templates select="mei:publisher" />
       <xsl:text>&#32;}&#10;</xsl:text>
     </xsl:if>
     <xsl:if test="mei:pubPlace">
-      <xsl:text> place = \markup { </xsl:text>
+      <xsl:text>  place = \markup { </xsl:text>
       <xsl:apply-templates select="mei:pubPlace[1]" />
       <xsl:text>&#32;}&#10;</xsl:text>
     </xsl:if>
     <xsl:if test="mei:date">
-      <xsl:text> date = \markup { </xsl:text>
+      <xsl:text>  date = \markup { </xsl:text>
       <xsl:apply-templates select="mei:date[1]" />
       <xsl:text>&#32;}&#10;</xsl:text>
     </xsl:if>
     <!-- filling standard lilypond header -->
-    <xsl:text> copyright = \markup { </xsl:text>
+    <xsl:text>  copyright = \markup { </xsl:text>
     <xsl:text>©&#32;</xsl:text>
     <xsl:apply-templates select="mei:respStmt" />
     <xsl:text>,&#32;</xsl:text>
@@ -157,7 +157,7 @@
     <xsl:text>&#32;</xsl:text>
     <xsl:apply-templates select="mei:date" />
     <xsl:text>&#32;}&#10;</xsl:text>
-    <xsl:text> tagline = "automatically converted from MEI with mei2ly.xsl and engraved with Lilypond"&#10;</xsl:text>
+    <xsl:text>  tagline = "automatically converted from MEI with mei2ly.xsl and engraved with Lilypond"&#10;</xsl:text>
   </xsl:template>
   <!-- MEI work description -->
   <xsl:template match="mei:workDesc">
@@ -338,9 +338,6 @@
           <!-- add breaks -->
           <xsl:variable name="followingBreaks" select="key('breaksByPrecedingMeasure', ancestor::mei:measure[1]/generate-id())"/>
           <xsl:apply-templates select="$followingBreaks"/>
-          <xsl:if test="$forceLayout and not($followingBreaks)">
-            <xsl:text>  { \noBreak }&#10;</xsl:text>
-          </xsl:if>
         </xsl:for-each>
         <xsl:text>}&#10;&#10;</xsl:text>
         <!-- lilypond figured bass -->
@@ -410,7 +407,10 @@
     <xsl:if test="contains(@vu.height,'pt')">
       <xsl:value-of select="concat('  #(layout-set-staff-size ',8 * number(substring-before(@vu.height,'pt')),')&#10;')" />
     </xsl:if>
-    <xsl:if test="@barplace or @clef.color or @mnum.visible or @multi.number">
+    <xsl:if test="$forceLayout">
+      <xsl:text> \context { \Score \override NonMusicalPaperColumn.line-break-permission = ##f \override NonMusicalPaperColumn.page-break-permission = ##f }&#10;</xsl:text>
+    </xsl:if>
+    <xsl:if test="@barplace or @clef.color or @multi.number">
       <xsl:text> \context { \Score </xsl:text>
       <xsl:if test="@barplace = 'takt'">
         <xsl:text>defaultBarType = #"'" </xsl:text>
@@ -419,9 +419,6 @@
         <!-- att.multinummeasures -->
         <xsl:value-of select="concat('countPercentRepeats = ##',substring(@multi.number,1,1),' ')" />
       </xsl:if>
-      <xsl:if test="@mnum.visible = 'false'">
-        <xsl:text>\remove "Bar_number_engraver" </xsl:text>
-      </xsl:if>
       <xsl:if test="@clef.color">
         <xsl:text>\override Clef.color = #</xsl:text>
         <xsl:call-template name="setColor">
@@ -429,6 +426,10 @@
         </xsl:call-template>
       </xsl:if>
       <xsl:text>}&#10;</xsl:text>
+    </xsl:if>
+    <xsl:if test="@mnum.visible = 'false'">
+      <!-- att.measurenumbers -->
+      <xsl:text> \context { \Score \remove "Bar_number_engraver" }&#10;</xsl:text>
     </xsl:if>
     <xsl:if test="@*[starts-with(name(),'lyric')]">
       <xsl:text> \context { \Score </xsl:text>
@@ -452,6 +453,7 @@
       <xsl:text>}&#10;</xsl:text>
     </xsl:if>
     <xsl:if test="@*[starts-with(name(),'spacing')]">
+      <!-- att.spacing -->
       <xsl:text> \context { \Score </xsl:text>
       <xsl:if test="@spacing.staff">
         <xsl:text>\override StaffGrouper.staff-staff-spacing.minimum-distance = #</xsl:text>
@@ -2427,11 +2429,7 @@
   <xsl:template match="mei:sb">
     <xsl:text>&#32;&#32;</xsl:text>
     <xsl:call-template name="tag" />
-    <xsl:text>{ \break</xsl:text>
-    <xsl:if test="count(key('breaksByPrecedingMeasure', preceding::mei:measure[1]/generate-id())/self::mei:pb) = 0">
-      <xsl:text> \noPageBreak</xsl:text>
-    </xsl:if>
-    <xsl:text> }</xsl:text>
+    <xsl:text>{ \break }</xsl:text>
     <xsl:if test="@n">
       <xsl:value-of select="concat(' %',@n)" />
     </xsl:if>
@@ -2465,7 +2463,7 @@
   </xsl:template>
   <!-- MEI syllable -->
   <xsl:template match="mei:syl">
-    <xsl:if test="$useSvgBackend">
+    <xsl:if test="$useSvgBackend and position()=1">
       <xsl:text>\tweak output-attributes #&apos;</xsl:text>
       <xsl:call-template name="setSvgAttr" />
     </xsl:if>
