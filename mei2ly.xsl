@@ -2,7 +2,7 @@
 <!--          -->
 <!--  MEILER  -->
 <!--  mei2ly  -->
-<!-- v 0.8.25 -->
+<!-- v 0.8.26 -->
 <!--          -->
 <!-- programmed by -->
 <!-- Klaus Rettinghaus -->
@@ -24,6 +24,7 @@
   <xsl:key name="lyrics-by-staff-number" match="mei:syl|@syl" use="ancestor::mei:staff[1]/@n"/>
   <xsl:key name="id" match="*" use="@xml:id"/>
   <xsl:key name="idref" match="*[@xml:id]" use="concat('#', @xml:id)"/>
+  <xsl:key name="spannerEnd" match="mei:*[@endid]" use="@endid"/>
   <xsl:key name="elementsByTagName" match="mei:*" use="local-name()"/>
   <!-- The "isXYZ" keys are used to test whether an element is a certain thing with the help of generate-id().
     Example for testing whether a note starts a beam with the help of a key:
@@ -883,7 +884,7 @@
       <xsl:text>~</xsl:text>
     </xsl:if>
     <xsl:apply-templates mode="addBeamMarkup" select="."/>
-    <xsl:for-each select="ancestor::mei:mdiv[1]//mei:measure/*[@endid = $noteKey]">
+    <xsl:for-each select="key('spannerEnd', $noteKey)">
       <xsl:choose>
         <xsl:when test="self::mei:dynam or self::mei:hairpin">
           <xsl:text>\!</xsl:text>
@@ -926,13 +927,13 @@
     </xsl:if>
     <!-- add control elements -->
     <xsl:apply-templates select="ancestor::mei:measure/*[@startid = $noteKey]" />
-    <xsl:if test="ancestor::mei:mdiv[1]//mei:measure/mei:tupletSpan[@endid = $noteKey]">
+    <xsl:if test="key('spannerEnd',$noteKey)[self::mei:tupletSpan]">
       <xsl:value-of select="' }'" />
     </xsl:if>
     <xsl:if test="@grace and not(preceding-sibling::mei:note[not(@grace)]) and ancestor::mei:beam and position()=last()">
       <xsl:text>}</xsl:text>
     </xsl:if>
-    <xsl:if test="ancestor::mei:mdiv[1]//mei:measure/mei:octave[@endid = $noteKey]">
+    <xsl:if test="key('spannerEnd',$noteKey)[self::mei:octave]">
       <xsl:value-of select="'\unset Staff.ottavation '" />
     </xsl:if>
     <xsl:value-of select="' '" />
@@ -977,7 +978,7 @@
       <xsl:text>~</xsl:text>
     </xsl:if>
     <xsl:apply-templates mode="addBeamMarkup" select="."/>
-    <xsl:for-each select="ancestor::mei:mdiv[1]//mei:measure/*[@endid = $chordKey]">
+    <xsl:for-each select="key('spannerEnd', $chordKey)">
       <xsl:choose>
         <xsl:when test="self::mei:dynam or self::mei:hairpin">
           <xsl:text>\!</xsl:text>
@@ -1017,10 +1018,10 @@
     </xsl:if>
     <xsl:apply-templates select="ancestor::mei:measure/mei:arpeg[not(@startid)][tokenize(@plist,' ') = $subChordKeys]" />
     <xsl:apply-templates select="ancestor::mei:measure/mei:*[@startid = $chordKey]" />
-    <xsl:if test="ancestor::mei:mdiv[1]//mei:measure/mei:tupletSpan[@endid = $chordKey]">
+    <xsl:if test="key('spannerEnd',$chordKey)[self::mei:tupletSpan]">
       <xsl:value-of select="' }'" />
     </xsl:if>
-    <xsl:if test="ancestor::mei:mdiv[1]//mei:measure/mei:octave[@endid = $chordKey]">
+    <xsl:if test="key('spannerEnd',$chordKey)[self::mei:octave]">
       <xsl:value-of select="'\unset Staff.ottavation'" />
     </xsl:if>
     <xsl:value-of select="' '" />
@@ -1073,14 +1074,30 @@
       </xsl:otherwise>
     </xsl:choose>
     <xsl:apply-templates mode="addBeamMarkup" select="."/>
-    <xsl:if test="ancestor::mei:mdiv[1]//mei:measure/mei:hairpin/@endid = $restKey or ancestor::mei:mdiv[1]//mei:measure/mei:dynam/@endid = $restKey">
-      <xsl:text>\!</xsl:text>
-    </xsl:if>
+    <xsl:for-each select="key('spannerEnd', $restKey)">
+      <xsl:choose>
+        <xsl:when test="self::mei:dynam or self::mei:hairpin">
+          <xsl:text>\!</xsl:text>
+        </xsl:when>
+        <xsl:when test="self::mei:pedal">
+          <xsl:text>\sustainOff</xsl:text>
+        </xsl:when>
+        <xsl:when test="self::mei:phrase">
+          <xsl:text>\)</xsl:text>
+        </xsl:when>
+        <xsl:when test="self::mei:slur">
+          <xsl:text>)</xsl:text>
+        </xsl:when>
+        <xsl:when test="self::mei:trill">
+          <xsl:text>\stopTrillSpan</xsl:text>
+        </xsl:when>
+      </xsl:choose>
+    </xsl:for-each>
     <xsl:apply-templates select="ancestor::mei:measure/mei:*[@startid = $restKey]" />
     <xsl:if test="@fermata and not(ancestor::mei:measure/mei:fermata/@startid = $restKey)">
       <xsl:call-template name="fermata" />
     </xsl:if>
-    <xsl:if test="ancestor::mei:mdiv[1]//mei:measure/mei:tupletSpan[@endid = $restKey]">
+    <xsl:if test="key('spannerEnd',$restKey)[self::mei:tupletSpan]">
       <xsl:value-of select="' }'" />
     </xsl:if>
     <xsl:value-of select="' '" />
@@ -1372,7 +1389,7 @@
         <xsl:value-of select="'\once \tupletDown '" />
       </xsl:when>
     </xsl:choose>
-    <xsl:value-of select="concat('\tuplet ',@num,'/',@numbase,' { ')" />
+    <xsl:value-of select="concat('\tuplet ', @num, '/', @numbase, ' { ')" />
     <xsl:apply-templates/>
     <xsl:text>} </xsl:text>
   </xsl:template>
@@ -1447,7 +1464,7 @@
   <xsl:template match="mei:dot[@copyof]">
     <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:dot[@xml:id = substring-after(current()/@copyof,'#')]" />
   </xsl:template>
-  <xsl:template match="mei:dot">
+  <xsl:template match="mei:dot[parent::mei:note]">
     <xsl:text>.</xsl:text>
   </xsl:template>
   <!-- MEI fermata -->
@@ -2664,7 +2681,7 @@
     </xsl:choose>
     <xsl:call-template name="setDots" />
     <xsl:if test="@num and @numbase">
-      <xsl:value-of select="concat('*',@num,'/',@numbase)" />
+      <xsl:value-of select="concat('*', @num, '/', @numbase)" />
     </xsl:if>
   </xsl:template>
   <!-- set dots -->
