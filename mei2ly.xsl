@@ -13,6 +13,7 @@
   <xsl:output method="text" indent="no" encoding="UTF-8" />
   <xsl:param name="LilyPondVersion" select="'2.19.58'"/>
   <xsl:param name="useSvgBackend" select="false()" as="xs:boolean"/>
+  <xsl:param name="generateHeader" select="true()" as="xs:boolean"/>
   <xsl:param name="forceLayout" select="false()" as="xs:boolean"/>
   <!-- forceContinueVoices ensures that within a staff, the number of voices remains constant.
     If the number of <layer> elements changes in MEI, dummy voices are created filled with spacers.
@@ -124,9 +125,11 @@
   </xsl:template>
   <!-- MEI header -->
   <xsl:template match="mei:meiHead">
-    <xsl:text>\header {&#10;</xsl:text>
-    <xsl:apply-templates/>
-    <xsl:text>}&#10;&#10;</xsl:text>
+    <xsl:if test="$generateHeader">
+      <xsl:text>\header {&#10;</xsl:text>
+      <xsl:apply-templates/>
+      <xsl:text>}&#10;&#10;</xsl:text>
+    </xsl:if>
   </xsl:template>
   <!-- MEI publication statement -->
   <xsl:template match="mei:pubStmt">
@@ -1858,6 +1861,11 @@
     <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:fb[@xml:id = substring-after(current()/@copyof,'#')]" />
   </xsl:template>
   <xsl:template match="mei:fb">
+    <xsl:if test="$useSvgBackend">
+      <!-- no IDs -->
+      <!-- wrapping every child -->
+      <xsl:text>\once \override Staff.BassFigure.output-attributes = #&apos;((class . f)) </xsl:text>
+    </xsl:if>
     <xsl:text>&lt;</xsl:text>
     <xsl:apply-templates/>
     <xsl:text>&gt;</xsl:text>
