@@ -2,7 +2,7 @@
 <!--          -->
 <!--  MEILER  -->
 <!--  mei2ly  -->
-<!-- v 0.8.28 -->
+<!-- v 0.8.29 -->
 <!--          -->
 <!-- programmed by -->
 <!-- Klaus Rettinghaus -->
@@ -2277,8 +2277,21 @@
     <xsl:param name="keySig" select="(@sig|ancestor-or-self::*/@key.sig)[1]" />
     <xsl:param name="keySigMixed" select="(@sig.mixed|ancestor-or-self::*/@key.sig.mixed)[1]" />
     <xsl:if test="$useSvgBackend">
-      <!-- no IDs -->
-      <xsl:text>\tweak output-attributes #&apos;((class . keySig)) </xsl:text>
+      <xsl:text>\tweak output-attributes #&apos;</xsl:text>
+      <xsl:choose>
+        <xsl:when test="self::mei:keySig">
+          <xsl:call-template name="setSvgAttr" />
+        </xsl:when>
+        <xsl:otherwise>
+          <!-- no IDs -->
+          <xsl:text>\tweak output-attributes #&apos;((class . keySig)) </xsl:text>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:if>
+    <xsl:if test="@color">
+      <!-- not in MEI yet -->
+      <xsl:value-of select="'\tweak color #'" />
+      <xsl:call-template name="setColor" />
     </xsl:if>
     <xsl:choose>
       <xsl:when test="$keyTonic and $keyMode">

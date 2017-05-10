@@ -75,6 +75,13 @@ List of supported MEI elements and attributes
   * `@tie`
   * `@visible`
 
+* `<clef>`
+  * `@color`
+  * `@dis`
+  * `@dis.place`
+  * `@line`
+  * `@shape`
+
 * `<corr>`
 
 * `<dir>`
@@ -155,6 +162,13 @@ List of supported MEI elements and attributes
   * `@midi.instrnum`
   * `@midi.instrname`
 
+* `<keySig>`
+  * `@accid`
+  * `@mode`
+  * `@pname`
+  * `@sig`
+  * `@xml:id`
+
 * `<l>`
 
 * `<label>` (within `<staffGrp>` and `<staffDef>`)
@@ -178,6 +192,11 @@ List of supported MEI elements and attributes
   * `@left`
   * `@n`
   * `@right`
+
+* `<mensur>`
+  * `@dot`
+  * `@sign`
+  * `@slash`
 
 * `<meterSig>`
   * `@copyof`
@@ -276,6 +295,7 @@ List of supported MEI elements and attributes
 
 * `<pb>`
   * `@n`
+  * `@source`
 
 * `<pedal>`
   * `@color`
@@ -352,6 +372,7 @@ List of supported MEI elements and attributes
 
 * `<sb>`
   * `@n`
+  * `@source`
 
 * `<score>`
 
