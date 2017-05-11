@@ -240,7 +240,7 @@
             <xsl:value-of select="concat(ancestor::mei:ending/@n[1],'.')" />
             <xsl:text>"))&#10;&#32;&#32;</xsl:text>
           </xsl:if>
-          <xsl:if test="ancestor::mei:measure/preceding-sibling::mei:scoreDef/preceding::mei:measure[1]/@n = ancestor::mei:measure/preceding::mei:measure[1]/@n">
+          <xsl:if test="ancestor::mei:measure/preceding-sibling::*[1][mei:scoreDef]">
             <xsl:if test="preceding::mei:scoreDef[1]/@meter.showchange">
               <xsl:variable name="showchangeVal" select="substring(preceding::mei:scoreDef[1]/@meter.showchange,1,1)" />
               <xsl:text>\override Staff.TimeSignature.break-visibility = #'#</xsl:text>
@@ -267,10 +267,10 @@
           <!-- add time signature change -->
           <xsl:if test="generate-id(ancestor::mei:measure/preceding-sibling::*[@*[starts-with(name(),'meter')]][1]/following-sibling::mei:measure[1]) = $currentMeasure">
             <xsl:call-template name="meterSig">
-              <xsl:with-param name="meterSymbol" select="preceding::*[@meter.sym][1]/@meter.sym" />
-              <xsl:with-param name="meterCount" select="preceding::*[@meter.count][1]/@meter.count" />
-              <xsl:with-param name="meterUnit" select="preceding::*[@meter.unit][1]/@meter.unit" />
-              <xsl:with-param name="meterRend" select="preceding::*[@meter.rend][1]/@meter.rend" />
+              <xsl:with-param name="meterSymbol" select="ancestor::mei:measure/preceding-sibling::*[@*[starts-with(name(),'meter')]][1]/@meter.sym" />
+              <xsl:with-param name="meterCount" select="ancestor::mei:measure/preceding-sibling::*[@*[starts-with(name(),'meter')]][1]/@meter.count" />
+              <xsl:with-param name="meterUnit" select="ancestor::mei:measure/preceding-sibling::*[@*[starts-with(name(),'meter')]][1]/@meter.unit" />
+              <xsl:with-param name="meterRend" select="ancestor::mei:measure/preceding-sibling::*[@*[starts-with(name(),'meter')]][1]/@meter.rend" />
             </xsl:call-template>
             <xsl:text>&#10;&#32;&#32;</xsl:text>
           </xsl:if>
@@ -332,8 +332,9 @@
           </xsl:if>
           <!-- print bar number -->
           <xsl:if test="ancestor::mei:measure/@n">
-            <xsl:value-of select="concat('%',ancestor::mei:measure/@n,'&#10;')" />
+            <xsl:value-of select="concat('%',ancestor::mei:measure/@n)" />
           </xsl:if>
+          <xsl:text>&#10;</xsl:text>
           <!-- close volta brackets -->
           <xsl:if test="ancestor::mei:ending and not(ancestor::mei:ending/following-sibling::*[1][self::mei:ending])">
             <xsl:text>&#32;&#32;\set Score.repeatCommands = #'((volta #f))&#10;</xsl:text>
