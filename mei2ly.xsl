@@ -2284,7 +2284,7 @@
         </xsl:when>
         <xsl:otherwise>
           <!-- no IDs -->
-          <xsl:text>\tweak output-attributes #&apos;((class . keySig)) </xsl:text>
+          <xsl:text>((class . keySig)) </xsl:text>
         </xsl:otherwise>
       </xsl:choose>
     </xsl:if>
