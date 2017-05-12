@@ -1264,7 +1264,9 @@
   <xsl:template name="barLine" match="mei:barLine">
     <xsl:param name="barLineStyle" select="@form" />
     <xsl:if test="@color">
-      <xsl:value-of select="'\once \override Staff.BarLine.color = #'" />
+      <xsl:value-of select="'\once \override Score.BarLine.color = #'" />
+      <xsl:call-template name="setColor" />
+      <xsl:value-of select="'\once \override Score.SpanBar.color = #'" />
       <xsl:call-template name="setColor" />
     </xsl:if>
     <xsl:text>\bar "</xsl:text>

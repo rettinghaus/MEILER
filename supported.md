@@ -34,6 +34,7 @@ List of supported MEI elements and attributes
   * `@xml:id`
 
 * `<barLine>`
+  * `@color`
   * `@form`
 
 * `<beam>`
