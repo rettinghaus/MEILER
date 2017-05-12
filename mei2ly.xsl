@@ -2,7 +2,7 @@
 <!--          -->
 <!--  MEILER  -->
 <!--  mei2ly  -->
-<!-- v 0.8.29 -->
+<!-- v 0.8.30 -->
 <!--          -->
 <!-- programmed by -->
 <!-- Klaus Rettinghaus -->
@@ -588,20 +588,20 @@
     <!-- set MEILER default styles -->
     <xsl:text>\set tieWaitForNote = ##t&#10; </xsl:text>
     <xsl:apply-templates select="(mei:keySig, @*[starts-with(name(),'key.')])[1]" />
-    <xsl:if test="ancestor-or-self::*/@*[starts-with(name(),'mensur.')]">
-      <xsl:if test="ancestor-or-self::*/@mensur.color">
-        <xsl:value-of select="'\override Staff.TimeSignature.color = #'" />
-        <xsl:call-template name="setColor">
-          <xsl:with-param name="color" select="ancestor-or-self::*[@mensur.color][1]/@mensur.color" />
-        </xsl:call-template>
-      </xsl:if>
-      <xsl:call-template name="setMensur">
-        <xsl:with-param name="mensurDot" select="ancestor-or-self::*[@mensur.dot][1]/@mensur.dot" />
-        <xsl:with-param name="mensurSign" select="ancestor-or-self::*[@mensur.sign][1]/@mensur.sign" />
-        <xsl:with-param name="mensurSlash" select="ancestor-or-self::*[@mensur.slash][1]/@mensur.slash" />
-      </xsl:call-template>
-    </xsl:if>
     <xsl:choose>
+      <xsl:when test="ancestor-or-self::*/@*[starts-with(name(),'mensur.')]">
+        <xsl:if test="ancestor-or-self::*/@mensur.color">
+          <xsl:value-of select="'\override Staff.TimeSignature.color = #'" />
+          <xsl:call-template name="setColor">
+            <xsl:with-param name="color" select="ancestor-or-self::*[@mensur.color][1]/@mensur.color" />
+          </xsl:call-template>
+        </xsl:if>
+        <xsl:call-template name="setMensur">
+          <xsl:with-param name="mensurDot" select="ancestor-or-self::*[@mensur.dot][1]/@mensur.dot" />
+          <xsl:with-param name="mensurSign" select="ancestor-or-self::*[@mensur.sign][1]/@mensur.sign" />
+          <xsl:with-param name="mensurSlash" select="ancestor-or-self::*[@mensur.slash][1]/@mensur.slash" />
+        </xsl:call-template>
+      </xsl:when>
       <xsl:when test="ancestor-or-self::*/@*[starts-with(name(),'meter.')]">
         <xsl:call-template name="meterSig">
           <xsl:with-param name="meterSymbol" select="ancestor-or-self::*[@meter.sym][1]/@meter.sym" />
@@ -2678,7 +2678,7 @@
       <xsl:when test="@dur='longa'">
         <xsl:text>\longa</xsl:text>
       </xsl:when>
-      <xsl:when test="@dur='b'">
+      <xsl:when test="@dur='brevis'">
         <xsl:text>\breve</xsl:text>
       </xsl:when>
       <xsl:when test="@dur='semibrevis'">
