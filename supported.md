@@ -69,6 +69,7 @@ List of supported MEI elements and attributes
   * `@oct`
   * `@ornam`
   * `@slur`
+  * `@staff`
   * `@stem.dir`
   * `@stem.mod`
   * `@stem.pos`
@@ -88,6 +89,11 @@ List of supported MEI elements and attributes
   * `@ho`
   * `@place`
   * __`@startid`__
+  * `@vo`
+
+* `<dot>` (as child of `<note>` and `<rest>`)
+  * `@color`
+  * `@ho`
   * `@vo`
 
 * `<dynam>`
@@ -254,8 +260,11 @@ List of supported MEI elements and attributes
   * `@accid.ges`
   * `@artic`
   * `@beam`
+  * `@color`
+  * `@copyof`
   * `@dots`
   * `@dur`
+  * `@enclose`
   * `@fermata`
   * `@gliss`
   * `@grace`
@@ -263,13 +272,17 @@ List of supported MEI elements and attributes
   * `@head.mod`
   * `@head.shape`
   * `@head.visible`
+  * `@ho`
   * `@lv`
+  * `@num`
+  * `@numbase`
   * `@oct`
   * `@ornam`
   * `@pname`
   * `@slur`
-  * `@staff`
+  * `@staff` (unsupported for chorded notes)
   * `@stem.dir`
+  * `@stem.len`
   * `@stem.mod`
   * `@stem.pos`
   * `@tie`
@@ -363,11 +376,13 @@ List of supported MEI elements and attributes
   * `@dots`
   * `@dur`
   * `@fermata`
+  * `@ho`
   * `@loc`
   * `@oloc`
   * `@ploc`
   * `@staff`
   * `@visible`
+  * `@vo`
   * `@xml:id`
 
 * `<sb>`

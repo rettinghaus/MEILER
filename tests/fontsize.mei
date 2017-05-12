@@ -35,9 +35,9 @@
             <measure n="2">
               <staff n="1">
                 <layer n="1">
-                  <note xml:id="n04" dur="4" oct="4" pname="g"/>
-                  <note xml:id="n05" dur="4" oct="4" pname="g"/>
-                  <note xml:id="n06" dur="4" oct="4" pname="g"/>
+                  <note xml:id="n04" dur="4" oct="4" pname="g" fontsize="xx-small"/>
+                  <note xml:id="n05" dur="4" oct="4" pname="g" fontsize="x-small"/>
+                  <note xml:id="n06" dur="4" oct="4" pname="g" fontsize="small"/>
                 </layer>
               </staff>
               <dir startid="#n04" place="above"><rend fontsize="21pt">22pt</rend></dir>
@@ -47,9 +47,9 @@
             <measure n="3">
               <staff n="1">
                 <layer n="1">
-                  <note xml:id="n07" dur="4" oct="4" pname="g"/>
-                  <note xml:id="n08" dur="4" oct="4" pname="g"/>
-                  <note xml:id="n09" dur="4" oct="4" pname="g"/>
+                  <note xml:id="n07" dur="4" oct="4" pname="g" fontsize="large"/>
+                  <note xml:id="n08" dur="4" oct="4" pname="g" fontsize="x-large"/>
+                  <note xml:id="n09" dur="4" oct="4" pname="g" fontsize="xx-large"/>
                 </layer>
               </staff>
               <dir startid="#n07" place="above"><rend fontsize="smaller">smaller</rend></dir>
@@ -58,7 +58,7 @@
             <measure n="4">
               <staff n="1">
                 <layer n="1">
-                  <note xml:id="n10" dur="4" oct="4" pname="g"/>
+                  <note xml:id="n10" dur="4" oct="4" pname="g" fontsize="medium"/>
                 </layer>
               </staff>
             </measure>

@@ -776,10 +776,13 @@
     </xsl:choose>
   </xsl:template>
   <!-- MEI note -->
+  <xsl:template match="mei:note[@copyof]">
+    <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:note[@xml:id = substring-after(current()/@copyof,'#')]" />
+  </xsl:template>
   <xsl:template match="mei:note[@pname]">
     <xsl:variable name="noteKey" select="concat('#',./@xml:id)" />
-    <xsl:apply-templates select="mei:accid|ancestor::mei:measure/*[@startid = $noteKey]" mode="pre" />
-    <xsl:if test="@staff and @staff != ancestor::mei:staff/@n">
+    <xsl:apply-templates select="mei:accid|mei:dot|ancestor::mei:measure/*[@startid = $noteKey]" mode="pre" />
+    <xsl:if test="@staff and not(parent::mei:chord) and @staff != ancestor::mei:staff/@n">
       <xsl:value-of select="concat('\change Staff = &quot;staff ',@staff,'&quot;&#32;')" />
     </xsl:if>
     <xsl:if test="@grace and not(preceding-sibling::*[1]/@grace)">
@@ -790,6 +793,10 @@
     </xsl:if>
     <xsl:if test="@visible='false'">
       <xsl:text>\once \hideNotes </xsl:text>
+    </xsl:if>
+    <xsl:if test="@fontsize">
+      <xsl:text>\once </xsl:text>
+      <xsl:call-template name="setRelFontsize"/>
     </xsl:if>
     <xsl:if test="$useSvgBackend">
       <xsl:text>\tweak output-attributes #&apos;</xsl:text>
@@ -943,7 +950,7 @@
       <xsl:value-of select="'\unset Staff.ottavation '" />
     </xsl:if>
     <xsl:value-of select="' '" />
-    <xsl:if test="@staff and @staff != ancestor::mei:staff/@n">
+    <xsl:if test="@staff and not(parent::mei:chord) and @staff != ancestor::mei:staff/@n">
       <xsl:value-of select="concat('\change Staff = &quot;staff ',ancestor::mei:staff/@n,'&quot;&#32;')" />
     </xsl:if>
   </xsl:template>
@@ -955,8 +962,15 @@
     <xsl:variable name="chordKey" select="concat('#',./@xml:id)" />
     <xsl:variable name="subChordKeys" select="descendant-or-self::*/concat('#',./@xml:id)" />
     <xsl:apply-templates select="ancestor::mei:measure/*[@startid = $chordKey or tokenize(@plist,' ') = $subChordKeys]" mode="pre" />
+    <xsl:if test="@staff and @staff != ancestor::mei:staff/@n">
+      <xsl:value-of select="concat('\change Staff = &quot;staff ',@staff,'&quot;&#32;')" />
+    </xsl:if>
     <xsl:if test="@visible='false'">
       <xsl:text>\once \hideNotes </xsl:text>
+    </xsl:if>
+    <xsl:if test="@fontsize">
+      <xsl:text>\once </xsl:text>
+      <xsl:call-template name="setRelFontsize"/>
     </xsl:if>
     <xsl:if test="@color">
       <xsl:value-of select="'\once \override Stem.color = #'" />
@@ -1031,6 +1045,9 @@
       <xsl:value-of select="'\unset Staff.ottavation'" />
     </xsl:if>
     <xsl:value-of select="' '" />
+    <xsl:if test="@staff and @staff != ancestor::mei:staff/@n">
+      <xsl:value-of select="concat('\change Staff = &quot;staff ',ancestor::mei:staff/@n,'&quot;&#32;')" />
+    </xsl:if>
   </xsl:template>
   <!-- MEI rest -->
   <xsl:template match="mei:rest[@copyof]">
@@ -1038,9 +1055,13 @@
   </xsl:template>
   <xsl:template match="mei:rest">
     <xsl:variable name="restKey" select="concat('#',./@xml:id)" />
-    <xsl:apply-templates select="ancestor::mei:measure/mei:*[@startid = $restKey]" mode="pre" />
+    <xsl:apply-templates select="mei:dot|ancestor::mei:measure/mei:*[@startid = $restKey]" mode="pre" />
     <xsl:if test="@staff and @staff != ancestor::mei:staff/@n">
       <xsl:value-of select="concat('\change Staff = &quot;staff ',@staff,'&quot;&#32;')" />
+    </xsl:if>
+    <xsl:if test="@fontsize">
+      <xsl:text>\once </xsl:text>
+      <xsl:call-template name="setRelFontsize"/>
     </xsl:if>
     <xsl:if test="$useSvgBackend">
       <xsl:text>\tweak output-attributes #&apos;</xsl:text>
@@ -1467,10 +1488,24 @@
     </xsl:choose>
   </xsl:template>
   <!-- MEI dot -->
+  <xsl:template match="mei:dot" mode="pre">
+    <xsl:if test="$useSvgBackend">
+      <!-- no IDs -->
+      <xsl:text>\tweak Dots.output-attributes #&apos;((class . dot))</xsl:text>
+    </xsl:if>
+    <xsl:if test="@color">
+      <xsl:text>\tweak Dots.color #</xsl:text>
+      <xsl:call-template name="setColor" />
+    </xsl:if>
+    <xsl:if test="@ho or @vo">
+      <xsl:text>\tweak Dots.extra-offset #&apos;</xsl:text>
+      <xsl:call-template name="setOffset" />
+    </xsl:if>
+  </xsl:template>
   <xsl:template match="mei:dot[@copyof]">
     <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:dot[@xml:id = substring-after(current()/@copyof,'#')]" />
   </xsl:template>
-  <xsl:template match="mei:dot[parent::mei:note]">
+  <xsl:template match="mei:dot[parent::mei:note or parent::mei:rest]">
     <xsl:text>.</xsl:text>
   </xsl:template>
   <!-- MEI fermata -->
@@ -2722,6 +2757,7 @@
         <xsl:with-param name="dots" select="$dots - 1" />
       </xsl:call-template>
     </xsl:if>
+    <xsl:apply-templates select="mei:dot"/>
   </xsl:template>
   <!-- set accidental -->
   <xsl:template mode="setAccidental" match="@accid | @accid.ges">
@@ -3390,10 +3426,10 @@
       <xsl:when test="@fontsize ='xx-large'">
         <xsl:value-of select="'\huge '" />
       </xsl:when>
-      <xsl:when test="@fontsize ='smaller'">
+      <xsl:when test="@fontsize ='smaller' and not(self::mei:note)">
         <xsl:value-of select="'\smaller '" />
       </xsl:when>
-      <xsl:when test="@fontsize ='larger'">
+      <xsl:when test="@fontsize ='larger' and not(self::mei:note)">
         <xsl:value-of select="'\larger '" />
       </xsl:when>
       <xsl:otherwise>
