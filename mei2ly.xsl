@@ -1820,6 +1820,7 @@
   <!-- MEI dynamic -->
   <xsl:template match="mei:dynam" mode="pre" />
   <xsl:template match="mei:dynam">
+    <xsl:variable name="dynamicMarks" select="('ppppp', 'pppp', 'ppp', 'pp', 'p', 'mp', 'mf', 'f', 'ff', 'fff', 'ffff', 'fffff', 'fp', 'sf', 'sff', 'sp', 'spp', 'sfz', 'rfz')"/>
     <xsl:if test="$useSvgBackend">
       <xsl:text>-\tweak output-attributes #&apos;</xsl:text>
       <xsl:call-template name="setSvgAttr" />
@@ -1829,7 +1830,15 @@
       <xsl:call-template name="setOffset" />
     </xsl:if>
     <xsl:call-template name="setMarkupDirection" />
-    <xsl:value-of select="concat('\',translate(.,'.',''))" />
+    <xsl:choose>
+      <xsl:when test="normalize-space(.)=$dynamicMarks or contains(.,'cresc') or contains(.,'dim')">
+        <!-- this should work in most cases -->
+        <xsl:value-of select="concat('\',translate(.,'.',''), ' ')" />
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="concat('\markup {',.,'} ')" />
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
   <!-- MEI finger group -->
   <xsl:template match="mei:fingGrp[@copyof]">
