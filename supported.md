@@ -552,20 +552,25 @@ List of supported MEI elements and attributes
   * `@color`
   * `@copyof`
   * __`@num`__
-  * __`@numbase`__
   * `@num.format`
+  * `@num.place`
   * `@num.visible`
+  * __`@numbase`__
+  * `@xml:id` (assigned to LilyPond's TupletNumber grob)
 
 * `<tupletSpan>`
   * `@bracket.place`
   * `@bracket.visible`
   * `@color`
+  * `@copyof`
   * `@endid`
   * __`@num`__
-  * __`@numbase`__
   * `@num.format`
+  * `@num.place`
   * `@num.visible`
+  * __`@numbase`__
   * `@startid`
+  * `@xml:id` (assigned to LilyPond's TupletNumber grob)
 
 * `<turn>`
   * `@accidlower`

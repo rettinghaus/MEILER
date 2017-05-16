@@ -1451,6 +1451,9 @@
   <xsl:template match="mei:tupletSpan[not(@endid)]" mode="pre">
     <xsl:message>ERROR: @endid is missing on tupletSpan <xsl:if test="@xml:id"><xsl:value-of select="concat('[',@xml:id,']')"/></xsl:if> </xsl:message>
   </xsl:template>
+  <xsl:template match="mei:tupletSpan[@copyof]">
+    <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:tupletSpan[@xml:id = substring-after(current()/@copyof,'#')]" />
+  </xsl:template>
   <xsl:template match="mei:tupletSpan" mode="pre">
     <xsl:call-template name="tuplet" />
   </xsl:template>
