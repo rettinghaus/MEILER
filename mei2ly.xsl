@@ -2,7 +2,7 @@
 <!--          -->
 <!--  MEILER  -->
 <!--  mei2ly  -->
-<!-- v 0.8.30 -->
+<!-- v 0.9.0  -->
 <!--          -->
 <!-- programmed by -->
 <!-- Klaus Rettinghaus -->
@@ -855,6 +855,8 @@
         <xsl:when test="@head.shape = 'slash'">
           <xsl:text>\tweak style #'slash </xsl:text>
         </xsl:when>
+        <xsl:when test="@head.shape = 'square'">
+        </xsl:when>
         <xsl:when test="@head.shape = 'x'">
           <xsl:text>\tweak style #'cross </xsl:text>
         </xsl:when>
@@ -1263,6 +1265,11 @@
   </xsl:template>
   <xsl:template name="barLine" match="mei:barLine">
     <xsl:param name="barLineStyle" select="@form" />
+    <!-- allow-span-bar is true by default -->
+    <xsl:if test="$useSvgBackend and self::mei:barLine">
+      <xsl:text>\once \override Staff.BarLine.output-attributes = #&apos;</xsl:text>
+      <xsl:call-template name="setSvgAttr" />
+    </xsl:if>
     <xsl:if test="@color">
       <xsl:value-of select="'\once \override Score.BarLine.color = #'" />
       <xsl:call-template name="setColor" />
@@ -1314,7 +1321,7 @@
   <xsl:template match="mei:beam[@copyof]">
     <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:beam[@xml:id = substring-after(current()/@copyof,'#')]" />
   </xsl:template>
-  <xsl:template match="mei:beam">
+  <xsl:template name="beam" match="mei:beam">
     <xsl:if test="$useSvgBackend">
       <xsl:text>\once \override Beam.output-attributes = #&apos;</xsl:text>
       <xsl:call-template name="setSvgAttr" />
@@ -1335,14 +1342,7 @@
   </xsl:template>
   <!-- MEI beam span-->
   <xsl:template match="mei:beamSpan" mode="pre">
-    <xsl:if test="$useSvgBackend">
-      <xsl:text>\once \override Beam.output-attributes = #&apos;</xsl:text>
-      <xsl:call-template name="setSvgAttr" />
-    </xsl:if>
-    <xsl:if test="@color">
-      <xsl:text>\once \override Beam.color = #</xsl:text>
-      <xsl:call-template name="setColor" />
-    </xsl:if>
+    <xsl:call-template name="beam"/>
   </xsl:template>
   <!-- MEI bowed tremolo -->
   <xsl:template match="mei:bTrem">
@@ -1396,7 +1396,7 @@
   </xsl:template>
   <xsl:template name="tuplet" match="mei:tuplet">
     <xsl:if test="$useSvgBackend">
-      <xsl:text>\tweak TupletNumber.output-attributes #&apos;</xsl:text>
+      <xsl:text>\tweak TupletNumer.output-attributes #&apos;</xsl:text>
       <xsl:call-template name="setSvgAttr" />
     </xsl:if>
     <xsl:if test="@color">
@@ -1450,9 +1450,6 @@
   <!-- MEI tuplet span -->
   <xsl:template match="mei:tupletSpan[not(@endid)]" mode="pre">
     <xsl:message>ERROR: @endid is missing on tupletSpan <xsl:if test="@xml:id"><xsl:value-of select="concat('[',@xml:id,']')"/></xsl:if> </xsl:message>
-  </xsl:template>
-  <xsl:template match="mei:tupletSpan[@copyof]">
-    <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:tupletSpan[@xml:id = substring-after(current()/@copyof,'#')]" />
   </xsl:template>
   <xsl:template match="mei:tupletSpan" mode="pre">
     <xsl:call-template name="tuplet" />
@@ -3470,7 +3467,7 @@
     <!-- data.NOTEHEADMODIFIER -->
     <xsl:choose>
       <xsl:when test="@head.mod ='slash'">
-        <xsl:text>\once \override NoteHead.style = #'slash </xsl:text>
+        <xsl:text>\tweak style #'slash </xsl:text>
       </xsl:when>
       <xsl:when test="@head.mod ='backslash'">
       </xsl:when>
@@ -3494,7 +3491,7 @@
       <xsl:when test="@head.mod ='dblwhole'">
       </xsl:when>
       <xsl:when test="contains('ABCDEFG',@head.mod)">
-        <xsl:text>\once \easyHeadsOn </xsl:text>
+        <xsl:text>\single \easyHeadsOn </xsl:text>
       </xsl:when>
       <xsl:otherwise>
       </xsl:otherwise>

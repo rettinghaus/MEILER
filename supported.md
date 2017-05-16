@@ -36,13 +36,16 @@ List of supported MEI elements and attributes
 * `<barLine>`
   * `@color`
   * `@form`
+  * `@xml:id`
 
 * `<beam>`
   * `@color`
+  * `@form` (for values 'acc' and 'rit')
   * `@xml:id`
 
 * `<beamSpan>`
   * `@color`
+  * `@form` (for values 'acc' and 'rit')
   * `@xml:id`
 
 * `<bTrem>`
