@@ -51,6 +51,12 @@
                   <note dur="4" oct="4" pname="g">
                     <artic artic="open"/>
                   </note>
+                </layer>
+              </staff>
+            </measure>
+            <measure n="2">
+              <staff n="1">
+                <layer n="1">
                   <note dur="4" oct="4" pname="g">
                     <artic artic="acc"/>
                     <artic artic="stacc"/>

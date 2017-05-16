@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.music-encoding.org/schema/3.0.0/mei-all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="http://www.music-encoding.org/schema/3.0.0/mei-all.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<mei xmlns="http://www.music-encoding.org/ns/mei" meiversion="3.0.0">
+  <meiHead>
+    <fileDesc>
+      <titleStmt>
+        <title/>
+      </titleStmt>
+      <pubStmt/>
+      <seriesStmt>
+        <title>MEILER test files</title>
+      </seriesStmt>
+    </fileDesc>
+  </meiHead>
+  <music>
+    <body>
+      <mdiv>
+        <score>
+          <scoreDef>
+            <staffGrp>
+              <staffDef n="1" clef.line="3" clef.shape="C" lines="5"/>
+            </staffGrp>
+          </scoreDef>
+          <section>
+            <measure n="1">
+              <staff n="1">
+                <layer n="1">
+                  <note color="rgb(111,111,111)" dur="4" oct="4" pname="c"/>
+                  <note color="rgb(111,111,111)" dur="4" oct="4" pname="c" head.mod="paren"/>
+                  <note color="rgb(111,111,111)" dur="4" oct="4" pname="c" head.mod="slash"/>
+                  <note color="rgb(111,111,111)" dur="4" oct="4" pname="c" head.shape="slash"/>
+                  <note color="rgb(111,111,111)" dur="4" oct="4" pname="c" head.shape="diamond"/>
+                  <note color="rgb(111,111,111)" dur="4" oct="4" pname="c" head.shape="triangle"/>
+                  <note color="rgb(111,111,111)" dur="4" oct="4" pname="c" head.shape="x"/>
+                  <note color="rgb(111,111,111)" dur="4" oct="4" pname="c" head.shape="+"/>
+                  <note color="rgb(111,111,111)" dur="4" oct="4" pname="c" head.mod ="C"/>
+                  <chord dur="4">
+                    <note color="rgb(111,111,111)" oct="3" pname="a" head.mod ="A"/>
+                    <note color="rgb(111,111,111)" oct="4" pname="c"/>
+                    <note color="rgb(111,111,111)" oct="4" pname="e" head.shape="diamond"/>
+                  </chord>
+                </layer>
+              </staff>
+            </measure>
+          </section>
+        </score>
+      </mdiv>
+    </body>
+  </music>
+</mei>
