@@ -1394,63 +1394,65 @@
   <xsl:template match="mei:tuplet[@copyof]">
     <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:tuplet[@xml:id = substring-after(current()/@copyof,'#')]" />
   </xsl:template>
-  <xsl:template match="mei:tuplet">
+  <xsl:template name="tuplet" match="mei:tuplet">
+    <xsl:if test="$useSvgBackend">
+      <xsl:text>\tweak TupletNumber.output-attributes #&apos;</xsl:text>
+      <xsl:call-template name="setSvgAttr" />
+    </xsl:if>
     <xsl:if test="@color">
-      <xsl:value-of select="'\once \override TupletBracket.color = #'" />
+      <xsl:value-of select="'\tweak TupletBracket.color #'" />
       <xsl:call-template name="setColor" />
-      <xsl:value-of select="'\once \override TupletNumber.color = #'" />
+      <xsl:value-of select="'\tweak TupletNumber.color #'" />
       <xsl:call-template name="setColor" />
+    </xsl:if>
+    <xsl:if test="@bracket.place">
+      <xsl:choose>
+        <xsl:when test="@bracket.place='above'">
+          <xsl:text>\tweak TupletBracket.direction #UP </xsl:text>
+        </xsl:when>
+        <xsl:when test="@bracket.place='below'">
+          <xsl:text>\tweak TupletBracket.direction #DOWN </xsl:text>
+        </xsl:when>
+      </xsl:choose>
     </xsl:if>
     <xsl:if test="@bracket.visible">
-      <xsl:value-of select="concat('\once \override TupletBracket.bracket-visibility = ##',substring(@bracket.visible,1,1),' ')" />
+      <xsl:value-of select="concat('\tweak TupletBracket.bracket-visibility ##',substring(@bracket.visible,1,1),' ')" />
+    </xsl:if>
+    <xsl:if test="@num.format">
+      <xsl:choose>
+        <xsl:when test="@num.format='count'">
+          <xsl:value-of select="'\tweak TupletNumber.text #tuplet-number::calc-denominator-text '" />
+        </xsl:when>
+        <xsl:when test="@num.format='ratio'">
+          <xsl:value-of select="'\tweak TupletNumber.text #tuplet-number::calc-fraction-text '" />
+        </xsl:when>
+      </xsl:choose>
+    </xsl:if>
+    <xsl:if test="@num.place">
+      <xsl:choose>
+        <xsl:when test="@num.place='above'">
+          <xsl:text>\tweak TupletNumber.direction #UP </xsl:text>
+        </xsl:when>
+        <xsl:when test="@num.place='below'">
+          <xsl:text>\tweak TupletNumber.direction #DOWN </xsl:text>
+        </xsl:when>
+      </xsl:choose>
     </xsl:if>
     <xsl:if test="@num.visible='false'">
-      <xsl:value-of select="'\once \omit TupletNumber '" />
+      <xsl:value-of select="'\single \omit TupletNumber '" />
     </xsl:if>
-    <xsl:if test="@num.format='ratio'">
-      <xsl:value-of select="'\once \override TupletNumber.text = #tuplet-number::calc-fraction-text '" />
-    </xsl:if>
-    <xsl:choose>
-      <xsl:when test="@bracket.place='above' or @num.place='above'">
-        <xsl:value-of select="'\once \tupletUp '" />
-      </xsl:when>
-      <xsl:when test="@bracket.place='below' or @num.place='below'">
-        <xsl:value-of select="'\once \tupletDown '" />
-      </xsl:when>
-    </xsl:choose>
     <xsl:value-of select="concat('\tuplet ', @num, '/', @numbase, ' { ')" />
-    <xsl:apply-templates/>
-    <xsl:text>} </xsl:text>
+    <xsl:if test="self::mei:tuplet">
+      <xsl:apply-templates/>
+      <xsl:text>} </xsl:text>
+    </xsl:if>
   </xsl:template>
   <!-- MEI tuplet span -->
   <xsl:template match="mei:tupletSpan[not(@endid)]" mode="pre">
     <xsl:message>ERROR: @endid is missing on tupletSpan <xsl:if test="@xml:id"><xsl:value-of select="concat('[',@xml:id,']')"/></xsl:if> </xsl:message>
   </xsl:template>
   <xsl:template match="mei:tupletSpan" mode="pre">
-    <xsl:if test="@color">
-      <xsl:value-of select="'\once \override TupletBracket.color = #'" />
-      <xsl:call-template name="setColor" />
-      <xsl:value-of select="'\once \override TupletNumber.color = #'" />
-      <xsl:call-template name="setColor" />
-    </xsl:if>
-    <xsl:if test="@bracket.visible">
-      <xsl:value-of select="concat('\once \override TupletBracket.bracket-visibility = ##',substring(@bracket.visible,1,1),' ')" />
-    </xsl:if>
-    <xsl:if test="@num.visible='false'">
-      <xsl:value-of select="'\once \omit TupletNumber '" />
-    </xsl:if>
-    <xsl:if test="@num.format='ratio'">
-      <xsl:value-of select="'\once \override TupletNumber.text = #tuplet-number::calc-fraction-text '" />
-    </xsl:if>
-    <xsl:choose>
-      <xsl:when test="@bracket.place='above' or @num.place='above'">
-        <xsl:value-of select="'\once \tupletUp '" />
-      </xsl:when>
-      <xsl:when test="@bracket.place='below' or @num.place='below'">
-        <xsl:value-of select="'\once \tupletDown '" />
-      </xsl:when>
-    </xsl:choose>
-    <xsl:value-of select="concat('\tuplet ', @num, '/', @numbase, ' { ')" />
+    <xsl:call-template name="tuplet" />
   </xsl:template>
   <!-- MEI articulation -->
   <xsl:template match="mei:artic[@copyof]">
