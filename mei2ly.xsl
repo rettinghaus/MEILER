@@ -2,7 +2,7 @@
 <!--          -->
 <!--  MEILER  -->
 <!--  mei2ly  -->
-<!-- v 0.9.0  -->
+<!-- v 0.9.1  -->
 <!--          -->
 <!-- programmed by -->
 <!-- Klaus Rettinghaus -->
@@ -11,7 +11,7 @@
 <xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:saxon="http://saxon.sf.net/" xmlns:local="NS:LOCAL" exclude-result-prefixes="saxon">
   <xsl:strip-space elements="*" />
   <xsl:output method="text" indent="no" encoding="UTF-8" />
-  <xsl:param name="LilyPondVersion" select="'2.19.58'"/>
+  <xsl:param name="LilyPondVersion" select="'2.19.55'"/>
   <xsl:param name="useSvgBackend" select="false()" as="xs:boolean"/>
   <xsl:param name="generateHeader" select="true()" as="xs:boolean"/>
   <xsl:param name="forceLayout" select="false()" as="xs:boolean"/>
@@ -911,6 +911,8 @@
           <xsl:text>\)</xsl:text>
         </xsl:when>
         <xsl:when test="self::mei:slur">
+          <xsl:text>\=#&apos;</xsl:text>
+          <xsl:value-of select="generate-id()" />
           <xsl:text>)</xsl:text>
         </xsl:when>
         <xsl:when test="self::mei:trill">
@@ -1012,6 +1014,8 @@
           <xsl:text>\)</xsl:text>
         </xsl:when>
         <xsl:when test="self::mei:slur">
+          <xsl:text>\=#&apos;</xsl:text>
+          <xsl:value-of select="generate-id()" />
           <xsl:text>)</xsl:text>
         </xsl:when>
         <xsl:when test="self::mei:trill">
@@ -1115,6 +1119,8 @@
           <xsl:text>\)</xsl:text>
         </xsl:when>
         <xsl:when test="self::mei:slur">
+          <xsl:text>\=#&apos;</xsl:text>
+          <xsl:value-of select="generate-id()" />
           <xsl:text>)</xsl:text>
         </xsl:when>
         <xsl:when test="self::mei:trill">
@@ -1737,6 +1743,7 @@
   <!-- MEI phrase -->
   <xsl:template match="mei:phrase" mode="pre">
     <xsl:if test="@*[contains(name(),'ho') or contains(name(),'vo')]">
+      <xsl:text>&#10;\shape #&apos;</xsl:text>
       <xsl:call-template name="shapeCurve" />
       <xsl:text>PhrasingSlur</xsl:text>
     </xsl:if>
@@ -1774,6 +1781,7 @@
     <xsl:call-template name="setOffset2"/>
     </xsl:if>    -->
     <xsl:if test="@*[contains(name(),'ho') or contains(name(),'vo')]">
+      <xsl:text>&#10;\shape #&apos;</xsl:text>
       <xsl:call-template name="shapeCurve" />
       <xsl:text>Slur</xsl:text>
     </xsl:if>
@@ -1798,11 +1806,14 @@
       <xsl:call-template name="setLineWidth" />
     </xsl:if>
     <xsl:call-template name="setMarkupDirection"/>
+    <xsl:text>\=#&apos;</xsl:text>
+    <xsl:value-of select="generate-id()" />
     <xsl:text>(</xsl:text>
   </xsl:template>
   <!-- MEI tie -->
   <xsl:template match="mei:tie" mode="pre">
     <xsl:if test="@*[contains(name(),'ho') or contains(name(),'vo')]">
+      <xsl:text>&#10;\shape #&apos;</xsl:text>
       <xsl:call-template name="shapeCurve" />
       <xsl:text>Tie</xsl:text>
     </xsl:if>
@@ -2990,55 +3001,55 @@
     <xsl:text>\key </xsl:text>
     <xsl:choose>
       <xsl:when test="$accidentals='1s'">
-        <xsl:text>g \major</xsl:text>
+        <xsl:text>g\major</xsl:text>
       </xsl:when>
       <xsl:when test="$accidentals='2s'">
-        <xsl:text>d \major</xsl:text>
+        <xsl:text>d\major</xsl:text>
       </xsl:when>
       <xsl:when test="$accidentals='3s'">
-        <xsl:text>a \major</xsl:text>
+        <xsl:text>a\major</xsl:text>
       </xsl:when>
       <xsl:when test="$accidentals='4s'">
-        <xsl:text>e \major</xsl:text>
+        <xsl:text>e\major</xsl:text>
       </xsl:when>
       <xsl:when test="$accidentals='5s'">
-        <xsl:text>b \major</xsl:text>
+        <xsl:text>b\major</xsl:text>
       </xsl:when>
       <xsl:when test="$accidentals='6s'">
-        <xsl:text>fis \major</xsl:text>
+        <xsl:text>fis\major</xsl:text>
       </xsl:when>
       <xsl:when test="$accidentals='7s'">
-        <xsl:text>cis \major</xsl:text>
+        <xsl:text>cis\major</xsl:text>
       </xsl:when>
       <xsl:when test="$accidentals='8s'">
-        <xsl:text>gis \major</xsl:text>
+        <xsl:text>gis\major</xsl:text>
       </xsl:when>
       <xsl:when test="$accidentals='1f'">
-        <xsl:text>f \major</xsl:text>
+        <xsl:text>f\major</xsl:text>
       </xsl:when>
       <xsl:when test="$accidentals='2f'">
-        <xsl:text>bes \major</xsl:text>
+        <xsl:text>bes\major</xsl:text>
       </xsl:when>
       <xsl:when test="$accidentals='3f'">
-        <xsl:text>ees \major</xsl:text>
+        <xsl:text>ees\major</xsl:text>
       </xsl:when>
       <xsl:when test="$accidentals='4f'">
-        <xsl:text>aes \major</xsl:text>
+        <xsl:text>aes\major</xsl:text>
       </xsl:when>
       <xsl:when test="$accidentals='5f'">
-        <xsl:text>des \major</xsl:text>
+        <xsl:text>des\major</xsl:text>
       </xsl:when>
       <xsl:when test="$accidentals='6f'">
-        <xsl:text>ges \major</xsl:text>
+        <xsl:text>ges\major</xsl:text>
       </xsl:when>
       <xsl:when test="$accidentals='7f'">
-        <xsl:text>ces \major</xsl:text>
+        <xsl:text>ces\major</xsl:text>
       </xsl:when>
       <xsl:when test="$accidentals='8f'">
-        <xsl:text>fes \major</xsl:text>
+        <xsl:text>fes\major</xsl:text>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:text>c \major</xsl:text>
+        <xsl:text>c\major</xsl:text>
       </xsl:otherwise>
     </xsl:choose>
     <xsl:text>&#10;</xsl:text>
@@ -3161,7 +3172,6 @@
     <xsl:param name="y3" select="(sum(@vo) + number(tokenize($bezier,'\s+')[4])) div 2" />
     <xsl:param name="x4" select="(sum(@ho) + sum(@endho)) div 2" />
     <xsl:param name="y4" select="(sum(@vo) + sum(@endvo)) div 2" />
-    <xsl:text>&#10;\shape #&apos;</xsl:text>
     <xsl:value-of select="concat('((',$x1,' . ',$y1,') (',$x2,' . ',$y2,') (',$x3,' . ',$y3,') (',$x4,' . ',$y4,')) ')" />
   </xsl:template>
   <!-- set SVG attributes -->
