@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.music-encoding.org/schema/3.0.0/mei-all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="http://www.music-encoding.org/schema/3.0.0/mei-all.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<mei xmlns="http://www.music-encoding.org/ns/mei" meiversion="3.0.0">
+  <meiHead>
+    <fileDesc>
+      <titleStmt>
+        <title/>
+      </titleStmt>
+      <pubStmt/>
+      <seriesStmt>
+        <title>MEILER test files</title>
+      </seriesStmt>
+    </fileDesc>
+  </meiHead>
+  <music>
+    <body>
+      <mdiv>
+        <score>
+          <scoreDef meter.count="3" meter.unit="4">
+            <staffGrp>
+              <staffDef n="1" clef.line="3" clef.shape="C" lines="5"/>
+            </staffGrp>
+          </scoreDef>
+          <section>
+            <measure n="1">
+              <staff n="1">
+                <layer n="1">
+                  <note xml:id="m01-n01" dur="4" oct="4" pname="c"/>
+                  <note xml:id="m01-n02" dur="4" oct="4" pname="d"/>
+                  <note xml:id="m01-n03" dur="4" oct="4" pname="e"/>
+                </layer>
+              </staff>
+              <tempo xml:id="m01-t01" place="below" staff="1" startid="#m01-n01">Adagio</tempo>
+            </measure>
+            <measure n="2">
+              <staff n="1">
+                <layer n="1">
+                  <note xml:id="m02-n01" dur="4" oct="4" pname="c"/>
+                  <note xml:id="m02-n02" dur="4" oct="4" pname="d"/>
+                  <note xml:id="m02-n03" dur="4" oct="4" pname="e"/>
+                </layer>
+              </staff>
+              <tempo xml:id="m02-t01" staff="1" startid="#m02-n01" midi.bpm="112" vo="2"><rend color="red">Presto</rend></tempo>
+            </measure>
+            <measure n="3">
+              <staff n="1">
+                <layer n="1">
+                  <note xml:id="m03-n01" dur="4" oct="4" pname="c"/>
+                  <note xml:id="m03-n02" dur="4" oct="4" pname="d"/>
+                  <note xml:id="m03-n03" dur="4" oct="4" pname="e"/>
+                </layer>
+              </staff>
+              <tempo xml:id="m03-t01" startid="#m03-n01" midi.bpm="92" label="just changing MIDI tempo"/>
+            </measure>
+            <measure n="4">
+              <staff n="1">
+                <layer n="1">
+                  <note xml:id="m04-n01" dur="4" oct="4" pname="c"/>
+                  <note xml:id="m04-n02" dur="4" oct="4" pname="d"/>
+                  <note xml:id="m04-n03" dur="4" oct="4" pname="e"/>
+                </layer>
+              </staff>
+              <tempo xml:id="m04-t01" place="below" staff="1" startid="#m04-n01" mm="66" mm.unit="4"></tempo>
+            </measure>
+            <measure n="5">
+              <staff n="1">
+                <layer n="1">
+                  <note xml:id="m05-n01" dur="4" oct="4" pname="c"/>
+                  <note xml:id="m05-n02" dur="4" oct="4" pname="d"/>
+                  <note xml:id="m05-n03" dur="4" oct="4" pname="e"/>
+                </layer>
+              </staff>
+              <tempo xml:id="m05-t01" staff="1" startid="#m05-n01" mm="111" mm.unit="4">Speed-up</tempo>
+            </measure>
+          </section>
+        </score>
+      </mdiv>
+    </body>
+  </music>
+</mei>

@@ -1,6 +1,6 @@
 #--        MEILER         --#
 #-- simple testing script --#
-#--        v0.2.5         --#
+#--        v0.2.6         --#
 #--                       --#
 #--     programmed by     --#
 #--   Klaus Rettinghaus   --#
@@ -22,5 +22,7 @@ do
   echo "### [$fname]($fname)" >> README.md
   echo "![$fname](${fname%.mei}.preview.png)" >> README.md
 done
+echo "" >> README.md
+echo "All test files are licensed under a [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/)." >> README.md
 echo done
 echo see tests.log for details
