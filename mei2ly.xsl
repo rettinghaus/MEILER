@@ -1402,7 +1402,7 @@
   </xsl:template>
   <xsl:template name="tuplet" match="mei:tuplet">
     <xsl:if test="$useSvgBackend">
-      <xsl:text>\tweak TupletNumer.output-attributes #&apos;</xsl:text>
+      <xsl:text>\tweak TupletNumber.output-attributes #&apos;</xsl:text>
       <xsl:call-template name="setSvgAttr" />
     </xsl:if>
     <xsl:if test="@color">
