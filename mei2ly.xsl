@@ -2156,7 +2156,7 @@
       <xsl:text>\once \set Score.tempoHideNote = ##t&#32;</xsl:text>
     </xsl:if>
     <xsl:if test="$useSvgBackend">
-      <xsl:text>\tweak output-attributes #&apos;</xsl:text>
+      <xsl:text>\once \override Score.MetronomeMark.output-attributes = #&apos;</xsl:text>
       <xsl:call-template name="setSvgAttr" />
     </xsl:if>
     <xsl:if test="@place = 'below'">
