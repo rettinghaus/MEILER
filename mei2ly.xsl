@@ -2159,11 +2159,12 @@
       <xsl:text>\once \override Score.MetronomeMark.output-attributes = #&apos;</xsl:text>
       <xsl:call-template name="setSvgAttr" />
     </xsl:if>
-    <xsl:if test="@place = 'below'">
-      <xsl:value-of select="'\tweak direction #DOWN '" />
+    <xsl:if test="@place">
+      <xsl:text>\once \override Score.MetronomeMark.direction = #</xsl:text>
+      <xsl:call-template name="setDirection" />
     </xsl:if>
     <xsl:if test="@ho or @vo">
-      <xsl:text>\tweak extra-offset #&apos;</xsl:text>
+      <xsl:text>\once \override Score.MetronomeMark.extra-offset = #&apos;</xsl:text>
       <xsl:call-template name="setOffset" />
     </xsl:if>
     <xsl:if test="$tempoString or @midi.bpm or (@mm.unit and @mm)">
