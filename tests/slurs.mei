@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://music-encoding.org/schema/3.0.0/mei-all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="http://music-encoding.org/schema/3.0.0/mei-all.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<mei xmlns="http://www.music-encoding.org/ns/mei" meiversion="3.0.0">
+  <meiHead>
+    <fileDesc>
+      <titleStmt>
+        <title/>
+      </titleStmt>
+      <pubStmt/>
+      <seriesStmt>
+        <title>MEILER test files</title>
+      </seriesStmt>
+    </fileDesc>
+  </meiHead>
+  <music>
+    <body>
+      <mdiv>
+        <score>
+          <scoreDef meter.count="4" meter.unit="4">
+            <staffGrp>
+              <staffDef clef.shape="G" clef.line="2" n="1" lines="5" key.sig="8f"/>
+            </staffGrp>
+          </scoreDef>
+          <section>
+            <measure n="1" label="conjunct slurs">
+              <staff n="1">
+                <layer n="1">
+                  <note xml:id="note-L29F1" dur="4" oct="4" pname="c"/>
+                  <note xml:id="note-L30F1" dur="8" oct="4" pname="d"/>
+                  <note xml:id="note-L31F1" dur="4" oct="4" pname="c"/>
+                  <note xml:id="note-L32F1" dur="8" oct="4" pname="d"/>
+                  <note xml:id="note-L33F1" dur="4" oct="4" pname="c"/>
+                </layer>
+              </staff>
+              <slur staff="1" startid="#note-L29F1" endid="#note-L31F1"/>
+              <slur staff="1" startid="#note-L31F1" endid="#note-L33F1"/>
+            </measure>
+            <measure n="2" label="nested slurs">
+              <staff n="1">
+                <layer n="1">
+                  <note xml:id="note-L36F1" dur="4" oct="4" pname="c"/>
+                  <note xml:id="note-L37F1" dur="8" oct="4" pname="d"/>
+                  <note xml:id="note-L38F1" dur="4" oct="4" pname="e"/>
+                  <note xml:id="note-L39F1" dur="8" oct="4" pname="d"/>
+                  <note xml:id="note-L40F1" dur="4" oct="4" pname="c"/>
+                </layer>
+              </staff>
+              <slur staff="1" startid="#note-L37F1" endid="#note-L39F1"/>
+              <slur staff="1" startid="#note-L36F1" endid="#note-L40F1"/>
+            </measure>
+            <measure n="3" label="elided slurs">
+              <staff n="1">
+                <layer n="1">
+                  <note xml:id="note-L43F1" dur="4" oct="4" pname="e"/>
+                  <note xml:id="note-L44F1" dur="4" oct="4" pname="d"/>
+                  <note xml:id="note-L45F1" dur="4" oct="4" pname="e"/>
+                  <note xml:id="note-L46F1" dur="4" oct="4" pname="d"/>
+                </layer>
+              </staff>
+              <slur staff="1" startid="#note-L43F1" endid="#note-L45F1"/>
+              <slur staff="1" startid="#note-L44F1" endid="#note-L46F1"/>
+            </measure>
+            <measure n="4" label="more elided slurs">
+              <staff n="1">
+                <layer n="1">
+                  <beam>
+                    <note xml:id="note-L49F1" dur="16" oct="4" pname="c"/>
+                    <note xml:id="note-L50F1" dur="16" oct="4" pname="d"/>
+                    <note xml:id="note-L51F1" dur="16" oct="4" pname="e"/>
+                    <note xml:id="note-L52F1" dur="16" oct="4" pname="f"/>
+                  </beam>
+                  <note xml:id="note-L53F1" dur="2" oct="4" pname="g"/>
+                  <beam>
+                    <note xml:id="note-L54F1" dur="16" oct="4" pname="c"/>
+                    <note xml:id="note-L55F1" dur="16" oct="4" pname="d"/>
+                    <note xml:id="note-L56F1" dur="16" oct="4" pname="e"/>
+                    <note xml:id="note-L57F1" dur="16" oct="4" pname="f"/>
+                  </beam>
+                </layer>
+              </staff>
+              <slur staff="1" startid="#note-L49F1" endid="#note-L54F1"/>
+              <slur staff="1" startid="#note-L50F1" endid="#note-L55F1"/>
+              <slur staff="1" startid="#note-L51F1" endid="#note-L56F1"/>
+              <slur staff="1" startid="#note-L52F1" endid="#note-L57F1"/>
+            </measure>
+            <measure right="end" n="5" label="partial layer parallel slurs">
+              <staff n="1">
+                <layer n="1">
+                  <note xml:id="note-L63F1" dur="4" oct="5" pname="c"/>
+                  <beam>
+                    <note xml:id="note-L65F1" dur="16" oct="4" pname="e"/>
+                    <note xml:id="note-L66F1" dur="16" oct="4" pname="e"/>
+                    <note xml:id="note-L67F1" dur="16" oct="4" pname="e"/>
+                    <note xml:id="note-L68F1" dur="16" oct="4" pname="e"/>
+                  </beam>
+                  <beam>
+                    <note xml:id="note-L69F1" dur="16" oct="4" pname="e"/>
+                    <note xml:id="note-L70F1" dur="16" oct="4" pname="e"/>
+                    <note xml:id="note-L71F1" dur="16" oct="4" pname="e"/>
+                    <note xml:id="note-L72F1" dur="16" oct="4" pname="e"/>
+                  </beam>
+                  <note xml:id="note-L74F1" dur="4" oct="5" pname="c"/>
+                </layer>
+                <layer n="2">
+                  <note xml:id="note-L63F2" dur="4" oct="4" pname="d"/>
+                  <space xml:id="space" dur="2"/>
+                  <note xml:id="note-L74F2" dur="4" oct="4" pname="d"/>
+                </layer>
+              </staff>
+              <slur staff="1" startid="#note-L68F1" endid="#note-L69F1"/>
+              <slur staff="1" startid="#note-L67F1" endid="#note-L70F1" curvedir="below"/>
+              <slur staff="1" startid="#note-L66F1" endid="#note-L71F1"/>
+              <slur staff="1" startid="#note-L65F1" endid="#note-L72F1" curvedir="below"/>
+              <slur staff="1" startid="#note-L63F1" endid="#note-L74F1"/>
+              <slur staff="1" startid="#note-L63F2" endid="#note-L74F2"/>
+            </measure>
+          </section>
+        </score>
+      </mdiv>
+    </body>
+  </music>
+</mei>
