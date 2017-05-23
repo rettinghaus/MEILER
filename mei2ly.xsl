@@ -2760,8 +2760,11 @@
       </xsl:otherwise>
     </xsl:choose>
     <xsl:call-template name="setDots" />
-    <xsl:if test="@num and @numbase">
-      <xsl:value-of select="concat('*', @num, '/', @numbase)" />
+    <xsl:if test="@num">
+      <xsl:value-of select="concat('*', @num)" />
+      <xsl:if test="@numbase">
+        <xsl:value-of select="concat('/', @numbase)" />
+      </xsl:if>
     </xsl:if>
   </xsl:template>
   <!-- set dots -->

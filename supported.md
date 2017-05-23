@@ -382,6 +382,8 @@ List of supported MEI elements and attributes
   * `@fermata`
   * `@ho`
   * `@loc`
+  * `@num`
+  * `@numbase`
   * `@oloc`
   * `@ploc`
   * `@staff`
