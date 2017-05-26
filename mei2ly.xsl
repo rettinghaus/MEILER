@@ -2,7 +2,7 @@
 <!--          -->
 <!--  MEILER  -->
 <!--  mei2ly  -->
-<!-- v 0.9.1  -->
+<!-- v 0.9.2  -->
 <!--          -->
 <!-- programmed by -->
 <!-- Klaus Rettinghaus -->
@@ -4185,14 +4185,15 @@
   <!-- set distances from the staff -->
   <!-- att.distances -->
   <xsl:template match="@dynam.dist">
-    <xsl:value-of select="concat('\override DynamicLineSpanner.staff-padding = #',local:VU2LY(.),' ')" />
+    <xsl:value-of select="concat('\override Staff.DynamicLineSpanner.staff-padding = #',local:VU2LY(.),' ')" />
   </xsl:template>
   <xsl:template match="@harm.dist">
-    <xsl:message select="'INFO: @harm.dist not supported'" />
+    <xsl:message select="'INFO: @harm.dist only affects figured bass'" />
+    <xsl:value-of select="concat('\override Staff.BassFigureAlignmentPositioning.staff-padding = #',local:VU2LY(.),' ')" />
   </xsl:template>
   <xsl:template match="@text.dist">
     <xsl:value-of select="concat('\override Score.MetronomeMark.padding = #',local:VU2LY(.),' ')" />
-    <xsl:value-of select="concat('\override TextScript.staff-padding = #',local:VU2LY(.),' ')" />
+    <xsl:value-of select="concat('\override Staff.TextScript.staff-padding = #',local:VU2LY(.),' ')" />
   </xsl:template>
   <!-- page layout -->
   <xsl:template match="mei:scoreDef" mode="makePageLayout">

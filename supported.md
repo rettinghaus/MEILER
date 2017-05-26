@@ -406,6 +406,7 @@ List of supported MEI elements and attributes
     * `@clef.shape`
     * `@dynam.dist`
     * `@ending.rend` (for values 'top' and 'grouped')
+    * `@harm.dist`
     * `@key.accid`
     * `@key.mode`
     * `@key.pname`
@@ -471,6 +472,7 @@ List of supported MEI elements and attributes
   * `@clef.line`
   * `@clef.shape`
   * `@dynam.dist`
+  * `@harm.dist`
   * `@key.accid`
   * `@key.mode`
   * `@key.pname`
