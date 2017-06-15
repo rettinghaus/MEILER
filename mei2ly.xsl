@@ -2,7 +2,7 @@
 <!--          -->
 <!--  MEILER  -->
 <!--  mei2ly  -->
-<!-- v 0.9.2  -->
+<!-- v 0.9.3  -->
 <!--          -->
 <!-- programmed by -->
 <!-- Klaus Rettinghaus -->
@@ -210,9 +210,6 @@
       <xsl:text>\oneVoice </xsl:text>
     </xsl:if>
     <xsl:text>{ </xsl:text>
-    <xsl:if test="@beam.group">
-      <xsl:call-template name="setBeaming" />
-    </xsl:if>
     <xsl:apply-templates/>
     <xsl:text>} </xsl:text>
   </xsl:template>
@@ -537,14 +534,14 @@
       <xsl:text>\override DynamicLineSpanner.direction = #UP </xsl:text>
     </xsl:if>
     <xsl:apply-templates select="mei:instrDef" />
-    <xsl:if test="@lines and @lines != '5'">
+    <xsl:if test="@lines">
       <xsl:value-of select="concat('\override Staff.StaffSymbol.line-count = #',@lines,'&#10;    ')" />
     </xsl:if>
     <xsl:choose>
-      <xsl:when test="@lines.visible = 'true'">
+      <xsl:when test="@lines.visible = true()">
         <xsl:value-of select="'\override Staff.StaffSymbol.transparent = ##f&#10;    '" />
       </xsl:when>
-      <xsl:when test="@lines.visible = 'false'">
+      <xsl:when test="@lines.visible = false()">
         <xsl:value-of select="'\override Staff.StaffSymbol.transparent = ##t&#10;    '" />
       </xsl:when>
     </xsl:choose>
@@ -558,6 +555,7 @@
         </xsl:when>
       </xsl:choose>
     </xsl:if>
+    <xsl:call-template name="setBeaming" />
     <xsl:if test="@slur.lform">
       <xsl:value-of select="concat('\slur',translate(substring(@lform,1,1),'ds','DS'),substring(@lform,2),' ')" />
     </xsl:if>
@@ -577,14 +575,6 @@
       <xsl:call-template name="setTransposition" />
     </xsl:if>
     <xsl:apply-templates select="ancestor-or-self::*/@*[contains(name(),'.dist')]"/>
-    <xsl:choose>
-      <xsl:when test="ancestor-or-self::*/@beam.group">
-        <xsl:call-template name="setBeaming" />
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:value-of select="'\autoBeamOff '" />
-      </xsl:otherwise>
-    </xsl:choose>
     <!-- set MEILER default styles -->
     <xsl:text>\set tieWaitForNote = ##t&#10; </xsl:text>
     <xsl:apply-templates select="(mei:keySig, @*[starts-with(name(),'key.')])[1]" />
@@ -926,7 +916,7 @@
     <xsl:if test="contains(@slur,'i')">
       <xsl:text>(</xsl:text>
     </xsl:if>
-    <xsl:if test="@lv = 'true'">
+    <xsl:if test="@lv = true()">
       <xsl:text>\laissezVibrer</xsl:text>
     </xsl:if>
     <xsl:if test="@artic">
@@ -1197,11 +1187,15 @@
       <xsl:text>\tweak MultiMeasureRest.output-attributes #&apos;</xsl:text>
       <xsl:call-template name="setSvgAttr" />
     </xsl:if>
-    <xsl:if test="@block = 'true'">
+    <!-- att.multiRest.vis -->
+    <xsl:if test="@block = true()">
       <xsl:value-of select="'\tweak expand-limit #1 '" />
     </xsl:if>
     <xsl:if test="@loc">
       <xsl:value-of select="concat('\tweak staff-position #',@loc - 4,' ')" />
+    </xsl:if>
+    <xsl:if test="@ploc or @oloc">
+      <xsl:message>WARNING: @ploc and @oloc on <xsl:value-of select="local-name(.)"/> <xsl:if test="@xml:id"><xsl:value-of select="concat('[',@xml:id,']')"/></xsl:if> not supported, use @loc instead</xsl:message>
     </xsl:if>
     <xsl:text>R1*</xsl:text>
     <xsl:choose>
@@ -1709,6 +1703,23 @@
       <xsl:call-template name="setOffset" />
     </xsl:if>
     <xsl:text>\breathe</xsl:text>
+  </xsl:template>
+  <!-- MEI laissez vibrer-->
+  <xsl:template match="mei:lv">
+    <xsl:if test="$useSvgBackend">
+      <xsl:text>-\tweak output-attributes #&apos;</xsl:text>
+      <xsl:call-template name="setSvgAttr" />
+    </xsl:if>
+    <xsl:if test="@color">
+      <xsl:text>-\tweak color #</xsl:text>
+      <xsl:call-template name="setColor" />
+    </xsl:if>
+    <xsl:if test="@lwidth">
+      <xsl:text>-\tweak thickness #</xsl:text>
+      <xsl:call-template name="setLineWidth" />
+    </xsl:if>
+    <xsl:call-template name="setMarkupDirection"/>
+    <xsl:text>\laissezVibrer</xsl:text>
   </xsl:template>
   <!-- MEI octave -->
   <xsl:template match="mei:octave[@copyof]" mode="pre">
@@ -3378,8 +3389,15 @@
   </xsl:template>
   <!-- set beaming -->
   <xsl:template name="setBeaming">
-    <xsl:text>\set Timing.beamExceptions = #'() </xsl:text>
-    <xsl:value-of select="concat('% ',ancestor-or-self::*/@beam.group)" />
+    <xsl:choose>
+      <xsl:when test="ancestor-or-self::*/@beam.group">
+        <xsl:text>\set Timing.beamExceptions = #'() </xsl:text>
+        <xsl:value-of select="concat('% ',ancestor-or-self::*/@beam.group)" />
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="'\set Staff.autoBeaming = ##f '" />
+      </xsl:otherwise>
+    </xsl:choose>
     <xsl:text>&#10;&#32;&#32;&#32;&#32;</xsl:text>
   </xsl:template>
   <!-- set bar number -->
