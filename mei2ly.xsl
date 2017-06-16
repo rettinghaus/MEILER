@@ -342,7 +342,7 @@
         </xsl:for-each>
         <xsl:text>}&#10;&#10;</xsl:text>
         <!-- lilypond figured bass -->
-        <xsl:if test="ancestor::mei:mdiv[1]//mei:harm[descendant-or-self::*/@staff=$staffNumber]">
+        <xsl:if test="ancestor::mei:mdiv[1]//mei:harm[child::mei:fb][descendant-or-self::*/@staff=$staffNumber]">
           <xsl:value-of select="concat('mdiv',local:number2alpha($mdivNumber),'_staff',local:number2alpha($staffNumber),'_harm = \figuremode {&#10;')" />
           <xsl:text>&#32;&#32;\set Staff.figuredBassAlterationDirection = #RIGHT&#10;</xsl:text>
           <xsl:for-each select="ancestor::mei:mdiv[1]//mei:measure">
@@ -1171,11 +1171,12 @@
         <xsl:text>1</xsl:text>
       </xsl:otherwise>
     </xsl:choose>
-    <xsl:if test="@fermata or ancestor::mei:measure/mei:fermata/@startid = concat('#',@xml:id)">
-      <xsl:call-template name="setMarkupDirection">
-        <xsl:with-param name="direction" select="@fermata|ancestor::mei:measure/mei:fermata/@place"/>
-      </xsl:call-template>
+    <xsl:if test="@fermata">
       <xsl:call-template name="fermata" />
+      <xsl:value-of select="'Markup'" />
+    </xsl:if>
+    <xsl:if test="ancestor::mei:measure/mei:fermata/@startid = concat('#',@xml:id)">
+      <xsl:apply-templates select="ancestor::mei:measure/mei:fermata[@startid = concat('#',current()/@xml:id)]" />
       <xsl:value-of select="'Markup'" />
     </xsl:if>
     <xsl:value-of select="' '" />
@@ -1204,10 +1205,13 @@
           <xsl:with-param name="decimalnum" select="@num * preceding::mei:meterSig[@count][1]/@count div preceding::mei:meterSig[@unit][1]/@unit" />
         </xsl:call-template>
       </xsl:when>
-      <xsl:otherwise>
+      <xsl:when test="preceding::mei:meterSig">
         <xsl:call-template name="durationMultiplier">
           <xsl:with-param name="decimalnum" select="@num * preceding::*[@meter.count][1]/@meter.count div preceding::*[@meter.unit][1]/@meter.unit" />
         </xsl:call-template>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:text>1</xsl:text>
       </xsl:otherwise>
     </xsl:choose>
     <xsl:if test="ancestor::mei:measure/mei:fermata/@startid = concat('#',@xml:id)">
@@ -2068,7 +2072,7 @@
   <xsl:template match="mei:harm[@copyof]">
     <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:harm[@xml:id = substring-after(current()/@copyof,'#')]" />
   </xsl:template>
-  <xsl:template match="mei:harm[mei:fb]">
+  <xsl:template match="mei:harm[child::mei:fb]">
     <xsl:param name="meterCount">
       <xsl:choose>
         <xsl:when test="preceding::*/@meter.count">
