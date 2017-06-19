@@ -2,7 +2,7 @@
 <!--          -->
 <!--  MEILER  -->
 <!--  mei2ly  -->
-<!-- v 0.9.3  -->
+<!-- v 0.9.4  -->
 <!--          -->
 <!-- programmed by -->
 <!-- Klaus Rettinghaus -->
@@ -428,7 +428,7 @@
       </xsl:if>
       <xsl:text>}&#10;</xsl:text>
     </xsl:if>
-    <xsl:if test="@mnum.visible = 'false'">
+    <xsl:if test="@mnum.visible=false()">
       <!-- att.measurenumbers -->
       <xsl:text> \context { \Score \remove "Bar_number_engraver" }&#10;</xsl:text>
     </xsl:if>
@@ -462,7 +462,7 @@
       </xsl:if>
       <xsl:text>}&#10;</xsl:text>
     </xsl:if>
-    <xsl:if test="@optimize = 'false'">
+    <xsl:if test="@optimize=false()">
       <xsl:text> \context { \Staff \RemoveEmptyStaves \override VerticalAxisGroup.remove-first = ##t }&#10;</xsl:text>
     </xsl:if>
     <xsl:text>}&#10;</xsl:text>
@@ -606,12 +606,12 @@
         <xsl:text>\set Score.automaticBars = ##f </xsl:text>
       </xsl:when>
     </xsl:choose>
-    <xsl:if test="ancestor::mei:scoreDef/@meter.showchange = 'false'">
+    <xsl:if test="ancestor::mei:scoreDef/@meter.showchange=false()">
       <xsl:text>\override Staff.TimeSignature.break-visibility = #'#(#f #f #f)&#32;</xsl:text>
     </xsl:if>
     <!-- stop drawing bar line -->
-    <xsl:if test="(position() = last()) and ancestor::mei:staffGrp[2]/@barthru = 'false'">
       <xsl:value-of select="'\override Staff.BarLine.allow-span-bar = ##f&#32;'" />
+      <xsl:if test="(position() = last()) and ancestor::mei:staffGrp[2]/@barthru=false()">
     </xsl:if>
     <!-- change current bar number -->
     <xsl:if test="ancestor::mei:mdiv/descendant::mei:measure[1]/@n &gt; 1">
@@ -781,9 +781,6 @@
         <xsl:text>{</xsl:text>
       </xsl:if>
     </xsl:if>
-    <xsl:if test="@visible='false'">
-      <xsl:text>\once \hideNotes </xsl:text>
-    </xsl:if>
     <xsl:if test="@fontsize">
       <xsl:text>\once </xsl:text>
       <xsl:call-template name="setRelFontsize"/>
@@ -791,6 +788,9 @@
     <xsl:if test="$useSvgBackend">
       <xsl:text>\tweak output-attributes #&apos;</xsl:text>
       <xsl:call-template name="setSvgAttr" />
+    </xsl:if>
+    <xsl:if test="@visible">
+      <xsl:call-template name="setVisibility"/>
     </xsl:if>
     <xsl:if test="ancestor-or-self::*/@color">
       <xsl:value-of select="'\tweak color #'" />
@@ -852,7 +852,7 @@
         </xsl:when>
       </xsl:choose>
     </xsl:if>
-    <xsl:if test="@head.visible = 'false'">
+    <xsl:if test="@head.visible=false()">
       <xsl:text>\tweak transparent ##t </xsl:text>
     </xsl:if>
     <xsl:value-of select="@pname" />
@@ -959,7 +959,7 @@
     <xsl:if test="@staff and @staff != ancestor::mei:staff/@n">
       <xsl:value-of select="concat('\change Staff = &quot;staff ',@staff,'&quot;&#32;')" />
     </xsl:if>
-    <xsl:if test="@visible='false'">
+    <xsl:if test="@visible=false()">
       <xsl:text>\once \hideNotes </xsl:text>
     </xsl:if>
     <xsl:if test="@fontsize">
@@ -1135,12 +1135,12 @@
     <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:mRest[@xml:id = substring-after(current()/@copyof,'#')]" />
   </xsl:template>
   <xsl:template name="setMeasureRest" match="mei:mRest">
-    <xsl:if test="@visible='false'">
-      <xsl:text>\tweak transparent ##t</xsl:text>
-    </xsl:if>
     <xsl:if test="$useSvgBackend">
       <xsl:text>\tweak output-attributes #&apos;</xsl:text>
       <xsl:call-template name="setSvgAttr" />
+    </xsl:if>
+    <xsl:if test="@visible">
+      <xsl:call-template name="setVisibility"/>
     </xsl:if>
     <xsl:if test="@color">
       <xsl:text>\tweak color #</xsl:text>
@@ -1190,7 +1190,7 @@
     </xsl:if>
     <!-- att.multiRest.vis -->
     <xsl:if test="@block = true()">
-      <xsl:value-of select="'\tweak expand-limit #1 '" />
+      <xsl:value-of select="'\tweak expand-limit #0 '" />
     </xsl:if>
     <xsl:if test="@loc">
       <xsl:value-of select="concat('\tweak staff-position #',@loc - 4,' ')" />
@@ -1205,7 +1205,7 @@
           <xsl:with-param name="decimalnum" select="@num * preceding::mei:meterSig[@count][1]/@count div preceding::mei:meterSig[@unit][1]/@unit" />
         </xsl:call-template>
       </xsl:when>
-      <xsl:when test="preceding::mei:meterSig">
+      <xsl:when test="preceding::*[@meter.count]">
         <xsl:call-template name="durationMultiplier">
           <xsl:with-param name="decimalnum" select="@num * preceding::*[@meter.count][1]/@meter.count div preceding::*[@meter.unit][1]/@meter.unit" />
         </xsl:call-template>
@@ -1355,7 +1355,7 @@
       <xsl:call-template name="setSvgAttr" />
     </xsl:if>
     <xsl:if test="@num">
-      <xsl:if test="@num.visible='false'">
+      <xsl:if test="@num.visible=false()">
         <xsl:value-of select="'\once \omit TupletNumber '" />
       </xsl:if>
       <xsl:choose>
@@ -1442,7 +1442,7 @@
         </xsl:when>
       </xsl:choose>
     </xsl:if>
-    <xsl:if test="@num.visible='false'">
+    <xsl:if test="@num.visible=false()">
       <xsl:value-of select="'\single \omit TupletNumber '" />
     </xsl:if>
     <xsl:value-of select="concat('\tuplet ', @num, '/', @numbase, ' { ')" />
@@ -3497,6 +3497,18 @@
       <xsl:otherwise/>
     </xsl:choose>
     <xsl:text>&#32;</xsl:text>
+  </xsl:template>
+  <!-- set visibility-->
+  <xsl:template name="setVisibility">
+    <!-- att.visibility -->
+    <xsl:choose>
+      <xsl:when test="@visible = true()">
+        <xsl:value-of select="'\tweak transparent ##f '" />
+      </xsl:when>
+      <xsl:when test="@visible = false()">
+        <xsl:value-of select="'\tweak transparent ##t '" />
+      </xsl:when>
+    </xsl:choose>
   </xsl:template>
   <!-- modify note head -->
   <xsl:template name="modifyNotehead">
