@@ -233,6 +233,9 @@
           <xsl:apply-templates select="ancestor::mei:measure/mei:reh"/>
           <!-- add volta brackets -->
           <xsl:if test="ancestor::mei:ending and not(ancestor::mei:measure/preceding-sibling::mei:measure)">
+            <xsl:if test="$useSvgBackend">
+              <xsl:text>\once \override Score.VoltaBracket.output-attributes = #&apos;((class . ending)) </xsl:text>
+            </xsl:if>
             <xsl:text>\set Score.repeatCommands = #'((volta "</xsl:text>
             <xsl:value-of select="concat(ancestor::mei:ending/@n[1],'.')" />
             <xsl:text>"))&#10;&#32;&#32;</xsl:text>
