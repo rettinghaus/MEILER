@@ -2,7 +2,7 @@
 <!--          -->
 <!--  MEILER  -->
 <!--  mei2ly  -->
-<!-- v 0.9.4  -->
+<!-- v 0.9.5  -->
 <!--          -->
 <!-- programmed by -->
 <!-- Klaus Rettinghaus -->
@@ -2384,7 +2384,27 @@
         </xsl:call-template>
       </xsl:when>
       <xsl:otherwise>
-        <!-- Not yet implemented -->
+        <xsl:text>\set Staff.keyAlterations = #`(</xsl:text>
+        <xsl:for-each select="tokenize($keySigMixed, ' ')">
+          <xsl:text>(</xsl:text>
+          <xsl:value-of select="concat('( ', number(substring(.,2,1)) - 4, ' . ', translate(substring(.,1,1), 'cdefgab', '0123456')), ') . '"/>
+          <xsl:choose>
+            <xsl:when test="substring(.,3,3) = 'f'">
+              <xsl:text>,FLAT</xsl:text>
+            </xsl:when>
+            <xsl:when test="substring(.,3,3) = 's'">
+              <xsl:text>,SHARP</xsl:text>
+            </xsl:when>
+            <xsl:when test="substring(.,3,3) = 'x'">
+              <xsl:text>,DOUBLE-SHARP</xsl:text>
+            </xsl:when>
+            <xsl:when test="substring(.,3,3) = 'ff'">
+              <xsl:text>,DOUBLE-FLAT</xsl:text>
+            </xsl:when>
+          </xsl:choose>
+          <xsl:text>)</xsl:text>
+        </xsl:for-each>
+        <xsl:text>) </xsl:text>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>

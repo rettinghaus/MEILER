@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.music-encoding.org/schema/3.0.0/mei-all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="http://www.music-encoding.org/schema/3.0.0/mei-all.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<mei xmlns="http://www.music-encoding.org/ns/mei" meiversion="3.0.0">
+  <meiHead>
+    <fileDesc>
+      <titleStmt>
+        <title/>
+      </titleStmt>
+      <pubStmt/>
+      <seriesStmt>
+        <title>MEILER test files</title>
+      </seriesStmt>
+    </fileDesc>
+  </meiHead>
+  <music>
+    <body>
+      <mdiv>
+        <score>
+          <scoreDef meter.count="4" meter.unit="4">
+            <staffGrp>
+              <staffDef n="1" clef.line="2" clef.shape="G" lines="5" key.sig="mixed" key.sig.mixed="e4f f4s e5f f5s"/>
+            </staffGrp>
+          </scoreDef>
+          <section>
+            <measure n="1">
+              <staff n="1">
+                <layer n="1">
+                  <note xml:id="m01-n01" dur="4" oct="4" pname="c"/>
+                  <note xml:id="m01-n02" dur="4" oct="4" pname="d"/>
+                  <note xml:id="m01-n03" dur="4" oct="4" pname="e" accid.ges="f"/>
+                  <note xml:id="m01-n04" dur="4" oct="4" pname="f" accid.ges="s"/>
+                </layer>
+              </staff>
+            </measure>
+            <staffDef n="1" clef.line="2" clef.shape="G" lines="5" key.sig="mixed" key.sig.mixed="c4x b4ff"/>            
+            <measure n="2">
+              <staff n="1">
+                <layer n="1">
+                  <note xml:id="m02-n01" dur="4" oct="4" pname="c"/>
+                  <note xml:id="m02-n02" dur="4" oct="4" pname="d"/>
+                  <note xml:id="m02-n03" dur="4" oct="4" pname="e"/>
+                  <note xml:id="m02-n04" dur="4" oct="4" pname="f"/>
+                </layer>
+              </staff>
+            </measure>
+          </section>
+        </score>
+      </mdiv>
+    </body>
+  </music>
+</mei>
