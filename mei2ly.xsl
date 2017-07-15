@@ -2389,17 +2389,29 @@
           <xsl:text>(</xsl:text>
           <xsl:value-of select="concat('( ', number(substring(.,2,1)) - 4, ' . ', translate(substring(.,1,1), 'cdefgab', '0123456')), ') . '"/>
           <xsl:choose>
-            <xsl:when test="substring(.,3,3) = 'f'">
-              <xsl:text>,FLAT</xsl:text>
-            </xsl:when>
             <xsl:when test="substring(.,3,3) = 's'">
               <xsl:text>,SHARP</xsl:text>
+            </xsl:when>
+            <xsl:when test="substring(.,3,3) = 'f'">
+              <xsl:text>,FLAT</xsl:text>
             </xsl:when>
             <xsl:when test="substring(.,3,3) = 'x'">
               <xsl:text>,DOUBLE-SHARP</xsl:text>
             </xsl:when>
             <xsl:when test="substring(.,3,3) = 'ff'">
               <xsl:text>,DOUBLE-FLAT</xsl:text>
+            </xsl:when>
+            <xsl:when test="substring(.,3,3) = '1qf'">
+              <xsl:text>,SEMI-FLAT</xsl:text>
+            </xsl:when>
+            <xsl:when test="substring(.,3,3) = '3qf'">
+              <xsl:text>,THREE-Q-FLAT</xsl:text>
+            </xsl:when>
+            <xsl:when test="substring(.,3,3) = '1qs'">
+              <xsl:text>,SEMI-SHARP</xsl:text>
+            </xsl:when>
+            <xsl:when test="substring(.,3,3) = '3qs'">
+              <xsl:text>,THREE-Q-SHARP</xsl:text>
             </xsl:when>
           </xsl:choose>
           <xsl:text>)</xsl:text>

@@ -33,7 +33,7 @@
                 </layer>
               </staff>
             </measure>
-            <staffDef n="1" clef.line="2" clef.shape="G" lines="5" key.sig="mixed" key.sig.mixed="c4x b4ff"/>            
+            <staffDef n="1" key.sig="mixed" key.sig.mixed="c4x d41qf e43qf f43qs b4ff"/>            
             <measure n="2">
               <staff n="1">
                 <layer n="1">
