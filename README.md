@@ -9,7 +9,7 @@ Check the available [options](options.md) and the list of [supported elements an
 
 For now it uses XSLT 2.0. A possible goal for a later branch is to have an pure XSLT 1.0 version to put on a website, where you can generate a lilypond engraved rendering of a MEI edition on the fly.
 
-And of course you'll need [LilyPond](http://lilypond.org) for engraving your output. For custom headers and footers you should edit `titling-init.ly`.
+And of course you'll need [LilyPond](http://lilypond.org) for engraving your output. For custom headers and footers you should check and edit [`ly/titling-init.ly`](http://lilypond.org/doc/v2.19/Documentation/notation/creating-titles-headers-and-footers#default-layout-of-headers-and-footers).
 
 ### SILLY.xsl
 Along comes **silly.xsl** which *Strips Individual Layout for LilyPond*. It basically removes layout instructions from your MEI (e.g. stem directions) so LilyPond can do it's job. Using this will give you a fine clean LilyPond code with **mei2ly.xsl**.
