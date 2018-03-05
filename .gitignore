@@ -3,3 +3,6 @@
 *.ly
 *.midi
 *.pdf
+
+## Allow an instance of LilyPond for testing
+lilypond
