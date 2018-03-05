@@ -23,3 +23,8 @@ for [Debussy_Golliwogg'sCakewalk.mei](/examples/Debussy_Golliwogg'sCakewalk.mei)
 
 
 (See more tests [here](https://github.com/rettinghaus/mei-test-set/).)
+
+## Poster
+Have a look at our Poster:
+**MEILER – create beautifully engraved notation for print from MEI**
+[![DOI](https://zenodo.org/badge/DOI/10.13140/RG.2.2.15014.93760.svg)](https://doi.org/10.13140/RG.2.2.15014.93760)
