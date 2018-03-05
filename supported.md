@@ -326,6 +326,8 @@ List of supported MEI elements and attributes
   * `@vo`
   * `@xml:id`
 
+* `<pgHead>`
+
 * `<phrase>`
   * `@bezier`
   * `@color`

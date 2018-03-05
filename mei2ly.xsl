@@ -2,7 +2,7 @@
 <!--          -->
 <!--  MEILER  -->
 <!--  mei2ly  -->
-<!-- v 0.9.5  -->
+<!-- v 1.0.0  -->
 <!--          -->
 <!-- programmed by -->
 <!-- Klaus Rettinghaus -->
@@ -11,7 +11,7 @@
 <xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:saxon="http://saxon.sf.net/" xmlns:local="NS:LOCAL" exclude-result-prefixes="saxon">
   <xsl:strip-space elements="*" />
   <xsl:output method="text" indent="no" encoding="UTF-8" />
-  <xsl:param name="LilyPondVersion" select="'2.19.55'"/>
+  <xsl:param name="LilyPondVersion" select="'2.19.80'"/>
   <xsl:param name="useSvgBackend" select="false()" as="xs:boolean"/>
   <xsl:param name="generateHeader" select="true()" as="xs:boolean"/>
   <xsl:param name="forceLayout" select="false()" as="xs:boolean"/>
@@ -151,15 +151,17 @@
       <xsl:apply-templates select="mei:date[1]" />
       <xsl:text>&#32;}&#10;</xsl:text>
     </xsl:if>
-    <!-- filling standard lilypond header -->
-    <xsl:text>  copyright = \markup { </xsl:text>
-    <xsl:text>©&#32;</xsl:text>
-    <xsl:apply-templates select="mei:respStmt" />
-    <xsl:text>,&#32;</xsl:text>
-    <xsl:apply-templates select="mei:pubPlace" />
-    <xsl:text>&#32;</xsl:text>
-    <xsl:apply-templates select="mei:date" />
-    <xsl:text>&#32;}&#10;</xsl:text>
+    <xsl:if test="mei:respStmt">
+      <!-- filling standard lilypond header -->
+      <xsl:text>  copyright = \markup { </xsl:text>
+      <xsl:text>©&#32;</xsl:text>
+      <xsl:apply-templates select="mei:respStmt" />
+      <xsl:text>,&#32;</xsl:text>
+      <xsl:apply-templates select="mei:pubPlace" />
+      <xsl:text>&#32;</xsl:text>
+      <xsl:apply-templates select="mei:date" />
+      <xsl:text>&#32;}&#10;</xsl:text>
+    </xsl:if>
     <xsl:text>  tagline = "automatically converted from MEI with mei2ly.xsl and engraved with Lilypond"&#10;</xsl:text>
   </xsl:template>
   <!-- MEI work description -->
@@ -380,6 +382,12 @@
   <xsl:template match="mei:parts">
     <xsl:apply-templates/>
   </xsl:template>
+  <!-- MEI page header -->
+  <xsl:template match="mei:pgHead">
+    <xsl:text>\markup{</xsl:text>
+    <xsl:apply-templates/>
+    <xsl:text>}&#10;&#10;</xsl:text>
+  </xsl:template>
   <!-- MEI publisher -->
   <xsl:template match="mei:publisher">
     <xsl:apply-templates/>
@@ -394,6 +402,8 @@
   </xsl:template>
   <!-- MEI score definition -->
   <xsl:template match="mei:scoreDef" mode="score-setup">
+    <!-- print the pgHead -->
+    <xsl:apply-templates select="mei:pgHead"/>
     <!-- lilypond score block -->
     <xsl:text>\score { &lt;&lt;&#10;</xsl:text>
     <xsl:if test="ancestor::mei:mdiv[1]//@source">
@@ -1380,12 +1390,6 @@
       <xsl:text>\once \override Beam.output-attributes = #&apos;</xsl:text>
       <xsl:call-template name="setSvgAttr" />
     </xsl:if>
-    <xsl:if test="@beams.float">
-      <xsl:value-of select="concat('\once \override Beam.gap-count = #', @beams.float, ' ')" />
-    </xsl:if>
-    <xsl:if test="@float.gap">
-      <xsl:value-of select="concat('\once \override Beam.gap = #', @float.gap, ' ')" />
-    </xsl:if>
     <xsl:choose>
       <xsl:when test="@measperf">
         <xsl:value-of select="concat('\repeat tremolo ',@measperf div (2 * child::*[1]/@dur),' { ')" />
@@ -1710,23 +1714,6 @@
       <xsl:call-template name="setOffset" />
     </xsl:if>
     <xsl:text>\breathe</xsl:text>
-  </xsl:template>
-  <!-- MEI laissez vibrer-->
-  <xsl:template match="mei:lv">
-    <xsl:if test="$useSvgBackend">
-      <xsl:text>-\tweak output-attributes #&apos;</xsl:text>
-      <xsl:call-template name="setSvgAttr" />
-    </xsl:if>
-    <xsl:if test="@color">
-      <xsl:text>-\tweak color #</xsl:text>
-      <xsl:call-template name="setColor" />
-    </xsl:if>
-    <xsl:if test="@lwidth">
-      <xsl:text>-\tweak thickness #</xsl:text>
-      <xsl:call-template name="setLineWidth" />
-    </xsl:if>
-    <xsl:call-template name="setMarkupDirection"/>
-    <xsl:text>\laissezVibrer</xsl:text>
   </xsl:template>
   <!-- MEI octave -->
   <xsl:template match="mei:octave[@copyof]" mode="pre">
@@ -2367,11 +2354,6 @@
         </xsl:otherwise>
       </xsl:choose>
     </xsl:if>
-    <xsl:if test="@color">
-      <!-- not in MEI yet -->
-      <xsl:value-of select="'\tweak color #'" />
-      <xsl:call-template name="setColor" />
-    </xsl:if>
     <xsl:choose>
       <xsl:when test="$keyTonic and $keyMode">
         <xsl:value-of select="concat('\key ',$keyTonic)" />
@@ -2383,7 +2365,7 @@
           <xsl:with-param name="accidentals" select="$keySig" />
         </xsl:call-template>
       </xsl:when>
-      <xsl:otherwise>
+      <xsl:when test="$keySigMixed">
         <xsl:text>\set Staff.keyAlterations = #`(</xsl:text>
         <xsl:for-each select="tokenize($keySigMixed, ' ')">
           <xsl:text>(</xsl:text>
@@ -2417,7 +2399,7 @@
           <xsl:text>)</xsl:text>
         </xsl:for-each>
         <xsl:text>) </xsl:text>
-      </xsl:otherwise>
+      </xsl:when>
     </xsl:choose>
   </xsl:template>
   <!-- set mensur -->
@@ -2690,8 +2672,9 @@
   <xsl:template match="mei:orig" />
   <xsl:template match="mei:pad" />
   <xsl:template match="mei:part" />
-  <xsl:template match="mei:pgHead" />
+  <xsl:template match="mei:pgHead2" />
   <xsl:template match="mei:pgFoot" />
+  <xsl:template match="mei:pgFoot2" />
   <xsl:template match="mei:sourceDesc" />
   <xsl:template match="mei:symbol" />
   <xsl:template match="mei:vel" />
