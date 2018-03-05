@@ -2,7 +2,7 @@
 <!--          -->
 <!--  MEILER  -->
 <!--  mei2ly  -->
-<!-- v 0.9.5  -->
+<!-- v 2 dev  -->
 <!--          -->
 <!-- programmed by -->
 <!-- Klaus Rettinghaus -->
@@ -65,8 +65,8 @@
     </xsl:choose>
   </xsl:key>
   <xsl:template match="/">
-    <xsl:if test="not(mei:mei/@meiversion='3.0.0')">
-      <xsl:message>WARNING: mei2ly.xsl is designed for MEI version 3.0.0 and may not work properly with elder versions.</xsl:message>
+    <xsl:if test="not(mei:mei/@meiversion='4.0')">
+      <xsl:message>WARNING: mei2ly.xsl is designed for MEI version 4.0 and may not work properly with elder versions.</xsl:message>
     </xsl:if>
     <xsl:if test="$checkReferences">
       <xsl:if test="//@endid[not(starts-with(.,'#'))] or //@startid[not(starts-with(.,'#'))] ">
@@ -151,15 +151,17 @@
       <xsl:apply-templates select="mei:date[1]" />
       <xsl:text>&#32;}&#10;</xsl:text>
     </xsl:if>
-    <!-- filling standard lilypond header -->
-    <xsl:text>  copyright = \markup { </xsl:text>
-    <xsl:text>©&#32;</xsl:text>
-    <xsl:apply-templates select="mei:respStmt" />
-    <xsl:text>,&#32;</xsl:text>
-    <xsl:apply-templates select="mei:pubPlace" />
-    <xsl:text>&#32;</xsl:text>
-    <xsl:apply-templates select="mei:date" />
-    <xsl:text>&#32;}&#10;</xsl:text>
+    <xsl:if test="mei:respStmt">
+      <!-- filling standard lilypond header -->
+      <xsl:text>  copyright = \markup { </xsl:text>
+      <xsl:text>©&#32;</xsl:text>
+      <xsl:apply-templates select="mei:respStmt" />
+      <xsl:text>,&#32;</xsl:text>
+      <xsl:apply-templates select="mei:pubPlace" />
+      <xsl:text>&#32;</xsl:text>
+      <xsl:apply-templates select="mei:date" />
+      <xsl:text>&#32;}&#10;</xsl:text>
+    </xsl:if>
     <xsl:text>  tagline = "automatically converted from MEI with mei2ly.xsl and engraved with Lilypond"&#10;</xsl:text>
   </xsl:template>
   <!-- MEI work description -->
@@ -380,6 +382,12 @@
   <xsl:template match="mei:parts">
     <xsl:apply-templates/>
   </xsl:template>
+  <!-- MEI page header -->
+  <xsl:template match="mei:pgHead">
+    <xsl:text>\markup{</xsl:text>
+    <xsl:apply-templates/>
+    <xsl:text>}&#10;&#10;</xsl:text>
+  </xsl:template>
   <!-- MEI publisher -->
   <xsl:template match="mei:publisher">
     <xsl:apply-templates/>
@@ -394,6 +402,8 @@
   </xsl:template>
   <!-- MEI score definition -->
   <xsl:template match="mei:scoreDef" mode="score-setup">
+    <!-- print the pgHead -->
+    <xsl:apply-templates select="mei:pgHead"/>
     <!-- lilypond score block -->
     <xsl:text>\score { &lt;&lt;&#10;</xsl:text>
     <xsl:if test="ancestor::mei:mdiv[1]//@source">
@@ -2383,7 +2393,7 @@
           <xsl:with-param name="accidentals" select="$keySig" />
         </xsl:call-template>
       </xsl:when>
-      <xsl:otherwise>
+      <xsl:when test="$keySigMixed">
         <xsl:text>\set Staff.keyAlterations = #`(</xsl:text>
         <xsl:for-each select="tokenize($keySigMixed, ' ')">
           <xsl:text>(</xsl:text>
@@ -2417,7 +2427,7 @@
           <xsl:text>)</xsl:text>
         </xsl:for-each>
         <xsl:text>) </xsl:text>
-      </xsl:otherwise>
+      </xsl:when>
     </xsl:choose>
   </xsl:template>
   <!-- set mensur -->
