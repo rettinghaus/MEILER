@@ -972,6 +972,9 @@
     <xsl:if test="@visible=false()">
       <xsl:text>\once \hideNotes </xsl:text>
     </xsl:if>
+    <xsl:if test="@grace and not(parent::*/@grace)">
+      <xsl:text>\grace </xsl:text>
+    </xsl:if>
     <xsl:if test="@fontsize">
       <xsl:text>\once </xsl:text>
       <xsl:call-template name="setRelFontsize"/>
@@ -981,6 +984,9 @@
       <xsl:call-template name="setColor" />
     </xsl:if>
     <xsl:text>&lt; </xsl:text>
+    <xsl:if test="@stem.mod = '1slash'">
+      <xsl:text>\tweak Flag.stroke-style #"grace" </xsl:text>
+    </xsl:if>
     <xsl:apply-templates mode="setStemDir" select="." />
     <xsl:if test="@stem.len">
       <xsl:value-of select="concat('\tweak Stem.length #', local:VU2LY(@stem.len) * 2, ' ')" />
