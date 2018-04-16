@@ -65,8 +65,8 @@
     </xsl:choose>
   </xsl:key>
   <xsl:template match="/">
-    <xsl:if test="not(mei:mei/@meiversion='4.0')">
-      <xsl:message>WARNING: mei2ly.xsl is designed for MEI version 4.0 and may not work properly with elder versions.</xsl:message>
+    <xsl:if test="not(mei:mei/@meiversion='4.0.0')">
+      <xsl:message>WARNING: mei2ly.xsl is designed for MEI version 4.0.0 and may not work properly with elder versions.</xsl:message>
     </xsl:if>
     <xsl:if test="$checkReferences">
       <xsl:if test="//@endid[not(starts-with(.,'#'))] or //@startid[not(starts-with(.,'#'))] ">
@@ -788,11 +788,8 @@
     <xsl:if test="@staff and not(parent::mei:chord) and @staff != ancestor::mei:staff/@n">
       <xsl:value-of select="concat('\change Staff = &quot;staff ',@staff,'&quot;&#32;')" />
     </xsl:if>
-    <xsl:if test="@grace and not(preceding-sibling::*[1]/@grace)">
+    <xsl:if test="@grace and not(parent::*/@grace)">
       <xsl:call-template name="setGraceNote" />
-      <xsl:if test="ancestor::mei:beam and position()=1">
-        <xsl:text>{</xsl:text>
-      </xsl:if>
     </xsl:if>
     <xsl:if test="@fontsize">
       <xsl:text>\once </xsl:text>
@@ -865,8 +862,11 @@
         </xsl:when>
       </xsl:choose>
     </xsl:if>
-    <xsl:if test="@head.visible=false()">
+    <xsl:if test="@head.visible = false()">
       <xsl:text>\tweak transparent ##t </xsl:text>
+    </xsl:if>
+    <xsl:if test="following-sibling::*[1]/@attach = 'pre'">
+      <xsl:text>\afterGrace </xsl:text>
     </xsl:if>
     <xsl:value-of select="@pname" />
     <xsl:apply-templates mode="setAccidental" select="(mei:accid, .[not(mei:accid)])/(@accid, @accid.ges)[1]"/>
@@ -874,7 +874,7 @@
     <xsl:if test="descendant-or-self::*/@accid or child::mei:accid/@func='caution'">
       <xsl:text>!</xsl:text>
     </xsl:if>
-    <xsl:if test="child::mei:accid/@enclose='paren'">
+    <xsl:if test="child::mei:accid/@enclose = 'paren'">
       <xsl:text>?</xsl:text>
     </xsl:if>
     <xsl:choose>
@@ -949,9 +949,6 @@
     <xsl:apply-templates select="ancestor::mei:measure/*[@startid = $noteKey]" />
     <xsl:if test="key('spannerEnd',$noteKey)[self::mei:tupletSpan]">
       <xsl:value-of select="' }'" />
-    </xsl:if>
-    <xsl:if test="@grace and not(preceding-sibling::mei:note[not(@grace)]) and ancestor::mei:beam and position()=last()">
-      <xsl:text>}</xsl:text>
     </xsl:if>
     <xsl:if test="key('spannerEnd',$noteKey)[self::mei:octave]">
       <xsl:value-of select="'\unset Staff.ottavation '" />
@@ -1577,6 +1574,19 @@
         <xsl:call-template name="setSmuflGlyph" />
       </xsl:otherwise>
     </xsl:choose>
+  </xsl:template>
+  <!-- MEI grace group-->
+  <xsl:template match="mei:graceGrp">
+    <xsl:if test="@grace">
+      <xsl:if test="not(@attach = 'pre')">
+        <xsl:text>\grace </xsl:text>
+      </xsl:if>
+      <xsl:text>{ </xsl:text>
+    </xsl:if>
+    <xsl:apply-templates/>
+    <xsl:if test="@grace">
+      <xsl:text>} </xsl:text>
+    </xsl:if>
   </xsl:template>
   <!-- MEI mordent -->
   <xsl:template match="mei:mordent[@copyof]">
