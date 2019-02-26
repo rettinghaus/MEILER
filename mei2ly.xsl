@@ -1858,7 +1858,7 @@
   </xsl:template>
   <!-- MEI tie -->
   <xsl:template match="mei:tie" mode="pre">
-    <xsl:if test="@*[contains(name(),'ho') or contains(name(),'vo')]">
+    <xsl:if test="@*[contains(name(),'ho') or contains(name(),'vo')] or @bezier">
       <xsl:text>&#10;\shape #&apos;</xsl:text>
       <xsl:call-template name="shapeCurve" />
       <xsl:text>Tie</xsl:text>
