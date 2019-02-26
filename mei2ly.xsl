@@ -1563,7 +1563,7 @@
       </xsl:otherwise>
     </xsl:choose>
     <xsl:choose>
-      <xsl:when test="not(@glyphname or @glyphnum)">
+      <xsl:when test="not(@glyph.name or @glyph.num)">
         <xsl:choose>
           <xsl:when test="@shape = 'square'">
             <xsl:text>\longfermata</xsl:text>
@@ -1613,7 +1613,7 @@
     </xsl:if>
     <xsl:call-template name="setMarkupDirection" />
     <xsl:choose>
-      <xsl:when test="not(@glyphname or @glyphnum)">
+      <xsl:when test="not(@glyph.name or @glyph.num)">
         <xsl:choose>
           <xsl:when test="@form = 'inv'">
             <xsl:text>\prall</xsl:text>
@@ -1670,7 +1670,7 @@
       <xsl:when test="@endid and @endid != @startid">
         <xsl:text>\startTrillSpan</xsl:text>
       </xsl:when>
-      <xsl:when test="not(@glyphname or @glyphnum)">
+      <xsl:when test="not(@glyph.name or @glyph.num)">
         <xsl:text>\trill</xsl:text>
       </xsl:when>
       <xsl:otherwise>
@@ -1700,7 +1700,7 @@
     </xsl:if>
     <xsl:call-template name="setMarkupDirection" />
     <xsl:choose>
-      <xsl:when test="not(@glyphname or @glyphnum)">
+      <xsl:when test="not(@glyph.name or @glyph.num)">
         <xsl:choose>
           <xsl:when test="@form = 'inv'">
             <xsl:text>\reverseturn</xsl:text>
@@ -4162,99 +4162,99 @@
     <!-- SMuFL glyphs -->
     <xsl:choose>
       <!-- Repeats (U+E040 – U+E04F) -->
-      <xsl:when test="@glyphname='dalSegno' or contains(@glyphnum,'E045')">
+      <xsl:when test="@glyph.name='dalSegno' or contains(@glyph.num,'E045')">
         <xsl:text>\markup {\bold "D.S."}</xsl:text>
       </xsl:when>
-      <xsl:when test="@glyphname='daCapo' or contains(@glyphnum,'E046')">
+      <xsl:when test="@glyph.name='daCapo' or contains(@glyph.num,'E046')">
         <xsl:text>\markup {\bold "D.C."}</xsl:text>
       </xsl:when>
-      <xsl:when test="@glyphname='segno' or contains(@glyphnum,'E047')">
+      <xsl:when test="@glyph.name='segno' or contains(@glyph.num,'E047')">
         <xsl:text>\markup {\musicglyph #"scripts.segno"}</xsl:text>
       </xsl:when>
-      <xsl:when test="@glyphname='coda' or contains(@glyphnum,'E048')">
+      <xsl:when test="@glyph.name='coda' or contains(@glyph.num,'E048')">
         <xsl:text>\markup {\musicglyph #"scripts.coda"}</xsl:text>
       </xsl:when>
-      <xsl:when test="@glyphname='segnoSerpent1' or contains(@glyphnum,'E049')">
+      <xsl:when test="@glyph.name='segnoSerpent1' or contains(@glyph.num,'E049')">
         <xsl:text>\markup {\musicglyph #"scripts.varcoda"}</xsl:text>
       </xsl:when>
       <!-- Holds and pauses (U+E4C0 – U+E4DF) -->
-      <xsl:when test="@glyphname='fermataAbove' or contains(@glyphnum,'E4C0')">
+      <xsl:when test="@glyph.name='fermataAbove' or contains(@glyph.num,'E4C0')">
         <xsl:text>\markup {\musicglyph #"scripts.ufermata"}</xsl:text>
       </xsl:when>
-      <xsl:when test="@glyphname='fermataBelow' or contains(@glyphnum,'E4C1')">
+      <xsl:when test="@glyph.name='fermataBelow' or contains(@glyph.num,'E4C1')">
         <xsl:text>\markup {\musicglyph #"scripts.dfermata"}</xsl:text>
       </xsl:when>
-      <xsl:when test="@glyphname='fermataShortAbove' or contains(@glyphnum,'E4C4')">
+      <xsl:when test="@glyph.name='fermataShortAbove' or contains(@glyph.num,'E4C4')">
         <xsl:text>\markup {\musicglyph #"scripts.ushortfermata"}</xsl:text>
       </xsl:when>
-      <xsl:when test="@glyphname='fermataShortBelow' or contains(@glyphnum,'E4C5')">
+      <xsl:when test="@glyph.name='fermataShortBelow' or contains(@glyph.num,'E4C5')">
         <xsl:text>\markup {\musicglyph #"scripts.dshortfermata"}</xsl:text>
       </xsl:when>
-      <xsl:when test="@glyphname='fermataLongAbove' or contains(@glyphnum,'E4C6')">
+      <xsl:when test="@glyph.name='fermataLongAbove' or contains(@glyph.num,'E4C6')">
         <xsl:text>\markup {\musicglyph #"scripts.ulongfermata"}</xsl:text>
       </xsl:when>
-      <xsl:when test="@glyphname='fermataLongBelow' or contains(@glyphnum,'E4C7')">
+      <xsl:when test="@glyph.name='fermataLongBelow' or contains(@glyph.num,'E4C7')">
         <xsl:text>\markup {\musicglyph #"scripts.dlongfermata"}</xsl:text>
       </xsl:when>
-      <xsl:when test="@glyphname='fermataVeryLongAbove' or contains(@glyphnum,'E4C8')">
+      <xsl:when test="@glyph.name='fermataVeryLongAbove' or contains(@glyph.num,'E4C8')">
         <xsl:text>\markup {\musicglyph #"scripts.uverylongfermata"}</xsl:text>
       </xsl:when>
-      <xsl:when test="@glyphname='fermataVeryLongBelow' or contains(@glyphnum,'E4C9')">
+      <xsl:when test="@glyph.name='fermataVeryLongBelow' or contains(@glyph.num,'E4C9')">
         <xsl:text>\markup {\musicglyph #"scripts.dverylongfermata"}</xsl:text>
       </xsl:when>
       <!-- Common ornaments (U+E560 – U+E56F) -->
-      <xsl:when test="contains(@glyphnum,'E566')">
+      <xsl:when test="contains(@glyph.num,'E566')">
         <xsl:text>\trill</xsl:text>
       </xsl:when>
-      <xsl:when test="contains(@glyphnum,'E567')">
+      <xsl:when test="contains(@glyph.num,'E567')">
         <xsl:text>\turn</xsl:text>
       </xsl:when>
-      <xsl:when test="contains(@glyphnum,'E568')">
+      <xsl:when test="contains(@glyph.num,'E568')">
         <xsl:text>\reverseturn</xsl:text>
       </xsl:when>
-      <xsl:when test="contains(@glyphnum,'E56C')">
+      <xsl:when test="contains(@glyph.num,'E56C')">
         <xsl:text>\prall</xsl:text>
       </xsl:when>
-      <xsl:when test="contains(@glyphnum,'E56D')">
+      <xsl:when test="contains(@glyph.num,'E56D')">
         <xsl:text>\mordent</xsl:text>
       </xsl:when>
-      <xsl:when test="contains(@glyphnum,'E56E')">
+      <xsl:when test="contains(@glyph.num,'E56E')">
         <xsl:text>\prallprall</xsl:text>
       </xsl:when>
       <!-- Precomposed trills and mordents (U+E5B0 – U+E5CF) -->
-      <xsl:when test="@glyphname='ornamentPrecompAppoggTrill' or contains(@glyphnum,'E5B2')">
+      <xsl:when test="@glyph.name='ornamentPrecompAppoggTrill' or contains(@glyph.num,'E5B2')">
         <xsl:text>\lineprall</xsl:text>
       </xsl:when>
-      <xsl:when test="@glyphname='ornamentPrecompSlideTrillDAnglebert' or contains(@glyphnum,'E5B5')">
+      <xsl:when test="@glyph.name='ornamentPrecompSlideTrillDAnglebert' or contains(@glyph.num,'E5B5')">
         <xsl:text>\upprall</xsl:text>
       </xsl:when>
-      <xsl:when test="@glyphname='ornamentPrecompSlideTrillBach' or contains(@glyphnum,'E5B8')">
+      <xsl:when test="@glyph.name='ornamentPrecompSlideTrillBach' or contains(@glyph.num,'E5B8')">
         <xsl:text>\upmordent</xsl:text>
       </xsl:when>
-      <xsl:when test="@glyphname='ornamentPrecompTrillSuffixDandrieu' or contains(@glyphnum,'E5BB')">
+      <xsl:when test="@glyph.name='ornamentPrecompTrillSuffixDandrieu' or contains(@glyph.num,'E5BB')">
         <xsl:text>\prallup</xsl:text>
       </xsl:when>
-      <xsl:when test="@glyphname='ornamentPrecompTrillWithMordent' or contains(@glyphnum,'E5BD')">
+      <xsl:when test="@glyph.name='ornamentPrecompTrillWithMordent' or contains(@glyph.num,'E5BD')">
         <xsl:text>\prallmordent</xsl:text>
       </xsl:when>
-      <xsl:when test="@glyphname='ornamentPrecompMordentUpperPrefix' or contains(@glyphnum,'E5C6')">
+      <xsl:when test="@glyph.name='ornamentPrecompMordentUpperPrefix' or contains(@glyph.num,'E5C6')">
         <xsl:text>\downprall</xsl:text>
       </xsl:when>
-      <xsl:when test="@glyphname='ornamentPrecompInvertedMordentUpperPrefix' or contains(@glyphnum,'E5C7')">
+      <xsl:when test="@glyph.name='ornamentPrecompInvertedMordentUpperPrefix' or contains(@glyph.num,'E5C7')">
         <xsl:text>\downmordent</xsl:text>
       </xsl:when>
-      <xsl:when test="@glyphname='ornamentPrecompTrillLowerSuffix' or contains(@glyphnum,'E5C8')">
+      <xsl:when test="@glyph.name='ornamentPrecompTrillLowerSuffix' or contains(@glyph.num,'E5C8')">
         <xsl:text>\pralldown</xsl:text>
       </xsl:when>
       <!-- String techniques (U+E610 – U+E62F) -->
-      <xsl:when test="@glyphname='stringsThumbPosition' or contains(@glyphnum,'E4C0')">
+      <xsl:when test="@glyph.name='stringsThumbPosition' or contains(@glyph.num,'E4C0')">
         <xsl:text>\markup {\musicglyph #"scripts.thumb"}</xsl:text>
       </xsl:when>
       <!-- Medieval and Renaissance miscellany (U+EA00 – U+EA1F) -->
-      <xsl:when test="@glyphname='mensuralSignumUp' or contains(@glyphnum,'EA00')">
+      <xsl:when test="@glyph.name='mensuralSignumUp' or contains(@glyph.num,'EA00')">
         <xsl:text>\markup {\musicglyph #"scripts.usignumcongruentiae"}</xsl:text>
       </xsl:when>
-      <xsl:when test="@glyphname='mensuralSignumDown' or contains(@glyphnum,'EA01')">
+      <xsl:when test="@glyph.name='mensuralSignumDown' or contains(@glyph.num,'EA01')">
         <xsl:text>\markup {\musicglyph #"scripts.dsignumcongruentiae"}</xsl:text>
       </xsl:when>
     </xsl:choose>
@@ -4263,11 +4263,11 @@
   <!-- Not active for now -->
   <xsl:template name="setSmuflGlyphNative">
     <xsl:choose>
-      <xsl:when test="@glyphname">
-        <xsl:value-of select="concat('\markup {\smuflglyph #&quot;',@glyphname,'&quot;}')" />
+      <xsl:when test="@glyph.name">
+        <xsl:value-of select="concat('\markup {\smuflglyph #&quot;',@glyph.name,'&quot;}')" />
       </xsl:when>
-      <xsl:when test="@glyphnum">
-        <xsl:value-of select="concat('\markup {\smuflchar #',translate(@glyphnum,'U+','#x'),'}')" />
+      <xsl:when test="@glyph.num">
+        <xsl:value-of select="concat('\markup {\smuflchar #',translate(@glyph.num,'U+','#x'),'}')" />
       </xsl:when>
     </xsl:choose>
   </xsl:template>
