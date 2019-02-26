@@ -1615,7 +1615,7 @@
     <xsl:choose>
       <xsl:when test="not(@glyph.name or @glyph.num)">
         <xsl:choose>
-          <xsl:when test="@form = 'inv'">
+          <xsl:when test="@form = 'upper'">
             <xsl:text>\prall</xsl:text>
           </xsl:when>
           <xsl:when test="@long = 'yes'">
@@ -1702,7 +1702,7 @@
     <xsl:choose>
       <xsl:when test="not(@glyph.name or @glyph.num)">
         <xsl:choose>
-          <xsl:when test="@form = 'inv'">
+          <xsl:when test="@form = 'lower'">
             <xsl:text>\reverseturn</xsl:text>
           </xsl:when>
           <xsl:otherwise>
