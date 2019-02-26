@@ -3504,6 +3504,7 @@
         <xsl:value-of select="concat('\abs-fontsize #',substring-before(@fontsize,'pt'),' ')" />
       </xsl:otherwise>
     </xsl:choose>
+  </xsl:template>
   <!-- set relative fontsize -->
   <xsl:template name="setRelFontsize">
     <!-- data.FONTSIZETERM -->
