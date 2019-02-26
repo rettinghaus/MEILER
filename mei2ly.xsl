@@ -3495,7 +3495,7 @@
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
-  <!-- set relative fontsize -->
+  <!-- set line form -->
   <xsl:template name="setLineForm">
     <xsl:param name="form" select="@lform" />
     <!-- data.LINEFORM -->
