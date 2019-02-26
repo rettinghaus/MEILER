@@ -1400,15 +1400,17 @@
       <xsl:value-of select="concat('\once \override Beam.gap = #', @float.gap, ' ')" />
     </xsl:if>
     <xsl:choose>
-      <xsl:when test="@measperf">
-        <xsl:value-of select="concat('\repeat tremolo ',@measperf div (2 * child::*[1]/@dur),' { ')" />
+      <xsl:when test="@unitdur">
+        <xsl:value-of select="concat('\repeat tremolo ',@unitdur div (2 * child::*[1]/@dur),' { ')" />
       </xsl:when>
-      <xsl:when test="@slash">
-        <xsl:value-of select="concat('\repeat tremolo ',local:slash2dur(@slash) div (2 * child::*[1]/@dur),' { ')" />
+      <xsl:when test="@beams">
+        <xsl:value-of select="concat('\repeat tremolo ',local:slash2dur(@beams) div (2 * child::*[1]/@dur),' { ')" />
       </xsl:when>
     </xsl:choose>
     <xsl:apply-templates/>
-    <xsl:value-of select="'} '" />
+    <xsl:if test="@measperf|@beams">
+      <xsl:value-of select="'} '" />
+    </xsl:if>
   </xsl:template>
   <!-- MEI tuplet -->
   <xsl:template match="mei:tuplet[@copyof]">
