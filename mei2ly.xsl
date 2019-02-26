@@ -2314,14 +2314,11 @@
     </xsl:if>
     <xsl:if test="@fontsize">
       <xsl:choose>
-        <xsl:when test="contains(@fontsize,'pt')">
-          <xsl:value-of select="concat('\abs-fontsize #',substring-before(@fontsize,'pt'),' ')" />
+        <xsl:when test="contains(@fontsize,'pt') or contains(@fontsize,'vu')">
+          <xsl:call-template name="setAbsFontsize" />
         </xsl:when>
         <xsl:when test="contains(@fontsize,'%')">
           <xsl:value-of select="concat('\magnify #',number(substring-before(@fontsize,'%')) div 100,' ')" />
-        </xsl:when>
-        <xsl:when test="number(@fontsize) or contains(@fontsize,'vu')">
-          <xsl:message>WARNING: font sizes in vu will be ignored</xsl:message>
         </xsl:when>
         <xsl:otherwise>
           <xsl:call-template name="setRelFontsize" />
@@ -3496,6 +3493,17 @@
     </xsl:if>
     <xsl:text>&#32;</xsl:text>
   </xsl:template>
+  <!-- set absolute fontsize -->
+  <xsl:template name="setAbsFontsize">
+    <!-- data.FONTSIZENUMERIC -->
+    <xsl:choose>
+      <xsl:when test="contains(@fontsize,'vu')">
+        <xsl:message>WARNING: font sizes in vu will be ignored</xsl:message>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="concat('\abs-fontsize #',substring-before(@fontsize,'pt'),' ')" />
+      </xsl:otherwise>
+    </xsl:choose>
   <!-- set relative fontsize -->
   <xsl:template name="setRelFontsize">
     <!-- data.FONTSIZETERM -->
