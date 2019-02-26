@@ -3517,7 +3517,7 @@
       <xsl:when test="@fontsize ='small'">
         <xsl:value-of select="'\small '" />
       </xsl:when>
-      <xsl:when test="@fontsize ='medium'">
+      <xsl:when test="@fontsize ='normal'">
         <xsl:value-of select="'\normalsize '" />
       </xsl:when>
       <xsl:when test="@fontsize ='large'">
