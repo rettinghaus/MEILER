@@ -3567,7 +3567,7 @@
   </xsl:template>
   <!-- modify note head -->
   <xsl:template name="modifyNotehead">
-    <!-- data.NOTEHEADMODIFIER -->
+    <!-- data.NOTEHEADMODIFIER.list -->
     <xsl:choose>
       <xsl:when test="@head.mod ='slash'">
         <xsl:text>\tweak style #'slash </xsl:text>
@@ -3593,6 +3593,7 @@
       </xsl:when>
       <xsl:when test="@head.mod ='dblwhole'">
       </xsl:when>
+      <!-- data.NOTEHEADMODIFIER.pat -->
       <xsl:when test="contains('ABCDEFG',@head.mod)">
         <xsl:text>\single \easyHeadsOn </xsl:text>
       </xsl:when>
