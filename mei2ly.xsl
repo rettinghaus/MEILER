@@ -881,17 +881,17 @@
       <xsl:when test="not(parent::mei:chord) and not(parent::mei:fTrem)">
         <xsl:call-template name="setDuration" />
       </xsl:when>
-      <xsl:when test="parent::mei:fTrem/@measperf">
-        <xsl:value-of select="parent::mei:fTrem/@measperf" />
+      <xsl:when test="parent::mei:fTrem/@unitdur">
+        <xsl:value-of select="parent::mei:fTrem/@unitdur" />
       </xsl:when>
-      <xsl:when test="parent::mei:fTrem/@slash">
-        <xsl:value-of select="local:slash2dur(parent::mei:fTrem/@slash)" />
+      <xsl:when test="parent::mei:fTrem/@beams">
+        <xsl:value-of select="local:slash2dur(parent::mei:fTrem/@beams)" />
       </xsl:when>
     </xsl:choose>
     <xsl:if test="parent::mei:bTrem and not(@grace) and contains(@stem.mod,'slash')">
       <xsl:choose>
-        <xsl:when test="parent::mei:bTrem[@measperf]">
-          <xsl:value-of select="concat(':',parent::mei:bTrem/@measperf)" />
+        <xsl:when test="parent::mei:bTrem[@unitdur]">
+          <xsl:value-of select="concat(':',parent::mei:bTrem/@unitdur)" />
         </xsl:when>
         <xsl:otherwise>
           <xsl:value-of select="concat(':',local:slash2dur(substring(@stem.mod,1,1)))" />
