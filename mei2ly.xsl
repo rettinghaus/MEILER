@@ -1408,7 +1408,7 @@
       </xsl:when>
     </xsl:choose>
     <xsl:apply-templates/>
-    <xsl:if test="@measperf|@beams">
+    <xsl:if test="@unitdur|@beams">
       <xsl:value-of select="'} '" />
     </xsl:if>
   </xsl:template>
