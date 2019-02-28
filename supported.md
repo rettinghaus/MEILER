@@ -516,6 +516,10 @@ List of supported MEI elements and attributes
   * `@wordpos`
   * `@xml:id`
 
+* `<symbol>`
+  * `@glyph.name`
+  * `@glyph.num`
+
 * `<tempo>`
   * `@ho`
   * `@midi.bpm`
