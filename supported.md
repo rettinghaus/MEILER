@@ -49,10 +49,10 @@ List of supported MEI elements and attributes
   * `@xml:id`
 
 * `<bTrem>`
-  * `@measperf`
   * `@num`
   * `@num.place`
   * `@num.visible`
+  * `@unitdur`
   * `@xml:id`
 
 * `<change>`
@@ -139,7 +139,10 @@ List of supported MEI elements and attributes
 * `<fingGrp>`
 
 * `<fTrem>`
-  * __`@measperf`__
+  * `@beams`
+  * `@beams.float`
+  * `@float.gap`
+  * __`@unitdur`__
   * `@xml:id`
 
 * `<gliss>`
