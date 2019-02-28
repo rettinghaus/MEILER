@@ -121,7 +121,8 @@ List of supported MEI elements and attributes
 
 * `<fermata>`
   * `@color`
-  * `@glyphnum`
+  * `@glyph.name`
+  * `@glyph.num`
   * `@ho`
   * `@place`
   * `@shape`
@@ -231,7 +232,8 @@ List of supported MEI elements and attributes
   * `@accidupper`
   * `@color`
   * `@form`
-  * `@glyphnum`
+  * `@glyph.name`
+  * `@glyph.num`
   * `@ho`
   * `@long`
   * `@place`
@@ -553,7 +555,8 @@ List of supported MEI elements and attributes
   * `@accidupper`
   * `@color`
   * `@endid`
-  * `@glyphnum`
+  * `@glyph.name`
+  * `@glyph.num`
   * `@ho`
   * `@place`
   * __`@startid`__
@@ -591,7 +594,8 @@ List of supported MEI elements and attributes
   * `@accidupper`
   * `@color`
   * `@form`
-  * `@glyphnum`
+  * `@glyph.name`
+  * `@glyph.num`
   * `@ho`
   * `@place`
   * __`@startid`__
