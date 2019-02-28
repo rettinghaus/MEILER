@@ -1399,7 +1399,9 @@
       </xsl:when>
     </xsl:choose>
     <xsl:apply-templates/>
-    <xsl:value-of select="'} '" />
+    <xsl:if test="@measperf|@slash">
+      <xsl:value-of select="'} '" />
+    </xsl:if>
   </xsl:template>
   <!-- MEI tuplet -->
   <xsl:template match="mei:tuplet[@copyof]">
