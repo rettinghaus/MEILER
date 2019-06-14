@@ -272,7 +272,7 @@
               <xsl:with-param name="meterSymbol" select="ancestor::mei:measure/preceding-sibling::*[@*[starts-with(name(),'meter')]][1]/@meter.sym" />
               <xsl:with-param name="meterCount" select="ancestor::mei:measure/preceding-sibling::*[@*[starts-with(name(),'meter')]][1]/@meter.count" />
               <xsl:with-param name="meterUnit" select="ancestor::mei:measure/preceding-sibling::*[@*[starts-with(name(),'meter')]][1]/@meter.unit" />
-              <xsl:with-param name="meterRend" select="ancestor::mei:measure/preceding-sibling::*[@*[starts-with(name(),'meter')]][1]/@meter.rend" />
+              <xsl:with-param name="meterForm" select="ancestor::mei:measure/preceding-sibling::*[@*[starts-with(name(),'meter')]][1]/@meter.form" />
             </xsl:call-template>
             <xsl:text>&#10;&#32;&#32;</xsl:text>
           </xsl:if>
@@ -610,7 +610,7 @@
           <xsl:with-param name="meterSymbol" select="ancestor-or-self::*[@meter.sym][1]/@meter.sym" />
           <xsl:with-param name="meterCount" select="ancestor-or-self::*[@meter.count][1]/@meter.count" />
           <xsl:with-param name="meterUnit" select="ancestor-or-self::*[@meter.unit][1]/@meter.unit" />
-          <xsl:with-param name="meterRend" select="ancestor-or-self::*[@meter.rend][1]/@meter.rend" />
+          <xsl:with-param name="meterForm" select="ancestor-or-self::*[@meter.form][1]/@meter.form" />
         </xsl:call-template>
         <xsl:apply-templates select="mei:meterSigGrp|mei:meterSig" />
       </xsl:when>
@@ -2497,7 +2497,7 @@
     <xsl:param name="meterSymbol" select="@sym" />
     <xsl:param name="meterCount" select="@count" />
     <xsl:param name="meterUnit" select="@unit" />
-    <xsl:param name="meterRend" select="@form" />
+    <xsl:param name="meterForm" select="@form" />
     <xsl:if test="$useSvgBackend">
       <!-- no IDs -->
       <xsl:text>\tweak TimeSignature.output-attributes #&apos;((class . meterSig)) </xsl:text>
@@ -2517,19 +2517,19 @@
       <xsl:text>\tweak TimeSignature.font-series #&apos;</xsl:text>
       <xsl:value-of select="concat(@fontweight,' ')" />
     </xsl:if>
-    <xsl:if test="$meterRend">
+    <xsl:if test="$meterForm">
       <xsl:choose>
         <!-- att.meterSigDefault.vis -->
-        <xsl:when test="$meterRend = 'num'">
+        <xsl:when test="$meterForm = 'num'">
           <xsl:text>\tweak TimeSignature.style #'single-digit </xsl:text>
         </xsl:when>
-        <xsl:when test="$meterRend = 'denomsym'">
+        <xsl:when test="$meterForm = 'denomsym'">
           <!-- not supported -->
         </xsl:when>
-        <xsl:when test="$meterRend = 'norm'">
+        <xsl:when test="$meterForm = 'norm'">
           <xsl:text>\tweak TimeSignature.style #'numbered </xsl:text>
         </xsl:when>
-        <xsl:when test="$meterRend = 'invis'">
+        <xsl:when test="$meterForm = 'invis'">
           <xsl:text>\tweak TimeSignature.transparent ##t </xsl:text>
         </xsl:when>
       </xsl:choose>
