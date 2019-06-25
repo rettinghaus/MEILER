@@ -63,10 +63,12 @@
             <measure right="dbl">
               <staff n="1">
                 <layer n="1">
-                  <beam>
-                    <note grace="unknown" dur="16" oct="4" pname="f"/>
-                    <note grace="unknown" dur="16" oct="4" pname="g"/>
-                  </beam>
+                  <graceGrp grace="unknown">
+                    <beam>
+                      <note dur="16" oct="4" pname="f"/>
+                      <note dur="16" oct="4" pname="g"/>
+                    </beam>
+                  </graceGrp>
                   <note xml:id="f34n3" dur="4" oct="4" pname="g"/>
                 </layer>
               </staff>
@@ -123,11 +125,13 @@
               <staff n="1">
                 <layer n="1">
                   <note xml:id="f41n3" dur="2" oct="5" pname="c"/>
-                  <beam>
-                    <note grace="unknown" dur="16" oct="4" pname="b"/>
-                    <note grace="unknown" dur="16" oct="4" pname="a"/>
-                    <note grace="unknown" dur="16" oct="4" pname="g"/>
-                  </beam>
+                  <graceGrp grace="unknown">
+                    <beam>
+                      <note dur="16" oct="4" pname="b"/>
+                      <note dur="16" oct="4" pname="a"/>
+                      <note dur="16" oct="4" pname="g"/>
+                    </beam>
+                  </graceGrp>
                   <note xml:id="f41n4" dur="4" oct="4" pname="a"/>
                 </layer>
                 <layer n="2">
