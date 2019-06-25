@@ -66,6 +66,20 @@
                                 </layer>
                             </staff>
                         </measure>
+                        <measure n="4">
+                            <staff n="1">
+                                <layer n="1">
+                                  <fTrem unitdur="32">
+                                      <note pname="f" oct="3" dur="2"/>
+                                      <note pname="f" oct="4" dur="2"/>
+                                  </fTrem>
+                                  <fTrem unitdur="32" beams.float="2" float.gap="1">
+                                      <note pname="f" oct="3" dur="2"/>
+                                      <note pname="f" oct="4" dur="2"/>
+                                  </fTrem>
+                                </layer>
+                            </staff>
+                        </measure>
                     </section>
                 </score>
             </mdiv>
