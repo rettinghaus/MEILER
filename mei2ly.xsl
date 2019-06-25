@@ -591,7 +591,7 @@
     <xsl:apply-templates select="ancestor-or-self::*/@*[contains(name(),'.dist')]"/>
     <!-- set MEILER default styles -->
     <xsl:text>\set tieWaitForNote = ##t&#10; </xsl:text>
-    <xsl:apply-templates select="(mei:keySig, @*[starts-with(name(),'key.')])[1]" />
+    <xsl:apply-templates select="(mei:keySig, ancestor-or-self::*/@*[starts-with(name(),'key.')])[1]" />
     <xsl:choose>
       <xsl:when test="ancestor-or-self::*/@*[starts-with(name(),'mensur.')]">
         <xsl:if test="ancestor-or-self::*/@mensur.color">
