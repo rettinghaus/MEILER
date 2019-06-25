@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-model href="http://www.music-encoding.org/schema/3.0.0/mei-all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
-<?xml-model href="http://www.music-encoding.org/schema/3.0.0/mei-all.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-<mei xmlns="http://www.music-encoding.org/ns/mei" meiversion="3.0.0">
+<?xml-model href="http://www.music-encoding.org/schema/4.0.0/mei-all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="http://www.music-encoding.org/schema/4.0.0/mei-all.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<mei xmlns="http://www.music-encoding.org/ns/mei" meiversion="4.0.0">
   <meiHead>
     <fileDesc>
       <titleStmt>
@@ -34,9 +34,9 @@
                   <note color="rgb(111,111,111)" dur="4" oct="4" pname="c" head.shape="triangle"/>
                   <note color="rgb(111,111,111)" dur="4" oct="4" pname="c" head.shape="x"/>
                   <note color="rgb(111,111,111)" dur="4" oct="4" pname="c" head.shape="+"/>
-                  <note color="rgb(111,111,111)" dur="4" oct="4" pname="c" head.mod ="C"/>
+                  <note color="rgb(111,111,111)" dur="4" oct="4" pname="c" head.mod ="centertext(C)"/>
                   <chord dur="4">
-                    <note color="rgb(111,111,111)" oct="3" pname="a" head.mod ="A"/>
+                    <note color="rgb(111,111,111)" oct="3" pname="a" head.mod ="centertext(A)"/>
                     <note color="rgb(111,111,111)" oct="4" pname="c"/>
                     <note color="rgb(111,111,111)" oct="4" pname="e" head.shape="diamond"/>
                   </chord>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-model href="http://www.music-encoding.org/schema/3.0.0/mei-all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
-<?xml-model href="http://www.music-encoding.org/schema/3.0.0/mei-all.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-<mei xmlns="http://www.music-encoding.org/ns/mei" meiversion="3.0.0" xmlns:meiler="NS:MEILER_TEST">
+<?xml-model href="http://www.music-encoding.org/schema/4.0.0/mei-all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="http://www.music-encoding.org/schema/4.0.0/mei-all.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<mei xmlns="http://www.music-encoding.org/ns/mei" meiversion="4.0.0" xmlns:meiler="NS:MEILER_TEST">
   <meiHead>
     <fileDesc>
       <titleStmt>
@@ -61,7 +61,7 @@
               <staff n="2">
                 <layer n="1">
                   <note dur="2" oct="3" pname="f" color="rgb(101,0,0)"/>
-                  <staffDef clef.shape="C" clef.line="3" n="2" clef.color="rgb(102,0,255)"/>
+                  <clef shape="C" line="3" n="2" color="rgb(102,0,255)"/>
                   <rest dur="2" color="rgb(103,0,0)"/>
                 </layer>
               </staff>

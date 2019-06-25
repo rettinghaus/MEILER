@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-model href="https://raw.githubusercontent.com/music-encoding/music-encoding/master/schemata/mei-all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
-<?xml-model href="https://raw.githubusercontent.com/music-encoding/music-encoding/master/schemata/mei-all.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-<mei xmlns="http://www.music-encoding.org/ns/mei" meiversion="3.0.0">
+<?xml-model href="http://www.music-encoding.org/schema/4.0.0/mei-all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="http://www.music-encoding.org/schema/4.0.0/mei-all.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<mei xmlns="http://www.music-encoding.org/ns/mei" meiversion="4.0.0">
   <meiHead>
     <fileDesc>
       <titleStmt>
@@ -13,13 +13,11 @@
       </seriesStmt>
     </fileDesc>
     <encodingDesc> </encodingDesc>
-    <workDesc>
+    <workList>
       <work>
-        <titleStmt>
-          <title>MEILER test</title>
-        </titleStmt>
+         <title>MEILER test</title>
       </work>
-    </workDesc>
+    </workList>
   </meiHead>
   <music>
     <body>
@@ -51,9 +49,9 @@
               <slur xml:id="blue-dashed-slur" vo="-2" startho="1" startvo="4" color="blue"
                 curvedir="below" lform="dashed" staff="1" tstamp="1" startid="#testnote1"
                 endid="#testnote3"/>
-              <mordent color="red" vo="3.5vu" form="inv" long="true" place="above" staff="1"
+              <mordent color="red" vo="3.5vu" form="lower" long="true" place="above" staff="1"
                 tstamp="1" startid="#testnote1"/>
-              <turn xml:id="turns-green" color="green" vo="-2" form="inv" place="above" staff="1"
+              <turn xml:id="turns-green" color="green" vo="-2" form="lower" place="above" staff="1"
                 tstamp="1" startid="#testnote1"/>
               <trill xml:id="trills-long" color="rgb(32,64,128)" vo="-8vu" lwidth="wide"
                 place="above" staff="1" tstamp="3" startid="#testnote2" endid="#testnote3"/>
@@ -95,13 +93,13 @@
             <measure n="6">
               <staff n="1">
                 <layer n="1">
-                  <bTrem measperf="256">
+                  <bTrem unitdur="256">
                     <chord xml:id="testchord4" dur="4" stem.dir="down" stem.mod="6slash">
                       <note xml:id="testnote4a" oct="4" pname="f" accid="s" head.mod="paren"/>
                       <note xml:id="testnote4b" oct="5" pname="c"/>
                     </chord>
                   </bTrem>
-                  <fTrem measperf="16">
+                  <fTrem unitdur="16">
                     <note xml:id="testnote5" dur="8" oct="5" pname="d" stem.dir="down"
                       stem.mod="3slash">
                       <accid accid="n" enclose="paren"/>
@@ -109,7 +107,7 @@
                     <note xml:id="testnote6" dur="8" oct="5" pname="f" stem.dir="down"
                       stem.mod="3slash"/>
                   </fTrem>
-                  <fTrem measperf="16">
+                  <fTrem unitdur="16">
                     <note xml:id="testnote5.1" dur="8" oct="5" pname="g" stem.dir="down"
                       stem.mod="3slash"/>
                     <note xml:id="testnote6.1" dur="8" oct="5" pname="e" stem.dir="down"

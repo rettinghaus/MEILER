@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-model href="http://www.music-encoding.org/schema/3.0.0/mei-all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
-<?xml-model href="http://www.music-encoding.org/schema/3.0.0/mei-all.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-<mei xmlns="http://www.music-encoding.org/ns/mei" meiversion="3.0.0">
+<?xml-model href="http://www.music-encoding.org/schema/4.0.0/mei-all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="http://www.music-encoding.org/schema/4.0.0/mei-all.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<mei xmlns="http://www.music-encoding.org/ns/mei" meiversion="4.0.0">
   <meiHead>
     <fileDesc>
       <titleStmt>
@@ -28,19 +28,19 @@
                 <layer n="1">
                   <rest dur="4" color="hsl(240, 75%, 25%)"/>
                   <!-- Output: #(rgb-color 0.0625 0.06250000000000025 0.4375) -->
-                  <annot type="assert-test" subtype="ly-analyze"> grep -E
+                  <annot type="assert-test" class="ly-analyze"> grep -E
                     '#\(rgb-color\s+0.062[0-9]+\s+0.062[0-9]+\s+0.437[0-9]+\s*\)' "$ly" </annot>
                   <rest dur="4" color="red"/>
                   <!-- Output: #(rgb-color 1 0 0) -->
-                  <annot type="assert-test" subtype="ly-analyze"> grep -E
+                  <annot type="assert-test" class="ly-analyze"> grep -E
                     '#\(rgb-color\s+1\s+0\s+0\s*\)' "$ly" </annot>
                   <rest dur="4" color="#00ff00"/>
                   <!-- Output: #(rgb-color 0 1 0) -->
-                  <annot type="assert-test" subtype="ly-analyze"> grep -E
+                  <annot type="assert-test" class="ly-analyze"> grep -E
                     '#\(rgb-color\s+0\s+1\s+0\s*\)' "$ly" </annot>
                   <rest dur="4" color="rgb(0, 0, 255)"/>
                   <!-- Output: Output: #(rgb-color 0 0 1) -->
-                  <annot type="assert-test" subtype="ly-analyze"> grep -E
+                  <annot type="assert-test" class="ly-analyze"> grep -E
                     '#\(rgb-color\s+0\s+0\s+1\s*\)' "$ly" </annot>
                 </layer>
               </staff>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-model href="http://www.music-encoding.org/schema/3.0.0/mei-all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
-<?xml-model href="http://www.music-encoding.org/schema/3.0.0/mei-all.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-<mei xmlns="http://www.music-encoding.org/ns/mei" meiversion="3.0.0">
+<?xml-model href="http://www.music-encoding.org/schema/4.0.0/mei-all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="http://www.music-encoding.org/schema/4.0.0/mei-all.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<mei xmlns="http://www.music-encoding.org/ns/mei" meiversion="4.0.0">
   <meiHead>
     <fileDesc>
       <titleStmt>
@@ -29,7 +29,7 @@
                   <note xml:id="f34n1" dur="4" oct="4" pname="g"/>
                 </layer>
               </staff>
-              <trill glyphname="ornamentPrecompSlideTrillDAnglebert" place="above" startid="#f34n1"
+              <trill glyph.name="ornamentPrecompSlideTrillDAnglebert" place="above" startid="#f34n1"
               />
             </measure>
             <measure right="dbl">
@@ -86,7 +86,7 @@
                   <note xml:id="f41n1" dur="4" oct="4" pname="g"/>
                 </layer>
               </staff>
-              <trill glyphname="ornamentPrecompMordentUpperPrefix" place="above" startid="#f41n1"/>
+              <trill glyph.name="ornamentPrecompMordentUpperPrefix" place="above" startid="#f41n1"/>
             </measure>
             <measure right="dbl">
               <staff n="1">
@@ -165,7 +165,7 @@
                   <note xml:id="f77n3" dur="2" oct="4" pname="d" lv="true"/>
                 </layer>
               </staff>
-              <trill glyphname="ornamentPrecompSlideTrillDAnglebert" place="above" startid="#f77n2"
+              <trill glyph.name="ornamentPrecompSlideTrillDAnglebert" place="above" startid="#f77n2"
               />
             </measure>
             <measure right="dbl">
@@ -176,8 +176,8 @@
                   <note xml:id="f77n6" dur="2" oct="4" pname="d" lv="true"/>
                 </layer>
               </staff>
-              <trill glyphname="ornamentPrecompSlideTrillDAnglebert" place="above" startid="#f77n4"/>
-              <trill glyphname="ornamentPrecompTrillWithMordent" place="above" startid="#f77n6"/>
+              <trill glyph.name="ornamentPrecompSlideTrillDAnglebert" place="above" startid="#f77n4"/>
+              <trill glyph.name="ornamentPrecompTrillWithMordent" place="above" startid="#f77n6"/>
             </measure>
           </section>
         </score>
