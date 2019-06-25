@@ -143,7 +143,7 @@ List of supported MEI elements and attributes
   * `@beams`
   * `@beams.float`
   * `@float.gap`
-  * __`@unitdur`__
+  * `@unitdur`
   * `@xml:id`
 
 * `<gliss>`
@@ -425,7 +425,7 @@ List of supported MEI elements and attributes
     * `@mensur.sign`
     * `@mensur.slash` (for value '1')
     * `@meter.count`
-    * `@meter.rend`
+    * `@meter.form`
     * `@meter.showchange`
     * `@meter.sym`
     * `@meter.unit`
@@ -493,7 +493,7 @@ List of supported MEI elements and attributes
   * `@mensur.sign`
   * `@mensur.slash` (for value '1')
   * `@meter.count`
-  * `@meter.rend`
+  * `@meter.form`
   * `@meter.sym`
   * `@meter.unit`
   * `@n`
