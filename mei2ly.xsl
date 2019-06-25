@@ -65,7 +65,7 @@
     </xsl:choose>
   </xsl:key>
   <xsl:template match="/">
-    <xsl:if test="not(mei:mei/@meiversion='4.0.0')">
+    <xsl:if test="not(mei:mei/@meiversion = '4.0.0')">
       <xsl:message>WARNING: mei2ly.xsl is designed for MEI version 4.0.0 and may not work properly with elder versions.</xsl:message>
     </xsl:if>
     <xsl:if test="$checkReferences">
@@ -133,8 +133,8 @@
   </xsl:template>
   <!-- MEI publication statement -->
   <xsl:template match="mei:pubStmt">
-    <xsl:if test="mei:respStmt/mei:persName[@role='editor']">
-      <xsl:value-of select="concat('  editor = \markup { ',normalize-space(mei:respStmt/mei:persName[@role='editor'][1]),' }&#10;')" />
+    <xsl:if test="mei:respStmt/mei:persName[@role = 'editor']">
+      <xsl:value-of select="concat('  editor = \markup { ',normalize-space(mei:respStmt/mei:persName[@role = 'editor'][1]),' }&#10;')" />
     </xsl:if>
     <xsl:if test="mei:publisher">
       <xsl:text>  publisher = \markup { </xsl:text>
@@ -166,10 +166,10 @@
   </xsl:template>
   <!-- MEI work description -->
   <xsl:template match="mei:workDesc">
-    <xsl:value-of select="concat('  title = &quot;',normalize-space(descendant::mei:title[not(@type) or @type='main'][1]),'&quot;&#10;')" />
-    <xsl:if test="descendant::mei:title[@type='subordinate']">
-      <xsl:value-of select="concat('  subtitle = &quot;',normalize-space(descendant::mei:title[@type='subordinate'][1]),'&quot;&#10;')" />
-      <xsl:value-of select="concat('  subsubtitle = &quot;',normalize-space(descendant::mei:title[@type='subordinate'][2]),'&quot;&#10;')" />
+    <xsl:value-of select="concat('  title = &quot;',normalize-space(descendant::mei:title[not(@type) or @type = 'main'][1]),'&quot;&#10;')" />
+    <xsl:if test="descendant::mei:title[@type = 'subordinate']">
+      <xsl:value-of select="concat('  subtitle = &quot;',normalize-space(descendant::mei:title[@type = 'subordinate'][1]),'&quot;&#10;')" />
+      <xsl:value-of select="concat('  subsubtitle = &quot;',normalize-space(descendant::mei:title[@type = 'subordinate'][2]),'&quot;&#10;')" />
     </xsl:if>
     <xsl:for-each select="descendant::mei:persName[@role]">
       <xsl:value-of select="concat('  ',@role,' = &quot;',normalize-space(.),'&quot;&#10;')" />
@@ -250,7 +250,7 @@
             </xsl:if>
           </xsl:if>
           <!-- set bar number -->
-          <xsl:if test="(ancestor::mei:measure[@n and not(@metcon='false')]/@n != preceding::mei:measure[@n and not(@metcon='false')][1]/@n + 1)">
+          <xsl:if test="(ancestor::mei:measure[@n and not(@metcon = 'false')]/@n != preceding::mei:measure[@n and not(@metcon = 'false')][1]/@n + 1)">
             <xsl:call-template name="setBarNumber" />
           </xsl:if>
           <!-- add clef change -->
@@ -297,8 +297,8 @@
               <xsl:with-param name="barLineStyle" select="ancestor::mei:measure/@left" />
             </xsl:call-template>
           </xsl:if>
-          <xsl:apply-templates select="ancestor::mei:measure/mei:tempo[@copyof or contains(concat(' ',@staff,' '),concat(' ',$staffNumber,' '))][@tstamp='1']" mode="pre" />
-          <xsl:if test="ancestor::mei:measure/@metcon='false'">
+          <xsl:apply-templates select="ancestor::mei:measure/mei:tempo[@copyof or contains(concat(' ',@staff,' '),concat(' ',$staffNumber,' '))][@tstamp = '1']" mode="pre" />
+          <xsl:if test="ancestor::mei:measure/@metcon = 'false'">
             <xsl:apply-templates select="descendant::mei:layer[1]" mode="setPartial"/>
           </xsl:if>
           <xsl:text>&lt;&lt;&#32;</xsl:text>
@@ -679,7 +679,7 @@
   <!-- MEI measure -->
   <xsl:template match="mei:measure">
     <xsl:value-of select="'  '" />
-    <xsl:if test="(not(@metcon='false') and @n != preceding::mei:measure[@n and not(@metcon='false')][1]/@n + 1)">
+    <xsl:if test="(not(@metcon = 'false') and @n != preceding::mei:measure[@n and not(@metcon = 'false')][1]/@n + 1)">
       <xsl:call-template name="setBarNumber" />
     </xsl:if>
     <xsl:if test="@left">
@@ -687,7 +687,7 @@
         <xsl:with-param name="barLineStyle" select="@left" />
       </xsl:call-template>
     </xsl:if>
-    <xsl:if test="@metcon='false'">
+    <xsl:if test="@metcon = 'false'">
       <xsl:apply-templates select="descendant::mei:layer[1]" mode="setPartial"/>
     </xsl:if>
     <xsl:apply-templates/>
@@ -723,10 +723,10 @@
     </xsl:variable>
     <xsl:variable name="clefTrans">
       <xsl:choose>
-        <xsl:when test="$clefDisPlace='above'">
+        <xsl:when test="$clefDisPlace = 'above'">
           <xsl:value-of select="number($clefDis) - 1" />
         </xsl:when>
-        <xsl:when test="$clefDisPlace='below'">
+        <xsl:when test="$clefDisPlace = 'below'">
           <xsl:value-of select="-1 * number($clefDis) + 1" />
         </xsl:when>
         <xsl:otherwise>
@@ -737,7 +737,7 @@
     <xsl:variable name="clefPos" select="2 * number($clefLine) - 6" />
     <xsl:variable name="cOffset">
       <xsl:choose>
-        <xsl:when test="$clefShape='F'">
+        <xsl:when test="$clefShape = 'F'">
           <xsl:value-of select="4" />
         </xsl:when>
         <xsl:when test="contains($clefShape,'G')">
@@ -871,7 +871,7 @@
     <xsl:value-of select="@pname" />
     <xsl:apply-templates mode="setAccidental" select="(mei:accid, .[not(mei:accid)])/(@accid, @accid.ges)[1]"/>
     <xsl:call-template name="setOctave" />
-    <xsl:if test="descendant-or-self::*/@accid or child::mei:accid/@func='caution'">
+    <xsl:if test="descendant-or-self::*/@accid or child::mei:accid/@func = 'caution'">
       <xsl:text>!</xsl:text>
     </xsl:if>
     <xsl:if test="child::mei:accid/@enclose = 'paren'">
@@ -1263,7 +1263,7 @@
   </xsl:template>
   <!-- MEI accidental -->
   <xsl:template match="mei:accid" mode="pre">
-    <xsl:if test="(@func='edit' or @place='above') and not(ancestor::mei:chord) ">
+    <xsl:if test="(@func = 'edit' or @place = 'above') and not(ancestor::mei:chord) ">
       <xsl:text>\once \set suggestAccidentals = ##t </xsl:text>
     </xsl:if>
     <xsl:if test="$useSvgBackend">
@@ -1299,36 +1299,36 @@
     <xsl:text>\bar "</xsl:text>
     <!-- data.BARRENDITION -->
     <xsl:choose>
-      <xsl:when test="$barLineStyle='dashed'">
+      <xsl:when test="$barLineStyle = 'dashed'">
         <xsl:text>!</xsl:text>
       </xsl:when>
-      <xsl:when test="$barLineStyle='dotted'">
+      <xsl:when test="$barLineStyle = 'dotted'">
         <xsl:text>;</xsl:text>
       </xsl:when>
-      <xsl:when test="$barLineStyle='dbl'">
+      <xsl:when test="$barLineStyle = 'dbl'">
         <xsl:text>||</xsl:text>
       </xsl:when>
-      <xsl:when test="$barLineStyle='dbldashed'">
+      <xsl:when test="$barLineStyle = 'dbldashed'">
         <xsl:text>!!</xsl:text>
       </xsl:when>
-      <xsl:when test="$barLineStyle='dbldotted'">
+      <xsl:when test="$barLineStyle = 'dbldotted'">
         <xsl:text>;;</xsl:text>
       </xsl:when>
-      <xsl:when test="$barLineStyle='end'">
+      <xsl:when test="$barLineStyle = 'end'">
         <xsl:text>|.</xsl:text>
       </xsl:when>
-      <xsl:when test="$barLineStyle='invis'">
+      <xsl:when test="$barLineStyle = 'invis'">
       </xsl:when>
-      <xsl:when test="$barLineStyle='rptstart'">
+      <xsl:when test="$barLineStyle = 'rptstart'">
         <xsl:text>.|:</xsl:text>
       </xsl:when>
-      <xsl:when test="$barLineStyle='rptboth'">
+      <xsl:when test="$barLineStyle = 'rptboth'">
         <xsl:text>:..:</xsl:text>
       </xsl:when>
-      <xsl:when test="$barLineStyle='rptend'">
+      <xsl:when test="$barLineStyle = 'rptend'">
         <xsl:text>:|.</xsl:text>
       </xsl:when>
-      <xsl:when test="$barLineStyle='single'">
+      <xsl:when test="$barLineStyle = 'single'">
         <xsl:text>|</xsl:text>
       </xsl:when>
       <xsl:otherwise>
@@ -1375,10 +1375,10 @@
         <xsl:value-of select="'\once \omit TupletNumber '" />
       </xsl:if>
       <xsl:choose>
-        <xsl:when test="@num.place='above'">
+        <xsl:when test="@num.place = 'above'">
           <xsl:value-of select="'\once \tupletUp '" />
         </xsl:when>
-        <xsl:when test="@num.place='below'">
+        <xsl:when test="@num.place = 'below'">
           <xsl:value-of select="'\once \tupletDown '" />
         </xsl:when>
       </xsl:choose>
@@ -1429,10 +1429,10 @@
     </xsl:if>
     <xsl:if test="@bracket.place">
       <xsl:choose>
-        <xsl:when test="@bracket.place='above'">
+        <xsl:when test="@bracket.place = 'above'">
           <xsl:text>\tweak TupletBracket.direction #UP </xsl:text>
         </xsl:when>
-        <xsl:when test="@bracket.place='below'">
+        <xsl:when test="@bracket.place = 'below'">
           <xsl:text>\tweak TupletBracket.direction #DOWN </xsl:text>
         </xsl:when>
       </xsl:choose>
@@ -1442,20 +1442,20 @@
     </xsl:if>
     <xsl:if test="@num.format">
       <xsl:choose>
-        <xsl:when test="@num.format='count'">
+        <xsl:when test="@num.format = 'count'">
           <xsl:value-of select="'\tweak TupletNumber.text #tuplet-number::calc-denominator-text '" />
         </xsl:when>
-        <xsl:when test="@num.format='ratio'">
+        <xsl:when test="@num.format = 'ratio'">
           <xsl:value-of select="'\tweak TupletNumber.text #tuplet-number::calc-fraction-text '" />
         </xsl:when>
       </xsl:choose>
     </xsl:if>
     <xsl:if test="@num.place">
       <xsl:choose>
-        <xsl:when test="@num.place='above'">
+        <xsl:when test="@num.place = 'above'">
           <xsl:text>\tweak TupletNumber.direction #UP </xsl:text>
         </xsl:when>
-        <xsl:when test="@num.place='below'">
+        <xsl:when test="@num.place = 'below'">
           <xsl:text>\tweak TupletNumber.direction #DOWN </xsl:text>
         </xsl:when>
       </xsl:choose>
@@ -1556,10 +1556,10 @@
         <xsl:call-template name="setMarkupDirection" />
       </xsl:when>
       <xsl:otherwise>
-        <xsl:if test="@fermata='above'">
+        <xsl:if test="@fermata = 'above'">
           <xsl:text>^</xsl:text>
         </xsl:if>
-        <xsl:if test="@fermata='below'">
+        <xsl:if test="@fermata = 'below'">
           <xsl:text>_</xsl:text>
         </xsl:if>
       </xsl:otherwise>
@@ -2327,7 +2327,7 @@
         </xsl:otherwise>
       </xsl:choose>
     </xsl:if>
-    <xsl:if test="@fontweight='normal' or @fontstyle='normal'">
+    <xsl:if test="@fontweight = 'normal' or @fontstyle = 'normal'">
       <xsl:value-of select="'\normal-text '" />
     </xsl:if>
     <xsl:if test="@fontweight != 'normal'">
@@ -2635,19 +2635,19 @@
       <xsl:text>_</xsl:text>
     </xsl:if>
     <xsl:choose>
-      <xsl:when test="@con='s'">
+      <xsl:when test="@con = 's'">
         <xsl:value-of select="'_'" />
       </xsl:when>
-      <xsl:when test="@con='c'">
+      <xsl:when test="@con = 'c'">
         <xsl:value-of select="'^'" />
       </xsl:when>
-      <xsl:when test="@con='v'">
+      <xsl:when test="@con = 'v'">
         <xsl:value-of select="''" />
       </xsl:when>
-      <xsl:when test="@con='i'">
+      <xsl:when test="@con = 'i'">
         <xsl:value-of select="''" />
       </xsl:when>
-      <xsl:when test="@con='b'">
+      <xsl:when test="@con = 'b'">
         <xsl:value-of select="'~'" />
       </xsl:when>
     </xsl:choose>
@@ -2763,10 +2763,10 @@
   <xsl:template mode="setStemDir" match="*[@stem.dir]">
     <xsl:choose>
       <!-- data.STEMDIRECTION.basic -->
-      <xsl:when test="@stem.dir='down'">
+      <xsl:when test="@stem.dir = 'down'">
         <xsl:text>\tweak Stem.direction #DOWN </xsl:text>
       </xsl:when>
-      <xsl:when test="@stem.dir='up'">
+      <xsl:when test="@stem.dir = 'up'">
         <xsl:text>\tweak Stem.direction #UP </xsl:text>
       </xsl:when>
       <!-- data.STEMDIRECTION.extended -->
@@ -2788,38 +2788,38 @@
   <xsl:template name="setDuration">
     <xsl:choose>
       <!-- data.DURATION.cmn -->
-      <xsl:when test="@dur='long'">
+      <xsl:when test="@dur = 'long'">
         <xsl:text>\longa</xsl:text>
       </xsl:when>
-      <xsl:when test="@dur='breve'">
+      <xsl:when test="@dur = 'breve'">
         <xsl:text>\breve</xsl:text>
       </xsl:when>
       <xsl:when test="number(@dur) &lt; 256">
         <xsl:value-of select="number(@dur)" />
       </xsl:when>
       <!-- data.DURATION.mensural -->
-      <xsl:when test="@dur='maxima'">
+      <xsl:when test="@dur = 'maxima'">
         <xsl:text>\maxima</xsl:text>
       </xsl:when>
-      <xsl:when test="@dur='longa'">
+      <xsl:when test="@dur = 'longa'">
         <xsl:text>\longa</xsl:text>
       </xsl:when>
-      <xsl:when test="@dur='brevis'">
+      <xsl:when test="@dur = 'brevis'">
         <xsl:text>\breve</xsl:text>
       </xsl:when>
-      <xsl:when test="@dur='semibrevis'">
+      <xsl:when test="@dur = 'semibrevis'">
         <xsl:text>1</xsl:text>
       </xsl:when>
-      <xsl:when test="@dur='minima'">
+      <xsl:when test="@dur = 'minima'">
         <xsl:text>2</xsl:text>
       </xsl:when>
-      <xsl:when test="@dur='semiminima'">
+      <xsl:when test="@dur = 'semiminima'">
         <xsl:text>4</xsl:text>
       </xsl:when>
-      <xsl:when test="@dur='fusa'">
+      <xsl:when test="@dur = 'fusa'">
         <xsl:text>8</xsl:text>
       </xsl:when>
-      <xsl:when test="@dur='semifusa'">
+      <xsl:when test="@dur = 'semifusa'">
         <xsl:text>16</xsl:text>
       </xsl:when>
       <xsl:otherwise>
@@ -2901,7 +2901,7 @@
   <xsl:template name="addOrnamentAccid">
     <!-- att.ornamentaccid -->
     <xsl:choose>
-      <xsl:when test="@place='below'">
+      <xsl:when test="@place = 'below'">
         <xsl:choose>
           <xsl:when test="@accidupper">
             <xsl:text>-\tweak script-priority -10000</xsl:text>
@@ -3073,52 +3073,52 @@
     <xsl:param name="accidentals" />
     <xsl:text>\key </xsl:text>
     <xsl:choose>
-      <xsl:when test="$accidentals='1s'">
+      <xsl:when test="$accidentals = '1s'">
         <xsl:text>g\major</xsl:text>
       </xsl:when>
-      <xsl:when test="$accidentals='2s'">
+      <xsl:when test="$accidentals = '2s'">
         <xsl:text>d\major</xsl:text>
       </xsl:when>
-      <xsl:when test="$accidentals='3s'">
+      <xsl:when test="$accidentals = '3s'">
         <xsl:text>a\major</xsl:text>
       </xsl:when>
-      <xsl:when test="$accidentals='4s'">
+      <xsl:when test="$accidentals = '4s'">
         <xsl:text>e\major</xsl:text>
       </xsl:when>
-      <xsl:when test="$accidentals='5s'">
+      <xsl:when test="$accidentals = '5s'">
         <xsl:text>b\major</xsl:text>
       </xsl:when>
-      <xsl:when test="$accidentals='6s'">
+      <xsl:when test="$accidentals = '6s'">
         <xsl:text>fis\major</xsl:text>
       </xsl:when>
-      <xsl:when test="$accidentals='7s'">
+      <xsl:when test="$accidentals = '7s'">
         <xsl:text>cis\major</xsl:text>
       </xsl:when>
-      <xsl:when test="$accidentals='8s'">
+      <xsl:when test="$accidentals = '8s'">
         <xsl:text>gis\major</xsl:text>
       </xsl:when>
-      <xsl:when test="$accidentals='1f'">
+      <xsl:when test="$accidentals = '1f'">
         <xsl:text>f\major</xsl:text>
       </xsl:when>
-      <xsl:when test="$accidentals='2f'">
+      <xsl:when test="$accidentals = '2f'">
         <xsl:text>bes\major</xsl:text>
       </xsl:when>
-      <xsl:when test="$accidentals='3f'">
+      <xsl:when test="$accidentals = '3f'">
         <xsl:text>ees\major</xsl:text>
       </xsl:when>
-      <xsl:when test="$accidentals='4f'">
+      <xsl:when test="$accidentals = '4f'">
         <xsl:text>aes\major</xsl:text>
       </xsl:when>
-      <xsl:when test="$accidentals='5f'">
+      <xsl:when test="$accidentals = '5f'">
         <xsl:text>des\major</xsl:text>
       </xsl:when>
-      <xsl:when test="$accidentals='6f'">
+      <xsl:when test="$accidentals = '6f'">
         <xsl:text>ges\major</xsl:text>
       </xsl:when>
-      <xsl:when test="$accidentals='7f'">
+      <xsl:when test="$accidentals = '7f'">
         <xsl:text>ces\major</xsl:text>
       </xsl:when>
-      <xsl:when test="$accidentals='8f'">
+      <xsl:when test="$accidentals = '8f'">
         <xsl:text>fes\major</xsl:text>
       </xsl:when>
       <xsl:otherwise>
@@ -3131,16 +3131,16 @@
   <xsl:template name="setStaffGrpStyle">
     <xsl:text> \set StaffGroup.systemStartDelimiter = </xsl:text>
     <xsl:choose>
-      <xsl:when test="@symbol='brace'">
+      <xsl:when test="@symbol = 'brace'">
         <xsl:text>#'SystemStartBrace</xsl:text>
       </xsl:when>
-      <xsl:when test="@symbol='bracket'">
+      <xsl:when test="@symbol = 'bracket'">
         <xsl:text>#'SystemStartBracket</xsl:text>
       </xsl:when>
-      <xsl:when test="@symbol='bracketsq'">
+      <xsl:when test="@symbol = 'bracketsq'">
         <xsl:text>#'SystemStartSquare</xsl:text>
       </xsl:when>
-      <xsl:when test="@symbol='line'">
+      <xsl:when test="@symbol = 'line'">
         <xsl:text>#'SystemStartBar</xsl:text>
       </xsl:when>
       <xsl:otherwise>
@@ -3156,10 +3156,10 @@
   <xsl:template name="setMarkupDirection">
     <xsl:param name="direction" select="@place|@curvedir" />
     <xsl:choose>
-      <xsl:when test="$direction='above'">
+      <xsl:when test="$direction = 'above'">
         <xsl:text>^</xsl:text>
       </xsl:when>
-      <xsl:when test="$direction='below'">
+      <xsl:when test="$direction = 'below'">
         <xsl:text>_</xsl:text>
       </xsl:when>
       <xsl:otherwise>
@@ -3511,31 +3511,31 @@
   <xsl:template name="setRelFontsize">
     <!-- data.FONTSIZETERM -->
     <xsl:choose>
-      <xsl:when test="@fontsize ='xx-small'">
+      <xsl:when test="@fontsize = 'xx-small'">
         <xsl:value-of select="'\teeny '" />
       </xsl:when>
-      <xsl:when test="@fontsize ='x-small'">
+      <xsl:when test="@fontsize = 'x-small'">
         <xsl:value-of select="'\tiny '" />
       </xsl:when>
-      <xsl:when test="@fontsize ='small'">
+      <xsl:when test="@fontsize = 'small'">
         <xsl:value-of select="'\small '" />
       </xsl:when>
-      <xsl:when test="@fontsize ='normal'">
+      <xsl:when test="@fontsize = 'normal'">
         <xsl:value-of select="'\normalsize '" />
       </xsl:when>
-      <xsl:when test="@fontsize ='large'">
+      <xsl:when test="@fontsize = 'large'">
         <xsl:value-of select="'\large '" />
       </xsl:when>
-      <xsl:when test="@fontsize ='x-large'">
+      <xsl:when test="@fontsize = 'x-large'">
         <xsl:value-of select="'\huge '" />
       </xsl:when>
-      <xsl:when test="@fontsize ='xx-large'">
+      <xsl:when test="@fontsize = 'xx-large'">
         <xsl:value-of select="'\huge '" />
       </xsl:when>
-      <xsl:when test="@fontsize ='smaller' and not(self::mei:note)">
+      <xsl:when test="@fontsize = 'smaller' and not(self::mei:note)">
         <xsl:value-of select="'\smaller '" />
       </xsl:when>
-      <xsl:when test="@fontsize ='larger' and not(self::mei:note)">
+      <xsl:when test="@fontsize = 'larger' and not(self::mei:note)">
         <xsl:value-of select="'\larger '" />
       </xsl:when>
       <xsl:otherwise>
@@ -3580,32 +3580,32 @@
   <xsl:template name="modifyNotehead">
     <!-- data.NOTEHEADMODIFIER.list -->
     <xsl:choose>
-      <xsl:when test="@head.mod ='slash'">
+      <xsl:when test="@head.mod = 'slash'">
         <xsl:text>\tweak style #'slash </xsl:text>
       </xsl:when>
-      <xsl:when test="@head.mod ='backslash'">
+      <xsl:when test="@head.mod = 'backslash'">
       </xsl:when>
-      <xsl:when test="@head.mod ='vline'">
+      <xsl:when test="@head.mod = 'vline'">
       </xsl:when>
-      <xsl:when test="@head.mod ='hline'">
+      <xsl:when test="@head.mod = 'hline'">
       </xsl:when>
-      <xsl:when test="@head.mod ='centerdot'">
+      <xsl:when test="@head.mod = 'centerdot'">
       </xsl:when>
-      <xsl:when test="@head.mod ='paren'">
+      <xsl:when test="@head.mod = 'paren'">
         <xsl:value-of select="'\parenthesize '" />
       </xsl:when>
-      <xsl:when test="@head.mod ='brack'">
+      <xsl:when test="@head.mod = 'brack'">
       </xsl:when>
-      <xsl:when test="@head.mod ='box'">
+      <xsl:when test="@head.mod = 'box'">
         <xsl:text>\once \override NoteHead.stencil = #(lambda (grob) (let* ((note (ly:note-head::print grob)) (combo-stencil (ly:stencil-add note (box-stencil note 0 0.5)))) (ly:make-stencil (ly:stencil-expr combo-stencil) (ly:stencil-extent note X) (ly:stencil-extent note Y))))</xsl:text>
       </xsl:when>
-      <xsl:when test="@head.mod ='circle'">
+      <xsl:when test="@head.mod = 'circle'">
         <xsl:text>\once \override NoteHead.stencil = #(lambda (grob) (let* ((note (ly:note-head::print grob)) (combo-stencil (ly:stencil-add note (circle-stencil note 0 0.5)))) (ly:make-stencil (ly:stencil-expr combo-stencil) (ly:stencil-extent note X) (ly:stencil-extent note Y))))</xsl:text>
       </xsl:when>
-      <xsl:when test="@head.mod ='dblwhole'">
+      <xsl:when test="@head.mod = 'dblwhole'">
       </xsl:when>
       <!-- data.NOTEHEADMODIFIER.pat -->
-      <xsl:when test="contains('ABCDEFG',@head.mod)">
+      <xsl:when test="starts-with(@head.mod, 'centertext')">
         <xsl:text>\single \easyHeadsOn </xsl:text>
       </xsl:when>
       <xsl:otherwise>
@@ -4174,44 +4174,44 @@
     <!-- SMuFL glyphs -->
     <xsl:choose>
       <!-- Repeats (U+E040 – U+E04F) -->
-      <xsl:when test="@glyph.name='dalSegno' or contains(@glyph.num,'E045')">
+      <xsl:when test="@glyph.name = 'dalSegno' or contains(@glyph.num,'E045')">
         <xsl:text>\markup {\bold "D.S."}</xsl:text>
       </xsl:when>
-      <xsl:when test="@glyph.name='daCapo' or contains(@glyph.num,'E046')">
+      <xsl:when test="@glyph.name = 'daCapo' or contains(@glyph.num,'E046')">
         <xsl:text>\markup {\bold "D.C."}</xsl:text>
       </xsl:when>
-      <xsl:when test="@glyph.name='segno' or contains(@glyph.num,'E047')">
+      <xsl:when test="@glyph.name = 'segno' or contains(@glyph.num,'E047')">
         <xsl:text>\markup {\musicglyph #"scripts.segno"}</xsl:text>
       </xsl:when>
-      <xsl:when test="@glyph.name='coda' or contains(@glyph.num,'E048')">
+      <xsl:when test="@glyph.name = 'coda' or contains(@glyph.num,'E048')">
         <xsl:text>\markup {\musicglyph #"scripts.coda"}</xsl:text>
       </xsl:when>
-      <xsl:when test="@glyph.name='segnoSerpent1' or contains(@glyph.num,'E049')">
+      <xsl:when test="@glyph.name = 'segnoSerpent1' or contains(@glyph.num,'E049')">
         <xsl:text>\markup {\musicglyph #"scripts.varcoda"}</xsl:text>
       </xsl:when>
       <!-- Holds and pauses (U+E4C0 – U+E4DF) -->
-      <xsl:when test="@glyph.name='fermataAbove' or contains(@glyph.num,'E4C0')">
+      <xsl:when test="@glyph.name = 'fermataAbove' or contains(@glyph.num,'E4C0')">
         <xsl:text>\markup {\musicglyph #"scripts.ufermata"}</xsl:text>
       </xsl:when>
-      <xsl:when test="@glyph.name='fermataBelow' or contains(@glyph.num,'E4C1')">
+      <xsl:when test="@glyph.name = 'fermataBelow' or contains(@glyph.num,'E4C1')">
         <xsl:text>\markup {\musicglyph #"scripts.dfermata"}</xsl:text>
       </xsl:when>
-      <xsl:when test="@glyph.name='fermataShortAbove' or contains(@glyph.num,'E4C4')">
+      <xsl:when test="@glyph.name = 'fermataShortAbove' or contains(@glyph.num,'E4C4')">
         <xsl:text>\markup {\musicglyph #"scripts.ushortfermata"}</xsl:text>
       </xsl:when>
-      <xsl:when test="@glyph.name='fermataShortBelow' or contains(@glyph.num,'E4C5')">
+      <xsl:when test="@glyph.name = 'fermataShortBelow' or contains(@glyph.num,'E4C5')">
         <xsl:text>\markup {\musicglyph #"scripts.dshortfermata"}</xsl:text>
       </xsl:when>
-      <xsl:when test="@glyph.name='fermataLongAbove' or contains(@glyph.num,'E4C6')">
+      <xsl:when test="@glyph.name = 'fermataLongAbove' or contains(@glyph.num,'E4C6')">
         <xsl:text>\markup {\musicglyph #"scripts.ulongfermata"}</xsl:text>
       </xsl:when>
-      <xsl:when test="@glyph.name='fermataLongBelow' or contains(@glyph.num,'E4C7')">
+      <xsl:when test="@glyph.name = 'fermataLongBelow' or contains(@glyph.num,'E4C7')">
         <xsl:text>\markup {\musicglyph #"scripts.dlongfermata"}</xsl:text>
       </xsl:when>
-      <xsl:when test="@glyph.name='fermataVeryLongAbove' or contains(@glyph.num,'E4C8')">
+      <xsl:when test="@glyph.name = 'fermataVeryLongAbove' or contains(@glyph.num,'E4C8')">
         <xsl:text>\markup {\musicglyph #"scripts.uverylongfermata"}</xsl:text>
       </xsl:when>
-      <xsl:when test="@glyph.name='fermataVeryLongBelow' or contains(@glyph.num,'E4C9')">
+      <xsl:when test="@glyph.name = 'fermataVeryLongBelow' or contains(@glyph.num,'E4C9')">
         <xsl:text>\markup {\musicglyph #"scripts.dverylongfermata"}</xsl:text>
       </xsl:when>
       <!-- Common ornaments (U+E560 – U+E56F) -->
@@ -4234,39 +4234,39 @@
         <xsl:text>\prallprall</xsl:text>
       </xsl:when>
       <!-- Precomposed trills and mordents (U+E5B0 – U+E5CF) -->
-      <xsl:when test="@glyph.name='ornamentPrecompAppoggTrill' or contains(@glyph.num,'E5B2')">
+      <xsl:when test="@glyph.name = 'ornamentPrecompAppoggTrill' or contains(@glyph.num,'E5B2')">
         <xsl:text>\lineprall</xsl:text>
       </xsl:when>
-      <xsl:when test="@glyph.name='ornamentPrecompSlideTrillDAnglebert' or contains(@glyph.num,'E5B5')">
+      <xsl:when test="@glyph.name = 'ornamentPrecompSlideTrillDAnglebert' or contains(@glyph.num,'E5B5')">
         <xsl:text>\upprall</xsl:text>
       </xsl:when>
-      <xsl:when test="@glyph.name='ornamentPrecompSlideTrillBach' or contains(@glyph.num,'E5B8')">
+      <xsl:when test="@glyph.name = 'ornamentPrecompSlideTrillBach' or contains(@glyph.num,'E5B8')">
         <xsl:text>\upmordent</xsl:text>
       </xsl:when>
-      <xsl:when test="@glyph.name='ornamentPrecompTrillSuffixDandrieu' or contains(@glyph.num,'E5BB')">
+      <xsl:when test="@glyph.name = 'ornamentPrecompTrillSuffixDandrieu' or contains(@glyph.num,'E5BB')">
         <xsl:text>\prallup</xsl:text>
       </xsl:when>
-      <xsl:when test="@glyph.name='ornamentPrecompTrillWithMordent' or contains(@glyph.num,'E5BD')">
+      <xsl:when test="@glyph.name = 'ornamentPrecompTrillWithMordent' or contains(@glyph.num,'E5BD')">
         <xsl:text>\prallmordent</xsl:text>
       </xsl:when>
-      <xsl:when test="@glyph.name='ornamentPrecompMordentUpperPrefix' or contains(@glyph.num,'E5C6')">
+      <xsl:when test="@glyph.name = 'ornamentPrecompMordentUpperPrefix' or contains(@glyph.num,'E5C6')">
         <xsl:text>\downprall</xsl:text>
       </xsl:when>
-      <xsl:when test="@glyph.name='ornamentPrecompInvertedMordentUpperPrefix' or contains(@glyph.num,'E5C7')">
+      <xsl:when test="@glyph.name = 'ornamentPrecompInvertedMordentUpperPrefix' or contains(@glyph.num,'E5C7')">
         <xsl:text>\downmordent</xsl:text>
       </xsl:when>
-      <xsl:when test="@glyph.name='ornamentPrecompTrillLowerSuffix' or contains(@glyph.num,'E5C8')">
+      <xsl:when test="@glyph.name = 'ornamentPrecompTrillLowerSuffix' or contains(@glyph.num,'E5C8')">
         <xsl:text>\pralldown</xsl:text>
       </xsl:when>
       <!-- String techniques (U+E610 – U+E62F) -->
-      <xsl:when test="@glyph.name='stringsThumbPosition' or contains(@glyph.num,'E4C0')">
+      <xsl:when test="@glyph.name = 'stringsThumbPosition' or contains(@glyph.num,'E4C0')">
         <xsl:text>\markup {\musicglyph #"scripts.thumb"}</xsl:text>
       </xsl:when>
       <!-- Medieval and Renaissance miscellany (U+EA00 – U+EA1F) -->
-      <xsl:when test="@glyph.name='mensuralSignumUp' or contains(@glyph.num,'EA00')">
+      <xsl:when test="@glyph.name = 'mensuralSignumUp' or contains(@glyph.num,'EA00')">
         <xsl:text>\markup {\musicglyph #"scripts.usignumcongruentiae"}</xsl:text>
       </xsl:when>
-      <xsl:when test="@glyph.name='mensuralSignumDown' or contains(@glyph.num,'EA01')">
+      <xsl:when test="@glyph.name = 'mensuralSignumDown' or contains(@glyph.num,'EA01')">
         <xsl:text>\markup {\musicglyph #"scripts.dsignumcongruentiae"}</xsl:text>
       </xsl:when>
     </xsl:choose>
@@ -4395,10 +4395,10 @@
               </xsl:if>
             </xsl:if>
             <xsl:choose>
-              <xsl:when test="mei:verse[not(number(@n)) or @n=$verseNumber]/mei:syl[position()=last()]/@con='d'">
+              <xsl:when test="mei:verse[not(number(@n)) or @n=$verseNumber]/mei:syl[position()=last()]/@con = 'd'">
                 <xsl:value-of select="' -- '" />
               </xsl:when>
-              <xsl:when test="mei:verse[not(number(@n)) or @n=$verseNumber]/mei:syl[position()=last()]/@con='u'">
+              <xsl:when test="mei:verse[not(number(@n)) or @n=$verseNumber]/mei:syl[position()=last()]/@con = 'u'">
                 <xsl:value-of select="' __ '" />
               </xsl:when>
               <xsl:otherwise>
@@ -4548,7 +4548,7 @@
   <xsl:function name="local:VU2LY" as="xs:double">
     <xsl:param name="valueString" as="xs:string" />
     <xsl:choose>
-      <xsl:when test="number($valueString) or $valueString='0'">
+      <xsl:when test="number($valueString) or $valueString = '0'">
         <xsl:value-of select="number($valueString) div 2"/>
       </xsl:when>
       <xsl:when test="substring($valueString,string-length($valueString)-1) = 'vu'">
@@ -4569,7 +4569,7 @@
         <xsl:message select="'ERROR: Unsupported unit: px'" />
         <xsl:value-of select="'x'"/>
       </xsl:when>
-      <xsl:when test="number($valueString) or $valueString='0'">
+      <xsl:when test="number($valueString) or $valueString = '0'">
         <xsl:value-of select="concat(number($valueString) div 2, '\staff-space&#10;')"/>
       </xsl:when>
       <xsl:when test="contains($valueString,'vu')">
@@ -4620,7 +4620,7 @@
     <xsl:choose>
       <xsl:when test="$layer">
         <xsl:if test="count($layer) > 1">
-          <xsl:message select="$layer[1]/concat('WARNING: Multiple layers with n=', @n, ' in measure ', ancestor::mei:measure/@n, ', staff ', ancestor::mei:staff/@n)"/>
+          <xsl:message select="$layer[1]/concat('WARNING: Multiple layers with n = ', @n, ' in measure ', ancestor::mei:measure/@n, ', staff ', ancestor::mei:staff/@n)"/>
         </xsl:if>
         <xsl:apply-templates select="$layer">
           <xsl:with-param name="needsDivider" select="$needsDivider"/>
@@ -4653,7 +4653,7 @@
     <xsl:variable name="durElements" select="descendant::*[@dur][not(ancestor::mei:chord or ancestor::mei:fTrem)]" as="element()*"/>
     <!-- We might have a measure with non-numerical @durs, so test if we'd output something valid -->
     <xsl:choose>
-      <xsl:when test="ancestor::mei:measure[1]/@metcon='false' and $durElements[1]">
+      <xsl:when test="ancestor::mei:measure[1]/@metcon = 'false' and $durElements[1]">
         <!-- TODO: This does not work for tuplets yet. That's why we only fall back to summing up durations
            if @metcon is false. Using the current meter is more reliable for now. -->
         <!-- Seems paradox: To get the smallest @dur, we use max() (16ths are smaller than 8th) -->
