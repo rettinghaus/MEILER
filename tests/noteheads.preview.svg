@@ -1,4 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.2" width="62.61mm" height="10.63mm" viewBox="8.5358 -0.0000 35.6279 6.0500">
+<style text="style/css">
+<![CDATA[
+tspan { white-space: pre; }
+]]>
+</style>
 <line transform="translate(8.5358, 4.0500)" stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="-0.0000" x2="35.6279" y2="-0.0000"/>
 <line transform="translate(8.5358, 3.0500)" stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="-0.0000" x2="35.6279" y2="-0.0000"/>
 <line transform="translate(8.5358, 2.0500)" stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="-0.0000" x2="35.6279" y2="-0.0000"/>
@@ -49,23 +54,21 @@ c-56 -52 -106 -107 -152 -168c-2 -2 -4 -4 -7 -4s-6 2 -8 4c-46 61 -96 116 -152 168
 <g color="rgb(43.5294%, 43.5294%, 43.5294%)">
 <circle transform="translate(41.7657, 3.0500)" stroke-linejoin="round" stroke-linecap="round" fill="currentColor" stroke="currentColor" stroke-width="0" r="0.5500"/>
 <g color="rgb(100.0000%, 100.0000%, 100.0000%)">
-<text transform="translate(41.4243, 3.3914)" font-family="sans-serif" font-weight="bold" font-size="0.8730" text-anchor="start" fill="currentColor">
-<tspan>
-A</tspan>
+<text transform="translate(41.4243, 3.3573)" font-family="sans-serif" font-weight="bold" font-size="0.8730" text-anchor="start" fill="currentColor">
+<tspan>A</tspan>
 </text>
 </g>
 </g>
 </g>
 <g color="rgb(43.5294%, 43.5294%, 43.5294%)">
-<rect transform="translate(38.4826, 2.0500)" x="-0.0650" y="0.1323" width="0.1300" height="3.2010" ry="0.0400" fill="currentColor"/>
+<rect transform="translate(38.4826, 2.0500)" x="-0.0650" y="0.1878" width="0.1300" height="3.1455" ry="0.0400" fill="currentColor"/>
 </g>
 <g class="note">
 <g color="rgb(43.5294%, 43.5294%, 43.5294%)">
 <circle transform="translate(38.9676, 2.0500)" stroke-linejoin="round" stroke-linecap="round" fill="currentColor" stroke="currentColor" stroke-width="0" r="0.5500"/>
 <g color="rgb(100.0000%, 100.0000%, 100.0000%)">
-<text transform="translate(38.6433, 2.3914)" font-family="sans-serif" font-weight="bold" font-size="0.8730" text-anchor="start" fill="currentColor">
-<tspan>
-C</tspan>
+<text transform="translate(38.6433, 2.3573)" font-family="sans-serif" font-weight="bold" font-size="0.8730" text-anchor="start" fill="currentColor">
+<tspan>C</tspan>
 </text>
 </g>
 </g>

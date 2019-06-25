@@ -1,13 +1,18 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.2" width="124.74mm" height="21.22mm" viewBox="8.5358 0.0193 70.9857 12.0758">
-<line transform="translate(8.5358, 8.0302)" stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="-0.0000" x2="70.9357" y2="-0.0000"/>
-<line transform="translate(8.5358, 7.0302)" stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="-0.0000" x2="70.9357" y2="-0.0000"/>
-<line transform="translate(8.5358, 6.0302)" stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="-0.0000" x2="70.9357" y2="-0.0000"/>
-<line transform="translate(8.5358, 5.0302)" stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="-0.0000" x2="70.9357" y2="-0.0000"/>
-<line transform="translate(8.5358, 4.0302)" stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="-0.0000" x2="70.9357" y2="-0.0000"/>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.2" width="124.95mm" height="21.22mm" viewBox="8.5358 0.0193 71.1027 12.0758">
+<style text="style/css">
+<![CDATA[
+tspan { white-space: pre; }
+]]>
+</style>
+<line transform="translate(8.5358, 8.0302)" stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="-0.0000" x2="71.0527" y2="-0.0000"/>
+<line transform="translate(8.5358, 7.0302)" stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="-0.0000" x2="71.0527" y2="-0.0000"/>
+<line transform="translate(8.5358, 6.0302)" stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="-0.0000" x2="71.0527" y2="-0.0000"/>
+<line transform="translate(8.5358, 5.0302)" stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="-0.0000" x2="71.0527" y2="-0.0000"/>
+<line transform="translate(8.5358, 4.0302)" stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="-0.0000" x2="71.0527" y2="-0.0000"/>
 <rect transform="translate(25.9463, 6.0302)" x="0.0000" y="-2.0000" width="0.1900" height="4.0000" ry="0.0000" fill="currentColor"/>
 <rect transform="translate(45.9452, 6.0302)" x="0.0000" y="-2.0000" width="0.1900" height="4.0000" ry="0.0000" fill="currentColor"/>
 <rect transform="translate(35.9458, 6.0302)" x="0.0000" y="-2.0000" width="0.1900" height="4.0000" ry="0.0000" fill="currentColor"/>
-<rect transform="translate(79.3315, 6.0302)" x="0.0000" y="-2.0000" width="0.1900" height="4.0000" ry="0.0000" fill="currentColor"/>
+<rect transform="translate(79.4485, 6.0302)" x="0.0000" y="-2.0000" width="0.1900" height="4.0000" ry="0.0000" fill="currentColor"/>
 <rect transform="translate(55.9446, 6.0302)" x="0.0000" y="-2.0000" width="0.1900" height="4.0000" ry="0.0000" fill="currentColor"/>
 <g class="note" id="m04-n03">
 <path transform="translate(53.1434, 5.0302) scale(0.0040, -0.0040)" d="M218 136c55 0 108 -28 108 -89c0 -71 -55 -121 -102 -149c-35 -21 -75 -34 -116 -34c-55 0 -108 28 -108 89c0 71 55 121 102 149c35 21 75 34 116 34z" fill="currentColor"/>
@@ -31,40 +36,32 @@
 <rect transform="translate(47.1389, 11.5722)" x="1.0449" y="-2.6727" width="0.1158" height="2.5129" ry="0.0193" fill="currentColor"/>
 <path transform="translate(47.1389, 11.5722) scale(0.0036, -0.0036)" d="M215 137c57 0 111 -29 111 -92c0 -71 -54 -120 -101 -148c-35 -21 -74 -34 -114 -34c-57 0 -111 29 -111 92c0 71 54 120 101 148c35 21 74 34 114 34z" fill="currentColor"/>
 <text transform="translate(48.2995, 12.0610)" font-family="serif" font-size="2.2001" text-anchor="start" fill="currentColor">
-<tspan>
- = 66</tspan>
+<tspan> = 66</tspan>
 </text>
 </g>
 <rect transform="translate(47.2039, 6.0302)" x="-0.0650" y="0.1861" width="0.1300" height="3.1472" ry="0.0400" fill="currentColor"/>
 <g class="note" id="m05-n02">
-<path transform="translate(64.6030, 5.5302) scale(0.0040, -0.0040)" d="M218 136c55 0 108 -28 108 -89c0 -71 -55 -121 -102 -149c-35 -21 -75 -34 -116 -34c-55 0 -108 28 -108 89c0 71 55 121 102 149c35 21 75 34 116 34z" fill="currentColor"/>
+<path transform="translate(64.6420, 5.5302) scale(0.0040, -0.0040)" d="M218 136c55 0 108 -28 108 -89c0 -71 -55 -121 -102 -149c-35 -21 -75 -34 -116 -34c-55 0 -108 28 -108 89c0 71 55 121 102 149c35 21 75 34 116 34z" fill="currentColor"/>
 </g>
-<rect transform="translate(64.6680, 6.0302)" x="-0.0650" y="-0.3139" width="0.1300" height="3.3139" ry="0.0400" fill="currentColor"/>
+<rect transform="translate(64.7070, 6.0302)" x="-0.0650" y="-0.3139" width="0.1300" height="3.3139" ry="0.0400" fill="currentColor"/>
 <g class="note" id="m05-n03">
-<path transform="translate(72.0678, 5.0302) scale(0.0040, -0.0040)" d="M218 136c55 0 108 -28 108 -89c0 -71 -55 -121 -102 -149c-35 -21 -75 -34 -116 -34c-55 0 -108 28 -108 89c0 71 55 121 102 149c35 21 75 34 116 34z" fill="currentColor"/>
+<path transform="translate(72.1458, 5.0302) scale(0.0040, -0.0040)" d="M218 136c55 0 108 -28 108 -89c0 -71 -55 -121 -102 -149c-35 -21 -75 -34 -116 -34c-55 0 -108 28 -108 89c0 71 55 121 102 149c35 21 75 34 116 34z" fill="currentColor"/>
 </g>
-<rect transform="translate(72.1328, 6.0302)" x="-0.0650" y="-0.8139" width="0.1300" height="3.3139" ry="0.0400" fill="currentColor"/>
+<rect transform="translate(72.2108, 6.0302)" x="-0.0650" y="-0.8139" width="0.1300" height="3.3139" ry="0.0400" fill="currentColor"/>
 <g class="note" id="m05-n01">
 <path transform="translate(57.1383, 6.0302) scale(0.0040, -0.0040)" d="M218 136c55 0 108 -28 108 -89c0 -71 -55 -121 -102 -149c-35 -21 -75 -34 -116 -34c-55 0 -108 28 -108 89c0 71 55 121 102 149c35 21 75 34 116 34z" fill="currentColor"/>
 </g>
 <g class="tempo" id="m05-t01">
 <text transform="translate(57.1383, 3.1808)" font-family="serif" font-weight="bold" font-size="2.2001" text-anchor="start" fill="currentColor">
-<tspan>
-Speed-up</tspan>
+<tspan>Speed-up</tspan>
 </text>
-<text transform="translate(69.2446, 3.1808)" font-family="serif" font-size="2.2001" text-anchor="start" fill="currentColor">
-<tspan>
-(</tspan>
+<text transform="translate(68.6787, 3.1808)" font-family="serif" font-size="2.2001" text-anchor="start" fill="currentColor">
+<tspan> (</tspan>
 </text>
-<rect transform="translate(70.0982, 2.6920)" x="1.0449" y="-2.6727" width="0.1158" height="2.5129" ry="0.0193" fill="currentColor"/>
-<path transform="translate(70.0982, 2.6920) scale(0.0036, -0.0036)" d="M215 137c57 0 111 -29 111 -92c0 -71 -54 -120 -101 -148c-35 -21 -74 -34 -114 -34c-57 0 -111 29 -111 92c0 71 54 120 101 148c35 21 74 34 114 34z" fill="currentColor"/>
-<text transform="translate(71.2588, 3.1808)" font-family="serif" font-size="2.2001" text-anchor="start" fill="currentColor">
-<tspan>
- = 111</tspan>
-</text>
-<text transform="translate(78.6679, 3.1808)" font-family="serif" font-size="2.2001" text-anchor="start" fill="currentColor">
-<tspan>
-)</tspan>
+<rect transform="translate(70.2152, 2.6920)" x="1.0449" y="-2.6727" width="0.1158" height="2.5129" ry="0.0193" fill="currentColor"/>
+<path transform="translate(70.2152, 2.6920) scale(0.0036, -0.0036)" d="M215 137c57 0 111 -29 111 -92c0 -71 -54 -120 -101 -148c-35 -21 -74 -34 -114 -34c-57 0 -111 29 -111 92c0 71 54 120 101 148c35 21 74 34 114 34z" fill="currentColor"/>
+<text transform="translate(71.3758, 3.1808)" font-family="serif" font-size="2.2001" text-anchor="start" fill="currentColor">
+<tspan> = 111)</tspan>
 </text>
 </g>
 <rect transform="translate(57.2033, 6.0302)" x="-0.0650" y="0.1861" width="0.1300" height="3.1472" ry="0.0400" fill="currentColor"/>
@@ -83,15 +80,13 @@ Speed-up</tspan>
 <g class="tempo" id="m02-t01">
 <g color="rgb(100%, 0%, 0%)">
 <text transform="translate(27.1400, 2.1461)" font-family="serif" font-weight="bold" font-size="2.2001" text-anchor="start" fill="currentColor">
-<tspan>
-Presto</tspan>
+<tspan>Presto</tspan>
 </text>
 </g>
 </g>
 <g class="tempo" id="m01-t01">
 <text transform="translate(13.5358, 11.4624)" font-family="serif" font-weight="bold" font-size="2.2001" text-anchor="start" fill="currentColor">
-<tspan>
-Adagio</tspan>
+<tspan>Adagio</tspan>
 </text>
 </g>
 <g class="note" id="m01-n01">

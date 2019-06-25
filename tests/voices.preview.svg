@@ -1,4 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.2" width="69.49mm" height="15.82mm" viewBox="8.5358 -0.0000 39.5448 9.0000">
+<style text="style/css">
+<![CDATA[
+tspan { white-space: pre; }
+]]>
+</style>
 <line transform="translate(8.5358, 6.0000)" stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="-0.0000" x2="39.4948" y2="-0.0000"/>
 <line transform="translate(8.5358, 5.0000)" stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="-0.0000" x2="39.4948" y2="-0.0000"/>
 <line transform="translate(8.5358, 4.0000)" stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="-0.0000" x2="39.4948" y2="-0.0000"/>
