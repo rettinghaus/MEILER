@@ -905,6 +905,9 @@
     <xsl:apply-templates mode="addBeamMarkup" select="."/>
     <xsl:for-each select="key('spannerEnd', $noteKey)">
       <xsl:choose>
+        <xsl:when test="self::mei:bracketSpan">
+          <xsl:text>\]</xsl:text>
+        </xsl:when>
         <xsl:when test="self::mei:dynam or self::mei:hairpin">
           <xsl:text>\!</xsl:text>
         </xsl:when>
@@ -1011,6 +1014,9 @@
     <xsl:apply-templates mode="addBeamMarkup" select="."/>
     <xsl:for-each select="key('spannerEnd', $chordKey)">
       <xsl:choose>
+        <xsl:when test="self::mei:bracketSpan">
+          <xsl:text>\]</xsl:text>
+        </xsl:when>
         <xsl:when test="self::mei:dynam or self::mei:hairpin">
           <xsl:text>\!</xsl:text>
         </xsl:when>
@@ -1116,6 +1122,9 @@
     <xsl:apply-templates mode="addBeamMarkup" select="."/>
     <xsl:for-each select="key('spannerEnd', $restKey)">
       <xsl:choose>
+        <xsl:when test="self::mei:bracketSpan">
+          <xsl:text>\]</xsl:text>
+        </xsl:when>
         <xsl:when test="self::mei:dynam or self::mei:hairpin">
           <xsl:text>\!</xsl:text>
         </xsl:when>
@@ -1534,6 +1543,30 @@
   </xsl:template>
   <xsl:template match="mei:dot[parent::mei:note or parent::mei:rest]">
     <xsl:text>.</xsl:text>
+  </xsl:template>
+  <!-- MEI bracket spanner -->
+  <xsl:template match="mei:bracketSpan[not(@endid)]" mode="pre">
+    <xsl:message>ERROR: @endid is missing on bracketSpan <xsl:if test="@xml:id"><xsl:value-of select="concat('[',@xml:id,']')"/></xsl:if> </xsl:message>
+  </xsl:template>
+  <xsl:template match="mei:bracketSpan" mode="pre">
+    <!-- only ligature brackets for now -->
+    <xsl:if test="$useSvgBackend">
+      <xsl:text>\tweak LigatureBracket.output-attributes #&apos;</xsl:text>
+      <xsl:call-template name="setSvgAttr" />
+    </xsl:if>
+    <xsl:if test="@color">
+      <xsl:text>\tweak LigatureBracket.color #</xsl:text>
+      <xsl:call-template name="setColor" />
+    </xsl:if>
+    <xsl:if test="@lform">
+      <xsl:text>\tweak LigatureBracket.style #&apos;</xsl:text>
+      <xsl:call-template name="setLineForm" />
+    </xsl:if>
+    <xsl:if test="@lwidth">
+      <xsl:text>\tweak LigatureBracket.thickness #</xsl:text>
+      <xsl:call-template name="setLineWidth" />
+    </xsl:if>
+    <xsl:text>\[ </xsl:text>
   </xsl:template>
   <!-- MEI fermata -->
   <xsl:template match="mei:fermata[@copyof]">
@@ -3334,6 +3367,9 @@
     <xsl:param name="thickness" select="@lwidth" />
     <xsl:param name="default">
       <xsl:choose>
+        <xsl:when test="self::mei:bracketSpan">
+          <xsl:value-of select="1.6" />
+        </xsl:when>
         <xsl:when test="self::mei:phrase or self::mei:slur or self::mei:tie or self::mei:staffDef">
           <xsl:value-of select="1.2" />
         </xsl:when>
