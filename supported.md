@@ -48,6 +48,15 @@ List of supported MEI elements and attributes
   * `@form` (for values 'acc' and 'rit')
   * `@xml:id`
 
+* `<bracketSpan>`
+  * `@color`
+  * __`@endid`__
+  * `@form` (accepts all values)
+  * `@lform`
+  * `@lwidth`
+  * __`@startid`__
+  * `@xml:id`
+
 * `<bTrem>`
   * `@num`
   * `@num.place`
