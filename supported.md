@@ -52,9 +52,11 @@ List of supported MEI elements and attributes
   * `@color`
   * __`@endid`__
   * `@form` (accepts all values)
+  * `@ho`
   * `@lform`
   * `@lwidth`
   * __`@startid`__
+  * `@vo`
   * `@xml:id`
 
 * `<bTrem>`
