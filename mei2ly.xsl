@@ -164,8 +164,8 @@
     </xsl:if>
     <xsl:text>  tagline = "automatically converted from MEI with mei2ly.xsl and engraved with Lilypond"&#10;</xsl:text>
   </xsl:template>
-  <!-- MEI work description -->
-  <xsl:template match="mei:workDesc">
+  <!-- MEI work list -->
+  <xsl:template match="mei:workList">
     <xsl:value-of select="concat('  title = &quot;',normalize-space(descendant::mei:title[not(@type) or @type = 'main'][1]),'&quot;&#10;')" />
     <xsl:if test="descendant::mei:title[@type = 'subordinate']">
       <xsl:value-of select="concat('  subtitle = &quot;',normalize-space(descendant::mei:title[@type = 'subordinate'][1]),'&quot;&#10;')" />
