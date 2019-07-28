@@ -1569,6 +1569,10 @@
       <xsl:text>\tweak LigatureBracket.thickness #</xsl:text>
       <xsl:call-template name="setLineWidth" />
     </xsl:if>
+    <xsl:if test="@ho or @vo">
+      <xsl:text>\tweak LigatureBracket.extra-offset #&apos;</xsl:text>
+      <xsl:call-template name="setOffset" />
+    </xsl:if>
     <xsl:text>\[ </xsl:text>
   </xsl:template>
   <!-- MEI fermata -->
