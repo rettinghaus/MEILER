@@ -3325,7 +3325,7 @@
     <xsl:variable name="colorComponents" as="xs:double+">
       <xsl:choose>
         <xsl:when test="starts-with($color, 'rgb')">
-          <xsl:sequence select="for $component in tokenize(substring-after($color, '('), '[^\d.\s]') return number($component) div 255" />
+          <xsl:sequence select="for $component in tokenize(substring-before(substring-after($color, '('), ')'), ',') return number($component) div 255" />
         </xsl:when>
         <xsl:when test="starts-with($color, '#')">
           <xsl:sequence select="for $i in 1 to 3 return local:hex2number(substring($color, 2 * $i, 2)) div 255" />
