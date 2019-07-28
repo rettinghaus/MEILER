@@ -1362,10 +1362,13 @@
     </xsl:if>
     <xsl:choose>
       <xsl:when test="@form = 'acc'">
-        <xsl:text>\once \override Beam.grow-direction = #LEFT </xsl:text>
+        <xsl:text>\once \override Beam.grow-direction = #RIGHT </xsl:text>
+      </xsl:when>
+      <xsl:when test="@form = 'mixed'">
+        <xsl:message>INFO: Mixed feathered beams not supported</xsl:message>
       </xsl:when>
       <xsl:when test="@form = 'rit'">
-        <xsl:text>\once \override Beam.grow-direction = #RIGHT </xsl:text>
+        <xsl:text>\once \override Beam.grow-direction = #LEFT </xsl:text>
       </xsl:when>
     </xsl:choose>
     <xsl:apply-templates/>
