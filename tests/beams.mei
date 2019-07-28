@@ -55,6 +55,29 @@
                 </layer>
               </staff>
             </measure>
+            <measure n="3">
+              <staff n="1">
+                <layer n="1">
+                  <beam form="acc">
+                    <note pname="g" oct="4" dur="32"/>
+                    <note pname="g" oct="4" dur="32"/>
+                    <note pname="g" oct="4" dur="32"/>
+                    <note pname="g" oct="4" dur="32"/>
+                    <note pname="g" oct="4" dur="32"/>
+                    <note pname="g" oct="4" dur="32"/>
+                    <note pname="g" oct="4" dur="32"/>
+                    <note pname="g" oct="4" dur="32"/>
+                    <note pname="g" oct="4" dur="32"/>
+                    <note pname="g" oct="4" dur="32"/>
+                    <note pname="g" oct="4" dur="32"/>
+                    <note pname="g" oct="4" dur="32"/>
+                    <note pname="g" oct="4" dur="32"/>
+                    <note pname="g" oct="4" dur="32"/>
+                    <note pname="g" oct="4" dur="32"/>
+                  </beam>
+                </layer>
+              </staff>
+            </measure>
           </section>
         </score>
       </mdiv>
