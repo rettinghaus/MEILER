@@ -62,10 +62,10 @@ c38 -21 72 -53 72 -96z" fill="currentColor"/>
 <line transform="translate(51.4771, 0.1600)" stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1600" stroke="currentColor" x1="0" y1="0" x2="3.3300" y2="-0.0000" stroke-dasharray="0.0,1.1100078331891"/>
 </g>
 <g class="bracketSpan">
-<line transform="translate(70.0573, 0.1600)" stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1600" stroke="currentColor" x1="0" y1="0" x2="0.0000" y2="0.7000" stroke-dasharray="0.4,0.6"/>
-<line transform="translate(63.5972, 0.1600)" stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1600" stroke="currentColor" x1="0" y1="0" x2="0.0000" y2="0.7000" stroke-dasharray="0.4,0.6"/>
-<line transform="translate(70.0573, 0.1600)" stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1600" stroke="currentColor" x1="0" y1="0" x2="-3.1300" y2="-0.0000" stroke-dasharray="0.368238058772625,0.552357088158937"/>
-<line transform="translate(63.5972, 0.1600)" stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1600" stroke="currentColor" x1="0" y1="0" x2="3.3300" y2="-0.0000" stroke-dasharray="0.391767470537331,0.587651205805996"/>
+<line transform="translate(70.0573, 1.1600)" stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1600" stroke="currentColor" x1="0" y1="0" x2="0.0000" y2="0.7000" stroke-dasharray="0.4,0.6"/>
+<line transform="translate(63.5972, 1.1600)" stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1600" stroke="currentColor" x1="0" y1="0" x2="0.0000" y2="0.7000" stroke-dasharray="0.4,0.6"/>
+<line transform="translate(70.0573, 1.1600)" stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1600" stroke="currentColor" x1="0" y1="0" x2="-3.1300" y2="-0.0000" stroke-dasharray="0.368238058772625,0.552357088158937"/>
+<line transform="translate(63.5972, 1.1600)" stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1600" stroke="currentColor" x1="0" y1="0" x2="3.3300" y2="-0.0000" stroke-dasharray="0.391767470537331,0.587651205805996"/>
 </g>
 <g class="note" id="n11">
 <path transform="translate(74.9363, 7.4600) scale(0.0040, -0.0040)" d="M213 112c-50 0 -69 -43 -69 -88c0 -77 57 -136 134 -136c50 0 69 43 69 88c0 77 -57 136 -134 136zM491 0c0 -43 -34 -75 -72 -96c-53 -29 -114 -40 -174 -40s-120 11 -173 40c-38 21 -72 53 -72 96s34 75 72 96c53 29 113 40 173 40s121 -11 174 -40

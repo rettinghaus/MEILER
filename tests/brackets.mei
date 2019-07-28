@@ -43,7 +43,7 @@
               <bracketSpan func="ligature" startid="#n03" endid="#n04" staff="1" lwidth="medium"/>
               <bracketSpan func="ligature" startid="#n05" endid="#n06" staff="1" color="red"/>
               <bracketSpan func="ligature" startid="#n07" endid="#n08" staff="1" lform="dotted"/>
-              <bracketSpan func="ligature" startid="#n09" endid="#n10" staff="1" lform="dashed" vo="2"/>
+              <bracketSpan func="ligature" startid="#n09" endid="#n10" staff="1" lform="dashed" vo="-2"/>
             </measure>
           </section>
         </score>
