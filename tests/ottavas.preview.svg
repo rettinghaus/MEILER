@@ -1,4 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.2" width="30.69mm" height="32.99mm" viewBox="8.4158 -0.7865 17.4655 18.7730">
+<style text="style/css">
+<![CDATA[
+tspan { white-space: pre; }
+]]>
+</style>
 <line transform="translate(8.5358, 6.1000)" stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="-0.0000" x2="17.2955" y2="-0.0000"/>
 <line transform="translate(8.5358, 5.1000)" stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="-0.0000" x2="17.2955" y2="-0.0000"/>
 <line transform="translate(8.5358, 4.1000)" stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="-0.0000" x2="17.2955" y2="-0.0000"/>
@@ -27,8 +32,7 @@ c-12 -37 -32 -72 -64 -94c-53 -36 -113 -50 -187 -50c-46 0 -83 21 -83 71c0 19 5 39
 </g>
 <g class="octave">
 <text transform="translate(16.3406, 8.9974)" font-family="serif" font-style="italic" font-size="2.2001" text-anchor="start" fill="currentColor">
-<tspan>
-8</tspan>
+<tspan>8</tspan>
 </text>
 <line transform="translate(19.1179, 8.1950)" stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0" y1="0" x2="0.0000" y2="-0.8000" stroke-dasharray="1.0,0.0"/>
 <line transform="translate(18.0404, 8.1950)" stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0" y1="0" x2="0.0000" y2="-0.0000" stroke-dasharray="1.0,0.0"/>
@@ -36,8 +40,7 @@ c-12 -37 -32 -72 -64 -94c-53 -36 -113 -50 -187 -50c-46 0 -83 21 -83 71c0 19 5 39
 </g>
 <g class="octave">
 <text transform="translate(20.6160, 9.8074)" font-family="serif" font-style="italic" font-size="2.2001" text-anchor="start" fill="currentColor">
-<tspan>
-8</tspan>
+<tspan>8</tspan>
 </text>
 <line transform="translate(23.3933, 9.0050)" stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0" y1="0" x2="0.0000" y2="0.8000" stroke-dasharray="1.0,0.0"/>
 <line transform="translate(22.3158, 9.0050)" stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0" y1="0" x2="0.0000" y2="-0.0000" stroke-dasharray="1.0,0.0"/>
@@ -45,8 +48,7 @@ c-12 -37 -32 -72 -64 -94c-53 -36 -113 -50 -187 -50c-46 0 -83 21 -83 71c0 19 5 39
 </g>
 <g class="octave">
 <text transform="translate(20.6160, 0.8524)" font-family="serif" font-style="italic" font-size="2.2001" text-anchor="start" fill="currentColor">
-<tspan>
-8</tspan>
+<tspan>8</tspan>
 </text>
 <line transform="translate(23.3933, 0.0500)" stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0" y1="0" x2="0.0000" y2="0.8000" stroke-dasharray="1.0,0.0"/>
 <line transform="translate(22.3158, 0.0500)" stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0" y1="0" x2="0.0000" y2="-0.0000" stroke-dasharray="1.0,0.0"/>
@@ -54,8 +56,7 @@ c-12 -37 -32 -72 -64 -94c-53 -36 -113 -50 -187 -50c-46 0 -83 21 -83 71c0 19 5 39
 </g>
 <g class="octave">
 <text transform="translate(16.3406, 17.9524)" font-family="serif" font-style="italic" font-size="2.2001" text-anchor="start" fill="currentColor">
-<tspan>
-8</tspan>
+<tspan>8</tspan>
 </text>
 <line transform="translate(19.1179, 17.1500)" stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0" y1="0" x2="0.0000" y2="-0.8000" stroke-dasharray="1.0,0.0"/>
 <line transform="translate(18.0404, 17.1500)" stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0" y1="0" x2="0.0000" y2="-0.0000" stroke-dasharray="1.0,0.0"/>
