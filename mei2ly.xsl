@@ -831,6 +831,7 @@
     <xsl:if test="@stem.len">
       <xsl:value-of select="concat('\tweak Stem.length #', local:VU2LY(@stem.len) * 2, ' ')" />
     </xsl:if>
+    <xsl:call-template name="setStemVisibility" />
     <!-- att.noteheads -->
     <xsl:if test="@head.color">
       <xsl:text>\tweak color #</xsl:text>
@@ -995,6 +996,7 @@
     <xsl:if test="@stem.len">
       <xsl:value-of select="concat('\tweak Stem.length #', local:VU2LY(@stem.len) * 2, ' ')" />
     </xsl:if>
+    <xsl:call-template name="setStemVisibility" />
     <xsl:apply-templates select="mei:note" />
     <xsl:text>&gt;</xsl:text>
     <xsl:call-template name="setDuration" />
@@ -3618,6 +3620,17 @@
       </xsl:when>
       <xsl:when test="@visible = false()">
         <xsl:value-of select="'\tweak transparent ##t '" />
+      </xsl:when>
+    </xsl:choose>
+  </xsl:template>
+  <xsl:template name="setStemVisibility">
+    <!-- att.visibility -->
+    <xsl:choose>
+      <xsl:when test="@stem.visible = true()">
+        <xsl:value-of select="'\tweak Stem.transparent ##f '" />
+      </xsl:when>
+      <xsl:when test="@stem.visible = false()">
+        <xsl:value-of select="'\tweak Stem.transparent ##t '" />
       </xsl:when>
     </xsl:choose>
   </xsl:template>

@@ -88,6 +88,7 @@ List of supported MEI elements and attributes
   * `@stem.dir`
   * `@stem.mod`
   * `@stem.pos`
+  * `stem.visible`
   * `@tie`
   * `@visible`
 
@@ -305,6 +306,7 @@ List of supported MEI elements and attributes
   * `@stem.len`
   * `@stem.mod`
   * `@stem.pos`
+  * `stem.visible`
   * `@tie`
   * `@visible`
   * `@xml:id`
