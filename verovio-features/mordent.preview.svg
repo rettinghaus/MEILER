@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.2" width="32.72mm" height="13.82mm" viewBox="8.5358 -0.0000 18.6186 7.8667">
+<style text="style/css">
+<![CDATA[
+tspan { white-space: pre; }
+]]>
+</style>
+<line transform="translate(8.5358, 6.5333)" stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="-0.0000" x2="18.5686" y2="-0.0000"/>
+<line transform="translate(8.5358, 5.5333)" stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="-0.0000" x2="18.5686" y2="-0.0000"/>
+<line transform="translate(8.5358, 4.5333)" stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="-0.0000" x2="18.5686" y2="-0.0000"/>
+<line transform="translate(8.5358, 3.5333)" stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="-0.0000" x2="18.5686" y2="-0.0000"/>
+<line transform="translate(8.5358, 2.5333)" stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="-0.0000" x2="18.5686" y2="-0.0000"/>
+<rect transform="translate(26.9644, 4.5333)" x="0.0000" y="-2.0000" width="0.1900" height="4.0000" ry="0.0000" fill="currentColor"/>
+<rect transform="translate(26.4744, 4.5333)" x="0.0000" y="-2.0000" width="0.1900" height="4.0000" ry="0.0000" fill="currentColor"/>
+<g class="note" id="note-03">
+<path transform="translate(20.3403, 4.5333) scale(0.0040, -0.0040)" d="M218 136c55 0 108 -28 108 -89c0 -71 -55 -121 -102 -149c-35 -21 -75 -34 -116 -34c-55 0 -108 28 -108 89c0 71 55 121 102 149c35 21 75 34 116 34z" fill="currentColor"/>
+</g>
+<g class="mordent">
+<path transform="translate(20.9924, 1.7833) scale(0.0040, -0.0040)" d="M215 46c4 6 9 9 16 9c11 0 20 -9 20 -20c0 -4 -1 -8 -3 -11c-31 -47 -62 -93 -93 -140c-4 -6 -10 -9 -17 -9c-6 0 -11 2 -15 7l-98 119l-78 -117c-4 -6 -10 -9 -17 -9c-6 0 -11 2 -15 7l-99 119c-10 -16 -21 -31 -31 -47c-4 -6 -9 -9 -16 -9c-11 0 -20 9 -20 20
+c0 4 1 8 3 11c31 47 62 93 93 140c4 6 10 9 17 9c6 0 11 -2 15 -7l98 -119l78 117c4 6 10 9 17 9c6 0 11 -2 15 -7l99 -119c10 16 21 31 31 47z" fill="currentColor"/>
+</g>
+<rect transform="translate(20.4053, 4.5333)" x="-0.0650" y="0.1861" width="0.1300" height="3.1472" ry="0.0400" fill="currentColor"/>
+<g class="note" id="note-04">
+<path transform="translate(23.3426, 4.5333) scale(0.0040, -0.0040)" d="M218 136c55 0 108 -28 108 -89c0 -71 -55 -121 -102 -149c-35 -21 -75 -34 -116 -34c-55 0 -108 28 -108 89c0 71 55 121 102 149c35 21 75 34 116 34z" fill="currentColor"/>
+</g>
+<g class="mordent">
+<path transform="translate(23.9947, 7.2833) scale(0.0040, -0.0040)" d="M215 46c4 6 9 9 16 9c11 0 20 -9 20 -20c0 -4 -1 -8 -3 -11c-31 -47 -62 -93 -93 -140c-4 -6 -10 -9 -17 -9c-6 0 -11 2 -15 7l-98 119l-78 -117c-4 -6 -10 -9 -17 -9c-6 0 -11 2 -15 7l-99 119c-10 -16 -21 -31 -31 -47c-4 -6 -9 -9 -16 -9c-11 0 -20 9 -20 20
+c0 4 1 8 3 11c31 47 62 93 93 140c4 6 10 9 17 9c6 0 11 -2 15 -7l98 -119l78 117c4 6 10 9 17 9c6 0 11 -2 15 -7l99 -119c10 16 21 31 31 47z" fill="currentColor"/>
+</g>
+<rect transform="translate(24.5818, 4.5333)" x="-0.0650" y="-3.3333" width="0.1300" height="3.1472" ry="0.0400" fill="currentColor"/>
+<g class="note" id="note-01">
+<path transform="translate(14.3358, 4.5333) scale(0.0040, -0.0040)" d="M218 136c55 0 108 -28 108 -89c0 -71 -55 -121 -102 -149c-35 -21 -75 -34 -116 -34c-55 0 -108 28 -108 89c0 71 55 121 102 149c35 21 75 34 116 34z" fill="currentColor"/>
+</g>
+<g class="mordent">
+<path transform="translate(14.9879, 1.6153) scale(0.0040, -0.0040)" d="M20 -147c0 -11 -9 -20 -20 -20s-20 9 -20 20v81l-33 -50c-4 -6 -10 -9 -17 -9c-6 0 -11 2 -15 7l-99 119c-10 -16 -21 -31 -31 -47c-4 -6 -9 -9 -16 -9c-11 0 -20 9 -20 20c0 4 1 8 3 11c31 47 62 93 93 140c4 6 10 9 17 9c6 0 11 -2 15 -7l98 -119l5 7v141
+c0 11 9 20 20 20s20 -9 20 -20v-81l33 50c4 6 10 9 17 9c6 0 11 -2 15 -7l99 -119c10 16 21 31 31 47c4 6 9 9 16 9c11 0 20 -9 20 -20c0 -4 -1 -8 -3 -11c-31 -47 -62 -93 -93 -140c-4 -6 -10 -9 -17 -9c-6 0 -11 2 -15 7l-98 119l-5 -7v-141z" fill="currentColor"/>
+</g>
+<g class="clef">
+<path transform="translate(9.3358, 4.5333) scale(0.0040, -0.0040)" d="M318 0c0 -33 7 -73 45 -73c29 0 57 31 88 31c123 0 229 -89 229 -208c0 -169 -93 -250 -265 -250c-83 0 -152 61 -152 142c0 42 34 77 76 77s76 -35 76 -77c0 -39 -49 -37 -49 -76c0 -23 24 -38 49 -38c116 0 140 90 140 222c0 106 -12 180 -104 180
+c-72 0 -119 -71 -119 -149c0 -9 -7 -14 -14 -14s-13 5 -13 14c0 76 -31 147 -84 200v-471c0 -6 -4 -10 -10 -10h-21c-6 0 -10 4 -10 10v980c0 6 4 10 10 10h21c6 0 10 -4 10 -10v-471c53 53 84 124 84 200c0 9 6 14 13 14s14 -5 14 -14c0 -78 47 -149 119 -149
+c92 0 104 74 104 180c0 132 -24 222 -140 222c-25 0 -49 -15 -49 -38c0 -39 49 -37 49 -76c0 -42 -34 -77 -76 -77s-76 35 -76 77c0 81 69 142 152 142c172 0 265 -81 265 -250c0 -119 -106 -208 -229 -208c-31 0 -59 31 -88 31c-38 0 -45 -40 -45 -73zM129 -500h-119
+c-6 0 -10 4 -10 10v980c0 6 4 10 10 10h119c6 0 10 -4 10 -10v-980c0 -6 -4 -10 -10 -10z" fill="currentColor"/>
+</g>
+<rect transform="translate(14.4008, 4.5333)" x="-0.0650" y="0.1861" width="0.1300" height="3.1472" ry="0.0400" fill="currentColor"/>
+<rect transform="translate(18.5773, 4.5333)" x="-0.0650" y="-3.3333" width="0.1300" height="3.1472" ry="0.0400" fill="currentColor"/>
+<g class="note" id="note-02">
+<path transform="translate(17.3381, 4.5333) scale(0.0040, -0.0040)" d="M218 136c55 0 108 -28 108 -89c0 -71 -55 -121 -102 -149c-35 -21 -75 -34 -116 -34c-55 0 -108 28 -108 89c0 71 55 121 102 149c35 21 75 34 116 34z" fill="currentColor"/>
+</g>
+<g class="mordent">
+<path transform="translate(17.9902, 0.5000) scale(0.0040, -0.0040)" d="M215 46c4 6 9 9 16 9c11 0 20 -9 20 -20c0 -4 -1 -8 -3 -11c-31 -47 -62 -93 -93 -140c-4 -6 -10 -9 -17 -9c-6 0 -11 2 -15 7l-98 119l-78 -117c-4 -6 -10 -9 -17 -9c-6 0 -11 2 -15 7l-99 119c-10 -16 -21 -31 -31 -47c-4 -6 -9 -9 -16 -9c-11 0 -20 9 -20 20
+c0 4 1 8 3 11c31 47 62 93 93 140c4 6 10 9 17 9c6 0 11 -2 15 -7l98 -119l78 117c4 6 10 9 17 9c6 0 11 -2 15 -7l99 -119c10 16 21 31 31 47z" fill="currentColor"/>
+</g>
+</svg>
