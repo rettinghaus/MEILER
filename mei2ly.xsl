@@ -65,8 +65,8 @@
     </xsl:choose>
   </xsl:key>
   <xsl:template match="/">
-    <xsl:if test="not(mei:mei/@meiversion = '4.0.0')">
-      <xsl:message>WARNING: mei2ly.xsl is designed for MEI version 4.0.0 and may not work properly with elder versions.</xsl:message>
+    <xsl:if test="not(starts-with(mei:mei/@meiversion, '4'))">
+      <xsl:message>WARNING: mei2ly.xsl is designed for MEI version 4 and may not work properly with elder versions.</xsl:message>
     </xsl:if>
     <xsl:if test="$checkReferences">
       <xsl:if test="//@endid[not(starts-with(.,'#'))] or //@startid[not(starts-with(.,'#'))] ">
