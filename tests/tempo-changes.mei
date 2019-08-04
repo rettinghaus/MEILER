@@ -31,7 +31,7 @@
                   <note xml:id="m01-n03" dur="4" oct="4" pname="e"/>
                 </layer>
               </staff>
-              <tempo xml:id="m01-t01" place="below" staff="1" startid="#m01-n01">Adagio</tempo>
+              <tempo xml:id="m01-t01" place="below" staff="1" startid="#m01-n01" tstamp="1">Adagio</tempo>
             </measure>
             <measure n="2">
               <staff n="1">
@@ -61,7 +61,7 @@
                   <note xml:id="m04-n03" dur="4" oct="4" pname="e"/>
                 </layer>
               </staff>
-              <tempo xml:id="m04-t01" place="below" staff="1" startid="#m04-n01" mm="66" mm.unit="4"></tempo>
+              <tempo xml:id="m04-t01" place="below" staff="1" tstamp="0" mm="66" mm.unit="4"></tempo>
             </measure>
             <measure n="5">
               <staff n="1">
