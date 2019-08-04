@@ -300,7 +300,7 @@
               <xsl:with-param name="barLineStyle" select="ancestor::mei:measure/@left" />
             </xsl:call-template>
           </xsl:if>
-          <xsl:apply-templates select="ancestor::mei:measure/mei:tempo[@copyof or contains(concat(' ',@staff,' '),concat(' ',$staffNumber,' '))][@tstamp = '1']" mode="pre" />
+          <xsl:apply-templates select="ancestor::mei:measure/mei:tempo[@copyof or contains(concat(' ',@staff,' '),concat(' ',$staffNumber,' '))][not(@tstamp &gt; '1')]" mode="pre" />
           <xsl:if test="ancestor::mei:measure/@metcon = 'false'">
             <xsl:apply-templates select="descendant::mei:layer[1]" mode="setPartial"/>
           </xsl:if>
