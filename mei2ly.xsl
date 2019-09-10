@@ -262,10 +262,6 @@
               <xsl:with-param name="keyAccid" select="ancestor::mei:measure/preceding-sibling::*[@*[starts-with(name(),'key')]][1]/@key.accid" />
               <xsl:with-param name="keyMode" select="ancestor::mei:measure/preceding-sibling::*[@*[starts-with(name(),'key')]][1]/@key.mode" />
               <xsl:with-param name="keySig" select="ancestor::mei:measure/preceding-sibling::*[@*[starts-with(name(),'key')]][1]/@key.sig" />
-              <!-- derecated -->
-              <!--
-              <xsl:with-param name="keySigMixed" select="ancestor::mei:measure/preceding-sibling::*[@*[starts-with(name(),'key')]][1]/@key.sig.mixed" />
-              -->
             </xsl:call-template>
             <xsl:text>&#32;&#32;</xsl:text>
           </xsl:if>
@@ -2424,10 +2420,6 @@
     <xsl:param name="keyAccid" select="(@accid|ancestor-or-self::*/@key.accid)[1]" />
     <xsl:param name="keyMode" select="(@mode|ancestor-or-self::*/@key.mode)[1]" />
     <xsl:param name="keySig" select="(@sig|ancestor-or-self::*/@key.sig)[1]" />
-    <!-- derecated -->
-    <!--
-    <xsl:param name="keySigMixed" select="(@sig.mixed|ancestor-or-self::*/@key.sig.mixed)[1]" />
-    -->
     <xsl:if test="$useSvgBackend">
       <xsl:text>\tweak output-attributes #&apos;</xsl:text>
       <xsl:choose>
@@ -2456,43 +2448,47 @@
           <xsl:with-param name="accidentals" select="$keySig" />
         </xsl:call-template>
       </xsl:when>
-      <!--
-      <xsl:when test="$keySigMixed">
+      <xsl:if test="./mei:keyAccid">
         <xsl:text>\set Staff.keyAlterations = #`(</xsl:text>
-        <xsl:for-each select="tokenize($keySigMixed, ' ')">
-          <xsl:text>(</xsl:text>
-          <xsl:value-of select="concat('( ', number(substring(.,2,1)) - 4, ' . ', translate(substring(.,1,1), 'cdefgab', '0123456')), ') . '"/>
+        <xsl:for-each select="mei:keyAccid">
           <xsl:choose>
-            <xsl:when test="substring(.,3,3) = 's'">
+            <xsl:when test="@oct">
+              <xsl:value-of select="concat('(( ', number(@oct - 4), ' . ', translate(@pname, 'cdefgab', '0123456')), ') . '"/>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:value-of select="concat('( ', translate(@pname, 'cdefgab', '0123456')), ' . '"/>
+            </xsl:otherwise>
+          </xsl:choose>
+          <xsl:choose>
+            <xsl:when test="@accid = 's'">
               <xsl:text>,SHARP</xsl:text>
             </xsl:when>
-            <xsl:when test="substring(.,3,3) = 'f'">
+            <xsl:when test="@accid = 'f'">
               <xsl:text>,FLAT</xsl:text>
             </xsl:when>
-            <xsl:when test="substring(.,3,3) = 'x'">
+            <xsl:when test="@accid = 'x'">
               <xsl:text>,DOUBLE-SHARP</xsl:text>
             </xsl:when>
-            <xsl:when test="substring(.,3,3) = 'ff'">
+            <xsl:when test="@accid = 'ff'">
               <xsl:text>,DOUBLE-FLAT</xsl:text>
             </xsl:when>
-            <xsl:when test="substring(.,3,3) = '1qf'">
+            <xsl:when test="@accid = '1qf'">
               <xsl:text>,SEMI-FLAT</xsl:text>
             </xsl:when>
-            <xsl:when test="substring(.,3,3) = '3qf'">
+            <xsl:when test="@accid = '3qf'">
               <xsl:text>,THREE-Q-FLAT</xsl:text>
             </xsl:when>
-            <xsl:when test="substring(.,3,3) = '1qs'">
+            <xsl:when test="@accid = '1qs'">
               <xsl:text>,SEMI-SHARP</xsl:text>
             </xsl:when>
-            <xsl:when test="substring(.,3,3) = '3qs'">
+            <xsl:when test="@accid = '3qs'">
               <xsl:text>,THREE-Q-SHARP</xsl:text>
             </xsl:when>
           </xsl:choose>
           <xsl:text>)</xsl:text>
         </xsl:for-each>
         <xsl:text>) </xsl:text>
-      </xsl:when>
-      -->
+      </xsl:if>
     </xsl:choose>
   </xsl:template>
   <!-- set mensur -->
