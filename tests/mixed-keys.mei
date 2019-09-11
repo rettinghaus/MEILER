@@ -20,7 +20,7 @@
           <scoreDef meter.count="4" meter.unit="4">
             <staffGrp>
               <staffDef n="1" clef.line="2" clef.shape="G" lines="5">
-                <keySig>
+                <keySig label="accidentals apply to all octaves">
                   <keyAccid pname="e" accid="f"/>
                   <keyAccid pname="f" accid="s"/>
                 </keySig>
@@ -31,29 +31,29 @@
             <measure n="1" right="dbl">
               <staff n="1">
                 <layer n="1">
-                  <note xml:id="m01-n01" dur="4" oct="4" pname="c"/>
-                  <note xml:id="m01-n02" dur="4" oct="4" pname="d"/>
+                  <note xml:id="m01-n01" dur="4" oct="4" pname="c" accid.ges="n"/>
+                  <note xml:id="m01-n02" dur="4" oct="4" pname="d" accid.ges="n"/>
                   <note xml:id="m01-n03" dur="4" oct="4" pname="e" accid.ges="f"/>
                   <note xml:id="m01-n04" dur="4" oct="4" pname="f" accid.ges="s"/>
                 </layer>
               </staff>
             </measure>
             <staffDef n="1">
-              <keySig>
+              <keySig label="accidentals apply to one octave">
                 <keyAccid accid="x" oct="4" pname="c"/>
-                <keyAccid accid="1qf" oct="4" pname="d"/>
+                <keyAccid accid="1qf" oct="5" pname="d"/>
                 <keyAccid accid="3qf" oct="4" pname="e"/>
-                <keyAccid accid="1qs" oct="4" pname="f"/>
+                <keyAccid accid="1qs" oct="5" pname="f"/>
                 <keyAccid accid="ff" oct="4" pname="b"/>
               </keySig>
             </staffDef>
             <measure n="2">
               <staff n="1">
                 <layer n="1">
-                  <note xml:id="m02-n01" dur="4" oct="4" pname="c"/>
-                  <note xml:id="m02-n02" dur="4" oct="4" pname="d"/>
-                  <note xml:id="m02-n03" dur="4" oct="4" pname="e"/>
-                  <note xml:id="m02-n04" dur="4" oct="4" pname="f"/>
+                  <note xml:id="m02-n01" dur="4" oct="4" pname="c" accid.ges="x"/>
+                  <note xml:id="m02-n02" dur="4" oct="4" pname="d" accid.ges="n"/>
+                  <note xml:id="m02-n03" dur="4" oct="4" pname="e" accid.ges="3qf"/>
+                  <note xml:id="m02-n04" dur="4" oct="4" pname="f" accid.ges="n"/>
                 </layer>
               </staff>
             </measure>
