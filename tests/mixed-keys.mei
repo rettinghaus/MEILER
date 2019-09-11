@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-model href="http://www.music-encoding.org/schema/3.0.0/mei-all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
-<?xml-model href="http://www.music-encoding.org/schema/3.0.0/mei-all.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<?xml-model href="http://music-encoding.org/schema/4.0.0/mei-all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="http://music-encoding.org/schema/4.0.0/mei-all.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <mei xmlns="http://www.music-encoding.org/ns/mei" meiversion="4.0.0">
   <meiHead>
     <fileDesc>
@@ -28,7 +28,7 @@
             </staffGrp>
           </scoreDef>
           <section>
-            <measure n="1" right="double">
+            <measure n="1" right="dbl">
               <staff n="1">
                 <layer n="1">
                   <note xml:id="m01-n01" dur="4" oct="4" pname="c"/>
@@ -38,17 +38,15 @@
                 </layer>
               </staff>
             </measure>
-            <scoreDef>
-              <staffDef n="1">
-                <keySig>
-                  <keyAccid accid="x" oct="4" pname="c"/>
-                  <keyAccid accid="1qf" oct="4" pname="d"/>
-                  <keyAccid accid="qf" oct="4" pname="e"/>
-                  <keyAccid accid="qs" oct="4" pname="f"/>
-                  <keyAccid accid="ff" oct="4" pname="b"/>
-                </keySig>
-              </staffDef>
-            </scoreDef>
+            <staffDef n="1">
+              <keySig>
+                <keyAccid accid="x" oct="4" pname="c"/>
+                <keyAccid accid="1qf" oct="4" pname="d"/>
+                <keyAccid accid="3qf" oct="4" pname="e"/>
+                <keyAccid accid="1qs" oct="4" pname="f"/>
+                <keyAccid accid="ff" oct="4" pname="b"/>
+              </keySig>
+            </staffDef>
             <measure n="2">
               <staff n="1">
                 <layer n="1">
