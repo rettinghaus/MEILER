@@ -2904,45 +2904,52 @@
   <xsl:template mode="setAccidental" match="@accid | @accid.ges">
     <xsl:param name="accidental" select="."/>
     <!-- data.ACCIDENTAL.EXPLICIT -->
-    <xsl:if test="$accidental = 's'">
-      <xsl:text>is</xsl:text>
-    </xsl:if>
-    <xsl:if test="$accidental = 'f'">
-      <xsl:text>es</xsl:text>
-    </xsl:if>
-    <xsl:if test="$accidental = 'ss'">
-      <xsl:text>isis</xsl:text>
-    </xsl:if>
-    <xsl:if test="$accidental = 'x'">
-      <xsl:text>isis</xsl:text>
-    </xsl:if>
-    <xsl:if test="$accidental = 'ff'">
-      <xsl:text>eses</xsl:text>
-    </xsl:if>
-    <xsl:if test="$accidental = 'su'">
-      <xsl:text>isih</xsl:text>
-    </xsl:if>
-    <xsl:if test="$accidental = 'sd'">
-      <xsl:text>ih</xsl:text>
-    </xsl:if>
-    <xsl:if test="$accidental = 'fu'">
-      <xsl:text>eh</xsl:text>
-    </xsl:if>
-    <xsl:if test="$accidental = 'fd'">
-      <xsl:text>eseh</xsl:text>
-    </xsl:if>
-    <xsl:if test="$accidental = '1qf'">
-      <xsl:text>eh</xsl:text>
-    </xsl:if>
-    <xsl:if test="$accidental = '3qf'">
-      <xsl:text>eseh</xsl:text>
-    </xsl:if>
-    <xsl:if test="$accidental = '1qs'">
-      <xsl:text>ih</xsl:text>
-    </xsl:if>
-    <xsl:if test="$accidental = '3qs'">
-      <xsl:text>isih</xsl:text>
-    </xsl:if>
+    <xsl:choose>
+      <xsl:when test="$accidental = 's'">
+        <xsl:text>is</xsl:text>
+      </xsl:when>
+      <xsl:when test="$accidental = 'f'">
+        <xsl:text>es</xsl:text>
+      </xsl:when>
+      <xsl:when test="$accidental = 'ss'">
+        <xsl:text>isis</xsl:text>
+      </xsl:when>
+      <xsl:when test="$accidental = 'x'">
+        <xsl:text>isis</xsl:text>
+      </xsl:when>
+      <xsl:when test="$accidental = 'ff'">
+        <xsl:text>eses</xsl:text>
+      </xsl:when>
+      <xsl:when test="$accidental = 'n'">
+      </xsl:when>
+      <xsl:when test="$accidental = 'su'">
+        <xsl:text>isih</xsl:text>
+      </xsl:when>
+      <xsl:when test="$accidental = 'sd'">
+        <xsl:text>ih</xsl:text>
+      </xsl:when>
+      <xsl:when test="$accidental = 'fu'">
+        <xsl:text>eh</xsl:text>
+      </xsl:when>
+      <xsl:when test="$accidental = 'fd'">
+        <xsl:text>eseh</xsl:text>
+      </xsl:when>
+      <xsl:when test="$accidental = '1qf'">
+        <xsl:text>eh</xsl:text>
+      </xsl:when>
+      <xsl:when test="$accidental = '3qf'">
+        <xsl:text>eseh</xsl:text>
+      </xsl:when>
+      <xsl:when test="$accidental = '1qs'">
+        <xsl:text>ih</xsl:text>
+      </xsl:when>
+      <xsl:when test="$accidental = '3qs'">
+        <xsl:text>isih</xsl:text>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:message select="concat('WARNING: Unsupported accidental: ', $accidental)" />
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
   <!-- add ornament accidental -->
   <xsl:template name="addOrnamentAccid">
