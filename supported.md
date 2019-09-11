@@ -188,6 +188,11 @@ List of supported MEI elements and attributes
   * `@midi.instrnum`
   * `@midi.instrname`
 
+* `<keyAccid>`
+  * `@accid`
+  * `@oct`
+  * `@pname`
+
 * `<keySig>`
   * `@accid`
   * `@mode`
