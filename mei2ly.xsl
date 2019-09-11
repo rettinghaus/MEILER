@@ -256,6 +256,7 @@
           <!-- add clef change -->
           <xsl:apply-templates select="(key('staffDefByFirstAffectedElement', generate-id())/(@clef.shape, mei:clef))[last()]"/>
           <!-- add key signature change -->
+          <xsl:apply-templates select="(key('staffDefByFirstAffectedElement', generate-id())/mei:keySig)[last()]"/>
           <xsl:if test="generate-id(ancestor::mei:measure/preceding-sibling::*[@*[starts-with(name(),'key')]][1]/following-sibling::mei:measure[1]) = $currentMeasure">
             <xsl:call-template name="setKey">
               <xsl:with-param name="keyTonic" select="ancestor::mei:measure/preceding-sibling::*[@*[starts-with(name(),'key')]][1]/@key.pname" />
@@ -2448,48 +2449,48 @@
           <xsl:with-param name="accidentals" select="$keySig" />
         </xsl:call-template>
       </xsl:when>
-      <xsl:if test="./mei:keyAccid">
-        <xsl:text>\set Staff.keyAlterations = #`(</xsl:text>
-        <xsl:for-each select="mei:keyAccid">
-          <xsl:choose>
-            <xsl:when test="@oct">
-              <xsl:value-of select="concat('(( ', number(@oct - 4), ' . ', translate(@pname, 'cdefgab', '0123456')), ') . '"/>
-            </xsl:when>
-            <xsl:otherwise>
-              <xsl:value-of select="concat('( ', translate(@pname, 'cdefgab', '0123456')), ' . '"/>
-            </xsl:otherwise>
-          </xsl:choose>
-          <xsl:choose>
-            <xsl:when test="@accid = 's'">
-              <xsl:text>,SHARP</xsl:text>
-            </xsl:when>
-            <xsl:when test="@accid = 'f'">
-              <xsl:text>,FLAT</xsl:text>
-            </xsl:when>
-            <xsl:when test="@accid = 'x'">
-              <xsl:text>,DOUBLE-SHARP</xsl:text>
-            </xsl:when>
-            <xsl:when test="@accid = 'ff'">
-              <xsl:text>,DOUBLE-FLAT</xsl:text>
-            </xsl:when>
-            <xsl:when test="@accid = '1qf'">
-              <xsl:text>,SEMI-FLAT</xsl:text>
-            </xsl:when>
-            <xsl:when test="@accid = '3qf'">
-              <xsl:text>,THREE-Q-FLAT</xsl:text>
-            </xsl:when>
-            <xsl:when test="@accid = '1qs'">
-              <xsl:text>,SEMI-SHARP</xsl:text>
-            </xsl:when>
-            <xsl:when test="@accid = '3qs'">
-              <xsl:text>,THREE-Q-SHARP</xsl:text>
-            </xsl:when>
-          </xsl:choose>
-          <xsl:text>)</xsl:text>
-        </xsl:for-each>
-        <xsl:text>) </xsl:text>
-      </xsl:if>
     </xsl:choose>
+    <xsl:if test="./mei:keyAccid">
+      <xsl:text>\set Staff.keyAlterations = #`(</xsl:text>
+      <xsl:for-each select="mei:keyAccid">
+        <xsl:choose>
+          <xsl:when test="@oct">
+            <xsl:value-of select="concat('(( ', number(@oct - 4), ' . ', translate(@pname, 'cdefgab', '0123456')), ') . '"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="concat('(', translate(@pname, 'cdefgab', '0123456')), '. '"/>
+          </xsl:otherwise>
+        </xsl:choose>
+        <xsl:choose>
+          <xsl:when test="@accid = 's'">
+            <xsl:text>,SHARP</xsl:text>
+          </xsl:when>
+          <xsl:when test="@accid = 'f'">
+            <xsl:text>,FLAT</xsl:text>
+          </xsl:when>
+          <xsl:when test="@accid = 'x'">
+            <xsl:text>,DOUBLE-SHARP</xsl:text>
+          </xsl:when>
+          <xsl:when test="@accid = 'ff'">
+            <xsl:text>,DOUBLE-FLAT</xsl:text>
+          </xsl:when>
+          <xsl:when test="@accid = '1qf'">
+            <xsl:text>,SEMI-FLAT</xsl:text>
+          </xsl:when>
+          <xsl:when test="@accid = '3qf'">
+            <xsl:text>,THREE-Q-FLAT</xsl:text>
+          </xsl:when>
+          <xsl:when test="@accid = '1qs'">
+            <xsl:text>,SEMI-SHARP</xsl:text>
+          </xsl:when>
+          <xsl:when test="@accid = '3qs'">
+            <xsl:text>,THREE-Q-SHARP</xsl:text>
+          </xsl:when>
+        </xsl:choose>
+        <xsl:text>)</xsl:text>
+      </xsl:for-each>
+      <xsl:text>) </xsl:text>
+    </xsl:if>
   </xsl:template>
   <!-- set mensur -->
   <xsl:template name="setMensur">
