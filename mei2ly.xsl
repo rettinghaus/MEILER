@@ -70,7 +70,7 @@
     </xsl:if>
     <xsl:if test="$checkReferences">
       <xsl:if test="//@endid[not(starts-with(.,'#'))] or //@startid[not(starts-with(.,'#'))] ">
-        <xsl:message>WARNING: There are references not pointing anywhere!</xsl:message>
+        <xsl:message select="'WARNING: There are references not pointing anywhere!'"/>
       </xsl:if>
     </xsl:if>
     <xsl:value-of select="concat('\version &quot;', $LilyPondVersion,'&quot;&#10;')"/>
@@ -1366,7 +1366,7 @@
         <xsl:text>\once \override Beam.grow-direction = #RIGHT </xsl:text>
       </xsl:when>
       <xsl:when test="@form = 'mixed'">
-        <xsl:message>INFO: Mixed feathered beams not supported</xsl:message>
+        <xsl:message select="'INFO: Mixed feathered beams not supported'"/>
       </xsl:when>
       <xsl:when test="@form = 'rit'">
         <xsl:text>\once \override Beam.grow-direction = #LEFT </xsl:text>
@@ -2134,7 +2134,7 @@
         <xsl:text>\sustainOff</xsl:text>
       </xsl:when>
       <xsl:when test="@dir = 'half'">
-        <xsl:message>INFO: Half pedal not supported</xsl:message>
+        <xsl:message select="'INFO: Half pedal not supported'"/>
       </xsl:when>
       <xsl:when test="@dir = 'bounce'">
         <xsl:text>\sustainOff\sustainOn</xsl:text>
@@ -3557,7 +3557,7 @@
     <!-- data.FONTSIZENUMERIC -->
     <xsl:choose>
       <xsl:when test="contains(@fontsize,'vu')">
-        <xsl:message>WARNING: font sizes in vu will be ignored</xsl:message>
+        <xsl:message select="'WARNING: font sizes in vu will be ignored'" />
       </xsl:when>
       <xsl:otherwise>
         <xsl:value-of select="concat('\abs-fontsize #',substring-before(@fontsize,'pt'),' ')" />
@@ -3596,7 +3596,7 @@
         <xsl:value-of select="'\larger '" />
       </xsl:when>
       <xsl:otherwise>
-        <xsl:message>WARNING: Unsupported fontsize: <xsl:value-of select="@fontsize"/></xsl:message>
+        <xsl:message select="concat('WARNING: Unsupported fontsize: ', @fontsize)" />
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
