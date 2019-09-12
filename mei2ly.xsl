@@ -2387,26 +2387,35 @@
     <xsl:if test="@rotation">
       <xsl:value-of select="concat('\rotate #',@rotation,' ')" />
     </xsl:if>
-    <xsl:if test="contains(@rend,'italic')">
-      <xsl:value-of select="'\italic '" />
-    </xsl:if>
-    <xsl:if test="contains(@rend,'box')">
-      <xsl:value-of select="'\box '" />
-    </xsl:if>
-    <xsl:if test="contains(@rend,'circle')">
-      <xsl:value-of select="'\circle '" />
-    </xsl:if>
-    <xsl:if test="contains(@rend,'sub')">
-      <xsl:value-of select="'\sub '" />
-    </xsl:if>
-    <xsl:if test="contains(@rend,'sup')">
-      <xsl:value-of select="'\super '" />
-    </xsl:if>
-    <xsl:if test="contains(@rend,'underline')">
-      <xsl:value-of select="'\underline '" />
-    </xsl:if>
-    <xsl:if test="contains(@rend,'smcaps')">
-      <xsl:value-of select="'\smallCaps '" />
+    <!-- data.TEXTRENDITION -->
+    <xsl:if test="@rend">
+      <!-- data.TEXTRENDITIONLIST -->
+      <xsl:choose>
+        <xsl:when test="contains(@rend,'italic')">
+          <xsl:value-of select="'\italic '" />
+        </xsl:when>
+        <xsl:when test="contains(@rend,'box')">
+          <xsl:value-of select="'\box '" />
+        </xsl:when>
+        <xsl:when test="contains(@rend,'circle')">
+          <xsl:value-of select="'\circle '" />
+        </xsl:when>
+        <xsl:when test="contains(@rend,'sub')">
+          <xsl:value-of select="'\sub '" />
+        </xsl:when>
+        <xsl:when test="contains(@rend,'sup')">
+          <xsl:value-of select="'\super '" />
+        </xsl:when>
+        <xsl:when test="contains(@rend,'underline')">
+          <xsl:value-of select="'\underline '" />
+        </xsl:when>
+        <xsl:when test="contains(@rend,'smcaps')">
+          <xsl:value-of select="'\smallCaps '" />
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:message select="concat('WARNING: Unsupported accidental: ', @rend)" />
+        </xsl:otherwise>
+      </xsl:choose>
     </xsl:if>
     <xsl:text>{</xsl:text>
     <xsl:apply-templates/>
