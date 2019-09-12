@@ -2903,7 +2903,7 @@
   <!-- set accidental -->
   <xsl:template mode="setAccidental" match="@accid | @accid.ges">
     <xsl:param name="accidental" select="."/>
-    <!-- data.ACCIDENTAL.EXPLICIT -->
+    <!-- data.ACCIDENTAL.GESTURAL -->
     <xsl:choose>
       <xsl:when test="$accidental = 's'">
         <xsl:text>is</xsl:text>
@@ -3127,6 +3127,7 @@
     <xsl:param name="accidentals" />
     <xsl:text>\key </xsl:text>
     <xsl:choose>
+      <!-- data.KEYFIFTHS -->
       <xsl:when test="$accidentals = '1s'">
         <xsl:text>g\major</xsl:text>
       </xsl:when>
@@ -3226,16 +3227,20 @@
     <xsl:param name="direction" select="@place" />
     <!-- data.STAFFREL -->
     <xsl:choose>
+      <!-- data.STAFFREL.basic -->
       <xsl:when test="$direction = 'above'">
         <xsl:value-of select="'UP'" />
       </xsl:when>
       <xsl:when test="$direction = 'below'">
         <xsl:value-of select="'DOWN'" />
       </xsl:when>
+      <!-- data.STAFFREL.extended -->
+      <xsl:when test="$direction = 'between'">
+        <xsl:message select="'WARNING: Unsupported direction: between'" />
+      </xsl:when>
       <xsl:when test="$direction = 'within'">
         <xsl:value-of select="'CENTER'" />
       </xsl:when>
-      <xsl:otherwise/>
     </xsl:choose>
     <xsl:text>&#32;</xsl:text>
   </xsl:template>
