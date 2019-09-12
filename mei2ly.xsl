@@ -3314,22 +3314,153 @@
   <!-- data.COLORNAMES -->
   <xsl:variable name="colorNames">
     <valList type="closed">
+      <valItem ident="aliceblue" r="240" g="248" b="255" />
+      <valItem ident="antiquewhite" r="250" g="235" b="215" />
       <valItem ident="aqua" r="0" g="255" b="255" />
+      <valItem ident="aquamarine" r="127" g="255" b="212" />
+      <valItem ident="azure" r="240" g="255" b="255" />
+      <valItem ident="beige" r="245" g="245" b="220" />
+      <valItem ident="bisque" r="255" g="228" b="196" />
       <valItem ident="black" r="0" g="0" b="0" />
+      <valItem ident="blanchedalmond" r="255" g="235" b="205" />
       <valItem ident="blue" r="0" g="0" b="255" />
+      <valItem ident="blueviolet" r="138" g="43" b="226" />
+      <valItem ident="brown" r="165" g="42" b="42" />
+      <valItem ident="burlywood" r="222" g="184" b="135" />
+      <valItem ident="cadetblue" r="95" g="158" b="160" />
+      <valItem ident="chartreuse" r="127" g="255" b="0" />
+      <valItem ident="chocolate" r="210" g="105" b="30" />
+      <valItem ident="coral" r="255" g="127" b="80" />
+      <valItem ident="cornflowerblue" r="100" g="149" b="237" />
+      <valItem ident="cornsilk" r="255" g="248" b="220" />
+      <valItem ident="crimson" r="220" g="20" b="60" />
+      <valItem ident="cyan" r="0" g="255" b="255" />
+      <valItem ident="darkblue" r="0" g="0" b="139" />
+      <valItem ident="darkcyan" r="0" g="139" b="139" />
+      <valItem ident="darkgoldenrod" r="184" g="134" b="11" />
+      <valItem ident="darkgray" r="169" g="169" b="169" />
+      <valItem ident="darkgreen" r="0" g="100" b="0" />
+      <valItem ident="darkgrey" r="169" g="169" b="169" />
+      <valItem ident="darkkhaki" r="189" g="183" b="107" />
+      <valItem ident="darkmagenta" r="139" g="0" b="139" />
+      <valItem ident="darkolivegreen" r="85" g="107" b="47" />
+      <valItem ident="darkorange" r="255" g="140" b="0" />
+      <valItem ident="darkorchid" r="153" g="50" b="204" />
+      <valItem ident="darkred" r="139" g="0" b="0" />
+      <valItem ident="darksalmon" r="233" g="150" b="122" />
+      <valItem ident="darkseagreen" r="143" g="188" b="143" />
+      <valItem ident="darkslateblue" r="72" g="61" b="139" />
+      <valItem ident="darkslategray" r="47" g="79" b="79" />
+      <valItem ident="darkslategrey" r="47" g="79" b="79" />
+      <valItem ident="darkturquoise" r="0" g="206" b="209" />
+      <valItem ident="darkviolet" r="148" g="0" b="211" />
+      <valItem ident="deeppink" r="255" g="20" b="147" />
+      <valItem ident="deepskyblue" r="0" g="191" b="255" />
+      <valItem ident="dimgray" r="105" g="105" b="105" />
+      <valItem ident="dimgrey" r="105" g="105" b="105" />
+      <valItem ident="dodgerblue" r="30" g="144" b="255" />
+      <valItem ident="firebrick" r="178" g="34" b="34" />
+      <valItem ident="floralwhite" r="255" g="250" b="240" />
+      <valItem ident="forestgreen" r="34" g="139" b="34" />
       <valItem ident="fuchsia" r="255" g="0" b="255" />
+      <valItem ident="gainsboro" r="220" g="220" b="220" />
+      <valItem ident="ghostwhite" r="248" g="248" b="255" />
+      <valItem ident="gold" r="255" g="215" b="0" />
+      <valItem ident="goldenrod" r="218" g="165" b="32" />
       <valItem ident="gray" r="128" g="128" b="128" />
       <valItem ident="green" r="0" g="128" b="0" />
+      <valItem ident="greenyellow" r="173" g="255" b="47" />
+      <valItem ident="grey" r="128" g="128" b="128" />
+      <valItem ident="honeydew" r="240" g="255" b="240" />
+      <valItem ident="hotpink" r="255" g="105" b="180" />
+      <valItem ident="indianred" r="205" g="92" b="92" />
+      <valItem ident="indigo" r="75" g="0" b="130" />
+      <valItem ident="ivory" r="255" g="255" b="240" />
+      <valItem ident="khaki" r="240" g="230" b="140" />
+      <valItem ident="lavender" r="230" g="230" b="250" />
+      <valItem ident="lavenderblush" r="255" g="240" b="245" />
+      <valItem ident="lawngreen" r="124" g="252" b="0" />
+      <valItem ident="lemonchiffon" r="255" g="250" b="205" />
+      <valItem ident="lightblue" r="173" g="216" b="230" />
+      <valItem ident="lightcoral" r="240" g="128" b="128" />
+      <valItem ident="lightcyan" r="224" g="255" b="255" />
+      <valItem ident="lightgoldenrodyellow" r="250" g="250" b="210" />
+      <valItem ident="lightgray" r="211" g="211" b="211" />
+      <valItem ident="lightgreen" r="144" g="238" b="144" />
+      <valItem ident="lightgrey" r="211" g="211" b="211" />
+      <valItem ident="lightpink" r="255" g="182" b="193" />
+      <valItem ident="lightsalmon" r="255" g="160" b="122" />
+      <valItem ident="lightseagreen" r="32" g="178" b="170" />
+      <valItem ident="lightskyblue" r="135" g="206" b="250" />
+      <valItem ident="lightslategray" r="119" g="136" b="153" />
+      <valItem ident="lightslategrey" r="119" g="136" b="153" />
+      <valItem ident="lightsteelblue" r="176" g="196" b="222" />
+      <valItem ident="lightyellow" r="255" g="255" b="224" />
       <valItem ident="lime" r="0" g="255" b="0" />
+      <valItem ident="limegreen" r="50" g="205" b="50" />
+      <valItem ident="linen" r="250" g="240" b="230" />
+      <valItem ident="magenta" r="255" g="0" b="255" />
       <valItem ident="maroon" r="128" g="0" b="0" />
+      <valItem ident="mediumaquamarine" r="102" g="205" b="170" />
+      <valItem ident="mediumblue" r="0" g="0" b="205" />
+      <valItem ident="mediumorchid" r="186" g="85" b="211" />
+      <valItem ident="mediumpurple" r="147" g="112" b="219" />
+      <valItem ident="mediumseagreen" r="60" g="179" b="113" />
+      <valItem ident="mediumslateblue" r="123" g="104" b="238" />
+      <valItem ident="mediumspringgreen" r="0" g="250" b="154" />
+      <valItem ident="mediumturquoise" r="72" g="209" b="204" />
+      <valItem ident="mediumvioletred" r="199" g="21" b="133" />
+      <valItem ident="midnightblue" r="25" g="25" b="112" />
+      <valItem ident="mintcream" r="245" g="255" b="250" />
+      <valItem ident="mistyrose" r="255" g="228" b="225" />
+      <valItem ident="moccasin" r="255" g="228" b="181" />
+      <valItem ident="navajowhite" r="255" g="222" b="173" />
       <valItem ident="navy" r="0" g="0" b="128" />
+      <valItem ident="oldlace" r="253" g="245" b="230" />
       <valItem ident="olive" r="128" g="128" b="0" />
+      <valItem ident="olivedrab" r="107" g="142" b="35" />
+      <valItem ident="orange" r="255" g="165" b="0" />
+      <valItem ident="orangered" r="255" g="69" b="0" />
+      <valItem ident="orchid" r="218" g="112" b="214" />
+      <valItem ident="palegoldenrod" r="238" g="232" b="170" />
+      <valItem ident="palegreen" r="152" g="251" b="152" />
+      <valItem ident="paleturquoise" r="175" g="238" b="238" />
+      <valItem ident="palevioletred" r="219" g="112" b="147" />
+      <valItem ident="papayawhip" r="255" g="239" b="213" />
+      <valItem ident="peachpuff" r="255" g="218" b="185" />
+      <valItem ident="peru" r="205" g="133" b="63" />
+      <valItem ident="pink" r="255" g="192" b="203" />
+      <valItem ident="plum" r="221" g="160" b="221" />
+      <valItem ident="powderblue" r="176" g="224" b="230" />
       <valItem ident="purple" r="128" g="0" b="128" />
       <valItem ident="red" r="255" g="0" b="0" />
-      <valItem ident="silver" r="208" g="208" b="208" />
+      <valItem ident="rosybrown" r="188" g="143" b="143" />
+      <valItem ident="royalblue" r="65" g="105" b="225" />
+      <valItem ident="saddlebrown" r="139" g="69" b="19" />
+      <valItem ident="salmon" r="250" g="128" b="114" />
+      <valItem ident="sandybrown" r="244" g="164" b="96" />
+      <valItem ident="seagreen" r="46" g="139" b="87" />
+      <valItem ident="seashell" r="255" g="245" b="238" />
+      <valItem ident="sienna" r="160" g="82" b="45" />
+      <valItem ident="silver" r="192" g="192" b="192" />
+      <valItem ident="skyblue" r="135" g="206" b="235" />
+      <valItem ident="slateblue" r="106" g="90" b="205" />
+      <valItem ident="slategray" r="112" g="128" b="144" />
+      <valItem ident="slategrey" r="112" g="128" b="144" />
+      <valItem ident="snow" r="255" g="250" b="250" />
+      <valItem ident="springgreen" r="0" g="255" b="127" />
+      <valItem ident="steelblue" r="70" g="130" b="180" />
+      <valItem ident="tan" r="210" g="180" b="140" />
       <valItem ident="teal" r="0" g="128" b="128" />
+      <valItem ident="thistle" r="216" g="191" b="216" />
+      <valItem ident="tomato" r="255" g="99" b="71" />
+      <valItem ident="turquoise" r="64" g="224" b="208" />
+      <valItem ident="violet" r="238" g="130" b="238" />
+      <valItem ident="wheat" r="245" g="222" b="179" />
       <valItem ident="white" r="255" g="255" b="255" />
+      <valItem ident="whitesmoke" r="245" g="245" b="245" />
       <valItem ident="yellow" r="255" g="255" b="0" />
+      <valItem ident="yellowgreen" r="154" g="205" b="50" />
     </valList>
   </xsl:variable>
   <xsl:template name="setColor">
