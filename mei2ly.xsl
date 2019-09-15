@@ -1289,6 +1289,9 @@
       <xsl:text>\tweak Accidental.extra-offset #&apos;</xsl:text>
       <xsl:call-template name="setOffset" />
     </xsl:if>
+    <xsl:if test="contains(@accid, 'd') or contains(@accid, 'u')">
+      <!-- needs to be implemented -->
+    </xsl:if>
   </xsl:template>
   <!-- MEI bar line -->
   <xsl:template match="mei:barLine[@copyof]">
@@ -2912,7 +2915,7 @@
   <!-- set accidental -->
   <xsl:template mode="setAccidental" match="@accid | @accid.ges">
     <xsl:param name="accidental" select="."/>
-    <!-- data.ACCIDENTAL.GESTURAL -->
+    <!-- data.ACCIDENTAL.WRITTEN -->
     <xsl:choose>
       <xsl:when test="$accidental = 's'">
         <xsl:text>is</xsl:text>
@@ -2931,6 +2934,7 @@
       </xsl:when>
       <xsl:when test="$accidental = 'n'">
       </xsl:when>
+      <!--
       <xsl:when test="$accidental = 'su'">
         <xsl:text>isih</xsl:text>
       </xsl:when>
@@ -2943,6 +2947,7 @@
       <xsl:when test="$accidental = 'fd'">
         <xsl:text>eseh</xsl:text>
       </xsl:when>
+      -->
       <xsl:when test="$accidental = '1qf'">
         <xsl:text>eh</xsl:text>
       </xsl:when>
