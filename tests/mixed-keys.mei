@@ -50,9 +50,9 @@
             <measure n="2">
               <staff n="1">
                 <layer n="1">
-                  <note xml:id="m02-n01" dur="4" oct="4" pname="c" accid.ges="x"/>
+                  <note xml:id="m02-n01" dur="4" oct="4" pname="c" accid.ges="ss"/>
                   <note xml:id="m02-n02" dur="4" oct="4" pname="d" accid.ges="n"/>
-                  <note xml:id="m02-n03" dur="4" oct="4" pname="e" accid.ges="3qf"/>
+                  <note xml:id="m02-n03" dur="4" oct="4" pname="e" accid.ges="fd"/>
                   <note xml:id="m02-n04" dur="4" oct="4" pname="f" accid.ges="n"/>
                 </layer>
               </staff>
