@@ -2934,7 +2934,6 @@
       </xsl:when>
       <xsl:when test="$accidental = 'n'">
       </xsl:when>
-      <!--
       <xsl:when test="$accidental = 'su'">
         <xsl:text>isih</xsl:text>
       </xsl:when>
@@ -2947,7 +2946,6 @@
       <xsl:when test="$accidental = 'fd'">
         <xsl:text>eseh</xsl:text>
       </xsl:when>
-      -->
       <xsl:when test="$accidental = '1qf'">
         <xsl:text>eh</xsl:text>
       </xsl:when>
