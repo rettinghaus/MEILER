@@ -915,7 +915,14 @@
         </xsl:when>
         <xsl:when test="self::mei:slur">
           <xsl:text>\=#&apos;</xsl:text>
-          <xsl:value-of select="generate-id()" />
+          <xsl:choose>
+            <xsl:when test="@xml:id">
+              <xsl:value-of select="@xml:id" />
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:value-of select="generate-id()" />
+            </xsl:otherwise>
+          </xsl:choose>
           <xsl:text>)</xsl:text>
         </xsl:when>
         <xsl:when test="self::mei:trill">
@@ -1814,7 +1821,14 @@
     </xsl:if>
     <xsl:call-template name="setMarkupDirection"/>
     <xsl:text>\=#&apos;</xsl:text>
-    <xsl:value-of select="generate-id()" />
+    <xsl:choose>
+      <xsl:when test="@xml:id">
+        <xsl:value-of select="@xml:id" />
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="generate-id()" />
+      </xsl:otherwise>
+    </xsl:choose>
     <xsl:text>(</xsl:text>
   </xsl:template>
   <!-- MEI tie -->
