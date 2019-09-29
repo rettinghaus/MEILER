@@ -2733,11 +2733,14 @@
     <xsl:apply-templates/>
     <xsl:text>}&#32;</xsl:text>
   </xsl:template>
+  <!-- MEI addition -->
+  <xsl:template match="mei:add">
+  </xsl:template>
   <!-- MEI apparatus -->
   <xsl:template match="mei:app">
     <xsl:apply-templates/>
   </xsl:template>
-  <!-- MEI choose -->
+  <!-- MEI choice -->
   <xsl:template match="mei:choice">
     <xsl:apply-templates select="mei:reg" />
   </xsl:template>
@@ -2770,8 +2773,16 @@
     <xsl:apply-templates/>
     <xsl:text>}&#32;</xsl:text>
   </xsl:template>
+  <!-- MEI reading -->
+  <xsl:template match="mei:rdg">
+    <xsl:apply-templates/>
+  </xsl:template>
   <!-- MEI regularization -->
   <xsl:template match="mei:reg">
+    <xsl:apply-templates/>
+  </xsl:template>
+  <!-- MEI supplied -->
+  <xsl:template match="mei:supplied">
     <xsl:apply-templates/>
   </xsl:template>
   <!-- excluded elements -->
