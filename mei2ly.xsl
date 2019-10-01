@@ -919,7 +919,14 @@
         </xsl:when>
         <xsl:when test="self::mei:slur">
           <xsl:text>\=#&apos;</xsl:text>
-          <xsl:value-of select="generate-id()" />
+          <xsl:choose>
+            <xsl:when test="@xml:id">
+              <xsl:value-of select="@xml:id" />
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:value-of select="generate-id()" />
+            </xsl:otherwise>
+          </xsl:choose>
           <xsl:text>)</xsl:text>
         </xsl:when>
         <xsl:when test="self::mei:trill">
@@ -1908,7 +1915,14 @@
     </xsl:if>
     <xsl:call-template name="setMarkupDirection"/>
     <xsl:text>\=#&apos;</xsl:text>
-    <xsl:value-of select="generate-id()" />
+    <xsl:choose>
+      <xsl:when test="@xml:id">
+        <xsl:value-of select="@xml:id" />
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="generate-id()" />
+      </xsl:otherwise>
+    </xsl:choose>
     <xsl:text>(</xsl:text>
   </xsl:template>
   <!-- MEI tie -->
@@ -2039,7 +2053,7 @@
     <xsl:if test="string-length() = string-length(translate(.,'123456789',''))">
       <xsl:text>_</xsl:text>
     </xsl:if>
-    <xsl:value-of select="translate(.,'♭♮♯&lt;&gt;','-!+')" />
+    <xsl:value-of select="translate(replace(.,'(.*)(\d+)','$2$1'),'♭♮♯&lt;&gt;-','-!+')" />
     <xsl:if test="contains(.,'\')">
       <xsl:text>\</xsl:text>
     </xsl:if>
@@ -2729,11 +2743,14 @@
     <xsl:apply-templates/>
     <xsl:text>}&#32;</xsl:text>
   </xsl:template>
+  <!-- MEI addition -->
+  <xsl:template match="mei:add">
+  </xsl:template>
   <!-- MEI apparatus -->
   <xsl:template match="mei:app">
     <xsl:apply-templates/>
   </xsl:template>
-  <!-- MEI choose -->
+  <!-- MEI choice -->
   <xsl:template match="mei:choice">
     <xsl:apply-templates select="mei:reg" />
   </xsl:template>
@@ -2766,8 +2783,16 @@
     <xsl:apply-templates/>
     <xsl:text>}&#32;</xsl:text>
   </xsl:template>
+  <!-- MEI reading -->
+  <xsl:template match="mei:rdg">
+    <xsl:apply-templates/>
+  </xsl:template>
   <!-- MEI regularization -->
   <xsl:template match="mei:reg">
+    <xsl:apply-templates/>
+  </xsl:template>
+  <!-- MEI supplied -->
+  <xsl:template match="mei:supplied">
     <xsl:apply-templates/>
   </xsl:template>
   <!-- excluded elements -->
