@@ -1806,7 +1806,14 @@
     <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:measure/mei:octave[@xml:id = substring-after(current()/@copyof,'#')]" mode="pre" />
   </xsl:template>
   <xsl:template match="mei:octave" mode="pre">
-    <xsl:value-of select="concat('\set Staff.ottavation = #&quot;', @dis, '&quot; ')"/>
+    <xsl:choose>
+      <xsl:when test="text()">
+        <xsl:value-of select="concat('\set Staff.ottavation = #&quot;', text(), '&quot; ')"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="concat('\set Staff.ottavation = #&quot;', @dis, '&quot; ')"/>
+      </xsl:otherwise>
+    </xsl:choose>
     <xsl:if test="$useSvgBackend">
       <xsl:text>\once \override Staff.OttavaBracket.output-attributes = #&apos;</xsl:text>
       <xsl:call-template name="setSvgAttr" />
@@ -1828,6 +1835,7 @@
       <xsl:call-template name="setLineWidth" />
     </xsl:if>
     <xsl:if test="@dis.place = 'below'">
+      <!-- default is 'above' -->
       <xsl:text>\once \override Staff.OttavaBracket.direction = #DOWN </xsl:text>
     </xsl:if>
   </xsl:template>
