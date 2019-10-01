@@ -1831,6 +1831,8 @@
       <xsl:text>\once \override Staff.OttavaBracket.direction = #DOWN </xsl:text>
     </xsl:if>
   </xsl:template>
+  <xsl:template match="mei:octave">
+  </xsl:template>
   <!-- MEI phrase -->
   <xsl:template match="mei:phrase" mode="pre">
     <xsl:if test="@*[contains(name(),'ho') or contains(name(),'vo')]">
