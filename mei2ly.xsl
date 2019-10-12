@@ -1209,8 +1209,15 @@
       <xsl:call-template name="setSvgAttr" />
     </xsl:if>
     <!-- att.multiRest.vis -->
-    <xsl:if test="@block = true()">
-      <xsl:value-of select="'\tweak expand-limit #0 '" />
+    <xsl:if test="@block">
+      <xsl:choose>
+        <xsl:when test="@block = true()">
+          <xsl:value-of select="'\tweak expand-limit #0 '" />
+        </xsl:when>
+        <xsl:when test="@block = false()">
+          <xsl:value-of select="concat('\tweak expand-limit #', @num + 1, ' ')" />
+        </xsl:when>
+      </xsl:choose>
     </xsl:if>
     <xsl:if test="@loc">
       <xsl:value-of select="concat('\tweak staff-position #',@loc - 4,' ')" />
@@ -1234,7 +1241,7 @@
         <xsl:text>1</xsl:text>
       </xsl:otherwise>
     </xsl:choose>
-    <xsl:if test="ancestor::mei:measure/mei:fermata/@startid = concat('#',@xml:id)">
+    <xsl:value-of select="concat('*', @num)"/>
       <xsl:apply-templates select="ancestor::mei:measure/mei:fermata[@startid = concat('#',current()/@xml:id)]"/>
       <xsl:value-of select="'Markup'" />
     </xsl:if>
