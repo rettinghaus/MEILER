@@ -1217,7 +1217,7 @@
   </xsl:template>
   <!-- MEI multiple rest -->
   <xsl:template match="mei:multiRest[@num]">
-    <xsl:text>\once \compressFullBarRests </xsl:text>
+    <xsl:text>\compressMMRests </xsl:text>
     <xsl:if test="$useSvgBackend">
       <xsl:text>\tweak MultiMeasureRest.output-attributes #&apos;</xsl:text>
       <xsl:call-template name="setSvgAttr" />
@@ -1253,9 +1253,14 @@
       </xsl:when>
       <xsl:otherwise>
         <xsl:text>1</xsl:text>
+        <xsl:value-of select="concat('*', @num)"/>
       </xsl:otherwise>
     </xsl:choose>
-    <xsl:value-of select="concat('*', @num)"/>
+    <!-- for a single 1 we use markup -->
+    <xsl:if test="@num = 1">
+      <xsl:text>^\markup{\musicglyph #"one"}</xsl:text>
+    </xsl:if>
+    <xsl:if test="ancestor::mei:measure/mei:fermata/@startid = concat('#',@xml:id)">
       <xsl:apply-templates select="ancestor::mei:measure/mei:fermata[@startid = concat('#',current()/@xml:id)]"/>
       <xsl:value-of select="'Markup'" />
     </xsl:if>
