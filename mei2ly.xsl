@@ -1252,8 +1252,8 @@
         </xsl:call-template>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:text>1</xsl:text>
-        <xsl:value-of select="concat('*', @num)"/>
+        <!-- unmetered music -->
+        <xsl:value-of select="@num"/>
       </xsl:otherwise>
     </xsl:choose>
     <!-- for a single 1 we use markup -->
