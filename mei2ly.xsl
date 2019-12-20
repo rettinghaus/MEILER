@@ -1771,7 +1771,7 @@
     <xsl:if test="@*[contains(name(),'ho') or contains(name(),'vo')] or @bezier">
       <xsl:text>&#10;\shape #&apos;</xsl:text>
       <xsl:call-template name="shapeCurve" />
-      <xsl:text>PhrasingSlur</xsl:text>
+      <xsl:text>PhrasingSlur </xsl:text>
     </xsl:if>
   </xsl:template>
   <xsl:template match="mei:phrase[not(@endid)]">
@@ -1809,7 +1809,7 @@
     <xsl:if test="@*[contains(name(),'ho') or contains(name(),'vo')] or @bezier">
       <xsl:text>&#10;\shape #&apos;</xsl:text>
       <xsl:call-template name="shapeCurve" />
-      <xsl:text>Slur</xsl:text>
+      <xsl:text>Slur </xsl:text>
     </xsl:if>
   </xsl:template>
   <xsl:template match="mei:slur[not(@endid)]">
@@ -1848,7 +1848,7 @@
     <xsl:if test="@*[contains(name(),'ho') or contains(name(),'vo')] or @bezier">
       <xsl:text>&#10;\shape #&apos;</xsl:text>
       <xsl:call-template name="shapeCurve" />
-      <xsl:text>Tie</xsl:text>
+      <xsl:text>Tie </xsl:text>
     </xsl:if>
   </xsl:template>
   <xsl:template match="mei:tie">
