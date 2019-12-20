@@ -795,7 +795,7 @@
     <xsl:if test="@staff and not(parent::mei:chord) and @staff != ancestor::mei:staff/@n">
       <xsl:value-of select="concat('\change Staff = &quot;staff ',@staff,'&quot;&#32;')" />
     </xsl:if>
-    <xsl:if test="@grace and not(parent::*/@grace)">
+    <xsl:if test="@grace and not(ancestor::*/@grace)">
       <xsl:call-template name="setGraceNote" />
     </xsl:if>
     <xsl:if test="@fontsize">
