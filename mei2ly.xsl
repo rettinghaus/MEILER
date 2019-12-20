@@ -11,8 +11,8 @@
 <xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:saxon="http://saxon.sf.net/" xmlns:local="NS:LOCAL" exclude-result-prefixes="saxon">
   <xsl:strip-space elements="*" />
   <xsl:output method="text" indent="no" encoding="UTF-8"/>
-  <xsl:param name="LilyPondVersion" select="'2.19.55'"/>
-  <xsl:param name="include" as="xs:string"/>
+  <xsl:param name="LilyPondVersion" select="'2.19.80'"/>
+  <xsl:param name="include" select="''" as="xs:string"/>
   <xsl:param name="useSvgBackend" select="false()" as="xs:boolean"/>
   <xsl:param name="generateHeader" select="true()" as="xs:boolean"/>
   <xsl:param name="forceLayout" select="false()" as="xs:boolean"/>
