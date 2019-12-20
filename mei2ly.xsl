@@ -407,7 +407,7 @@
   <!-- MEI score definition -->
   <xsl:template match="mei:scoreDef" mode="score-setup">
     <!-- print the pgHead -->
-    <xsl:apply-templates select="mei:pgHead"/>
+    <xsl:apply-templates select="mei:pgHead" mode="score-setup"/>
     <!-- lilypond score block -->
     <xsl:text>\score { &lt;&lt;&#10;</xsl:text>
     <xsl:if test="ancestor::mei:mdiv[1]//@source">
