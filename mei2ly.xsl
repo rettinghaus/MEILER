@@ -387,7 +387,7 @@
     <xsl:apply-templates/>
   </xsl:template>
   <!-- MEI page header -->
-  <xsl:template match="mei:pgHead">
+  <xsl:template match="mei:pgHead" mode="score-setup">
     <xsl:text>\markup{</xsl:text>
     <xsl:apply-templates/>
     <xsl:text>}&#10;&#10;</xsl:text>
@@ -1872,7 +1872,7 @@
     <xsl:if test="@*[contains(name(),'ho') or contains(name(),'vo')]">
       <xsl:text>&#10;\shape #&apos;</xsl:text>
       <xsl:call-template name="shapeCurve" />
-      <xsl:text>PhrasingSlur</xsl:text>
+      <xsl:text>PhrasingSlur </xsl:text>
     </xsl:if>
   </xsl:template>
   <xsl:template match="mei:phrase[not(@endid)]">
@@ -1910,7 +1910,7 @@
     <xsl:if test="@*[contains(name(),'ho') or contains(name(),'vo')] or @bezier">
       <xsl:text>&#10;\shape #&apos;</xsl:text>
       <xsl:call-template name="shapeCurve" />
-      <xsl:text>Slur</xsl:text>
+      <xsl:text>Slur </xsl:text>
     </xsl:if>
   </xsl:template>
   <xsl:template match="mei:slur[not(@endid)]">
@@ -1949,7 +1949,7 @@
     <xsl:if test="@*[contains(name(),'ho') or contains(name(),'vo')] or @bezier">
       <xsl:text>&#10;\shape #&apos;</xsl:text>
       <xsl:call-template name="shapeCurve" />
-      <xsl:text>Tie</xsl:text>
+      <xsl:text>Tie </xsl:text>
     </xsl:if>
   </xsl:template>
   <xsl:template match="mei:tie">
@@ -2828,7 +2828,6 @@
   <xsl:template match="mei:orig" />
   <xsl:template match="mei:pad" />
   <xsl:template match="mei:part" />
-  <xsl:template match="mei:pgHead" />
   <xsl:template match="mei:pgFoot" />
   <xsl:template match="mei:sourceDesc" />
   <xsl:template match="mei:symbol" />
