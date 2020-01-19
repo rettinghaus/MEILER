@@ -506,7 +506,7 @@
   <!-- MEI staff group -->
   <xsl:template match="mei:staffGrp" mode="score-setup">
     <xsl:text>\new StaffGroup </xsl:text>
-    <xsl:if test="@label or @label.abbr or child::mei:label">
+    <xsl:if test="child::mei:label">
       <xsl:text>\with { </xsl:text>
       <xsl:call-template name="setInstrumentName" />
       <xsl:text>} </xsl:text>
@@ -531,7 +531,7 @@
       <xsl:text>Rhythmic</xsl:text>
     </xsl:if>
     <xsl:value-of select="concat('Staff = &quot;staff ',$staffNumber,'&quot;&#32;')" />
-    <xsl:if test="@scale or @label or @label.abbr or child::mei:label or ((position() = 1) and (count(ancestor::mei:staffGrp) &gt; 1) and ancestor::mei:scoreDef/@ending.rend = 'grouped')">
+    <xsl:if test="@scale or child::mei:label or ((position() = 1) and (count(ancestor::mei:staffGrp) &gt; 1) and ancestor::mei:scoreDef/@ending.rend = 'grouped')">
       <xsl:text>\with { </xsl:text>
       <xsl:call-template name="setInstrumentName" />
       <xsl:if test="(position() = 1) and (count(ancestor::mei:staffGrp) &gt; 1) and ancestor::mei:scoreDef/@ending.rend = 'grouped'">
@@ -2355,6 +2355,12 @@
     <xsl:apply-templates/>
     <xsl:text>}&#32;</xsl:text>
   </xsl:template>
+  <!-- MEI abbreviated label -->
+  <xsl:template match="mei:labelAbbr">
+    <xsl:text>\markup {</xsl:text>
+    <xsl:apply-templates/>
+    <xsl:text>}&#32;</xsl:text>
+  </xsl:template>
   <!-- MEI line break -->
   <xsl:template match="mei:lb">
   </xsl:template>
@@ -3179,15 +3185,13 @@
   </xsl:template>
   <!-- set instrument names -->
   <xsl:template name="setInstrumentName">
-    <xsl:if test="@label">
-      <xsl:value-of select="concat('instrumentName = #&quot;',@label,'&quot; ')" />
-    </xsl:if>
-    <xsl:if test="@label.abbr">
-      <xsl:value-of select="concat('shortInstrumentName = #&quot;',@label.abbr,'&quot; ')" />
-    </xsl:if>
     <xsl:if test="child::mei:label">
       <xsl:value-of select="'instrumentName = '" />
       <xsl:apply-templates select="mei:label" />
+    </xsl:if>
+    <xsl:if test="child::mei:labelAbbr">
+      <xsl:value-of select="'shortInstrumentName = '" />
+      <xsl:apply-templates select="mei:labelAbbr" />
     </xsl:if>
   </xsl:template>
   <!-- set key -->

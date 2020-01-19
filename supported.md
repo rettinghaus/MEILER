@@ -204,6 +204,8 @@ List of supported MEI elements and attributes
 
 * `<label>` (within `<staffGrp>` and `<staffDef>`)
 
+* `<labelAbbr>` (within `<staffGrp>` and `<staffDef>`)
+
 * `<layer>`
   * `@beam.group`
   * `@n`
@@ -527,8 +529,6 @@ List of supported MEI elements and attributes
 
 * `<staffGrp>`
   * `@barthru`
-  * `@label`
-  * `@label.abbr`
   * `@symbol`
 
 * `<syl>`
