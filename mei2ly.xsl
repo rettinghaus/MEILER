@@ -969,7 +969,7 @@
       <xsl:value-of select="' }'" />
     </xsl:if>
     <xsl:if test="key('spannerEnd',$noteKey)[self::mei:octave]">
-      <xsl:value-of select="'\unset Staff.ottavation '" />
+      <xsl:value-of select="'\unset Staff.ottavation'" />
     </xsl:if>
     <xsl:value-of select="' '" />
     <xsl:if test="@staff and not(parent::mei:chord) and @staff != ancestor::mei:staff/@n">
@@ -2017,7 +2017,7 @@
     <xsl:choose>
       <xsl:when test="normalize-space(.)=$dynamicMarks or contains(.,'cresc') or contains(.,'dim')">
         <!-- this should work in most cases -->
-        <xsl:value-of select="concat('\',translate(.,'.',''), ' ')" />
+        <xsl:value-of select="concat('\',translate(.,'.',''))" />
       </xsl:when>
       <xsl:otherwise>
         <xsl:value-of select="concat('\markup {',.,'} ')" />
