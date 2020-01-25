@@ -2,7 +2,7 @@
 <!--          -->
 <!--  MEILER  -->
 <!--  mei2ly  -->
-<!-- v 1.0.2  -->
+<!-- v 1.1.0  -->
 <!--          -->
 <!-- programmed by -->
 <!-- Klaus Rettinghaus -->
@@ -166,10 +166,10 @@
   </xsl:template>
   <!-- MEI work description -->
   <xsl:template match="mei:workDesc">
-    <xsl:value-of select="concat('  title = &quot;',normalize-space(descendant::mei:title[not(@type) or @type='main'][1]),'&quot;&#10;')" />
+    <xsl:value-of select="concat('  title = \markup {',normalize-space(descendant::mei:title[not(@type) or @type='main'][1]),'}')" />
     <xsl:if test="descendant::mei:title[@type='subordinate']">
-      <xsl:value-of select="concat('  subtitle = &quot;',normalize-space(descendant::mei:title[@type='subordinate'][1]),'&quot;&#10;')" />
-      <xsl:value-of select="concat('  subsubtitle = &quot;',normalize-space(descendant::mei:title[@type='subordinate'][2]),'&quot;&#10;')" />
+      <xsl:value-of select="concat('  subtitle = \markup {',normalize-space(descendant::mei:title[@type='subordinate'][1]),'}')" />
+      <xsl:value-of select="concat('  subsubtitle = \markup {',normalize-space(descendant::mei:title[@type='subordinate'][2]),'}')" />
     </xsl:if>
     <xsl:for-each select="descendant::mei:persName[@role]">
       <xsl:value-of select="concat('  ',@role,' = &quot;',normalize-space(.),'&quot;&#10;')" />
@@ -953,7 +953,7 @@
       <xsl:text>\glissando</xsl:text>
     </xsl:if>
     <!-- add control elements -->
-    <xsl:apply-templates select="ancestor::mei:measure/*[@startid = $noteKey]" />
+    <xsl:apply-templates select="ancestor::mei:measure/descendant::*[not(local-name() = 'f')][@startid = $noteKey]" />
     <xsl:if test="key('spannerEnd',$noteKey)[self::mei:tupletSpan]">
       <xsl:value-of select="' }'" />
     </xsl:if>
@@ -961,7 +961,7 @@
       <xsl:text>}</xsl:text>
     </xsl:if>
     <xsl:if test="key('spannerEnd',$noteKey)[self::mei:octave]">
-      <xsl:value-of select="'\unset Staff.ottavation '" />
+      <xsl:value-of select="'\unset Staff.ottavation'" />
     </xsl:if>
     <xsl:value-of select="' '" />
     <xsl:if test="@staff and not(parent::mei:chord) and @staff != ancestor::mei:staff/@n">
@@ -1916,7 +1916,7 @@
     <xsl:choose>
       <xsl:when test="normalize-space(.)=$dynamicMarks or contains(.,'cresc') or contains(.,'dim')">
         <!-- this should work in most cases -->
-        <xsl:value-of select="concat('\',translate(.,'.',''), ' ')" />
+        <xsl:value-of select="concat('\',translate(.,'.',''))" />
       </xsl:when>
       <xsl:otherwise>
         <xsl:value-of select="concat('\markup {',.,'} ')" />
@@ -2117,12 +2117,14 @@
         </xsl:otherwise>
       </xsl:choose>
     </xsl:param>
-    <xsl:if test="(descendant-or-self::*/@place = 'above') and not(preceding::mei:harm[ancestor::mei:music][@staff = current()/@staff][1]/descendant-or-self::*/@place = 'above')">
-      <xsl:text>\bassFigureStaffAlignmentUp&#10;&#32;&#32;</xsl:text>
-    </xsl:if>
-    <xsl:if test="(descendant-or-self::*/@place = 'below') and not(preceding::mei:harm[ancestor::mei:music][@staff = current()/@staff][1]/descendant-or-self::*/@place = 'below')">
-      <xsl:text>\bassFigureStaffAlignmentDown&#10;&#32;&#32;</xsl:text>
-    </xsl:if>
+    <xsl:choose>
+      <xsl:when test="(descendant-or-self::*/@place = 'above') and not(preceding::mei:harm[ancestor::mei:music][@staff = current()/@staff][1]/descendant-or-self::*/@place = 'above')">
+        <xsl:text>\bassFigureStaffAlignmentUp&#10;&#32;&#32;</xsl:text>
+      </xsl:when>
+      <xsl:when test="(descendant-or-self::*/@place = 'below') and not(preceding::mei:harm[ancestor::mei:music][@staff = current()/@staff][1]/descendant-or-self::*/@place = 'below')">
+        <xsl:text>\bassFigureStaffAlignmentDown&#10;&#32;&#32;</xsl:text>
+      </xsl:when>
+    </xsl:choose>
     <xsl:if test="not(preceding-sibling::mei:harm[@staff = current()/@staff]) and @tstamp &gt; 1">
       <xsl:value-of select="concat('s',$meterUnit)" />
       <xsl:if test="@tstamp != 2">
