@@ -184,6 +184,20 @@ List of supported MEI elements and attributes
   * `@staff`
   * __`@tstamp`__
 
+* `<harpPedal>`
+  * `@a`
+  * `@b`
+  * `@c`
+  * `@color`
+  * `@d`
+  * `@e`
+  * `@f`
+  * `@g`
+  * `@ho`
+  * `@vo`
+  * `@startid`
+  * `@xml:id`
+
 * `<instrDef>`
   * `@midi.instrnum`
   * `@midi.instrname`

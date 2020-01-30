@@ -2135,6 +2135,57 @@
       </xsl:when>
     </xsl:choose>
   </xsl:template>
+  <!-- MEI harp pedal -->
+  <xsl:template match="mei:harpPedal" mode="pre">
+    <xsl:text>\once\textLengthOn </xsl:text>
+  </xsl:template>
+  <xsl:template match="mei:harpPedal">
+    <xsl:if test="$useSvgBackend">
+      <xsl:text>-\tweak output-attributes #&apos;</xsl:text>
+      <xsl:call-template name="setSvgAttr" />
+    </xsl:if>
+    <xsl:if test="@color">
+      <xsl:text>-\tweak color #</xsl:text>
+      <xsl:call-template name="setColor" />
+    </xsl:if>
+    <xsl:if test="@ho or @vo">
+      <xsl:text>-\tweak extra-offset #&apos;</xsl:text>
+      <xsl:call-template name="setOffset" />
+    </xsl:if>
+    <xsl:choose>
+      <!-- by default harp pedals should be under the system  -->
+      <xsl:when test="not(@place)">
+        <xsl:text>_</xsl:text>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:call-template name="setMarkupDirection"/>
+      </xsl:otherwise>
+    </xsl:choose>
+    <xsl:text>\markup{\harp-pedal #"</xsl:text>
+    <xsl:call-template name="setHarpPedalPos">
+      <xsl:with-param name="accid" select="@d" />
+    </xsl:call-template>
+    <xsl:call-template name="setHarpPedalPos">
+      <xsl:with-param name="accid" select="@c" />
+    </xsl:call-template>
+    <xsl:call-template name="setHarpPedalPos">
+      <xsl:with-param name="accid" select="@b" />
+    </xsl:call-template>
+    <xsl:value-of select="'|'" />
+    <xsl:call-template name="setHarpPedalPos">
+      <xsl:with-param name="accid" select="@e" />
+    </xsl:call-template>
+    <xsl:call-template name="setHarpPedalPos">
+      <xsl:with-param name="accid" select="@f" />
+    </xsl:call-template>
+    <xsl:call-template name="setHarpPedalPos">
+      <xsl:with-param name="accid" select="@g" />
+    </xsl:call-template>
+    <xsl:call-template name="setHarpPedalPos">
+      <xsl:with-param name="accid" select="@a" />
+    </xsl:call-template>
+    <xsl:text>"}</xsl:text>
+  </xsl:template>
   <!-- MEI pedal -->
   <xsl:template match="mei:pedal" mode="pre">
     <xsl:choose>
@@ -3157,6 +3208,21 @@
       <xsl:otherwise>
         <!-- unsupported values 'scoop' 'rip' 'plop' 'bend' 'flip' 'smear' 'shake' 'fingernail' 'damp' 'dampall' 'dbltongue' 'trpltongue' 'tap' -->
         <xsl:text>\stopped</xsl:text>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+  <!-- set harp pedal position -->
+  <xsl:template name="setHarpPedalPos">
+    <xsl:param name="accid" />
+    <xsl:choose>
+      <xsl:when test="$accid = 'f'">
+        <xsl:text>^</xsl:text>
+      </xsl:when>
+      <xsl:when test="$accid = 's'">
+        <xsl:text>v</xsl:text>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:text>-</xsl:text>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
