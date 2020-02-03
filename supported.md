@@ -357,7 +357,8 @@ List of supported MEI elements and attributes
   * `@color`
   * `@dir`
   * __`@endid`__
-  * `@form` (for values 'line' and 'pedstar')
+  * `@form`
+  * `@func`
   * `@ho`
   * `@lform`
   * `@lwidth`
