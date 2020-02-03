@@ -2204,19 +2204,23 @@
         </xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
-    <xsl:choose>
-      <xsl:when test="@form = 'line'">
-        <xsl:value-of select="concat('\once \set Staff.', $style)" />
-        <xsl:text> = #'bracket </xsl:text>
-      </xsl:when>
-      <xsl:when test="@form = 'pedstar'">
-        <xsl:value-of select="concat('\once \set Staff.', $style)" />
-        <xsl:text> = #'text </xsl:text>
-      </xsl:when>
-      <!-- not supported yet
+    <xsl:if test="@form">
+      <xsl:value-of select="concat('\once \set Staff.', $style, ' = ')" />
+      <xsl:choose>
+        <xsl:when test="@form = 'line'">
+          <xsl:text>#'bracket </xsl:text>
+        </xsl:when>
+        <xsl:when test="@form = 'pedstar'">
+          <xsl:text>#'text </xsl:text>
+        </xsl:when>
+        <!-- not supported yet
         <xsl:text>\once \set Staff.pedalSustainStyle = #'mixed </xsl:text>
-      -->
-    </xsl:choose>
+        -->
+      </xsl:choose>
+    </xsl:if>
+    <xsl:if test="@form = 'altpedstar'">
+      <xsl:text>\once \set Staff.pedalSustainStrings = #'("Ped" "Ped" "*")</xsl:text>
+    </xsl:if>
   </xsl:template>
   <xsl:template match="mei:pedal">
     <xsl:if test="$useSvgBackend">
@@ -2250,6 +2254,9 @@
           <xsl:when test="@func = 'sostenuto'">
             <xsl:text>\sostenutoOn</xsl:text>
           </xsl:when>
+          <xsl:when test="@func = 'soft'">
+            <xsl:text>\unaCorda</xsl:text>
+          </xsl:when>
           <xsl:otherwise>
             <xsl:text>\sustainOn</xsl:text>
           </xsl:otherwise>
@@ -2259,6 +2266,9 @@
         <xsl:choose>
           <xsl:when test="@func = 'sostenuto'">
             <xsl:text>\sostenutoOff</xsl:text>
+          </xsl:when>
+          <xsl:when test="@func = 'soft'">
+            <xsl:text>\treCorde</xsl:text>
           </xsl:when>
           <xsl:otherwise>
             <xsl:text>\sustainOff</xsl:text>
