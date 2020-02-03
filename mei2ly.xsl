@@ -2188,13 +2188,34 @@
   </xsl:template>
   <!-- MEI pedal -->
   <xsl:template match="mei:pedal" mode="pre">
+    <xsl:variable name="style">
+      <xsl:choose>
+        <xsl:when test="@func = 'sustain'">
+          <xsl:value-of select="'pedalSustainStyle'" />
+        </xsl:when>
+        <xsl:when test="@func = 'soft'">
+          <xsl:value-of select="'pedalUnaCordaStyle'" />
+        </xsl:when>
+        <xsl:when test="@func = 'sostenuto'">
+          <xsl:value-of select="'pedalSostenutoStyle'" />
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="'pedalSustainStyle'" />
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
     <xsl:choose>
       <xsl:when test="@form = 'line'">
-        <xsl:text>\once \set Staff.pedalSustainStyle = #'bracket </xsl:text>
+        <xsl:value-of select="concat('\once \set Staff.', $style)" />
+        <xsl:text> = #'bracket </xsl:text>
       </xsl:when>
       <xsl:when test="@form = 'pedstar'">
-        <xsl:text>\once \set Staff.pedalSustainStyle = #'text </xsl:text>
+        <xsl:value-of select="concat('\once \set Staff.', $style)" />
+        <xsl:text> = #'text </xsl:text>
       </xsl:when>
+      <!-- not supported yet
+        <xsl:text>\once \set Staff.pedalSustainStyle = #'mixed </xsl:text>
+      -->
     </xsl:choose>
   </xsl:template>
   <xsl:template match="mei:pedal">
@@ -2225,10 +2246,24 @@
     </xsl:if>
     <xsl:choose>
       <xsl:when test="@dir = 'down'">
-        <xsl:text>\sustainOn</xsl:text>
+        <xsl:choose>
+          <xsl:when test="@func = 'sostenuto'">
+            <xsl:text>\sostenutoOn</xsl:text>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:text>\sustainOn</xsl:text>
+          </xsl:otherwise>
+        </xsl:choose>
       </xsl:when>
       <xsl:when test="@dir = 'up'">
-        <xsl:text>\sustainOff</xsl:text>
+        <xsl:choose>
+          <xsl:when test="@func = 'sostenuto'">
+            <xsl:text>\sostenutoOff</xsl:text>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:text>\sustainOff</xsl:text>
+          </xsl:otherwise>
+        </xsl:choose>
       </xsl:when>
       <xsl:when test="@dir = 'half'">
         <xsl:message select="'INFO: Half pedal not supported'"/>
