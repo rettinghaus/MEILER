@@ -377,7 +377,7 @@
   </xsl:template>
   <!-- MEI music -->
   <xsl:template match="mei:music">
-    <xsl:if test="descendant::mei:scoreDef[1]/@*[starts-with(name(),'page')] and not(ancestor::mei:music)">
+    <xsl:if test="descendant::mei:scoreDef[1]/@*[starts-with(name(),'page') or name()='spacing.system'] and not(ancestor::mei:music)">
       <xsl:apply-templates select="descendant::mei:scoreDef[1]" mode="makePageLayout" />
     </xsl:if>
     <xsl:apply-templates/>
@@ -474,7 +474,7 @@
       <!-- att.spacing -->
       <xsl:text> \context { \Score </xsl:text>
       <xsl:if test="@spacing.staff">
-        <xsl:text>\override StaffGrouper.staff-staff-spacing.minimum-distance = #</xsl:text>
+        <xsl:text>\override StaffGrouper.staff-staff-spacing.basic-distance = #</xsl:text>
         <xsl:value-of select="concat(local:VU2LY(@spacing.staff),' ')" />
       </xsl:if>
       <xsl:text>}&#10;</xsl:text>
@@ -4733,6 +4733,10 @@
       <xsl:call-template name="convertUnits">
         <xsl:with-param name="valueString" select="@system.leftmar"/>
       </xsl:call-template>
+    </xsl:if>
+    <xsl:if test="@spacing.system">
+      <xsl:text>  system-system-spacing.basic-distance = #</xsl:text>
+      <xsl:value-of select="concat(local:VU2LY(@spacing.system),' ')" />
     </xsl:if>
     <!-- <xsl:value-of select="@page.panels"/>
   <xsl:value-of select="@page.scale"/> -->

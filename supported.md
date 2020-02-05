@@ -475,7 +475,8 @@ List of supported MEI elements and attributes
     * `@page.topmar`
     * `@page.width`
     * `@pedal.style` (for values 'line' and 'pedstar')
-    * `@spacing.staff`
+    * `@spacing.staff` (for single values)
+    * `@spacing.system` (for single values)
     * `@system.leftmar` (affects only first system)
     * `@text.dist`
     * `@vu.height` (for values in 'pt')
