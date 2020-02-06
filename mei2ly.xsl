@@ -1287,7 +1287,7 @@
         <xsl:call-template name="setDuration" />
       </xsl:when>
       <xsl:when test="preceding::*/@meter.unit">
-        <xsl:value-of select="concat(preceding::mei:scoreDef[@meter.unit][1]//@meter.unit,'*',preceding::mei:scoreDef[@meter.count][1]//@meter.count)" />
+        <xsl:value-of select="concat(preceding::mei:*[@meter.unit][1]//@meter.unit,'*',preceding::mei:*[@meter.count][1]//@meter.count)" />
       </xsl:when>
       <xsl:when test="preceding::mei:meterSig/@unit">
         <xsl:value-of select="concat(preceding::mei:meterSig[@unit][1]/@unit,'*',preceding::mei:meterSig[@count][1]/@count)" />
