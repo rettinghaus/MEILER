@@ -3058,6 +3058,9 @@
         <xsl:value-of select="concat('/', @numbase)" />
       </xsl:if>
     </xsl:if>
+    <xsl:if test="number(@dur) &lt; 256 and number(@dur.ges) &lt; 256 ">
+      <xsl:value-of select="concat('*', @dur, '/', @dur.ges)" />
+    </xsl:if>
   </xsl:template>
   <!-- set dots -->
   <xsl:template name="setDots">

@@ -78,6 +78,7 @@ List of supported MEI elements and attributes
   * `@copyof`
   * `@dots`
   * `@dur`
+  * `@dur.ges`
   * `@fermata`
   * `@grace`
   * `@lv`
@@ -278,6 +279,7 @@ List of supported MEI elements and attributes
   * `@color`
   * `@copyof`
   * `@dur`
+  * `@dur.ges`
   * `@fermata`
   * `@ho`
   * `@loc`
@@ -288,6 +290,7 @@ List of supported MEI elements and attributes
 * `<mSpace>`
   * `@dots`
   * `@dur`
+  * `@dur.ges`
 
 * `<multiRest>`
   * `@block`
@@ -306,6 +309,7 @@ List of supported MEI elements and attributes
   * `@copyof`
   * `@dots`
   * `@dur`
+  * `@dur.ges`
   * `@enclose`
   * `@fermata`
   * `@gliss`
@@ -419,6 +423,7 @@ List of supported MEI elements and attributes
   * `@copyof`
   * `@dots`
   * `@dur`
+  * `@dur.ges`
   * `@fermata`
   * `@ho`
   * `@loc`
