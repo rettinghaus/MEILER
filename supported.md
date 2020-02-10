@@ -168,6 +168,11 @@ List of supported MEI elements and attributes
   * `@vo`
   * `@xml:id`
 
+* `<graceGrp>`
+  * `@attach`
+  * `@color`
+  * `@grace`
+
 * `<group>`
 
 * `<hairpin>`
