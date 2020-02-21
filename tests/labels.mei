@@ -16,7 +16,7 @@
           <scoreDef meter.count="3" meter.unit="4">
             <staffGrp symbol="bracket">
               <staffDef n="1" clef.line="2" clef.shape="G" lines="5">
-                <label><rend color="#FEDCBA" fontstyle="italic">Violino</rend></label>
+                <label><rend color="#FEDCBA" fontstyle="italic" rend="box">Violino</rend></label>
                 <labelAbbr>Vl.</labelAbbr>
               </staffDef>
               <staffDef n="2" clef.line="4" clef.shape="F" lines="5">
@@ -24,7 +24,7 @@
                 <labelAbbr>Vc.</labelAbbr>
               </staffDef>
               <staffGrp symbol="brace">
-                <label><rend color="blue" fontweight="bold" rend="circle">Piano</rend></label>
+                <label><rend color="blue" fontweight="bold" rend="circle" rotation="60">Piano</rend></label>
                 <labelAbbr><rend rend="box">Pno.</rend></labelAbbr>
                 <staffDef n="3" clef.line="2" clef.shape="G" lines="5"/>
                 <staffDef n="4" clef.line="4" clef.shape="F" lines="5"/>
