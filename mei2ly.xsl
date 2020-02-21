@@ -1638,11 +1638,30 @@
     <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:ornam[@xml:id = substring-after(current()/@copyof,'#')]" />
   </xsl:template>
   <xsl:template name="ornam" match="mei:ornam">
+    <xsl:if test="$useSvgBackend">
+      <xsl:text>-\tweak output-attributes #&apos;</xsl:text>
+      <xsl:call-template name="setSvgAttr" />
+    </xsl:if>
+    <xsl:if test="@color">
+      <xsl:text>-\tweak color #</xsl:text>
+      <xsl:call-template name="setColor" />
+    </xsl:if>
+    <xsl:call-template name="setMarkupDirection" />
     <xsl:apply-templates />
+    <xsl:if test="@accidlower or @accidupper">
+      <xsl:call-template name="addOrnamentAccid" />
+    </xsl:if>
   </xsl:template>
   <!-- MEI symbol -->
   <xsl:template name="symbol" match="mei:symbol">
-    <xsl:call-template name="setMarkupDirection" />
+    <xsl:if test="$useSvgBackend">
+      <xsl:text>-\tweak output-attributes #&apos;</xsl:text>
+      <xsl:call-template name="setSvgAttr" />
+    </xsl:if>
+    <xsl:if test="@color">
+      <xsl:text>-\tweak color #</xsl:text>
+      <xsl:call-template name="setColor" />
+    </xsl:if>
     <xsl:call-template name="setSmuflGlyph" />
   </xsl:template>
   <!-- MEI trill -->

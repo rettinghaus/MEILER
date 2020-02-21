@@ -53,8 +53,9 @@
               <mordent startid="#n10" accidlower="n"/>
               <trill startid="#n11" accidupper="f"/>
               <turn startid="#n12" accidlower="s"/>
-              <trill glyphname="ornamentPrecompSlideTrillDAnglebert" place="above" startid="#n13"
-                accidlower="n" accidupper="s"/>
+              <ornam place="above" startid="#n13" accidlower="n" accidupper="s">
+                <symbol glyphname="ornamentPrecompSlideTrillDAnglebert" />
+              </ornam>
             </measure>
           </section>
         </score>
