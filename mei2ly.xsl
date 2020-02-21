@@ -1638,10 +1638,11 @@
     <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:ornam[@xml:id = substring-after(current()/@copyof,'#')]" />
   </xsl:template>
   <xsl:template name="ornam" match="mei:ornam">
-    <!-- Not yet implemented -->
+    <xsl:apply-templates />
   </xsl:template>
   <!-- MEI symbol -->
   <xsl:template name="symbol" match="mei:symbol">
+    <xsl:call-template name="setMarkupDirection" />
     <xsl:call-template name="setSmuflGlyph" />
   </xsl:template>
   <!-- MEI trill -->
@@ -2717,7 +2718,6 @@
   <xsl:template match="mei:pgFoot" />
   <xsl:template match="mei:pgFoot2" />
   <xsl:template match="mei:sourceDesc" />
-  <xsl:template match="mei:symbol" />
   <xsl:template match="mei:vel" />
   <!-- helper templates -->
   <!-- tag contents-->
