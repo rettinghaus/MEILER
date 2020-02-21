@@ -4181,52 +4181,52 @@
     <!-- SMuFL glyphs -->
     <xsl:choose>
       <!-- Individual notes (U+E1D0–U+E1EF) -->
-      <xsl:when test="@glyph.name = 'noteDoubleWhole' or contains(@glyph.num,'1D15C')">
+      <xsl:when test="@glyphname = 'noteDoubleWhole' or contains(@glyphnum,'1D15C')">
         <xsl:text>\markup { \note #"breve" #1 }</xsl:text>
       </xsl:when>
-      <xsl:when test="@glyph.name = 'noteWhole' or contains(@glyph.num,'E1D2') or contains(@glyph.num,'1D15D')">
+      <xsl:when test="@glyphname = 'noteWhole' or contains(@glyphnum,'E1D2') or contains(@glyphnum,'1D15D')">
         <xsl:text>\markup { \note #"1" #1 }</xsl:text>
       </xsl:when>
-      <xsl:when test="@glyph.name = 'noteHalfUp' or contains(@glyph.num,'E1D3') or contains(@glyph.num,'1D15E')">
+      <xsl:when test="@glyphname = 'noteHalfUp' or contains(@glyphnum,'E1D3') or contains(@glyphnum,'1D15E')">
         <xsl:text>\markup { \note #"2" #UP }</xsl:text>
       </xsl:when>
-      <xsl:when test="@glyph.name = 'noteHalfDown' or contains(@glyph.num,'E1D4')">
+      <xsl:when test="@glyphname = 'noteHalfDown' or contains(@glyphnum,'E1D4')">
         <xsl:text>\markup { \note #"2" #DOWN }</xsl:text>
       </xsl:when>
-      <xsl:when test="@glyph.name = 'noteQuarterUp' or contains(@glyph.num,'E1D5') or contains(@glyph.num,'1D15F')">
+      <xsl:when test="@glyphname = 'noteQuarterUp' or contains(@glyphnum,'E1D5') or contains(@glyphnum,'1D15F')">
         <xsl:text>\markup { \note #"4" #UP }</xsl:text>
       </xsl:when>
-      <xsl:when test="@glyph.name = 'noteQuarterDown' or contains(@glyph.num,'E1D6')">
+      <xsl:when test="@glyphname = 'noteQuarterDown' or contains(@glyphnum,'E1D6')">
         <xsl:text>\markup { \note #"4" #DOWN }</xsl:text>
       </xsl:when>
-      <xsl:when test="@glyph.name = 'note8thUp' or contains(@glyph.num,'E1D7') or contains(@glyph.num,'1D160')">
+      <xsl:when test="@glyphname = 'note8thUp' or contains(@glyphnum,'E1D7') or contains(@glyphnum,'1D160')">
         <xsl:text>\markup { \note #"8" #UP }</xsl:text>
       </xsl:when>
-      <xsl:when test="@glyph.name = 'note8thDown' or contains(@glyph.num,'E1D8')">
+      <xsl:when test="@glyphname = 'note8thDown' or contains(@glyphnum,'E1D8')">
         <xsl:text>\markup { \note #"8" #DOWN }</xsl:text>
       </xsl:when>
-      <xsl:when test="@glyph.name = 'note16thUp' or contains(@glyph.num,'E1D9') or contains(@glyph.num,'1D161')">
+      <xsl:when test="@glyphname = 'note16thUp' or contains(@glyphnum,'E1D9') or contains(@glyphnum,'1D161')">
         <xsl:text>\markup { \note #"16" #UP }</xsl:text>
       </xsl:when>
-      <xsl:when test="@glyph.name = 'note16thDown' or contains(@glyph.num,'E1DA')">
+      <xsl:when test="@glyphname = 'note16thDown' or contains(@glyphnum,'E1DA')">
         <xsl:text>\markup { \note #"16" #DOWN }</xsl:text>
       </xsl:when>
-      <xsl:when test="@glyph.name = 'note32ndUp' or contains(@glyph.num,'E1DB') or contains(@glyph.num,'1D162')">
+      <xsl:when test="@glyphname = 'note32ndUp' or contains(@glyphnum,'E1DB') or contains(@glyphnum,'1D162')">
         <xsl:text>\markup { \note #"32" #UP }</xsl:text>
       </xsl:when>
-      <xsl:when test="@glyph.name = 'note32ndDown' or contains(@glyph.num,'E1DC')">
+      <xsl:when test="@glyphname = 'note32ndDown' or contains(@glyphnum,'E1DC')">
         <xsl:text>\markup { \note #"32" #DOWN }</xsl:text>
       </xsl:when>
-      <xsl:when test="@glyph.name = 'note64thUp' or contains(@glyph.num,'E1DD') or contains(@glyph.num,'1D163')">
+      <xsl:when test="@glyphname = 'note64thUp' or contains(@glyphnum,'E1DD') or contains(@glyphnum,'1D163')">
         <xsl:text>\markup { \note #"64" #UP }</xsl:text>
       </xsl:when>
-      <xsl:when test="@glyph.name = 'note64thDown' or contains(@glyph.num,'E1DE')">
+      <xsl:when test="@glyphname = 'note64thDown' or contains(@glyphnum,'E1DE')">
         <xsl:text>\markup { \note #"64" #DOWN }</xsl:text>
       </xsl:when>
-      <xsl:when test="@glyph.name = 'note128thUp' or contains(@glyph.num,'E1DF') or contains(@glyph.num,'1D164')">
+      <xsl:when test="@glyphname = 'note128thUp' or contains(@glyphnum,'E1DF') or contains(@glyphnum,'1D164')">
         <xsl:text>\markup { \note #"128" #UP }</xsl:text>
       </xsl:when>
-      <xsl:when test="@glyph.name = 'note128thDown' or contains(@glyph.num,'E1E0')">
+      <xsl:when test="@glyphname = 'note128thDown' or contains(@glyphnum,'E1E0')">
         <xsl:text>\markup { \note #"128" #DOWN }</xsl:text>
       </xsl:when>
       <!-- Repeats (U+E040 – U+E04F) -->
