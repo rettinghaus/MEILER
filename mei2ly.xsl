@@ -2003,7 +2003,23 @@
   <xsl:template match="mei:bend">
   </xsl:template>
   <!-- MEI dynamic -->
-  <xsl:template match="mei:dynam" mode="pre" />
+  <xsl:template match="mei:dynam" mode="pre">
+    <xsl:if test="@endid or @tstamp2">
+      <xsl:if test="@lform">
+        <xsl:text>\once \override DynamicTextSpanner.style = #&apos;</xsl:text>
+        <xsl:call-template name="setLineForm" />
+      </xsl:if>
+      <xsl:if test="@lwidth">
+        <xsl:text>\once \override DynamicTextSpanner.thickness = #</xsl:text>
+        <xsl:call-template name="setLineWidth">
+          <xsl:with-param name="thickness" select="@lwidth" />
+        </xsl:call-template>
+      </xsl:if>
+      <xsl:if test="@extender = 'false'">
+        <xsl:text>\once \override DynamicTextSpanner.style = #&apos;none </xsl:text>
+      </xsl:if>
+    </xsl:if>
+  </xsl:template>
   <xsl:template match="mei:dynam">
     <xsl:variable name="dynamicMarks" select="('ppppp', 'pppp', 'ppp', 'pp', 'p', 'mp', 'mf', 'f', 'ff', 'fff', 'ffff', 'fffff', 'fp', 'sf', 'sff', 'sp', 'spp', 'sfz', 'rfz')"/>
     <xsl:if test="$useSvgBackend">
