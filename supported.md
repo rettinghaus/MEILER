@@ -359,6 +359,14 @@ List of supported MEI elements and attributes
 * `<orig>`
   * `@source`
 
+* `<ornam>`
+  * `@accidlower`
+  * `@accidupper`
+  * `@color`
+  * `@place`
+  * __`@startid`__
+  * `@xml:id`
+
 * `<p>`
 
 * `<pb>`
@@ -566,8 +574,10 @@ List of supported MEI elements and attributes
   * `@xml:id`
 
 * `<symbol>`
+  * `@color`
   * `@glyph.name`
   * `@glyph.num`
+  * `@xml:id`
 
 * `<tempo>`
   * `@ho`
