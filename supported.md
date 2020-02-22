@@ -115,7 +115,10 @@ List of supported MEI elements and attributes
 
 * `<dynam>`
   * `@endid`
+  * `@extender`
   * `@ho`
+  * `@lform`
+  * `@lwidth`
   * `@place`
   * __`@startid`__
   * `@vo`
