@@ -459,6 +459,7 @@ List of supported MEI elements and attributes
 * `<score>`
 
 * `<scoreDef>`
+    * `@bar.method` (for value 'takt')
     * `@beam.group`
     * `@clef.color`
     * `@clef.dis`
@@ -498,6 +499,7 @@ List of supported MEI elements and attributes
     * `@pedal.style` (for values 'line' and 'pedstar')
     * `@spacing.staff` (for single values)
     * `@spacing.system` (for single values)
+    * `@system.leftline`
     * `@system.leftmar` (affects only first system)
     * `@text.dist`
     * `@vu.height` (for values in 'pt')

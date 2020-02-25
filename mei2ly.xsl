@@ -425,17 +425,21 @@
     <xsl:if test="contains(@vu.height,'pt')">
       <xsl:value-of select="concat('  #(layout-set-staff-size ',8 * number(substring-before(@vu.height,'pt')),')&#10;')" />
     </xsl:if>
+    <xsl:text> \context { \Score \override SystemStartBar.collapse-height = #1 }&#10;</xsl:text>
     <xsl:if test="$forceLayout">
       <xsl:text> \context { \Score \override NonMusicalPaperColumn.line-break-permission = ##f \override NonMusicalPaperColumn.page-break-permission = ##f }&#10;</xsl:text>
     </xsl:if>
-    <xsl:if test="@barplace or @clef.color or @multi.number">
+    <xsl:if test="@bar.method or @clef.color or @multi.number or @system.leftline">
       <xsl:text> \context { \Score </xsl:text>
-      <xsl:if test="@barplace = 'takt'">
+      <xsl:if test="@bar.method = 'takt'">
         <xsl:text>defaultBarType = #"'" </xsl:text>
       </xsl:if>
       <xsl:if test="@multi.number">
         <!-- att.multinummeasures -->
         <xsl:value-of select="concat('countPercentRepeats = ##',substring(@multi.number,1,1),' ')" />
+      </xsl:if>
+      <xsl:if test="@system.leftline = 'false'">
+        <xsl:text>\omit SystemStartBar </xsl:text>
       </xsl:if>
       <xsl:if test="@clef.color">
         <xsl:text>\override Clef.color = #</xsl:text>
@@ -3405,6 +3409,9 @@
   </xsl:template>
   <!-- set staff group style -->
   <xsl:template name="setStaffGrpStyle">
+    <if test="count(descendant::mei:staffDef) = 1">
+      <xsl:text> \override StaffGroup.SystemStartBracket.collapse-height = #1</xsl:text>
+    </if>
     <xsl:text> \set StaffGroup.systemStartDelimiter = </xsl:text>
     <xsl:choose>
       <xsl:when test="@symbol = 'brace'">
