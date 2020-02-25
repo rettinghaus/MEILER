@@ -13,10 +13,10 @@
     <body>
       <mdiv>
         <score>
-          <scoreDef meter.count="3" meter.unit="4">
+          <scoreDef meter.count="3" meter.unit="4" system.leftline="false">
             <staffGrp symbol="bracket">
               <staffDef n="1" clef.line="2" clef.shape="G" lines="5">
-                <label><rend color="#FEDCBA" fontstyle="italic" rend="box">Violino</rend></label>
+                <label><rend color="#ABCDEF" fontstyle="italic" fontfam="sans" rend="box">Violino</rend></label>
                 <labelAbbr>Vl.</labelAbbr>
               </staffDef>
               <staffDef n="2" clef.line="4" clef.shape="F" lines="5">

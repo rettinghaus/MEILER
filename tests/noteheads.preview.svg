@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.2" width="62.61mm" height="10.63mm" viewBox="8.5358 -0.0000 35.6279 6.0500">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.2" width="62.82mm" height="10.63mm" viewBox="8.4158 -0.0000 35.7479 6.0500">
 <style text="style/css">
 <![CDATA[
 tspan { white-space: pre; }
@@ -115,7 +115,9 @@ c-6 0 -10 4 -10 10v980c0 6 4 10 10 10h119c6 0 10 -4 10 -10v-980c0 -6 -4 -10 -10 
 </g>
 <path transform="translate(17.1381, 2.0500) scale(0.0020, -0.0020)" d="M-94 0c0 -84 12 -170 60 -239c3 -4 3 -7 3 -11c0 -10 -9 -19 -19 -19c-5 0 -12 2 -16 8c-54 77 -90 167 -90 261s36 184 90 261c4 6 11 8 16 8c10 0 19 -9 19 -19c0 -4 0 -7 -3 -11c-48 -69 -60 -155 -60 -239z" fill="currentColor"/>
 <path transform="translate(18.8423, 2.0500) scale(0.0020, -0.0020)" d="M94 0c0 84 -12 170 -60 239c-3 4 -3 7 -3 11c0 10 9 19 19 19c5 0 12 -2 16 -8c54 -77 90 -167 90 -261s-36 -184 -90 -261c-4 -6 -11 -8 -16 -8c-10 0 -19 9 -19 19c0 4 0 7 3 11c48 69 60 155 60 239z" fill="currentColor"/>
+<rect transform="translate(8.4158, 2.0500)" x="0.0000" y="-2.0500" width="0.1600" height="4.1000" ry="0.0500" fill="currentColor"/>
 <g color="rgb(43.5294%, 43.5294%, 43.5294%)">
 <rect transform="translate(17.4031, 2.0500)" x="-0.0650" y="0.1861" width="0.1300" height="3.1472" ry="0.0400" fill="currentColor"/>
 </g>
+<rect transform="translate(8.4758, 2.0500)" x="0.0000" y="-2.0500" width="0.1600" height="4.1000" ry="0.0500" fill="currentColor"/>
 </svg>
