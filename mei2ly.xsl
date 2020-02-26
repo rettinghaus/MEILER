@@ -748,6 +748,9 @@
         </xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
+    <xsl:if test="@staff and @staff != ancestor::mei:staff/@n">
+      <xsl:value-of select="concat('\change Staff = &quot;staff ',@staff,'&quot;&#32;')" />
+    </xsl:if>
     <xsl:if test="$useSvgBackend">
       <!-- no IDs -->
       <xsl:text>\override Staff.Clef.output-attributes = #&apos;((class . clef)) </xsl:text>
@@ -777,6 +780,9 @@
         <xsl:value-of select="'\set Staff.clefPosition = #0 '" />
       </xsl:otherwise>
     </xsl:choose>
+    <xsl:if test="@staff and @staff != ancestor::mei:staff/@n">
+      <xsl:value-of select="concat('\change Staff = &quot;staff ',ancestor::mei:staff/@n,'&quot;&#32;')" />
+    </xsl:if>
   </xsl:template>
   <!-- MEI note -->
   <xsl:template match="mei:note[@copyof]">
