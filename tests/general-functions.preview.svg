@@ -4,8 +4,11 @@
 tspan { white-space: pre; }
 ]]>
 </style>
-<text transform="translate(41.6491, 2.5949)" font-family="serif" font-weight="bold" font-size="3.4927" text-anchor="start" fill="currentColor">
-<tspan>MEILER test</tspan>
+<text transform="translate(41.8857, 2.5949)" font-family="serif" font-weight="bold" font-size="3.4927" text-anchor="start" fill="currentColor">
+<tspan>MEILER</tspan>
+</text>
+<text transform="translate(58.8256, 2.5949)" font-family="serif" font-weight="bold" font-size="3.4927" text-anchor="start" fill="currentColor">
+<tspan>test</tspan>
 </text>
 <line transform="translate(8.5358, 15.4426)" stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="-0.0000" x2="99.5346" y2="-0.0000"/>
 <line transform="translate(8.5358, 14.4426)" stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="-0.0000" x2="99.5346" y2="-0.0000"/>
