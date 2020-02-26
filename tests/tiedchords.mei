@@ -16,7 +16,7 @@
     <body>
       <mdiv>
         <score>
-          <scoreDef meter.count="3" meter.unit="2">
+          <scoreDef meter.count="3" meter.unit="2" system.leftline="false">
             <staffGrp>
               <staffDef n="1" clef.line="2" clef.shape="G" lines="5"/>
             </staffGrp>

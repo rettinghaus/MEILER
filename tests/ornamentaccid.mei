@@ -53,7 +53,7 @@
               <trill startid="#n11" accidupper="f"/>
               <turn startid="#n12" accidlower="s"/>
               <ornam place="above" startid="#n13" accidlower="n" accidupper="s">
-                <symbol glyphname="ornamentPrecompSlideTrillDAnglebert" />
+                <symbol glyph.name="ornamentPrecompSlideTrillDAnglebert" />
               </ornam>
             </measure>
           </section>

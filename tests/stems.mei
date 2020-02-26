@@ -16,7 +16,7 @@
         <body>
             <mdiv>
                 <score>
-                    <scoreDef>
+                    <scoreDef system.leftline="false">
                         <staffGrp>
                             <staffDef clef.shape="G" clef.line="2" n="1" lines="5"/>
                         </staffGrp>
