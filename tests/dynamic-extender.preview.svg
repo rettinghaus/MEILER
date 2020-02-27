@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.2" width="72.64mm" height="15.95mm" viewBox="8.4158 -0.0240 41.3364 9.0790">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.2" width="72.43mm" height="15.95mm" viewBox="8.5358 -0.0240 41.2164 9.0790">
 <style text="style/css">
 <![CDATA[
 tspan { white-space: pre; }
@@ -73,8 +73,6 @@ c80 97 146 198 146 324c0 55 -4 79 -20 129z" fill="currentColor"/>
 <g class="note" id="note01">
 <path transform="translate(17.1406, 4.7760) scale(0.0040, -0.0040)" d="M218 136c55 0 108 -28 108 -89c0 -71 -55 -121 -102 -149c-35 -21 -75 -34 -116 -34c-55 0 -108 28 -108 89c0 71 55 121 102 149c35 21 75 34 116 34z" fill="currentColor"/>
 </g>
-<rect transform="translate(8.4758, 3.7760)" x="0.0000" y="-2.0500" width="0.1600" height="4.1000" ry="0.0500" fill="currentColor"/>
-<rect transform="translate(8.4158, 3.7760)" x="0.0000" y="-2.0500" width="0.1600" height="4.1000" ry="0.0500" fill="currentColor"/>
 <rect transform="translate(30.3888, 3.7760)" x="-0.0650" y="-2.5000" width="0.1300" height="3.3139" ry="0.0400" fill="currentColor"/>
 <g class="note" id="note05">
 <path transform="translate(29.1496, 4.7760) scale(0.0040, -0.0040)" d="M218 136c55 0 108 -28 108 -89c0 -71 -55 -121 -102 -149c-35 -21 -75 -34 -116 -34c-55 0 -108 28 -108 89c0 71 55 121 102 149c35 21 75 34 116 34z" fill="currentColor"/>

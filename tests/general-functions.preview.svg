@@ -195,11 +195,9 @@ c-12 -37 -32 -72 -64 -94c-53 -36 -113 -50 -187 -50c-46 0 -83 21 -83 71c0 19 5 39
 c0 11 9 20 20 20s20 -9 20 -20v-81l33 50c4 6 10 9 17 9c6 0 11 -2 15 -7l99 -119c10 16 21 31 31 47c4 6 9 9 16 9c11 0 20 -9 20 -20c0 -4 -1 -8 -3 -11c-31 -47 -62 -93 -93 -140c-4 -6 -10 -9 -17 -9c-6 0 -11 2 -15 7l-98 119l-5 -7v-141z" fill="currentColor"/>
 </g>
 </g>
-<text transform="translate(0.7604, 14.7279)" font-family="serif" font-size="2.2001" text-anchor="start" fill="currentColor">
+<text transform="translate(0.9804, 14.7279)" font-family="serif" font-size="2.2001" text-anchor="start" fill="currentColor">
 <tspan>Voice</tspan>
 </text>
-<rect transform="translate(8.4158, 13.9426)" x="0.0000" y="-2.0500" width="0.1600" height="4.1000" ry="0.0500" fill="currentColor"/>
-<rect transform="translate(8.4758, 13.9426)" x="0.0000" y="-2.0500" width="0.1600" height="4.1000" ry="0.0500" fill="currentColor"/>
 <g class="note" id="testnote1">
 <path transform="translate(37.0325, 13.4426) scale(0.0040, -0.0040)" d="M314 65c0 24 -21 41 -42 41c-4 0 -8 0 -12 -1c-31 -9 -78 -40 -115 -64s-84 -53 -104 -78c-7 -8 -10 -18 -10 -28c0 -24 21 -41 42 -41c4 0 8 0 12 1c31 9 77 40 114 64s84 53 104 78c7 8 11 18 11 28zM262 136c46 0 82 -21 82 -71c0 -19 -4 -39 -10 -57
 c-12 -37 -32 -72 -64 -94c-53 -36 -113 -50 -187 -50c-46 0 -83 21 -83 71c0 19 5 39 11 57c12 37 31 72 63 94c53 36 114 50 188 50z" fill="currentColor"/>

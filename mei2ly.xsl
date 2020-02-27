@@ -425,7 +425,6 @@
     <xsl:if test="contains(@vu.height,'pt')">
       <xsl:value-of select="concat('  #(layout-set-staff-size ',8 * number(substring-before(@vu.height,'pt')),')&#10;')" />
     </xsl:if>
-    <xsl:text> \context { \Score \override SystemStartBar.collapse-height = #1 }&#10;</xsl:text>
     <xsl:if test="$forceLayout">
       <xsl:text> \context { \Score \override NonMusicalPaperColumn.line-break-permission = ##f \override NonMusicalPaperColumn.page-break-permission = ##f }&#10;</xsl:text>
     </xsl:if>
@@ -438,8 +437,15 @@
         <!-- att.multinummeasures -->
         <xsl:value-of select="concat('countPercentRepeats = ##',substring(@multi.number,1,1),' ')" />
       </xsl:if>
-      <xsl:if test="@system.leftline = 'false'">
-        <xsl:text>\omit SystemStartBar </xsl:text>
+      <xsl:if test="@system.leftline">
+        <xsl:choose>
+          <xsl:when test="@system.leftline = 'false'">
+            <xsl:text>\omit SystemStartBar </xsl:text>
+          </xsl:when>
+          <xsl:when test="@system.leftline = 'true'">
+            <xsl:text>\override SystemStartBar.collapse-height = #1 </xsl:text>
+          </xsl:when>
+        </xsl:choose>
       </xsl:if>
       <xsl:if test="@clef.color">
         <xsl:text>\override Clef.color = #</xsl:text>
@@ -635,7 +641,7 @@
     </xsl:if>
     <!-- stop drawing bar line -->
       <xsl:value-of select="'\override Staff.BarLine.allow-span-bar = ##f&#32;'" />
-      <xsl:if test="(position() = last()) and ancestor::mei:staffGrp[2]/@barthru=false()">
+      <xsl:if test="(position() = last()) and ancestor::mei:staffGrp[2]/@bar.thru=false()">
     </xsl:if>
     <!-- change current bar number -->
     <xsl:if test="ancestor::mei:mdiv/descendant::mei:measure[1]/@n &gt; 1">
@@ -3439,8 +3445,8 @@
       </xsl:otherwise>
     </xsl:choose>
     <xsl:text>&#10;</xsl:text>
-    <xsl:if test="@barthru">
-      <xsl:value-of select="concat('  \override StaffGroup.BarLine.allow-span-bar = ##',substring(@barthru,1,1),'&#10;')" />
+    <xsl:if test="@bar.thru">
+      <xsl:value-of select="concat('  \override StaffGroup.BarLine.allow-span-bar = ##',substring(@bar.thru,1,1),'&#10;')" />
     </xsl:if>
   </xsl:template>
   <!-- set simple markup diections -->

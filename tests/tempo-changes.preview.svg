@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.2" width="125.16mm" height="21.22mm" viewBox="8.4158 0.0193 71.2227 12.0758">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.2" width="124.95mm" height="21.22mm" viewBox="8.5358 0.0193 71.1027 12.0758">
 <style text="style/css">
 <![CDATA[
 tspan { white-space: pre; }
@@ -89,8 +89,6 @@ tspan { white-space: pre; }
 <tspan>Adagio</tspan>
 </text>
 </g>
-<rect transform="translate(8.4158, 6.0302)" x="0.0000" y="-2.0500" width="0.1600" height="4.1000" ry="0.0500" fill="currentColor"/>
-<rect transform="translate(8.4758, 6.0302)" x="0.0000" y="-2.0500" width="0.1600" height="4.1000" ry="0.0500" fill="currentColor"/>
 <g class="note" id="m01-n01">
 <path transform="translate(17.1406, 6.0302) scale(0.0040, -0.0040)" d="M218 136c55 0 108 -28 108 -89c0 -71 -55 -121 -102 -149c-35 -21 -75 -34 -116 -34c-55 0 -108 28 -108 89c0 71 55 121 102 149c35 21 75 34 116 34z" fill="currentColor"/>
 </g>

@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.2" width="25.50mm" height="12.92mm" viewBox="8.4158 -0.0240 14.5128 7.3500">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.2" width="25.29mm" height="12.92mm" viewBox="8.5358 -0.0240 14.3928 7.3500">
 <style text="style/css">
 <![CDATA[
 tspan { white-space: pre; }
@@ -13,8 +13,6 @@ tspan { white-space: pre; }
 <g class="rest">
 <path transform="translate(17.1406, 2.7760) scale(0.0040, -0.0040)" d="M365 -156h-355c-6 0 -10 4 -10 10v136c0 6 4 10 10 10h355c6 0 10 -4 10 -10v-136c0 -6 -4 -10 -10 -10z" fill="currentColor"/>
 </g>
-<rect transform="translate(8.4158, 3.7760)" x="0.0000" y="-2.0500" width="0.1600" height="4.1000" ry="0.0500" fill="currentColor"/>
-<rect transform="translate(8.4758, 3.7760)" x="0.0000" y="-2.0500" width="0.1600" height="4.1000" ry="0.0500" fill="currentColor"/>
 <g class="clef">
 <path transform="translate(9.3358, 4.7760) scale(0.0040, -0.0040)" d="M376 262c4 0 9 1 13 1c155 0 256 -128 256 -261c0 -76 -33 -154 -107 -210c-22 -17 -47 -28 -73 -36c3 -35 5 -70 5 -105c0 -19 -1 -39 -2 -58c-7 -120 -90 -228 -208 -228c-108 0 -195 88 -195 197c0 58 53 103 112 103c54 0 95 -47 95 -103c0 -52 -43 -95 -95 -95
 c-11 0 -21 2 -31 6c26 -39 68 -65 117 -65c96 0 157 92 163 191c1 18 2 37 2 55c0 31 -1 61 -4 92c-29 -5 -58 -8 -89 -8c-188 0 -333 172 -333 374c0 177 131 306 248 441c-19 62 -37 125 -45 190c-6 52 -7 104 -7 156c0 115 55 224 149 292c3 2 7 3 10 3c4 0 7 0 10 -3
