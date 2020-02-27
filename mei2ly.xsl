@@ -623,8 +623,8 @@
       <xsl:text>\override Staff.TimeSignature.break-visibility = #'#(#f #f #f)&#32;</xsl:text>
     </xsl:if>
     <!-- stop drawing bar line -->
+    <xsl:if test="(position() = last()) and ancestor::mei:staffGrp[2]/@bar.thru=false()">
       <xsl:value-of select="'\override Staff.BarLine.allow-span-bar = ##f&#32;'" />
-      <xsl:if test="(position() = last()) and ancestor::mei:staffGrp[2]/@barthru=false()">
     </xsl:if>
     <!-- change current bar number -->
     <xsl:if test="ancestor::mei:mdiv/descendant::mei:measure[1]/@n &gt; 1">
