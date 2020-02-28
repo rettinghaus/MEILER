@@ -537,6 +537,9 @@
     <xsl:if test="not(@notationtype) and @clef.shape = 'TAB'">
       <xsl:text>Tab</xsl:text>
     </xsl:if>
+    <xsl:if test="@clef.shape = 'perc'">
+      <xsl:text>Drum</xsl:text>
+    </xsl:if>
     <xsl:if test="not(@clef.shape) and @lines = '1'">
       <xsl:text>Rhythmic</xsl:text>
     </xsl:if>
