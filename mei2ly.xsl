@@ -1420,6 +1420,9 @@
         <xsl:text>\once \override Beam.grow-direction = #LEFT </xsl:text>
       </xsl:when>
     </xsl:choose>
+    <xsl:if test="@place = 'mixed'">
+      <xsl:text>\once \override Beam.auto-knee-gap = #0 </xsl:text>
+    </xsl:if>
     <xsl:apply-templates/>
   </xsl:template>
   <!-- MEI beam span-->
