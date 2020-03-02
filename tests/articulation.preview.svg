@@ -14,7 +14,7 @@ tspan { white-space: pre; }
 <path transform="translate(46.1040, 10.9480) scale(0.0040, -0.0040)" d="M112 0c7 0 13 -5 13 -12c0 -2 0 -4 -1 -6l-113 -250c-2 -4 -6 -7 -11 -7s-9 3 -11 7l-113 250c-1 2 -1 4 -1 6c0 7 6 12 13 12h66c5 0 10 -3 12 -7l68 -150l67 150c2 4 6 7 11 7z" fill="currentColor"/>
 </g>
 <g class="artic">
-<path transform="translate(32.8040, 4.1560) scale(0.0040, -0.0040)" d="M-112 0c-7 0 -13 5 -13 12c0 2 0 4 1 6l113 250c2 4 6 7 11 7s9 -3 11 -7l113 -250c1 -2 1 -4 1 -6c0 -7 -6 -12 -13 -12h-66c-5 0 -10 3 -12 7l-68 150l-67 -150c-2 -4 -6 -7 -11 -7z" fill="currentColor"/>
+<path transform="translate(32.8040, 4.1560) scale(0.0028, -0.0028)" d="M-109 0c-9 0 -16 8 -16 16c0 2 0 4 1 6l109 244c3 6 9 9 15 9s12 -3 15 -9l109 -244c1 -2 1 -4 1 -6c0 -8 -7 -16 -16 -16h-64c-6 0 -12 3 -15 9l-63 138l-62 -138c-3 -6 -8 -9 -14 -9z" fill="currentColor"/>
 </g>
 <g class="artic">
 <path transform="translate(46.1040, 9.3560) scale(0.0040, -0.0040)" d="M-50 0c0 28 22 50 50 50s50 -22 50 -50s-22 -50 -50 -50s-50 22 -50 50z" fill="currentColor"/>
@@ -27,7 +27,7 @@ tspan { white-space: pre; }
 </g>
 <rect transform="translate(42.3978, 6.8560)" x="-0.0650" y="-2.5000" width="0.1300" height="3.3139" ry="0.0400" fill="currentColor"/>
 <g class="artic">
-<path transform="translate(41.8107, 3.6560) scale(0.0040, -0.0040)" d="M100 0c0 -65 -40 -125 -100 -125s-100 60 -100 125s40 125 100 125s100 -60 100 -125zM57 0c0 47 -16 95 -57 95s-57 -48 -57 -95s16 -95 57 -95s57 48 57 95z" fill="currentColor"/>
+<path transform="translate(41.8107, 3.5260) scale(0.0050, -0.0050)" d="M100 0c0 -65 -40 -125 -100 -125s-100 60 -100 125s40 125 100 125s100 -60 100 -125zM58 0c0 48 -16 97 -58 97s-58 -49 -58 -97s16 -97 58 -97s58 49 58 97z" fill="currentColor"/>
 </g>
 <g class="note">
 <path transform="translate(41.1586, 7.8560) scale(0.0040, -0.0040)" d="M218 136c55 0 108 -28 108 -89c0 -71 -55 -121 -102 -149c-35 -21 -75 -34 -116 -34c-55 0 -108 28 -108 89c0 71 55 121 102 149c35 21 75 34 116 34z" fill="currentColor"/>

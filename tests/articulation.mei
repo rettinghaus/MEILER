@@ -39,7 +39,7 @@
                     <artic artic="stacciss" place="above"/>
                   </note>
                   <note dur="4" oct="4" pname="g">
-                    <artic artic="marc" place="above"/>
+                    <artic fontsize="xx-small" artic="marc" place="above"/>
                   </note>
                   <note dur="4" oct="4" pname="g">
                     <artic artic="spicc"/>
@@ -48,7 +48,7 @@
                     <artic artic="snap" place="above"/>
                   </note>
                   <note dur="4" oct="4" pname="g">
-                    <artic artic="open"/>
+                    <artic fontsize="x-large" artic="open"/>
                   </note>
                 </layer>
               </staff>

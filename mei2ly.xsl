@@ -819,7 +819,7 @@
     </xsl:if>
     <xsl:if test="@fontsize">
       <xsl:text>\once </xsl:text>
-      <xsl:call-template name="setRelFontsize"/>
+      <xsl:call-template name="setRelFontsizeTerm"/>
     </xsl:if>
     <xsl:if test="$useSvgBackend">
       <xsl:text>\tweak output-attributes #&apos;</xsl:text>
@@ -1014,7 +1014,7 @@
     </xsl:if>
     <xsl:if test="@fontsize">
       <xsl:text>\once </xsl:text>
-      <xsl:call-template name="setRelFontsize"/>
+      <xsl:call-template name="setRelFontsizeTerm"/>
     </xsl:if>
     <xsl:if test="@color">
       <xsl:value-of select="'\once \override Stem.color = #'" />
@@ -1114,7 +1114,7 @@
     </xsl:if>
     <xsl:if test="@fontsize">
       <xsl:text>\once </xsl:text>
-      <xsl:call-template name="setRelFontsize"/>
+      <xsl:call-template name="setRelFontsizeTerm"/>
     </xsl:if>
     <xsl:if test="$useSvgBackend">
       <xsl:text>\tweak output-attributes #&apos;</xsl:text>
@@ -1329,6 +1329,10 @@
     <xsl:if test="@color">
       <xsl:text>\tweak Accidental.color #</xsl:text>
       <xsl:call-template name="setColor" />
+    </xsl:if>
+    <xsl:if test="@fontsize">
+      <xsl:text>\tweak Accidental.font-size #</xsl:text>
+      <xsl:call-template name="setRelFontsizeNum" />
     </xsl:if>
     <xsl:if test="@ho or @vo">
       <xsl:text>\tweak Accidental.extra-offset #&apos;</xsl:text>
@@ -1551,6 +1555,10 @@
       <xsl:text>-\tweak color #</xsl:text>
       <xsl:call-template name="setColor" />
     </xsl:if>
+    <xsl:if test="@fontsize">
+      <xsl:text>-\tweak font-size #</xsl:text>
+      <xsl:call-template name="setRelFontsizeNum" />
+    </xsl:if>
     <xsl:if test="self::mei:artic">
       <xsl:if test="$useSvgBackend">
         <xsl:text>-\tweak output-attributes #&apos;</xsl:text>
@@ -1642,6 +1650,10 @@
           <xsl:text>-\tweak color #</xsl:text>
           <xsl:call-template name="setColor" />
         </xsl:if>
+        <xsl:if test="@fontsize">
+          <xsl:text>-\tweak font-size #</xsl:text>
+          <xsl:call-template name="setRelFontsizeNum" />
+        </xsl:if>
         <xsl:if test="@ho or @vo">
           <xsl:text>-\tweak extra-offset #&apos;</xsl:text>
           <xsl:call-template name="setOffset" />
@@ -1701,6 +1713,10 @@
     <xsl:if test="@color">
       <xsl:text>-\tweak color #</xsl:text>
       <xsl:call-template name="setColor" />
+    </xsl:if>
+    <xsl:if test="@fontsize">
+      <xsl:text>-\tweak font-size #</xsl:text>
+      <xsl:call-template name="setRelFontsizeNum" />
     </xsl:if>
     <xsl:if test="@ho or @vo">
       <xsl:text>-\tweak extra-offset #&apos;</xsl:text>
@@ -1775,6 +1791,10 @@
       <xsl:text>-\tweak color #</xsl:text>
       <xsl:call-template name="setColor" />
     </xsl:if>
+    <xsl:if test="@fontsize">
+      <xsl:text>-\tweak font-size #</xsl:text>
+      <xsl:call-template name="setRelFontsizeNum" />
+    </xsl:if>
     <xsl:if test="@ho or @vo">
       <xsl:text>-\tweak extra-offset #&apos;</xsl:text>
       <xsl:call-template name="setOffset" />
@@ -1810,6 +1830,10 @@
     <xsl:if test="@color">
       <xsl:text>-\tweak color #</xsl:text>
       <xsl:call-template name="setColor" />
+    </xsl:if>
+    <xsl:if test="@fontsize">
+      <xsl:text>-\tweak font-size #</xsl:text>
+      <xsl:call-template name="setRelFontsizeNum" />
     </xsl:if>
     <xsl:if test="@ho or @vo">
       <xsl:text>-\tweak extra-offset #&apos;</xsl:text>
@@ -1847,6 +1871,10 @@
     <xsl:if test="@color">
       <xsl:text>\tweak color #</xsl:text>
       <xsl:call-template name="setColor" />
+    </xsl:if>
+    <xsl:if test="@fontsize">
+      <xsl:text>\tweak font-size #</xsl:text>
+      <xsl:call-template name="setRelFontsizeNum" />
     </xsl:if>
     <xsl:if test="@ho or @vo">
       <xsl:text>\tweak extra-offset #&apos;</xsl:text>
@@ -2025,6 +2053,10 @@
       <xsl:text>-\tweak color #</xsl:text>
       <xsl:call-template name="setColor" />
     </xsl:if>
+    <xsl:if test="@fontsize">
+      <xsl:text>-\tweak font-size #</xsl:text>
+      <xsl:call-template name="setRelFontsizeNum" />
+    </xsl:if>
     <xsl:if test="@ho or @vo">
       <xsl:text>-\tweak extra-offset #&apos;</xsl:text>
       <xsl:call-template name="setOffset" />
@@ -2150,8 +2182,12 @@
       <xsl:call-template name="setSvgAttr" />
     </xsl:if>
     <xsl:if test="@color">
-      <xsl:value-of select="'-\tweak color #'" />
+      <xsl:text>-\tweak color #</xsl:text>
       <xsl:call-template name="setColor" />
+    </xsl:if>
+    <xsl:if test="@fontsize">
+      <xsl:text>-\tweak font-size #</xsl:text>
+      <xsl:call-template name="setRelFontsizeNum" />
     </xsl:if>
     <xsl:if test="@ho or @vo">
       <xsl:text>-\tweak extra-offset #&apos;</xsl:text>
@@ -2290,6 +2326,10 @@
     <xsl:if test="@color">
       <xsl:text>-\tweak color #</xsl:text>
       <xsl:call-template name="setColor" />
+    </xsl:if>
+    <xsl:if test="@fontsize">
+      <xsl:text>-\tweak font-size #</xsl:text>
+      <xsl:call-template name="setRelFontsizeNum" />
     </xsl:if>
     <xsl:if test="@ho or @vo">
       <xsl:text>-\tweak extra-offset #&apos;</xsl:text>
@@ -2573,7 +2613,7 @@
           <xsl:value-of select="concat('\magnify #',number(substring-before(@fontsize,'%')) div 100,' ')" />
         </xsl:when>
         <xsl:otherwise>
-          <xsl:call-template name="setRelFontsize" />
+          <xsl:call-template name="setRelFontsizeTerm" />
         </xsl:otherwise>
       </xsl:choose>
     </xsl:if>
@@ -3949,7 +3989,7 @@
     </xsl:choose>
   </xsl:template>
   <!-- set relative fontsize -->
-  <xsl:template name="setRelFontsize">
+  <xsl:template name="setRelFontsizeTerm">
     <!-- data.FONTSIZETERM -->
     <xsl:choose>
       <xsl:when test="@fontsize = 'xx-small'">
@@ -3978,6 +4018,35 @@
       </xsl:when>
       <xsl:when test="@fontsize = 'larger' and not(self::mei:note)">
         <xsl:value-of select="'\larger '" />
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:message select="concat('WARNING: Unsupported fontsize: ', @fontsize)" />
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+  <xsl:template name="setRelFontsizeNum">
+    <!-- data.FONTSIZETERM -->
+    <xsl:choose>
+      <xsl:when test="@fontsize = 'xx-small'">
+        <xsl:value-of select="'-3 '" />
+      </xsl:when>
+      <xsl:when test="@fontsize = 'x-small'">
+        <xsl:value-of select="'-2 '" />
+      </xsl:when>
+      <xsl:when test="@fontsize = 'small'">
+        <xsl:value-of select="'-1 '" />
+      </xsl:when>
+      <xsl:when test="@fontsize = 'normal'">
+        <xsl:value-of select="'0 '" />
+      </xsl:when>
+      <xsl:when test="@fontsize = 'large'">
+        <xsl:value-of select="'+1 '" />
+      </xsl:when>
+      <xsl:when test="@fontsize = 'x-large'">
+        <xsl:value-of select="'+2 '" />
+      </xsl:when>
+      <xsl:when test="@fontsize = 'xx-large'">
+        <xsl:value-of select="'+3 '" />
       </xsl:when>
       <xsl:otherwise>
         <xsl:message select="concat('WARNING: Unsupported fontsize: ', @fontsize)" />
