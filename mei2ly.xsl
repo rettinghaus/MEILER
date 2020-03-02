@@ -1113,8 +1113,8 @@
       <xsl:value-of select="concat('\change Staff = &quot;staff ',@staff,'&quot;&#32;')" />
     </xsl:if>
     <xsl:if test="@fontsize">
-      <xsl:text>\once </xsl:text>
-      <xsl:call-template name="setRelFontsizeTerm"/>
+      <xsl:text>\tweak font-size #</xsl:text>
+      <xsl:call-template name="setRelFontsizeNum" />
     </xsl:if>
     <xsl:if test="$useSvgBackend">
       <xsl:text>\tweak output-attributes #&apos;</xsl:text>
@@ -1205,6 +1205,10 @@
     <xsl:if test="@color">
       <xsl:text>\tweak color #</xsl:text>
       <xsl:call-template name="setColor" />
+    </xsl:if>
+    <xsl:if test="@fontsize">
+      <xsl:text>\tweak font-size #</xsl:text>
+      <xsl:call-template name="setRelFontsizeNum" />
     </xsl:if>
     <xsl:if test="@ho or @vo">
       <xsl:text>\tweak extra-offset #&apos;</xsl:text>
@@ -1684,6 +1688,7 @@
         </xsl:choose>
       </xsl:when>
       <xsl:otherwise>
+        <!-- add native support for LilyPond glyphs -->
         <xsl:call-template name="setSmuflGlyph" />
       </xsl:otherwise>
     </xsl:choose>
@@ -4017,10 +4022,10 @@
       <xsl:when test="@fontsize = 'xx-large'">
         <xsl:value-of select="'\huge '" />
       </xsl:when>
-      <xsl:when test="@fontsize = 'smaller' and not(self::mei:note)">
+      <xsl:when test="@fontsize = 'smaller'">
         <xsl:value-of select="'\smaller '" />
       </xsl:when>
-      <xsl:when test="@fontsize = 'larger' and not(self::mei:note)">
+      <xsl:when test="@fontsize = 'larger'">
         <xsl:value-of select="'\larger '" />
       </xsl:when>
       <xsl:otherwise>

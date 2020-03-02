@@ -7,6 +7,7 @@ List of supported MEI elements and attributes
 * `<accid>`
   * `@color`
   * `@edit` (for value 'paren')
+  * `@fontsize`
   * `@func`
   * `@ho`
   * `@place` (for value 'above')
@@ -18,6 +19,7 @@ List of supported MEI elements and attributes
 * `<arpeg>`
   * `@arrow`
   * `@color`
+  * `@fontsize`
   * `@ho`
   * `@order`
   * `@plist`
@@ -28,6 +30,7 @@ List of supported MEI elements and attributes
 * `<artic>`
   * `@artic`
   * `@color`
+  * `@fontsize`
   * `@ho`
   * `@place`
   * `@vo`
@@ -138,6 +141,7 @@ List of supported MEI elements and attributes
 
 * `<fermata>`
   * `@color`
+  * `@fontsize`
   * `@glyph.name`
   * `@glyph.num`
   * `@ho`
@@ -274,6 +278,7 @@ List of supported MEI elements and attributes
   * `@accidlower`
   * `@accidupper`
   * `@color`
+  * `@fontsize`
   * `@form`
   * `@glyph.name`
   * `@glyph.num`
@@ -290,6 +295,7 @@ List of supported MEI elements and attributes
   * `@dur`
   * `@dur.ges`
   * `@fermata`
+  * `@fontsize`
   * `@ho`
   * `@loc`
   * `@visible`
@@ -321,6 +327,7 @@ List of supported MEI elements and attributes
   * `@dur.ges`
   * `@enclose`
   * `@fermata`
+  * `@fontsize`
   * `@gliss`
   * `@grace`
   * `@head.color`
@@ -364,6 +371,7 @@ List of supported MEI elements and attributes
   * `@accidlower`
   * `@accidupper`
   * `@color`
+  * `@fontsize`
   * `@place`
   * __`@startid`__
   * `@xml:id`
@@ -378,6 +386,7 @@ List of supported MEI elements and attributes
   * `@color`
   * `@dir`
   * __`@endid`__
+  * `@fontsize`
   * `@form`
   * `@func`
   * `@ho`
@@ -417,6 +426,7 @@ List of supported MEI elements and attributes
 
 * `<reh>`
   * `@color`
+  * `@fontsize`
   * `@ho`
   * `@vo`
   * `@xml:id`
@@ -442,6 +452,7 @@ List of supported MEI elements and attributes
   * `@dur`
   * `@dur.ges`
   * `@fermata`
+  * `@fontsize`
   * `@ho`
   * `@loc`
   * `@num`
