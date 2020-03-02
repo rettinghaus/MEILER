@@ -818,8 +818,8 @@
       <xsl:call-template name="setGraceNote" />
     </xsl:if>
     <xsl:if test="@fontsize">
-      <xsl:text>\once </xsl:text>
-      <xsl:call-template name="setRelFontsizeTerm"/>
+      <xsl:text>\tweak font-size #</xsl:text>
+      <xsl:call-template name="setRelFontsizeNum" />
     </xsl:if>
     <xsl:if test="$useSvgBackend">
       <xsl:text>\tweak output-attributes #&apos;</xsl:text>
@@ -2584,6 +2584,10 @@
     <xsl:if test="@color">
       <xsl:text>\tweak color #</xsl:text>
       <xsl:call-template name="setColor" />
+    </xsl:if>
+    <xsl:if test="@fontsize">
+      <xsl:text>\tweak font-size #</xsl:text>
+      <xsl:call-template name="setRelFontsizeNum" />
     </xsl:if>
     <xsl:if test="@ho or @vo">
       <xsl:text>\tweak extra-offset #&apos;</xsl:text>

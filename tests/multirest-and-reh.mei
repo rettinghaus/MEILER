@@ -49,7 +49,7 @@
                   <multiRest num="8" />
                 </layer>
               </staff>
-              <reh> A </reh>
+              <reh fontsize="xx-large" vo="2"> A </reh>
             </measure>
             <measure n="21">
               <staff n="1">
