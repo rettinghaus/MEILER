@@ -25,7 +25,7 @@
   </meiHead>
   <music>
     <body>
-      <mdiv label="Tab. III">
+      <mdiv label="TAB: III.">
         <mdiv n="3" label="Fig. III.">
           <score>
             <scoreDef>
@@ -134,7 +134,7 @@
           </score>
         </mdiv>
       </mdiv>
-      <mdiv label="Tab. IV">
+      <mdiv label="TAB: IV.">
         <mdiv n="34" label="Fig. XXXIV.">
           <score>
             <scoreDef>
@@ -434,7 +434,7 @@
           </score>
         </mdiv>
       </mdiv>
-      <mdiv label="Tab: V.">
+      <mdiv label="TAB: V.">
         <mdiv n="51" label="Fig. LI.">
           <score>
             <section label="a">
@@ -533,6 +533,58 @@
             </section>
           </score>
         </mdiv>
+        <mdiv n="56" label="Fig: LVI.">
+          <score>
+            <section>
+              <scoreDef>
+                <staffGrp>
+                  <staffDef n="1" clef.line="1" clef.shape="C" lines="5"/>
+                </staffGrp>
+              </scoreDef>
+              <measure right="single">
+                <staff n="1">
+                  <layer n="1">
+                    <note xml:id="f56-n1" dur="8" oct="4" pname="g"/>
+                  </layer>
+                </staff>
+              </measure>
+              <measure right="dbl">
+                <staff n="1">
+                  <layer n="1">
+                    <beam>
+                      <note xml:id="f56-n2" dur="8" oct="4" pname="g"/>
+                      <note xml:id="f56-n3" dur="8" oct="4" pname="a"/>
+                    </beam>
+                  </layer>
+                </staff>
+                <turn place="above" startid="#f56-n2"/>
+                <mordent glyph.name="ornamentPrecompTrillWithMordent" long="true" form="lower" place="above" startid="#f56-n3"/>
+              </measure>
+            </section>
+            <section label="a">
+              <measure right="single">
+                <staff n="1">
+                  <layer n="1">
+                    <note xml:id="f56a-n1" dur="8" oct="4" pname="g"/>
+                  </layer>
+                </staff>
+                <reh>(a)</reh>
+              </measure>
+              <measure right="dbl">
+                <staff n="1">
+                  <layer n="1">
+                    <note xml:id="f56a-n2" dur="4" oct="4" pname="g" grace="acc"/>
+                    <note xml:id="f56a-n3" dur="2" oct="4" pname="a"/>
+                  </layer>
+                </staff>
+                <turn fontsize="normal" place="above" startid="#f56a-n2"/>
+                <mordent fontsize="normal" glyph.name="ornamentPrecompTrillWithMordent" long="true" form="lower" place="above" startid="#f56a-n3"/>
+              </measure>
+            </section>
+          </score>
+        </mdiv>
+      </mdiv>
+      <mdiv label="TAB: VI.">
         <mdiv n="77" label="Fig. LXXVII.">
           <score>
             <section>
