@@ -98,7 +98,7 @@ c-6 0 -10 4 -10 10v980c0 6 4 10 10 10h119c6 0 10 -4 10 -10v-980c0 -6 -4 -10 -10 
 <rect transform="translate(27.2591, 10.8064)" x="-0.0650" y="-1.8856" width="0.1300" height="3.3856" ry="0.0400" fill="currentColor"/>
 <g class="dir">
 <text transform="translate(27.1941, 6.8506)" font-family="serif" font-size="4.2001" text-anchor="start" fill="currentColor">
-<tspan>22pt</tspan>
+<tspan>21pt</tspan>
 </text>
 </g>
 <g class="note" id="n04">

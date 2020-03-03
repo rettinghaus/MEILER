@@ -40,7 +40,7 @@
                   <note xml:id="n06" dur="4" oct="4" pname="g" fontsize="small"/>
                 </layer>
               </staff>
-              <dir startid="#n04" place="above"><rend fontsize="21pt">22pt</rend></dir>
+              <dir startid="#n04" place="above"><rend fontsize="21pt">21pt</rend></dir>
               <dir startid="#n05" place="above"><rend fontsize="54.32%">54.32%</rend></dir>
               <dir startid="#n06" place="above"><rend fontsize="72%">72%</rend></dir>
             </measure>

@@ -9,8 +9,10 @@ tspan { white-space: pre; }
 <line transform="translate(8.5358, 4.0450)" stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="-0.0000" x2="39.0357" y2="-0.0000"/>
 <line transform="translate(8.5358, 3.0450)" stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="-0.0000" x2="39.0357" y2="-0.0000"/>
 <line transform="translate(8.5358, 2.0450)" stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="-0.0000" x2="39.0357" y2="-0.0000"/>
+<rect transform="translate(47.4315, -0.0000)" x="0.0000" y="6.0950" width="0.1900" height="4.9500" ry="0.0000" fill="currentColor"/>
 <rect transform="translate(47.4315, 13.0450)" x="0.0000" y="-2.0500" width="0.1900" height="4.0500" ry="0.0000" fill="currentColor"/>
 <rect transform="translate(47.4315, 4.0450)" x="0.0000" y="-2.0000" width="0.1900" height="4.0500" ry="0.0000" fill="currentColor"/>
+<rect transform="translate(28.4412, -0.0000)" x="0.0000" y="6.0950" width="0.1900" height="4.9500" ry="0.0000" fill="currentColor"/>
 <rect transform="translate(28.4412, 13.0450)" x="0.0000" y="-2.0500" width="0.1900" height="4.0500" ry="0.0000" fill="currentColor"/>
 <rect transform="translate(28.4412, 4.0450)" x="0.0000" y="-2.0000" width="0.1900" height="4.0500" ry="0.0000" fill="currentColor"/>
 <line transform="translate(8.5358, 15.0450)" stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="-0.0000" x2="39.0357" y2="-0.0000"/>

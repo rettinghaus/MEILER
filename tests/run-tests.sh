@@ -14,9 +14,9 @@ lilyversion="$(lilypond -v)"
 find . -type f -name "*.mei"|while read file;
 do
   fname=$(basename "$file")
-  saxonb-xslt -s:$file -o:${file%.mei}.ly -xsl:../mei2ly.xsl LilyPondVersion="2.18.2" && lilypond -dno-print-pages -dpreview --formats=png --loglevel=BASIC_PROGRESS ${file%.mei}.ly >> tests.log 2>&1
+  saxonb-xslt -s:$file -o:${file%.mei}.ly -xsl:../mei2ly.xsl && lilypond -dno-print-pages -dpreview --formats=png --loglevel=BASIC_PROGRESS ${file%.mei}.ly >> tests.log 2>&1
   #-- next line for SVG output
-  saxonb-xslt -s:$file -o:${file%.mei}.ly -xsl:../mei2ly.xsl useSvgBackend=true forceLayout=true && lilypond -dno-print-pages -dno-point-and-click -dbackend=svg -dpreview --loglevel=BASIC_PROGRESS ${file%.mei}.ly >> tests.log 2>&1
+  saxonb-xslt -s:$file -o:${file%.mei}.ly -xsl:../mei2ly.xsl useSvgBackend=true && lilypond -dno-print-pages -dno-point-and-click -dbackend=svg -dpreview --loglevel=BASIC_PROGRESS ${file%.mei}.ly >> tests.log 2>&1
   rm ${file%.mei}.ly
 
   #-- add output to README.md
