@@ -1,45 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="https://music-encoding.org/schema/4.0.0/mei-all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <mei xmlns="http://www.music-encoding.org/ns/mei" meiversion="4.0.0">
-    <meiHead>
-        <fileDesc>
-            <titleStmt>
-                <title/>
-            </titleStmt>
-            <pubStmt/>
-            <seriesStmt>
-                <title>MEILER test files</title>
-            </seriesStmt>
-        </fileDesc>
-    </meiHead>
-    <music>
-        <body>
-            <mdiv>
-                <score>
-                    <scoreDef system.leftline="false">
-                        <staffGrp>
-                            <staffDef clef.shape="G" clef.line="2" n="1" lines="5"/>
-                        </staffGrp>
-                    </scoreDef>
-                    <section>
-                        <measure n="1" right="dbl">
-                            <staff n="1">
-                                <layer n="1">
-                                    <note dur="4" oct="4" pname="c" accid.ges="n" stem.len="0"/>
-                                    <note dur="4" oct="4" pname="d" accid.ges="n" stem.len="2"
-                                        stem.dir="down"/>
-                                    <note dur="4" oct="4" pname="e" accid.ges="n" stem.len="3"
-                                        stem.dir="down"/>
-                                    <note dur="4" oct="4" pname="f" accid.ges="n" stem.len="4"
-                                        stem.dir="down"/>
-                                    <note dur="4" oct="4" pname="g" accid.ges="n" stem.len="5"
-                                        stem.dir="down"/>
-                                </layer>
-                            </staff>
-                        </measure>
-                    </section>
-                </score>
-            </mdiv>
-        </body>
-    </music>
+  <meiHead>
+    <fileDesc>
+      <titleStmt>
+        <title/>
+      </titleStmt>
+      <pubStmt>
+        <respStmt>
+          <persName>Klaus Rettinghaus</persName>
+        </respStmt>
+      </pubStmt>
+      <seriesStmt>
+        <title>MEILER test files</title>
+      </seriesStmt>
+    </fileDesc>
+  </meiHead>
+  <music>
+    <body>
+      <mdiv>
+        <score>
+          <scoreDef system.leftline="false">
+            <staffGrp>
+              <staffDef clef.shape="G" clef.line="2" n="1" lines="5"/>
+            </staffGrp>
+          </scoreDef>
+          <section>
+            <measure n="1" right="dbl">
+              <staff n="1">
+                <layer n="1">
+                  <note dur="4" oct="4" pname="c" accid.ges="n" stem.len="0"/>
+                  <note dur="4" oct="4" pname="d" accid.ges="n" stem.len="2" stem.dir="down"/>
+                  <note dur="4" oct="4" pname="e" accid.ges="n" stem.len="3" stem.dir="down"/>
+                  <note dur="4" oct="4" pname="f" accid.ges="n" stem.len="4" stem.dir="down"/>
+                  <note dur="4" oct="4" pname="g" accid.ges="n" stem.len="5" stem.dir="down"/>
+                </layer>
+              </staff>
+            </measure>
+          </section>
+        </score>
+      </mdiv>
+    </body>
+  </music>
 </mei>

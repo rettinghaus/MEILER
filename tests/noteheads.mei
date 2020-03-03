@@ -4,9 +4,13 @@
   <meiHead>
     <fileDesc>
       <titleStmt>
-        <title/>
+        <title>Several note heads</title>
       </titleStmt>
-      <pubStmt/>
+      <pubStmt>
+        <respStmt>
+          <persName>Klaus Rettinghaus</persName>
+        </respStmt>
+      </pubStmt>
       <seriesStmt>
         <title>MEILER test files</title>
       </seriesStmt>
@@ -33,9 +37,9 @@
                   <note color="rgb(111,111,111)" dur="4" oct="4" pname="c" head.shape="triangle"/>
                   <note color="rgb(111,111,111)" dur="4" oct="4" pname="c" head.shape="x"/>
                   <note color="rgb(111,111,111)" dur="4" oct="4" pname="c" head.shape="+"/>
-                  <note color="rgb(111,111,111)" dur="4" oct="4" pname="c" head.mod ="centertext(C)"/>
+                  <note color="rgb(111,111,111)" dur="4" oct="4" pname="c" head.mod="centertext(C)"/>
                   <chord dur="4">
-                    <note color="rgb(111,111,111)" oct="3" pname="a" head.mod ="centertext(A)"/>
+                    <note color="rgb(111,111,111)" oct="3" pname="a" head.mod="centertext(A)"/>
                     <note color="rgb(111,111,111)" oct="4" pname="c"/>
                     <note color="rgb(111,111,111)" oct="4" pname="e" head.shape="diamond"/>
                   </chord>

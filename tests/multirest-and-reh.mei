@@ -6,7 +6,11 @@
       <titleStmt>
         <title/>
       </titleStmt>
-      <pubStmt/>
+      <pubStmt>
+        <respStmt>
+          <persName>Klaus Rettinghaus</persName>
+        </respStmt>
+      </pubStmt>
       <seriesStmt>
         <title>MEILER test files</title>
       </seriesStmt>
@@ -18,63 +22,67 @@
         <score>
           <scoreDef meter.count="4" meter.unit="4">
             <staffGrp>
-              <staffDef n="1" clef.line="2" clef.shape="G" lines="5" />
+              <staffDef n="1" clef.line="2" clef.shape="G" lines="5"/>
             </staffGrp>
           </scoreDef>
           <section>
             <measure n="1" right="dbl">
               <staff n="1">
                 <layer n="1">
-                  <multiRest num="4" />
+                  <multiRest num="4"/>
                 </layer>
               </staff>
             </measure>
             <measure n="5" right="dbl">
               <staff n="1">
                 <layer n="1">
-                  <multiRest num="4" block="true" />
+                  <multiRest num="4" block="true"/>
                 </layer>
               </staff>
             </measure>
             <measure n="9" right="dbl">
               <staff n="1">
                 <layer n="1">
-                  <multiRest num="4" />
+                  <multiRest num="4"/>
                 </layer>
               </staff>
             </measure>
             <measure n="13" right="dbl">
               <staff n="1">
                 <layer n="1">
-                  <multiRest num="8" />
+                  <multiRest num="8"/>
                 </layer>
               </staff>
-              <reh fontsize="xx-large" vo="2"> A </reh>
+              <reh fontsize="xx-large" vo="2">
+                A
+              </reh>
             </measure>
             <measure n="21">
               <staff n="1">
                 <layer n="1">
-                  <multiRest block="false" num="1" xml:id="longShortMulti" />
+                  <multiRest block="false" num="1" xml:id="longShortMulti"/>
                 </layer>
               </staff>
-              <fermata startid="#longShortMulti" place="below" />
+              <fermata startid="#longShortMulti" place="below"/>
             </measure>
             <measure n="22">
               <staff n="1">
                 <layer n="1">
-                  <multiRest block="true" num="1" xml:id="shortLongMulti" />
+                  <multiRest block="true" num="1" xml:id="shortLongMulti"/>
                 </layer>
               </staff>
-              <fermata startid="#shortLongMulti" place="above" />
+              <fermata startid="#shortLongMulti" place="above"/>
             </measure>
             <measure n="23" right="end">
               <staff n="1">
                 <layer n="1">
-                  <multiRest num="24" />
+                  <multiRest num="24"/>
                 </layer>
               </staff>
               <reh>
-                <rend rend="circle"> 21 </rend>
+                <rend rend="circle">
+                  21
+                </rend>
               </reh>
             </measure>
           </section>

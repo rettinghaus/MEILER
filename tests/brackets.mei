@@ -4,9 +4,13 @@
   <meiHead>
     <fileDesc>
       <titleStmt>
-        <title/>
+        <title>Rendering brackets</title>
       </titleStmt>
-      <pubStmt/>
+      <pubStmt>
+        <respStmt>
+          <persName>Klaus Rettinghaus</persName>
+        </respStmt>
+      </pubStmt>
       <seriesStmt>
         <title>MEILER test files</title>
       </seriesStmt>

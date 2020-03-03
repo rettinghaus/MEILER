@@ -6,7 +6,11 @@
       <mei:titleStmt>
         <mei:title/>
       </mei:titleStmt>
-      <mei:pubStmt/>
+      <mei:pubStmt>
+        <mei:respStmt>
+          <mei:persName>Klaus Rettinghaus</mei:persName>
+        </mei:respStmt>
+      </mei:pubStmt>
       <mei:seriesStmt>
         <mei:title>MEILER test files</mei:title>
       </mei:seriesStmt>

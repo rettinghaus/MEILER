@@ -4,9 +4,16 @@
   <meiHead>
     <fileDesc>
       <titleStmt>
-        <title/>
+        <title>Different font sizes</title>
       </titleStmt>
-      <pubStmt/>
+      <pubStmt>
+        <respStmt>
+          <persName>Klaus Rettinghaus</persName>
+        </respStmt>
+      </pubStmt>
+      <seriesStmt>
+        <title>MEILER test files</title>
+      </seriesStmt>
     </fileDesc>
   </meiHead>
   <music>
@@ -27,9 +34,15 @@
                   <note xml:id="n03" dur="4" oct="4" pname="g"/>
                 </layer>
               </staff>
-              <dir startid="#n01" place="above"><rend fontsize="large">x-large</rend></dir>
-              <dir startid="#n02" place="above"><rend fontsize="x-small">x-small</rend></dir>
-              <dir startid="#n03" place="above"><rend fontsize="12.34vu">12.34vu</rend></dir>
+              <dir startid="#n01" place="above">
+                <rend fontsize="large">x-large</rend>
+              </dir>
+              <dir startid="#n02" place="above">
+                <rend fontsize="x-small">x-small</rend>
+              </dir>
+              <dir startid="#n03" place="above">
+                <rend fontsize="12.34vu">12.34vu</rend>
+              </dir>
             </measure>
             <measure n="2">
               <staff n="1">
@@ -39,9 +52,15 @@
                   <note xml:id="n06" dur="4" oct="4" pname="g" fontsize="small"/>
                 </layer>
               </staff>
-              <dir startid="#n04" place="above"><rend fontsize="21pt">21pt</rend></dir>
-              <dir startid="#n05" place="above"><rend fontsize="54.32%">54.32%</rend></dir>
-              <dir startid="#n06" place="above"><rend fontsize="72%">72%</rend></dir>
+              <dir startid="#n04" place="above">
+                <rend fontsize="21pt">21pt</rend>
+              </dir>
+              <dir startid="#n05" place="above">
+                <rend fontsize="54.32%">54.32%</rend>
+              </dir>
+              <dir startid="#n06" place="above">
+                <rend fontsize="72%">72%</rend>
+              </dir>
             </measure>
             <measure n="3">
               <staff n="1">
@@ -51,8 +70,12 @@
                   <note xml:id="n09" dur="4" oct="4" pname="g" fontsize="xx-large"/>
                 </layer>
               </staff>
-              <dir startid="#n07" place="above"><rend fontsize="smaller">smaller</rend></dir>
-              <dir startid="#n08" place="above"><rend fontsize="larger">larger</rend></dir>
+              <dir startid="#n07" place="above">
+                <rend fontsize="smaller">smaller</rend>
+              </dir>
+              <dir startid="#n08" place="above">
+                <rend fontsize="larger">larger</rend>
+              </dir>
             </measure>
             <measure n="4">
               <staff n="1">
