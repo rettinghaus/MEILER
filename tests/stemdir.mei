@@ -1,23 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-model href="http://www.music-encoding.org/schema/3.0.0/mei-all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
-<?xml-model href="http://www.music-encoding.org/schema/3.0.0/mei-all.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-<mei xmlns="http://www.music-encoding.org/ns/mei" xmlns:meiler="NS:MEILER_TEST" meiversion="3.0.0">
+<?xml-model href="https://music-encoding.org/schema/3.0.0/mei-all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<mei xmlns="http://www.music-encoding.org/ns/mei" meiversion="3.0.0" xmlns:meiler="NS:MEILER_TEST">
   <meiHead>
     <fileDesc>
       <titleStmt>
-        <title/>
+        <title></title>
       </titleStmt>
-      <pubStmt/>
+      <pubStmt>
+        <respStmt>
+          <persName>Klaus Rettinghaus</persName>
+        </respStmt>
+      </pubStmt>
+      <seriesStmt>
+        <title>MEILER test files</title>
+      </seriesStmt>
     </fileDesc>
     <extMeta>
       <meiler:test system="bash" input="ly"><![CDATA[
         if egrep -q "\\\\stem.+\s+b4" "$ly"
         then
-          echo "Expected no stem direction instructions in measure 1" 
+          echo "Expected no stem direction instructions in measure 1"
           exit 1
         fi
         if ! (
-          egrep -q "\\\\stemUp\s+c'4" "$ly" && 
+          egrep -q "\\\\stemUp\s+c'4" "$ly" &&
           egrep -q "\\\\stemDown\s+d'4" "$ly" &&
           egrep -q "\\\\stemUp\s+e'4" "$ly" &&
           egrep -q "\\\\stemDown\s+f'4" "$ly"

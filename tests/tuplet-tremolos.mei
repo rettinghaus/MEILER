@@ -1,69 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-model href="http://music-encoding.org/schema/3.0.0/mei-all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
-<?xml-model href="http://music-encoding.org/schema/3.0.0/mei-all.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-<mei xmlns="http://www.music-encoding.org/ns/mei" meiversion="3.0.0">
-    <meiHead>
-        <fileDesc>
-            <titleStmt>
-                <title/>
-            </titleStmt>
-            <pubStmt/>
-            <seriesStmt>
-                <title>MEILER test files</title>
-            </seriesStmt>
-        </fileDesc>
-    </meiHead>
-    <music>
-        <body>
-            <mdiv>
-                <score>
-                    <scoreDef meter.count="4" meter.unit="4">
-                        <staffGrp>
-                            <staffDef n="1" clef.line="2" clef.shape="G" lines="5"/>
-                        </staffGrp>
-                    </scoreDef>
-                    <section>
-                        <measure n="1">
-                            <staff n="1">
-                                <layer n="1">
-                                    <bTrem num="3" num.place="above">
-                                        <note pname="g" oct="4" dur="4" dots="1" stem.mod="1slash"/>
-                                    </bTrem>
-                                    <bTrem num="3" num.place="below">
-                                        <note pname="g" oct="4" dur="4" dots="1" stem.mod="1slash"/>
-                                    </bTrem>
-                                    <bTrem num="6">
-                                        <note pname="g" oct="4" dur="4" dots="1" stem.mod="2slash"/>
-                                    </bTrem>
-                                    <bTrem num="12" num.visible="false">
-                                        <note pname="g" oct="4" dur="4" dots="1" stem.mod="3slash"/>
-                                    </bTrem>
-                                </layer>
-                            </staff>
-                        </measure>
-                        <measure n="2">
-                            <staff n="1">
-                                <layer n="1">
-                                    <bTrem>
-                                        <note pname="g" oct="4" dur="4" stem.mod="1slash"
-                                            head.color="green"/>
-                                    </bTrem>
-                                    <bTrem>
-                                        <note pname="g" oct="4" dur="4" stem.mod="2slash"
-                                            head.shape="x"/>
-                                    </bTrem>
-                                    <bTrem>
-                                        <note pname="g" oct="4" dur="4" stem.mod="3slash"/>
-                                    </bTrem>
-                                    <bTrem>
-                                        <note pname="g" oct="4" dur="4"/>
-                                    </bTrem>
-                                </layer>
-                            </staff>
-                        </measure>
-                    </section>
-                </score>
-            </mdiv>
-        </body>
-    </music>
+<?xml-model href="https://music-encoding.org/schema/3.0.0/mei-all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<mei xmlns="http://www.music-encoding.org/ns/mei" meiversion="3.0.0" xmlns:meiler="NS:MEILER_TEST">
+  <meiHead>
+    <fileDesc>
+      <titleStmt>
+        <title></title>
+      </titleStmt>
+      <pubStmt>
+        <respStmt>
+          <persName>Klaus Rettinghaus</persName>
+        </respStmt>
+      </pubStmt>
+      <seriesStmt>
+        <title>MEILER test files</title>
+      </seriesStmt>
+    </fileDesc>
+  </meiHead>
+  <music>
+    <body>
+      <mdiv>
+        <score>
+          <scoreDef meter.count="4" meter.unit="4">
+            <staffGrp>
+              <staffDef n="1" clef.line="2" clef.shape="G" lines="5"/>
+            </staffGrp>
+          </scoreDef>
+          <section>
+            <measure n="1">
+              <staff n="1">
+                <layer n="1">
+                  <bTrem num="3" num.place="above">
+                    <note pname="g" oct="4" dur="4" dots="1" stem.mod="1slash"/>
+                  </bTrem>
+                  <bTrem num="3" num.place="below">
+                    <note pname="g" oct="4" dur="4" dots="1" stem.mod="1slash"/>
+                  </bTrem>
+                  <bTrem num="6">
+                    <note pname="g" oct="4" dur="4" dots="1" stem.mod="2slash"/>
+                  </bTrem>
+                  <bTrem num="12" num.visible="false">
+                    <note pname="g" oct="4" dur="4" dots="1" stem.mod="3slash"/>
+                  </bTrem>
+                </layer>
+              </staff>
+            </measure>
+            <measure n="2">
+              <staff n="1">
+                <layer n="1">
+                  <bTrem>
+                    <note pname="g" oct="4" dur="4" stem.mod="1slash" head.color="green"/>
+                  </bTrem>
+                  <bTrem>
+                    <note pname="g" oct="4" dur="4" stem.mod="2slash" head.shape="x"/>
+                  </bTrem>
+                  <bTrem>
+                    <note pname="g" oct="4" dur="4" stem.mod="3slash"/>
+                  </bTrem>
+                  <bTrem>
+                    <note pname="g" oct="4" dur="4"/>
+                  </bTrem>
+                </layer>
+              </staff>
+            </measure>
+          </section>
+        </score>
+      </mdiv>
+    </body>
+  </music>
 </mei>
