@@ -114,7 +114,7 @@ c33 0 70 -11 105 -36c21 -15 46 -23 66 -23c21 0 39 9 44 29c2 6 6 9 11 9c6 0 12 -5
 </g>
 <g class="gliss" id="dashed-glissando">
 <g color="rgb(0%, 50.1961%, 0%)">
-<line transform="translate(44.2934, 12.9131)" stroke-linejoin="round" stroke-linecap="round" stroke-width="0.2000" stroke="currentColor" x1="0" y1="0" x2="7.4525" y2="-0.4409" stroke-dasharray="0.403540379813647,0.60531056972047"/>
+<line transform="translate(44.2934, 12.9130)" stroke-linejoin="round" stroke-linecap="round" stroke-width="0.2000" stroke="currentColor" x1="0" y1="0" x2="7.4205" y2="-0.4407" stroke-dasharray="0.401813681223344,0.602720521835016"/>
 </g>
 </g>
 <g class="trill" id="trills-long">
