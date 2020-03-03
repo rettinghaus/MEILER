@@ -14,43 +14,43 @@ tspan { white-space: pre; }
 <rect transform="translate(46.9907, 4.0000)" x="0.0000" y="-2.0000" width="0.1900" height="4.0000" ry="0.0000" fill="currentColor"/>
 <rect transform="translate(36.9419, 4.0000)" x="0.0000" y="-2.0000" width="0.1900" height="4.0000" ry="0.0000" fill="currentColor"/>
 <rect transform="translate(39.3176, 4.0000)" x="-0.0650" y="-3.6667" width="0.1300" height="2.9806" ry="0.0400" fill="currentColor"/>
-<g class="note" id="note-0000001828330525">
+<g class="note" id="id-1828330525">
 <path transform="translate(38.0784, 5.0000) scale(0.0040, -0.0040)" d="M218 136c55 0 108 -28 108 -89c0 -71 -55 -121 -102 -149c-35 -21 -75 -34 -116 -34c-55 0 -108 28 -108 89c0 71 55 121 102 149c35 21 75 34 116 34z" fill="currentColor"/>
 </g>
-<g class="note" id="note-0000000472954811">
+<g class="note" id="id-0472954811">
 <path transform="translate(38.0784, 3.5000) scale(0.0040, -0.0040)" d="M218 136c55 0 108 -28 108 -89c0 -71 -55 -121 -102 -149c-35 -21 -75 -34 -116 -34c-55 0 -108 28 -108 89c0 71 55 121 102 149c35 21 75 34 116 34z" fill="currentColor"/>
 </g>
 <rect transform="translate(38.1434, 4.0000)" x="-0.0650" y="1.1861" width="0.1300" height="2.8139" ry="0.0400" fill="currentColor"/>
-<g class="note" id="note-0000000940081088">
+<g class="note" id="id-0940081088">
 <path transform="translate(33.4001, 4.0000) scale(0.0040, -0.0040)" d="M218 136c55 0 108 -28 108 -89c0 -71 -55 -121 -102 -149c-35 -21 -75 -34 -116 -34c-55 0 -108 28 -108 89c0 71 55 121 102 149c35 21 75 34 116 34z" fill="currentColor"/>
 </g>
 <rect transform="translate(30.5878, 4.0000)" x="-0.0650" y="0.6861" width="0.1300" height="2.9806" ry="0.0400" fill="currentColor"/>
-<g class="note" id="note-0000000378353677">
+<g class="note" id="id-0378353677">
 <path transform="translate(34.4434, 4.5000) scale(0.0040, -0.0040)" d="M218 136c55 0 108 -28 108 -89c0 -71 -55 -121 -102 -149c-35 -21 -75 -34 -116 -34c-55 0 -108 28 -108 89c0 71 55 121 102 149c35 21 75 34 116 34z" fill="currentColor"/>
 </g>
 <rect transform="translate(35.6826, 4.0000)" x="-0.0650" y="-3.0000" width="0.1300" height="3.3139" ry="0.0400" fill="currentColor"/>
 <rect transform="translate(33.4651, 4.0000)" x="-0.0650" y="0.1861" width="0.1300" height="3.1472" ry="0.0400" fill="currentColor"/>
 <rect transform="translate(45.3221, 4.0000)" x="-0.0650" y="-3.0000" width="0.1300" height="3.3139" ry="0.0400" fill="currentColor"/>
-<g class="note" id="note-0000000639052194">
+<g class="note" id="id-0639052194">
 <path transform="translate(41.0806, 4.0000) scale(0.0040, -0.0040)" d="M218 136c55 0 108 -28 108 -89c0 -71 -55 -121 -102 -149c-35 -21 -75 -34 -116 -34c-55 0 -108 28 -108 89c0 71 55 121 102 149c35 21 75 34 116 34z" fill="currentColor"/>
 </g>
-<g class="note" id="note-0000001594458858">
+<g class="note" id="id-1594458858">
 <path transform="translate(41.0806, 6.5000) scale(0.0040, -0.0040)" d="M218 136c55 0 108 -28 108 -89c0 -71 -55 -121 -102 -149c-35 -21 -75 -34 -116 -34c-55 0 -108 28 -108 89c0 71 55 121 102 149c35 21 75 34 116 34z" fill="currentColor"/>
 </g>
 <rect transform="translate(42.3198, 4.0000)" x="-0.0650" y="-3.3333" width="0.1300" height="3.1472" ry="0.0400" fill="currentColor"/>
 <rect transform="translate(41.1456, 4.0000)" x="-0.0650" y="2.6861" width="0.1300" height="2.3139" ry="0.0400" fill="currentColor"/>
-<g class="note" id="note-0000000486512359">
+<g class="note" id="id-0486512359">
 <path transform="translate(44.0829, 4.5000) scale(0.0040, -0.0040)" d="M218 136c55 0 108 -28 108 -89c0 -71 -55 -121 -102 -149c-35 -21 -75 -34 -116 -34c-55 0 -108 28 -108 89c0 71 55 121 102 149c35 21 75 34 116 34z" fill="currentColor"/>
 </g>
-<g class="rest" id="rest-0000001286763585">
+<g class="rest" id="id-1286763585">
 <path transform="translate(44.0829, 7.5000) scale(0.0040, -0.0040)" d="M-23 -116c0 28 11 42 40 42c33 0 78 -13 119 -31l-132 158c-7 9 -10 17 -10 25c0 34 50 66 87 99c25 22 37 52 37 83c0 24 -8 49 -25 69l-35 42c-3 3 -4 7 -4 10c0 9 9 15 17 15c4 0 8 -1 11 -5l151 -180c7 -9 10 -17 10 -25c0 -34 -50 -66 -87 -99
 c-25 -22 -37 -52 -37 -83c0 -24 7 -49 24 -69l84 -99c3 -3 4 -7 4 -10c0 -9 -8 -16 -16 -16c-4 0 -9 2 -12 6c-18 21 -63 38 -97 38c-41 0 -53 -26 -53 -67c0 -35 11 -74 28 -94c5 -6 0 -13 -6 -13c-2 0 -4 0 -6 2c-45 54 -92 148 -92 202z" fill="currentColor"/>
 </g>
 <rect transform="translate(21.3820, 4.0000)" x="-0.0650" y="-2.5000" width="0.1300" height="3.3139" ry="0.0400" fill="currentColor"/>
-<g class="note" id="note-0000001314921853">
+<g class="note" id="id-1314921853">
 <path transform="translate(20.1428, 5.0000) scale(0.0040, -0.0040)" d="M218 136c55 0 108 -28 108 -89c0 -71 -55 -121 -102 -149c-35 -21 -75 -34 -116 -34c-55 0 -108 28 -108 89c0 71 55 121 102 149c35 21 75 34 116 34z" fill="currentColor"/>
 </g>
-<g class="note" id="note-0000002060381918">
+<g class="note" id="id-2060381918">
 <path transform="translate(20.1428, 6.0000) scale(0.0040, -0.0040)" d="M218 136c55 0 108 -28 108 -89c0 -71 -55 -121 -102 -149c-35 -21 -75 -34 -116 -34c-55 0 -108 28 -108 89c0 71 55 121 102 149c35 21 75 34 116 34z" fill="currentColor"/>
 </g>
 <rect transform="translate(20.2078, 4.0000)" x="-0.0650" y="2.1861" width="0.1300" height="2.4806" ry="0.0400" fill="currentColor"/>
@@ -61,10 +61,10 @@ c71 -84 133 -245 133 -358c0 -143 -86 -255 -180 -364c21 -68 39 -138 56 -207zM461 
 c0 -44 25 -91 81 -123c5 -5 7 -10 7 -15c0 -11 -10 -22 -22 -22c-3 0 -6 1 -9 2c-80 43 -117 115 -117 185c0 88 58 174 160 197c-14 58 -29 117 -46 175c-107 -121 -213 -243 -213 -403zM408 1045c-99 -48 -162 -149 -162 -259c0 -74 18 -133 36 -194
 c80 97 146 198 146 324c0 55 -4 79 -20 129z" fill="currentColor"/>
 </g>
-<g class="note" id="note-0000001668379094">
+<g class="note" id="id-1668379094">
 <path transform="translate(17.1406, 4.5000) scale(0.0040, -0.0040)" d="M218 136c55 0 108 -28 108 -89c0 -71 -55 -121 -102 -149c-35 -21 -75 -34 -116 -34c-55 0 -108 28 -108 89c0 71 55 121 102 149c35 21 75 34 116 34z" fill="currentColor"/>
 </g>
-<g class="note" id="note-0000000058437616">
+<g class="note" id="id-0058437616">
 <path transform="translate(17.1406, 6.5000) scale(0.0040, -0.0040)" d="M218 136c55 0 108 -28 108 -89c0 -71 -55 -121 -102 -149c-35 -21 -75 -34 -116 -34c-55 0 -108 28 -108 89c0 71 55 121 102 149c35 21 75 34 116 34z" fill="currentColor"/>
 </g>
 <g class="meterSig">
@@ -76,22 +76,22 @@ c45 0 73 46 73 94v8h-167c-23 0 -31 14 -31 23c0 3 1 5 2 6c80 93 138 207 138 330c0
 <rect transform="translate(18.3798, 4.0000)" x="-0.0650" y="-3.0000" width="0.1300" height="3.3139" ry="0.0400" fill="currentColor"/>
 <rect transform="translate(17.2056, 4.0000)" x="-0.0650" y="2.6861" width="0.1300" height="2.3139" ry="0.0400" fill="currentColor"/>
 <rect transform="translate(27.5855, 4.0000)" x="-0.0650" y="1.1861" width="0.1300" height="2.8139" ry="0.0400" fill="currentColor"/>
-<g class="note" id="note-0000001094565880">
+<g class="note" id="id-1094565880">
 <path transform="translate(30.5228, 3.5000) scale(0.0040, -0.0040)" d="M218 136c55 0 108 -28 108 -89c0 -71 -55 -121 -102 -149c-35 -21 -75 -34 -116 -34c-55 0 -108 28 -108 89c0 71 55 121 102 149c35 21 75 34 116 34z" fill="currentColor"/>
 </g>
-<g class="note" id="note-0000000934696193">
+<g class="note" id="id-0934696193">
 <path transform="translate(30.5228, 4.5000) scale(0.0040, -0.0040)" d="M218 136c55 0 108 -28 108 -89c0 -71 -55 -121 -102 -149c-35 -21 -75 -34 -116 -34c-55 0 -108 28 -108 89c0 71 55 121 102 149c35 21 75 34 116 34z" fill="currentColor"/>
 </g>
 <rect transform="translate(31.7620, 4.0000)" x="-0.0650" y="-3.6667" width="0.1300" height="2.9806" ry="0.0400" fill="currentColor"/>
-<g class="note" id="note-0000001369644955">
+<g class="note" id="id-1369644955">
 <path transform="translate(23.1451, 5.5000) scale(0.0040, -0.0040)" d="M218 136c55 0 108 -28 108 -89c0 -71 -55 -121 -102 -149c-35 -21 -75 -34 -116 -34c-55 0 -108 28 -108 89c0 71 55 121 102 149c35 21 75 34 116 34z" fill="currentColor"/>
 </g>
 <rect transform="translate(24.3843, 4.0000)" x="-0.0650" y="-2.0000" width="0.1300" height="3.3139" ry="0.0400" fill="currentColor"/>
 <rect transform="translate(28.7598, 4.0000)" x="-0.0650" y="-4.0000" width="0.1300" height="2.8139" ry="0.0400" fill="currentColor"/>
-<g class="note" id="note-0000000911433405">
+<g class="note" id="id-0911433405">
 <path transform="translate(27.5205, 5.0000) scale(0.0040, -0.0040)" d="M218 136c55 0 108 -28 108 -89c0 -71 -55 -121 -102 -149c-35 -21 -75 -34 -116 -34c-55 0 -108 28 -108 89c0 71 55 121 102 149c35 21 75 34 116 34z" fill="currentColor"/>
 </g>
-<g class="note" id="note-0000001538266008">
+<g class="note" id="id-1538266008">
 <path transform="translate(27.5205, 3.0000) scale(0.0040, -0.0040)" d="M218 136c55 0 108 -28 108 -89c0 -71 -55 -121 -102 -149c-35 -21 -75 -34 -116 -34c-55 0 -108 28 -108 89c0 71 55 121 102 149c35 21 75 34 116 34z" fill="currentColor"/>
 </g>
 </svg>
