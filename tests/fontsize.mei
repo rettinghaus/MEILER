@@ -34,7 +34,7 @@
                   <note xml:id="n03" dur="4" oct="4" pname="g"/>
                 </layer>
               </staff>
-              <dir startid="#n01" place="above"><rend fontsize="large">x-large</rend></dir>
+              <dir startid="#n01" place="above"><rend fontsize="x-large">x-large</rend></dir>
               <dir startid="#n02" place="above"><rend fontsize="x-small">x-small</rend></dir>
               <dir startid="#n03" place="above"><rend fontsize="12.34">12.34</rend></dir>
             </measure>

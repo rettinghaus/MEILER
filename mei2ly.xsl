@@ -2326,7 +2326,7 @@
     <xsl:apply-templates/>
     <xsl:text>}&#32;</xsl:text>
   </xsl:template>
-  <!-- MEI rend -->
+  <!-- MEI render -->
   <xsl:template match="mei:rend">
     <xsl:if test="@color">
       <xsl:value-of select="'\with-color #'" />
