@@ -1302,6 +1302,9 @@
     <xsl:call-template name="setDuration" />
     <xsl:value-of select="' '" />
   </xsl:template>
+  <!-- MEI measure repeats -->
+  <xsl:template match="mei:mRpt">
+  </xsl:template>
   <!-- MEI measure space -->
   <xsl:template name="setMeasureSpace" match="mei:mSpace">
     <xsl:text>s</xsl:text>
@@ -2602,7 +2605,7 @@
     <xsl:apply-templates/>
     <xsl:text>}&#32;</xsl:text>
   </xsl:template>
-  <!-- MEI rend -->
+  <!-- MEI render -->
   <xsl:template match="mei:rend">
     <xsl:if test="@color">
       <xsl:value-of select="'\with-color #'" />
