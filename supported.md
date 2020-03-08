@@ -183,6 +183,10 @@ List of supported MEI elements and attributes
 
 * `<group>`
 
+* `<grpSym>`
+  * `@symbol`
+  * `@xml:id`
+
 * `<hairpin>`
   * `@color`
   * __`@endid`__

@@ -418,7 +418,7 @@
       </xsl:for-each>
       <xsl:text>)&#10;</xsl:text>
     </xsl:if>
-    <xsl:apply-templates select="mei:staffGrp|mei:staffDef" mode="score-setup"/>
+    <xsl:apply-templates select="mei:staffGrp" mode="score-setup"/>
     <xsl:text>&gt;&gt;&#10;</xsl:text>
     <!-- lilypond layout block -->
     <xsl:text>\layout {&#10;</xsl:text>
@@ -523,7 +523,7 @@
     </xsl:if>
     <xsl:text>&lt;&lt;&#10;</xsl:text>
     <xsl:call-template name="setStaffGrpStyle" />
-    <xsl:apply-templates select="mei:staffGrp|mei:staffDef" mode="score-setup"/>
+    <xsl:apply-templates select="mei:grpSym|mei:staffGrp|mei:staffDef" mode="score-setup"/>
     <xsl:text>&gt;&gt;&#10;</xsl:text>
   </xsl:template>
   <!-- MEI staff definitons -->
@@ -3480,7 +3480,7 @@
     <xsl:text>&#10;</xsl:text>
   </xsl:template>
   <!-- set staff group style -->
-  <xsl:template name="setStaffGrpStyle">
+  <xsl:template name="setStaffGrpStyle" match="mei:grpSym" mode="score-setup">
     <if test="count(descendant::mei:staffDef) = 1">
       <xsl:text> \override StaffGroup.SystemStartBracket.collapse-height = #1</xsl:text>
     </if>
@@ -3488,15 +3488,27 @@
     <xsl:choose>
       <xsl:when test="@symbol = 'brace'">
         <xsl:text>#'SystemStartBrace</xsl:text>
+        <xsl:if test="$useSvgBackend">
+          <xsl:text> \override StaffGroup.SystemStartBracket.output-attributes = #&apos;((class . grpSym)) </xsl:text>
+        </xsl:if>
       </xsl:when>
       <xsl:when test="@symbol = 'bracket'">
         <xsl:text>#'SystemStartBracket</xsl:text>
+        <xsl:if test="$useSvgBackend">
+          <xsl:text> \override StaffGroup.SystemStartBracket.output-attributes = #&apos;((class . grpSym)) </xsl:text>
+        </xsl:if>
       </xsl:when>
       <xsl:when test="@symbol = 'bracketsq'">
         <xsl:text>#'SystemStartSquare</xsl:text>
+        <xsl:if test="$useSvgBackend">
+          <xsl:text> \override StaffGroup.SystemStartSquare.output-attributes = #&apos;((class . grpSym)) </xsl:text>
+        </xsl:if>
       </xsl:when>
       <xsl:when test="@symbol = 'line'">
         <xsl:text>#'SystemStartBar</xsl:text>
+        <xsl:if test="$useSvgBackend">
+          <xsl:text> \override StaffGroup.SystemStartBar.output-attributes = #&apos;((class . grpSym)) </xsl:text>
+        </xsl:if>
       </xsl:when>
       <xsl:otherwise>
         <xsl:text>#'SystemStartBar</xsl:text>
