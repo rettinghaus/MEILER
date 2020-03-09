@@ -522,6 +522,9 @@
       <xsl:text>} </xsl:text>
     </xsl:if>
     <xsl:text>&lt;&lt;&#10;</xsl:text>
+    <xsl:if test="@bar.thru">
+      <xsl:value-of select="concat('  \override StaffGroup.BarLine.allow-span-bar = ##',substring(@bar.thru,1,1),'&#10;')" />
+    </xsl:if>
     <xsl:call-template name="setStaffGrpStyle" />
     <xsl:apply-templates select="mei:grpSym|mei:staffGrp|mei:staffDef" mode="score-setup"/>
     <xsl:text>&gt;&gt;&#10;</xsl:text>
@@ -3479,7 +3482,7 @@
     </xsl:choose>
     <xsl:text>&#10;</xsl:text>
   </xsl:template>
-  <!-- set staff group style -->
+  <!-- MEI group symbol -->
   <xsl:template name="setStaffGrpStyle" match="mei:grpSym" mode="score-setup">
     <if test="count(descendant::mei:staffDef) = 1">
       <xsl:text> \override StaffGroup.SystemStartBracket.collapse-height = #1</xsl:text>
@@ -3489,7 +3492,7 @@
       <xsl:when test="@symbol = 'brace'">
         <xsl:text>#'SystemStartBrace</xsl:text>
         <xsl:if test="$useSvgBackend">
-          <xsl:text> \override StaffGroup.SystemStartBracket.output-attributes = #&apos;((class . grpSym)) </xsl:text>
+          <xsl:text> \override StaffGroup.SystemStartBrace.output-attributes = #&apos;((class . grpSym)) </xsl:text>
         </xsl:if>
       </xsl:when>
       <xsl:when test="@symbol = 'bracket'">
@@ -3515,9 +3518,6 @@
       </xsl:otherwise>
     </xsl:choose>
     <xsl:text>&#10;</xsl:text>
-    <xsl:if test="@bar.thru">
-      <xsl:value-of select="concat('  \override StaffGroup.BarLine.allow-span-bar = ##',substring(@bar.thru,1,1),'&#10;')" />
-    </xsl:if>
   </xsl:template>
   <!-- set simple markup diections -->
   <xsl:template name="setMarkupDirection">
