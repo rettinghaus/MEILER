@@ -508,7 +508,7 @@
           <xsl:value-of select="concat('&#10;#(set-global-staff-size ',8 * number(substring-before(@vu.height,'pt')),')&#10;')" />
         </xsl:when>
         <xsl:otherwise>
-          <xsl:message>INFO: Use point values (pt) for @vu.height</xsl:message>
+          <xsl:message select="'INFO: Use point values (pt) for @vu.height'" />
         </xsl:otherwise>
       </xsl:choose>
     </xsl:if>
@@ -523,9 +523,11 @@
     </xsl:if>
     <xsl:text>&lt;&lt;&#10;</xsl:text>
     <xsl:if test="@bar.thru">
-      <xsl:value-of select="concat('  \override StaffGroup.BarLine.allow-span-bar = ##',substring(@bar.thru,1,1),'&#10;')" />
+      <xsl:value-of select="concat(' \override StaffGroup.BarLine.allow-span-bar = ##',substring(@bar.thru,1,1),'&#10;')" />
     </xsl:if>
-    <xsl:call-template name="setStaffGrpStyle" />
+    <xsl:if test="not(mei:grpSym)">
+      <xsl:call-template name="setStaffGrpStyle" />
+    </xsl:if>
     <xsl:apply-templates select="mei:grpSym|mei:staffGrp|mei:staffDef" mode="score-setup"/>
     <xsl:text>&gt;&gt;&#10;</xsl:text>
   </xsl:template>
@@ -3103,7 +3105,7 @@
       <!-- data.STEMDIRECTION.extended -->
       <xsl:otherwise>
         <xsl:text>\tweak Stem.direction #0 </xsl:text>
-        <xsl:message>INFO: LilyPond only supports basic stem directions</xsl:message>
+        <xsl:message select="'INFO: LilyPond only supports basic stem directions'" />
       </xsl:otherwise>
     </xsl:choose>
     <xsl:if test="@stem.pos">
@@ -3483,40 +3485,41 @@
     <xsl:text>&#10;</xsl:text>
   </xsl:template>
   <!-- MEI group symbol -->
-  <xsl:template name="setStaffGrpStyle" match="mei:grpSym" mode="score-setup">
-    <if test="count(descendant::mei:staffDef) = 1">
-      <xsl:text> \override StaffGroup.SystemStartBracket.collapse-height = #1</xsl:text>
-    </if>
-    <xsl:text> \set StaffGroup.systemStartDelimiter = </xsl:text>
-    <xsl:choose>
-      <xsl:when test="@symbol = 'brace'">
-        <xsl:text>#'SystemStartBrace</xsl:text>
-        <xsl:if test="$useSvgBackend">
-          <xsl:text> \override StaffGroup.SystemStartBrace.output-attributes = #&apos;((class . grpSym)) </xsl:text>
-        </xsl:if>
-      </xsl:when>
-      <xsl:when test="@symbol = 'bracket'">
-        <xsl:text>#'SystemStartBracket</xsl:text>
-        <xsl:if test="$useSvgBackend">
-          <xsl:text> \override StaffGroup.SystemStartBracket.output-attributes = #&apos;((class . grpSym)) </xsl:text>
-        </xsl:if>
-      </xsl:when>
-      <xsl:when test="@symbol = 'bracketsq'">
-        <xsl:text>#'SystemStartSquare</xsl:text>
-        <xsl:if test="$useSvgBackend">
-          <xsl:text> \override StaffGroup.SystemStartSquare.output-attributes = #&apos;((class . grpSym)) </xsl:text>
-        </xsl:if>
-      </xsl:when>
-      <xsl:when test="@symbol = 'line'">
-        <xsl:text>#'SystemStartBar</xsl:text>
-        <xsl:if test="$useSvgBackend">
-          <xsl:text> \override StaffGroup.SystemStartBar.output-attributes = #&apos;((class . grpSym)) </xsl:text>
-        </xsl:if>
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:text>#'SystemStartBar</xsl:text>
-      </xsl:otherwise>
-    </xsl:choose>
+  <xsl:template name="setStaffGrpStyle" match="mei:grpSym[not(@symbol = 'line')]" mode="score-setup">
+    <!-- att.staffGroupingSym -->
+    <xsl:variable name="object">
+      <xsl:choose>
+        <xsl:when test="@symbol = 'brace'">
+          <xsl:text>SystemStartBrace</xsl:text>
+        </xsl:when>
+        <xsl:when test="@symbol = 'bracket'">
+          <xsl:text>SystemStartBracket</xsl:text>
+        </xsl:when>
+        <xsl:when test="@symbol = 'bracketsq'">
+          <xsl:text>SystemStartSquare</xsl:text>
+        </xsl:when>
+        <xsl:when test="@symbol = 'line'">
+          <xsl:text>SystemStartBar</xsl:text>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:text>SystemStartBar</xsl:text>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+    <xsl:if test="$useSvgBackend">
+      <xsl:value-of select="concat('\override StaffGroup.', $object, '.output-attributes = ')" />
+      <xsl:text>#'((class . grpSym))</xsl:text>
+    </xsl:if>
+    <xsl:if test="@ho or @vo">
+      <xsl:value-of select="concat(' \override StaffGroup.', $object, '.extra-offset = ')" />
+      <xsl:text>#&apos;</xsl:text>
+      <xsl:call-template name="setOffset" />
+    </xsl:if>
+    <xsl:if test="not($object ='SystemStartBar') and ((count(descendant::mei:staffDef) = 1) or (count(self::mei:grpSym/following-sibling::mei:staffDef) = 1))">
+      <xsl:value-of select="concat('\override StaffGroup.', $object, '.collapse-height = #1&#10;')" />
+    </xsl:if>
+    <xsl:text> \set StaffGroup.systemStartDelimiter = #'</xsl:text>
+    <xsl:value-of select="$object" />
     <xsl:text>&#10;</xsl:text>
   </xsl:template>
   <!-- set simple markup diections -->
