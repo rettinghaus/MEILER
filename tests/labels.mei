@@ -4,7 +4,7 @@
   <meiHead>
     <fileDesc>
       <titleStmt>
-        <title/>
+        <title>Labels on scaled staves and group symbols</title>
       </titleStmt>
       <pubStmt>
         <respStmt>
@@ -21,18 +21,19 @@
       <mdiv>
         <score>
           <scoreDef meter.count="3" meter.unit="4">
-            <staffGrp symbol="bracket">
-              <staffDef n="1" clef.line="2" clef.shape="G" lines="5">
+            <staffGrp symbol="bracket" bar.thru="false">
+              <staffDef n="1" clef.line="2" clef.shape="G" lines="5" scale="80%">
                 <label>
                   <rend color="#ABCDEF" fontstyle="italic" fontfam="sans" rend="box">Violino</rend>
                 </label>
                 <labelAbbr>Vl.</labelAbbr>
               </staffDef>
-              <staffDef n="2" clef.line="4" clef.shape="F" lines="5">
+              <staffDef n="2" clef.line="4" clef.shape="F" lines="5" scale="80%">
                 <label>Violoncello</label>
                 <labelAbbr>Vc.</labelAbbr>
               </staffDef>
-              <staffGrp symbol="brace">
+              <staffGrp bar.thru="true">
+                <grpSym symbol="brace" ho="-0.5" xml:id="embracing" />
                 <label>
                   <rend color="blue" fontweight="bold" rend="circle" rotation="60">Piano</rend>
                 </label>
