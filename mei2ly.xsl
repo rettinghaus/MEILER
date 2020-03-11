@@ -2716,15 +2716,16 @@
       <xsl:call-template name="setColor" />
     </xsl:if>
     <xsl:choose>
-      <xsl:when test="$keyTonic and $keyMode">
-        <xsl:value-of select="concat('\key ',$keyTonic)" />
-        <xsl:apply-templates mode="setAccidental" select="$keyAccid"/>
-        <xsl:value-of select="concat(' \',$keyMode,' ')" />
-      </xsl:when>
       <xsl:when test="$keySig != 'mixed'">
         <xsl:call-template name="transformKey">
           <xsl:with-param name="accidentals" select="$keySig" />
         </xsl:call-template>
+      </xsl:when>
+      <!-- if there is no explicit key try implicit -->
+      <xsl:when test="$keyTonic and $keyMode">
+        <xsl:value-of select="concat('\key ',$keyTonic)" />
+        <xsl:apply-templates mode="setAccidental" select="$keyAccid"/>
+        <xsl:value-of select="concat(' \',$keyMode,' ')" />
       </xsl:when>
     </xsl:choose>
     <xsl:if test="./mei:keyAccid">
@@ -3193,7 +3194,7 @@
     <xsl:apply-templates select="mei:dot"/>
   </xsl:template>
   <!-- set accidental -->
-  <xsl:template mode="setAccidental" match="@accid | @accid.ges">
+  <xsl:template mode="setAccidental" match="@accid | @accid.ges | @key.accid">
     <xsl:param name="accidental" select="."/>
     <!-- data.ACCIDENTAL.WRITTEN -->
     <xsl:choose>
