@@ -60,7 +60,9 @@ c80 97 146 198 146 324c0 55 -4 79 -20 129z" fill="currentColor"/>
 c38 -21 72 -53 72 -96z" fill="currentColor"/>
 </g>
 <rect transform="translate(8.4758, 5.7556)" x="0.0000" y="-2.0500" width="0.1600" height="4.1000" ry="0.0500" fill="currentColor"/>
+<g class="grpSym">
 <rect transform="translate(8.4158, 5.7556)" x="0.0000" y="-2.0500" width="0.1600" height="4.1000" ry="0.0500" fill="currentColor"/>
+</g>
 <g class="harpPedal">
 <g color="rgb(100%, 0%, 0%)">
 <line transform="translate(32.3409, 9.8256)" stroke-linejoin="round" stroke-linecap="round" stroke-width="0.0500" stroke="currentColor" x1="0" y1="0" x2="12.0000" y2="0"/>

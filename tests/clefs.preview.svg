@@ -62,7 +62,9 @@ c0 -11 -9 -22 -21 -22c-3 0 -6 1 -9 2c-65 35 -95 93 -95 150c0 71 46 141 128 161c-
 <path transform="translate(32.2669, 10.0450) scale(0.0040, -0.0040)" d="M218 136c55 0 108 -28 108 -89c0 -71 -55 -121 -102 -149c-35 -21 -75 -34 -116 -34c-55 0 -108 28 -108 89c0 71 55 121 102 149c35 21 75 34 116 34z" fill="currentColor"/>
 </g>
 </g>
+<g class="grpSym">
 <rect transform="translate(8.4158, 8.5450)" x="0.0000" y="-6.5500" width="0.1600" height="13.1000" ry="0.0500" fill="currentColor"/>
+</g>
 <g class="beam">
 <polygon transform="translate(29.7627, 15.8550)" stroke-linejoin="round" stroke-linecap="round" stroke-width="0.0800" fill="currentColor" stroke="currentColor" points="10.1547 3.1800 10.1547 3.5800 0.0400 0.2000 0.0400 -0.2000"/>
 </g>
