@@ -184,8 +184,9 @@ List of supported MEI elements and attributes
 * `<group>`
 
 * `<grpSym>`
+  * `@ho`
   * `@symbol`
-  * `@xml:id`
+  * `@vo`
 
 * `<hairpin>`
   * `@color`
@@ -234,7 +235,7 @@ List of supported MEI elements and attributes
 
 * `<l>`
 
-* `<label>` (within `<staffGrp>` and `<staffDef>`)
+* `<label>`
 
 * `<labelAbbr>` (within `<staffGrp>` and `<staffDef>`)
 
