@@ -1141,6 +1141,9 @@
         <xsl:call-template name="setOffset" />
       </xsl:if>
     </xsl:if>
+    <xsl:if test="@sameas">
+      <xsl:text>\tweak staff-position #0 </xsl:text>
+    </xsl:if>
     <xsl:if test="@loc">
       <xsl:value-of select="concat('\tweak staff-position #',@loc - 4,' ')" />
     </xsl:if>

@@ -464,6 +464,7 @@ List of supported MEI elements and attributes
   * `@numbase`
   * `@oloc`
   * `@ploc`
+  * `@sameas` (will revert staff position)
   * `@staff`
   * `@visible`
   * `@vo`
