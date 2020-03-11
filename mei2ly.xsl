@@ -2124,6 +2124,9 @@
         <!-- this should work in most cases -->
         <xsl:value-of select="concat('\',translate(.,'.',''))" />
       </xsl:when>
+      <xsl:when test="matches(.,'[rsfmpz]+')">
+        <xsl:value-of select="concat('\markup { \dynamic ',.,'} ')" />
+      </xsl:when>
       <xsl:otherwise>
         <xsl:value-of select="concat('\markup {',.,'} ')" />
       </xsl:otherwise>
