@@ -2573,6 +2573,11 @@
     <xsl:apply-templates/>
     <xsl:text>}&#32;</xsl:text>
   </xsl:template>
+  <xsl:template match="mei:label[parent::mei:verse]">
+    <xsl:text>\set stanza = \markup {</xsl:text>
+    <xsl:apply-templates/>
+    <xsl:text>}&#32;</xsl:text>
+  </xsl:template>
   <!-- MEI line break -->
   <xsl:template match="mei:lb">
   </xsl:template>
