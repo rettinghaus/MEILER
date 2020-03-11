@@ -4981,7 +4981,7 @@
         <xsl:value-of select="concat(ancestor::mei:mdiv[1]//mei:staffDef[@n=$staffNumber][1]/@lyric.weight,' ')" />
       </xsl:if>
       <xsl:for-each select="ancestor::mei:mdiv[1]//mei:staff[@n=$staffNumber]/mei:layer[1]">
-        <xsl:for-each select="descendant::*[self::mei:note[not(@grace)] or self::mei:rest or self::mei:mRest]">
+        <xsl:for-each select="descendant::*[self::mei:note[not(ancestor-or-self::*/@grace)] or self::mei:rest or self::mei:mRest]">
             <xsl:choose>
               <xsl:when test="descendant::mei:syl">
                 <xsl:apply-templates select="mei:verse[not(number(@n)) or @n=$verseNumber]|mei:syl" />
