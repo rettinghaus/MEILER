@@ -301,7 +301,7 @@
               <xsl:with-param name="barLineStyle" select="ancestor::mei:measure/@left" />
             </xsl:call-template>
           </xsl:if>
-          <xsl:apply-templates select="ancestor::mei:measure/mei:tempo[@copyof or contains(concat(' ',@staff,' '),concat(' ',$staffNumber,' '))][not(@tstamp &gt; '1')]" mode="pre" />
+          <xsl:apply-templates select="ancestor::mei:measure/mei:tempo[@copyof or contains(concat(' ',@staff,' '),concat(' ',$staffNumber,' '))][not(@tstamp &gt; 1)]" mode="pre" />
           <xsl:if test="ancestor::mei:measure/@metcon = 'false'">
             <xsl:apply-templates select="descendant::mei:layer[1]" mode="setPartial"/>
           </xsl:if>
@@ -320,7 +320,7 @@
                 <xsl:apply-templates select="$staff" mode="createContinuousVoices">
                   <xsl:with-param name="layerN" select="current()"/>
                   <xsl:with-param name="measureDurFraction" select="$measureDurFraction"/>
-                  <xsl:with-param name="needsDivider" select="position() > 1"/>
+                  <xsl:with-param name="needsDivider" select="position() gt 1"/>
                   <xsl:with-param name="oneVoice" select="count($staff/mei:layer) = 1"></xsl:with-param>
                 </xsl:apply-templates>
               </xsl:for-each>
@@ -2439,7 +2439,7 @@
     <xsl:if test="(descendant-or-self::*/@place = 'below') and not(preceding::mei:harm[ancestor::mei:music][@staff = current()/@staff][1]/descendant-or-self::*/@place = 'below')">
       <xsl:text>\bassFigureStaffAlignmentDown&#10;&#32;&#32;</xsl:text>
     </xsl:if>
-    <xsl:if test="not(preceding-sibling::mei:harm[@staff = current()/@staff]) and @tstamp &gt; 1">
+    <xsl:if test="not(preceding-sibling::mei:harm[@staff = current()/@staff]) and number(@tstamp) gt 1">
       <xsl:value-of select="concat('s',$meterUnit)" />
       <xsl:if test="@tstamp != 2">
         <xsl:text>*</xsl:text>
@@ -3088,13 +3088,13 @@
   <xsl:template name="setOctave">
     <xsl:param name="oct" select="@oct - 3" />
     <xsl:choose>
-      <xsl:when test="$oct &lt; 0">
+      <xsl:when test="$oct lt 0">
         <xsl:text>,</xsl:text>
         <xsl:call-template name="setOctave">
           <xsl:with-param name="oct" select="$oct + 1" />
         </xsl:call-template>
       </xsl:when>
-      <xsl:when test="$oct &gt; 0">
+      <xsl:when test="$oct gt 0">
         <xsl:text>'</xsl:text>
         <xsl:call-template name="setOctave">
           <xsl:with-param name="oct" select="$oct - 1" />
@@ -3139,7 +3139,7 @@
       <xsl:when test="@dur = 'breve'">
         <xsl:text>\breve</xsl:text>
       </xsl:when>
-      <xsl:when test="number(@dur) &lt; 256">
+      <xsl:when test="number(@dur) lt 256">
         <xsl:value-of select="number(@dur)" />
       </xsl:when>
       <!-- data.DURATION.mensural -->
@@ -3169,7 +3169,7 @@
       </xsl:when>
       <xsl:otherwise>
         <xsl:choose>
-          <xsl:when test="number(@dur) &gt; 128">
+          <xsl:when test="number(@dur) gt 128">
             <xsl:message select="'WARNING: LilyPond does not support durations shorter than 128'" />
           </xsl:when>
           <xsl:otherwise>
@@ -3186,14 +3186,14 @@
         <xsl:value-of select="concat('/', @numbase)" />
       </xsl:if>
     </xsl:if>
-    <xsl:if test="number(@dur) &lt; 256 and number(@dur.ges) &lt; 256 ">
+    <xsl:if test="number(@dur) lt 256 and number(@dur.ges) lt 256 ">
       <xsl:value-of select="concat('*', @dur, '/', @dur.ges)" />
     </xsl:if>
   </xsl:template>
   <!-- set dots -->
   <xsl:template name="setDots">
     <xsl:param name="dots" select="@dots" />
-    <xsl:if test="$dots &gt; 0">
+    <xsl:if test="number($dots) gt 0">
       <xsl:text>.</xsl:text>
       <xsl:call-template name="setDots">
         <xsl:with-param name="dots" select="$dots - 1" />
@@ -5068,21 +5068,21 @@
     <xsl:param name="num" />
     <xsl:param name="dom" />
     <xsl:choose>
-      <xsl:when test="$num &lt; 0">
+      <xsl:when test="number($num) lt 0">
         <!-- Call GCD with positive num -->
         <xsl:call-template name="greatest-common-divisor">
           <xsl:with-param name="num" select="-$num" />
           <xsl:with-param name="dom" select="$dom" />
         </xsl:call-template>
       </xsl:when>
-      <xsl:when test="$dom &lt; 0">
+      <xsl:when test="number($dom) lt 0">
         <!-- Call GCD with positive dom -->
         <xsl:call-template name="greatest-common-divisor">
           <xsl:with-param name="num" select="$num" />
           <xsl:with-param name="dom" select="-$dom" />
         </xsl:call-template>
       </xsl:when>
-      <xsl:when test="$num + $dom &gt; 0">
+      <xsl:when test="number($num + $dom) gt 0">
         <!-- Valid input, call GCD-helper -->
         <xsl:call-template name="greatest-common-divisor-helper">
           <xsl:with-param name="gcd" select="$dom" />
@@ -5101,7 +5101,7 @@
     <xsl:param name="num" />
     <xsl:param name="dom" />
     <xsl:choose>
-      <xsl:when test="$num &gt; 0">
+      <xsl:when test="number($num) gt 0">
         <!-- Recursive call -->
         <xsl:call-template name="greatest-common-divisor-helper">
           <xsl:with-param name="gcd" select="$num" />
@@ -5144,7 +5144,7 @@
             </xsl:otherwise>
           </xsl:choose>
         </xsl:variable>
-        <xsl:copy-of select="local:hex2number-recurse($hexChars[position() > 1], 16 * $sum + $digitValue)" />
+        <xsl:copy-of select="local:hex2number-recurse($hexChars[position() gt 1], 16 * $sum + $digitValue)" />
       </xsl:otherwise>
     </xsl:choose>
   </xsl:function>
@@ -5232,7 +5232,7 @@
     <xsl:variable name="layer" select="mei:layer[@n = $layerN]"/>
     <xsl:choose>
       <xsl:when test="$layer">
-        <xsl:if test="count($layer) > 1">
+        <xsl:if test="count($layer) gt 1">
           <xsl:message select="$layer[1]/concat('WARNING: Multiple layers with n = ', @n, ' in measure ', ancestor::mei:measure/@n, ', staff ', ancestor::mei:staff/@n)"/>
         </xsl:if>
         <xsl:apply-templates select="$layer">
