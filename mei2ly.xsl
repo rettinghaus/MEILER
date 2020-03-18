@@ -2073,6 +2073,10 @@
         <xsl:text>\once \override StaffGroup.Arpeggio.color = #</xsl:text>
         <xsl:call-template name="setColor" />
       </xsl:if>
+      <xsl:if test="@ho or @vo">
+        <xsl:text>\once \override StaffGroup.Arpeggio.extra-offset = #&apos;</xsl:text>
+        <xsl:call-template name="setOffset" />
+      </xsl:if>
       <xsl:choose>
         <xsl:when test="@order = 'nonarp'">
           <xsl:text>\once \override StaffGroup.Arpeggio.stencil = #ly:arpeggio::brew-chord-bracket </xsl:text>
