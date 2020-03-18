@@ -22,14 +22,14 @@
         <score>
           <scoreDef>
             <staffGrp>
-              <staffDef n="1" clef.line="1" clef.shape="C" lines="5"/>
+              <staffDef n="1" clef.line="1" clef.shape="C" lines="5" />
             </staffGrp>
           </scoreDef>
           <section n="34" label="Fig. XXXIV.">
             <measure right="single">
               <staff n="1">
                 <layer n="1">
-                  <note xml:id="f34n1" dur="4" oct="4" pname="g"/>
+                  <note xml:id="f34n1" dur="4" oct="4" pname="g" />
                 </layer>
               </staff>
               <trill glyph.name="ornamentPrecompSlideTrillDAnglebert" place="above" startid="#f34n1"
@@ -39,16 +39,16 @@
               <staff n="1">
                 <layer n="1">
                   <beam>
-                    <note dur="32" oct="4" pname="f"/>
-                    <note dur="32" oct="4" pname="g"/>
-                    <note dur="32" oct="4" pname="a"/>
-                    <note dur="32" oct="4" pname="g"/>
-                    <note dur="32" oct="4" pname="a"/>
-                    <note dur="32" oct="4" pname="g"/>
-                    <note dur="32" oct="4" pname="a"/>
-                    <note dur="32" oct="4" pname="g"/>
-                    <note dur="32" oct="4" pname="a"/>
-                    <note dur="32" oct="4" pname="g"/>
+                    <note dur="32" oct="4" pname="f" />
+                    <note dur="32" oct="4" pname="g" />
+                    <note dur="32" oct="4" pname="a" />
+                    <note dur="32" oct="4" pname="g" />
+                    <note dur="32" oct="4" pname="a" />
+                    <note dur="32" oct="4" pname="g" />
+                    <note dur="32" oct="4" pname="a" />
+                    <note dur="32" oct="4" pname="g" />
+                    <note dur="32" oct="4" pname="a" />
+                    <note dur="32" oct="4" pname="g" />
                   </beam>
                 </layer>
               </staff>
@@ -56,11 +56,11 @@
             <measure right="single">
               <staff n="1">
                 <layer n="1">
-                  <note grace="unknown" dur="8" oct="4" pname="f"/>
-                  <note xml:id="f34n2" dur="4" oct="4" pname="g"/>
+                  <note grace="unknown" dur="8" oct="4" pname="f" />
+                  <note xml:id="f34n2" dur="4" oct="4" pname="g" />
                 </layer>
               </staff>
-              <trill place="above" startid="#f34n2"/>
+              <trill place="above" startid="#f34n2" />
               <reh place="above">(✴)</reh>
             </measure>
             <measure right="dbl">
@@ -68,47 +68,47 @@
                 <layer n="1">
                   <graceGrp grace="unknown">
                     <beam>
-                      <note dur="16" oct="4" pname="f"/>
-                      <note dur="16" oct="4" pname="g"/>
+                      <note dur="16" oct="4" pname="f" />
+                      <note dur="16" oct="4" pname="g" />
                     </beam>
                   </graceGrp>
-                  <note xml:id="f34n3" dur="4" oct="4" pname="g"/>
+                  <note xml:id="f34n3" dur="4" oct="4" pname="g" />
                 </layer>
               </staff>
-              <trill place="above" startid="#f34n3"/>
+              <trill place="above" startid="#f34n3" />
               <reh place="above">(✴)</reh>
             </measure>
           </section>
           <section n="41" label="Fig. XLI.">
             <scoreDef>
               <staffGrp>
-                <staffDef n="1" clef.line="1" clef.shape="C" lines="5"/>
+                <staffDef n="1" clef.line="1" clef.shape="C" lines="5" />
               </staffGrp>
             </scoreDef>
             <measure right="single">
               <staff n="1">
                 <layer n="1">
-                  <note xml:id="f41n1" dur="4" oct="4" pname="g"/>
+                  <note xml:id="f41n1" dur="4" oct="4" pname="g" />
                 </layer>
               </staff>
-              <trill glyph.name="ornamentPrecompMordentUpperPrefix" place="above" startid="#f41n1"/>
+              <trill glyph.name="ornamentPrecompMordentUpperPrefix" place="above" startid="#f41n1" />
             </measure>
             <measure right="dbl">
               <staff n="1">
                 <layer n="1">
                   <beam>
-                    <note dur="32" oct="4" pname="a"/>
-                    <note dur="32" oct="4" pname="g"/>
-                    <note dur="32" oct="4" pname="f"/>
-                    <note dur="32" oct="4" pname="g"/>
-                    <note dur="32" oct="4" pname="a"/>
-                    <note dur="32" oct="4" pname="g"/>
-                    <note dur="32" oct="4" pname="a"/>
-                    <note dur="32" oct="4" pname="g"/>
-                    <note dur="32" oct="4" pname="a"/>
-                    <note dur="32" oct="4" pname="g"/>
-                    <note dur="32" oct="4" pname="a"/>
-                    <note dur="32" oct="4" pname="g"/>
+                    <note dur="32" oct="4" pname="a" />
+                    <note dur="32" oct="4" pname="g" />
+                    <note dur="32" oct="4" pname="f" />
+                    <note dur="32" oct="4" pname="g" />
+                    <note dur="32" oct="4" pname="a" />
+                    <note dur="32" oct="4" pname="g" />
+                    <note dur="32" oct="4" pname="a" />
+                    <note dur="32" oct="4" pname="g" />
+                    <note dur="32" oct="4" pname="a" />
+                    <note dur="32" oct="4" pname="g" />
+                    <note dur="32" oct="4" pname="a" />
+                    <note dur="32" oct="4" pname="g" />
                   </beam>
                 </layer>
               </staff>
@@ -116,10 +116,10 @@
             <measure right="single">
               <staff n="1">
                 <layer n="1">
-                  <note xml:id="f41n2" dur="4" oct="5" pname="c"/>
+                  <note xml:id="f41n2" dur="4" oct="5" pname="c" />
                 </layer>
                 <layer n="2">
-                  <note xml:id="f41n2a" dur="4" oct="4" pname="c"/>
+                  <note xml:id="f41n2a" dur="4" oct="4" pname="c" />
                 </layer>
               </staff>
               <reh place="above">(✴)</reh>
@@ -127,37 +127,37 @@
             <measure right="dbl">
               <staff n="1">
                 <layer n="1">
-                  <note xml:id="f41n3" dur="2" oct="5" pname="c"/>
+                  <note xml:id="f41n3" dur="2" oct="5" pname="c" />
                   <graceGrp grace="unknown">
                     <beam>
-                      <note dur="16" oct="4" pname="b"/>
-                      <note dur="16" oct="4" pname="a"/>
-                      <note dur="16" oct="4" pname="g"/>
+                      <note dur="16" oct="4" pname="b" />
+                      <note dur="16" oct="4" pname="a" />
+                      <note dur="16" oct="4" pname="g" />
                     </beam>
                   </graceGrp>
-                  <note xml:id="f41n4" dur="4" oct="4" pname="a"/>
+                  <note xml:id="f41n4" dur="4" oct="4" pname="a" />
                 </layer>
                 <layer n="2">
-                  <note dur="4" oct="4" pname="d"/>
-                  <note dur="4" oct="4" pname="d"/>
-                  <note dur="4" oct="4" pname="d"/>
-                  <note dur="4" oct="4" pname="d"/>
+                  <note dur="4" oct="4" pname="d" />
+                  <note dur="4" oct="4" pname="d" />
+                  <note dur="4" oct="4" pname="d" />
+                  <note dur="4" oct="4" pname="d" />
                 </layer>
               </staff>
-              <trill place="above" startid="#f41n4"/>
+              <trill place="above" startid="#f41n4" />
             </measure>
           </section>
           <section n="77" label="Fig. LXXVII.">
             <scoreDef>
               <staffGrp>
-                <staffDef n="1" clef.line="1" clef.shape="C" lines="5"/>
+                <staffDef n="1" clef.line="1" clef.shape="C" lines="5" />
               </staffGrp>
             </scoreDef>
             <measure right="single">
               <staff n="1">
                 <layer n="1">
                   <note xml:id="f77n1" dur="4" oct="4" pname="e">
-                    <accid accid="f"/>
+                    <accid accid="f" />
                   </note>
                 </layer>
               </staff>
@@ -168,23 +168,24 @@
             <measure right="dbl">
               <staff n="1">
                 <layer n="1">
-                  <note xml:id="f77n2" dur="4" oct="4" pname="e"> </note>
-                  <note xml:id="f77n3" dur="2" oct="4" pname="d" lv="true"/>
+                  <note xml:id="f77n2" dur="4" oct="4" pname="e" />
+                  <note xml:id="f77n3" dur="2" oct="4" pname="d" />
                 </layer>
               </staff>
-              <trill glyph.name="ornamentPrecompSlideTrillDAnglebert" place="above" startid="#f77n2"
-              />
+              <trill glyph.name="ornamentPrecompSlideTrillDAnglebert" place="above" startid="#f77n2" />
+              <lv startid="#f77n3" />
             </measure>
             <measure right="dbl">
               <staff n="1">
                 <layer n="1">
-                  <note xml:id="f77n4" dur="4" oct="4" pname="e"> </note>
-                  <note xml:id="f77n5" dur="4" oct="4" pname="d"/>
-                  <note xml:id="f77n6" dur="2" oct="4" pname="d" lv="true"/>
+                  <note xml:id="f77n4" dur="4" oct="4" pname="e" />
+                  <note xml:id="f77n5" dur="4" oct="4" pname="d" />
+                  <note xml:id="f77n6" dur="2" oct="4" pname="d" />
                 </layer>
               </staff>
-              <trill glyph.name="ornamentPrecompSlideTrillDAnglebert" place="above" startid="#f77n4"/>
-              <trill glyph.name="ornamentPrecompTrillWithMordent" place="above" startid="#f77n6"/>
+              <trill glyph.name="ornamentPrecompSlideTrillDAnglebert" place="above" startid="#f77n4" />
+              <trill glyph.name="ornamentPrecompTrillWithMordent" place="above" startid="#f77n6" />
+              <lv startid="#f77n6" />
             </measure>
           </section>
         </score>

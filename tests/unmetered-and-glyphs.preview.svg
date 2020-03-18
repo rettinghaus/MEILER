@@ -107,7 +107,9 @@ c4 6 9 9 16 9c6 0 12 -2 16 -7l98 -119c10 16 21 31 31 47z" fill="currentColor"/>
 <path transform="translate(99.2021, 8.4807) scale(0.0040, -0.0040)" d="M218 136c55 0 108 -28 108 -89c0 -71 -55 -121 -102 -149c-35 -21 -75 -34 -116 -34c-55 0 -108 28 -108 89c0 71 55 121 102 149c35 21 75 34 116 34z" fill="currentColor"/>
 </g>
 <rect transform="translate(96.0759, 7.4807)" x="-0.0650" y="-2.0000" width="0.1300" height="3.2410" ry="0.0400" fill="currentColor"/>
+<g class="lv">
 <path transform="translate(94.7635, 7.4807)" stroke-width="0.1000" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor" fill="currentColor" d="M1.5773 2.0000C1.8787 2.3824 2.3760 2.3824 2.6773 2.0000L2.6773 2.0000C2.3760 2.2824 1.8787 2.2824 1.5773 2.0000z"/>
+</g>
 <g class="note" id="f77n3">
 <path transform="translate(94.7635, 8.9807) scale(0.0040, -0.0040)" d="M314 65c0 24 -21 41 -42 41c-4 0 -8 0 -12 -1c-31 -9 -78 -40 -115 -64s-84 -53 -104 -78c-7 -8 -10 -18 -10 -28c0 -24 21 -41 42 -41c4 0 8 0 12 1c31 9 77 40 114 64s84 53 104 78c7 8 11 18 11 28zM262 136c46 0 82 -21 82 -71c0 -19 -4 -39 -10 -57
 c-12 -37 -32 -72 -64 -94c-53 -36 -113 -50 -187 -50c-46 0 -83 21 -83 71c0 19 5 39 11 57c12 37 31 72 63 94c53 36 114 50 188 50z" fill="currentColor"/>
@@ -126,7 +128,9 @@ c-12 -37 -32 -72 -64 -94c-53 -36 -113 -50 -187 -50c-46 0 -83 21 -83 71c0 19 5 39
 <polygon transform="translate(78.1629, 4.6287)" stroke-linejoin="round" stroke-linecap="round" stroke-width="0.0800" fill="currentColor" stroke="currentColor" points="2.5258 0.4900 2.5258 0.7940 0.0400 0.1520 0.0400 -0.1520"/>
 </g>
 <rect transform="translate(105.5974, 7.4807)" x="-0.0650" y="-2.0000" width="0.1300" height="3.2410" ry="0.0400" fill="currentColor"/>
+<g class="lv">
 <path transform="translate(104.2850, 7.4807)" stroke-width="0.1000" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor" fill="currentColor" d="M1.5773 2.0000C1.8787 2.3824 2.3760 2.3824 2.6773 2.0000L2.6773 2.0000C2.3760 2.2824 1.8787 2.2824 1.5773 2.0000z"/>
+</g>
 <g class="trill">
 <path transform="translate(104.9737, 4.5627) scale(0.0040, -0.0040)" d="M124 -147c0 -11 -9 -20 -20 -20s-20 9 -20 20v81l-33 -50c-4 -6 -10 -9 -17 -9c-6 0 -11 2 -15 7l-99 119l-78 -117c-4 -6 -9 -9 -16 -9c-6 0 -12 2 -16 7l-98 119c-10 -16 -21 -31 -31 -47c-4 -6 -10 -9 -17 -9c-11 0 -20 9 -20 20c0 4 2 8 4 11c31 47 62 93 93 140
 c4 6 10 9 17 9c6 0 11 -2 15 -7l98 -119l78 117c4 6 10 9 17 9c6 0 11 -2 15 -7l99 -119l4 7v141c0 11 9 20 20 20s20 -9 20 -20v-81l34 50c4 6 9 9 16 9c6 0 12 -2 16 -7l98 -119c10 16 21 31 31 47c4 6 10 9 17 9c11 0 20 -9 20 -20c0 -4 -2 -8 -4 -11
