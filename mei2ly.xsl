@@ -422,6 +422,7 @@
     <xsl:text>&gt;&gt;&#10;</xsl:text>
     <!-- lilypond layout block -->
     <xsl:text>\layout {&#10;</xsl:text>
+    <xsl:text> \context { \Score \consists "Span_arpeggio_engraver" }&#10;</xsl:text>
     <xsl:if test="contains(@vu.height,'pt')">
       <xsl:value-of select="concat('  #(layout-set-staff-size ',8 * number(substring-before(@vu.height,'pt')),')&#10;')" />
     </xsl:if>
@@ -988,6 +989,7 @@
       <xsl:text>\glissando</xsl:text>
     </xsl:if>
     <!-- add control elements -->
+    <xsl:apply-templates select="ancestor::mei:measure/mei:arpeg[not(@startid)][tokenize(@plist,' ') = $noteKey]" />
     <xsl:apply-templates select="ancestor::mei:measure/*[@startid = $noteKey]" />
     <xsl:if test="key('spannerEnd',$noteKey)[self::mei:tupletSpan]">
       <xsl:value-of select="' }'" />
@@ -2060,34 +2062,54 @@
     <xsl:text>~</xsl:text>
   </xsl:template>
   <!-- MEI arpeggiation -->
+  <xsl:template match="mei:arpeg" mode="pre">
+    <xsl:if test="count(tokenize(@plist, '\s+')) gt 1">
+      <xsl:text>\once \set StaffGroup.connectArpeggios = ##t </xsl:text>
+      <xsl:if test="$useSvgBackend">
+        <!-- due to a LilyPond bug no IDs on spanning arpeggios -->
+        <xsl:text>\once \override StaffGroup.Arpeggio.output-attributes = #&apos;((class . arpeg)) </xsl:text>
+      </xsl:if>
+      <xsl:if test="@color">
+        <xsl:text>\once \override StaffGroup.Arpeggio.color = #</xsl:text>
+        <xsl:call-template name="setColor" />
+      </xsl:if>
+      <xsl:choose>
+        <xsl:when test="@order = 'nonarp'">
+          <xsl:text>\once \override StaffGroup.Arpeggio.stencil = #ly:arpeggio::brew-chord-bracket </xsl:text>
+        </xsl:when>
+      </xsl:choose>
+    </xsl:if>
+  </xsl:template>
   <xsl:template match="mei:arpeg">
-    <xsl:if test="$useSvgBackend">
-      <xsl:text>-\tweak output-attributes #&apos;</xsl:text>
-      <xsl:call-template name="setSvgAttr" />
+    <xsl:if test="count(tokenize(@plist, '\s+')) = 1">
+      <xsl:if test="$useSvgBackend">
+        <xsl:text>-\tweak output-attributes #&apos;</xsl:text>
+        <xsl:call-template name="setSvgAttr" />
+      </xsl:if>
+      <xsl:if test="@color">
+        <xsl:text>-\tweak color #</xsl:text>
+        <xsl:call-template name="setColor" />
+      </xsl:if>
+      <xsl:if test="@fontsize">
+        <xsl:text>-\tweak font-size #</xsl:text>
+        <xsl:call-template name="setRelFontsizeNum" />
+      </xsl:if>
+      <xsl:if test="@ho or @vo">
+        <xsl:text>-\tweak extra-offset #&apos;</xsl:text>
+        <xsl:call-template name="setOffset" />
+      </xsl:if>
+      <xsl:choose>
+        <xsl:when test="@order = 'up' and not(@arrow = 'false')">
+          <xsl:text>-\tweak arpeggio-direction #UP </xsl:text>
+        </xsl:when>
+        <xsl:when test="@order = 'down' and not(@arrow = 'false')">
+          <xsl:text>-\tweak arpeggio-direction #DOWN </xsl:text>
+        </xsl:when>
+        <xsl:when test="@order = 'nonarp'">
+          <xsl:text>-\single \arpeggioBracket </xsl:text>
+        </xsl:when>
+      </xsl:choose>
     </xsl:if>
-    <xsl:if test="@color">
-      <xsl:text>-\tweak color #</xsl:text>
-      <xsl:call-template name="setColor" />
-    </xsl:if>
-    <xsl:if test="@fontsize">
-      <xsl:text>-\tweak font-size #</xsl:text>
-      <xsl:call-template name="setRelFontsizeNum" />
-    </xsl:if>
-    <xsl:if test="@ho or @vo">
-      <xsl:text>-\tweak extra-offset #&apos;</xsl:text>
-      <xsl:call-template name="setOffset" />
-    </xsl:if>
-    <xsl:choose>
-      <xsl:when test="@order = 'up' and not(@arrow = 'false')">
-        <xsl:text>-\single \arpeggioArrowUp </xsl:text>
-      </xsl:when>
-      <xsl:when test="@order = 'down' and not(@arrow = 'false')">
-        <xsl:text>-\single \arpeggioArrowDown </xsl:text>
-      </xsl:when>
-      <xsl:when test="@order = 'nonarp'">
-        <xsl:text>-\single \arpeggioBracket </xsl:text>
-      </xsl:when>
-    </xsl:choose>
     <xsl:text>\arpeggio</xsl:text>
   </xsl:template>
   <!-- MEI bend -->
