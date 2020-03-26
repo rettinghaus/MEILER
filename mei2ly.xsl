@@ -4850,22 +4850,22 @@
         <xsl:text>\markup {\musicglyph #"scripts.dverylongfermata"}</xsl:text>
       </xsl:when>
       <!-- Common ornaments (U+E560 – U+E56F) -->
-      <xsl:when test="contains(@glyph.num,'E566')">
+      <xsl:when test="@glyph.name = 'ornamentTrill' or contains(@glyph.num,'E566')">
         <xsl:text>\trill</xsl:text>
       </xsl:when>
-      <xsl:when test="contains(@glyph.num,'E567')">
+      <xsl:when test="@glyph.name = 'ornamentTurn' or contains(@glyph.num,'E567')">
         <xsl:text>\turn</xsl:text>
       </xsl:when>
-      <xsl:when test="contains(@glyph.num,'E568')">
+      <xsl:when test="@glyph.name = 'ornamentTurnInverted' or contains(@glyph.num,'E568')">
         <xsl:text>\reverseturn</xsl:text>
       </xsl:when>
-      <xsl:when test="contains(@glyph.num,'E56C')">
+      <xsl:when test="@glyph.name = 'ornamentShortTrill' or contains(@glyph.num,'E56C')">
         <xsl:text>\prall</xsl:text>
       </xsl:when>
-      <xsl:when test="contains(@glyph.num,'E56D')">
+      <xsl:when test="@glyph.name = 'ornamentMordent' or contains(@glyph.num,'E56D')">
         <xsl:text>\mordent</xsl:text>
       </xsl:when>
-      <xsl:when test="contains(@glyph.num,'E56E')">
+      <xsl:when test="@glyph.name = 'ornamentTremblement' or contains(@glyph.num,'E56E')">
         <xsl:text>\prallprall</xsl:text>
       </xsl:when>
       <!-- Precomposed trills and mordents (U+E5B0 – U+E5CF) -->
