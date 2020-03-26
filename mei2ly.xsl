@@ -1195,6 +1195,9 @@
     <xsl:if test="key('spannerEnd',$restKey)[self::mei:tupletSpan]">
       <xsl:value-of select="' }'" />
     </xsl:if>
+    <xsl:if test="key('spannerEnd',$restKey)[self::mei:octave]">
+      <xsl:value-of select="'\unset Staff.ottavation'" />
+    </xsl:if>
     <xsl:value-of select="' '" />
     <xsl:if test="@staff and @staff != ancestor::mei:staff/@n">
       <xsl:value-of select="concat('\change Staff = &quot;staff ',ancestor::mei:staff/@n,'&quot;&#32;')" />
