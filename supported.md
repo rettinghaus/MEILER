@@ -84,6 +84,7 @@ List of supported MEI elements and attributes
   * `@dur`
   * `@dur.ges`
   * `@fermata`
+  * `@fontsize`
   * `@grace`
   * `@lv`
   * `@oct`
@@ -101,6 +102,7 @@ List of supported MEI elements and attributes
   * `@color`
   * `@dis`
   * `@dis.place`
+  * `@fontsize`
   * `@line`
   * `@shape`
 
@@ -269,6 +271,7 @@ List of supported MEI elements and attributes
   * `@count`
   * `@fontfam`
   * `@fontname`
+  * `@fontsize`
   * `@fontstyle`
   * `@fontweight`
   * `@form`
@@ -670,6 +673,7 @@ List of supported MEI elements and attributes
   * `@accidlower`
   * `@accidupper`
   * `@color`
+  * `@fontsize`
   * `@form`
   * `@glyph.name`
   * `@glyph.num`

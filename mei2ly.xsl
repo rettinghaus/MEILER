@@ -790,6 +790,10 @@
         <xsl:with-param name="color" select="$clefColor" />
       </xsl:call-template>
     </xsl:if>
+    <xsl:if test="@fontsize">
+      <xsl:text>\override Staff.Clef.font-size = #</xsl:text>
+      <xsl:call-template name="setRelFontsizeNum" />
+    </xsl:if>
     <xsl:if test="@cautionary">
       <xsl:value-of select="concat('\set Staff.forceClef = ##',substring(@cautionary,1,1),' ')"/>
     </xsl:if>
@@ -823,13 +827,13 @@
     <xsl:if test="@grace and not(ancestor::*/@grace)">
       <xsl:call-template name="setGraceNote" />
     </xsl:if>
-    <xsl:if test="@fontsize">
-      <xsl:text>\tweak font-size #</xsl:text>
-      <xsl:call-template name="setRelFontsizeNum" />
-    </xsl:if>
     <xsl:if test="$useSvgBackend">
       <xsl:text>\tweak output-attributes #&apos;</xsl:text>
       <xsl:call-template name="setSvgAttr" />
+    </xsl:if>
+    <xsl:if test="@fontsize">
+      <xsl:text>\tweak font-size #</xsl:text>
+      <xsl:call-template name="setRelFontsizeNum" />
     </xsl:if>
     <xsl:if test="@visible">
       <xsl:call-template name="setVisibility"/>
@@ -2871,6 +2875,10 @@
     <xsl:if test="@fontname">
       <xsl:value-of select="concat('\tweak TimeSignature.font-name #&quot;',@fontname,'&quot; ')" />
     </xsl:if>
+    <xsl:if test="@fontsize">
+      <xsl:text>\tweak TimeSignature.font-size #&apos;</xsl:text>
+      <xsl:call-template name="setRelFontsizeNum" />
+    </xsl:if>
     <xsl:if test="@fontstyle">
       <xsl:text>\tweak TimeSignature.font-shape #&apos;</xsl:text>
       <xsl:value-of select="concat(@fontstyle,' ')" />
@@ -4093,6 +4101,7 @@
     </xsl:choose>
   </xsl:template>
   <xsl:template name="setRelFontsizeNum">
+    <!-- data.FONTSIZE -->
     <xsl:choose>
       <!-- data.FONTSIZETERM -->
       <xsl:when test="@fontsize = 'xx-small'">
