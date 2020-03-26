@@ -4093,8 +4093,8 @@
     </xsl:choose>
   </xsl:template>
   <xsl:template name="setRelFontsizeNum">
-    <!-- data.FONTSIZETERM -->
     <xsl:choose>
+      <!-- data.FONTSIZETERM -->
       <xsl:when test="@fontsize = 'xx-small'">
         <xsl:value-of select="'-3 '" />
       </xsl:when>
@@ -4115,6 +4115,10 @@
       </xsl:when>
       <xsl:when test="@fontsize = 'xx-large'">
         <xsl:value-of select="'+3 '" />
+      </xsl:when>
+      <!-- data.PERCENT -->
+      <xsl:when test="contains(@fontsize, '%')">
+        <xsl:value-of select="concat('(magnification->font-size ', number(substring-before(@fontsize,'%')) div 100, ') ')" />
       </xsl:when>
       <xsl:otherwise>
         <xsl:message select="concat('WARNING: Unsupported fontsize: ', @fontsize)" />
