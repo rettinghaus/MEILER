@@ -791,8 +791,13 @@
       </xsl:call-template>
     </xsl:if>
     <xsl:if test="@fontsize">
-      <xsl:text>\override Staff.Clef.font-size = #</xsl:text>
+      <xsl:text>\once \override Staff.Clef.font-size = #</xsl:text>
       <xsl:call-template name="setRelFontsizeNum" />
+    </xsl:if>
+    <xsl:if test="@ho or @vo">
+      <!-- not available in MEI -->
+      <xsl:text>\once \override Staff.Clef.extra-offset = #'</xsl:text>
+      <xsl:call-template name="setOffset" />
     </xsl:if>
     <xsl:if test="@cautionary">
       <xsl:value-of select="concat('\set Staff.forceClef = ##',substring(@cautionary,1,1),' ')"/>
@@ -3558,6 +3563,12 @@
     <xsl:if test="$useSvgBackend">
       <xsl:value-of select="concat('\override StaffGroup.', $object, '.output-attributes = ')" />
       <xsl:text>#'((class . grpSym))</xsl:text>
+    </xsl:if>
+    <xsl:if test="@color">
+      <!-- not available in MEI -->
+      <xsl:value-of select="concat(' \override StaffGroup.', $object, '.color = ')" />
+      <xsl:text>#&apos;</xsl:text>
+      <xsl:call-template name="setColor" />
     </xsl:if>
     <xsl:if test="@ho or @vo">
       <xsl:value-of select="concat(' \override StaffGroup.', $object, '.extra-offset = ')" />
