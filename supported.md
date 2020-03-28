@@ -44,7 +44,7 @@ List of supported MEI elements and attributes
 * `<beam>`
   * `@color`
   * `@form` (for values 'acc' and 'rit')
-  * `@place` ('mixed' will try to put beams between noteheads)
+  * `@place`
   * `@xml:id`
 
 * `<beamSpan>`

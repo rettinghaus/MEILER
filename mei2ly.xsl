@@ -5084,6 +5084,9 @@
   <!-- add beams -->
   <xsl:template mode="addBeamMarkup" match="*"/>
   <xsl:template mode="addBeamMarkup" match="*[key('isBeamStart', generate-id())]">
+      <xsl:call-template name="setMarkupDirection">
+        <xsl:with-param name="direction" select="ancestor::mei:beam/@place" />
+      </xsl:call-template>
       <xsl:text>[</xsl:text>
   </xsl:template>
   <xsl:template mode="addBeamMarkup" match="*[key('isBeamEnd', generate-id())]">
