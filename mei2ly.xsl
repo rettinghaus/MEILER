@@ -484,9 +484,13 @@
     <xsl:if test="@*[starts-with(name(),'spacing')]">
       <!-- att.spacing -->
       <xsl:text> \context { \Score </xsl:text>
+      <xsl:if test="@spacing.packfact">
+        <xsl:text>proportionalNotationDuration = #</xsl:text>
+        <xsl:value-of select="concat('(ly:make-moment 1/', @spacing.packfact, ') ')" />
+      </xsl:if>
       <xsl:if test="@spacing.staff">
-        <xsl:text>\override StaffGrouper.staff-staff-spacing.basic-distance = #</xsl:text>
-        <xsl:value-of select="concat(local:VU2LY(@spacing.staff),' ')" />
+        <xsl:text>\override StaffGrouper.staff-staff-spacing = #&apos;</xsl:text>
+        <xsl:value-of select="concat('((basic-distance . ', local:VU2LY(@spacing.staff), ') (padding . ', local:VU2LY(@spacing.staff), ')) ')" />
       </xsl:if>
       <xsl:text>}&#10;</xsl:text>
     </xsl:if>
