@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="https://music-encoding.org/schema/4.0.0/mei-all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<mei xmlns="http://www.music-encoding.org/ns/mei" meiversion="4.0.0">
+<meiHead>
+  <fileDesc>
+    <titleStmt>
+      <title>Rolling Easter Eggs</title>
+    </titleStmt>
+    <pubStmt>
+      <respStmt>
+        <persName>Klaus Rettinghaus</persName>
+      </respStmt>
+    </pubStmt>
+    <seriesStmt>
+      <title>MEILER test files</title>
+    </seriesStmt>
+  </fileDesc>
+</meiHead>
+  <music>
+    <body>
+      <mdiv>
+        <score>
+          <scoreDef system.leftline="false" spacing.staff="0" spacing.packexp="16">
+            <staffGrp>
+              <staffDef n="1" lines="1">
+                <meterSig count="9" unit="8"/>
+              </staffDef>
+            </staffGrp>
+          </scoreDef>
+          <section>
+            <measure left="rptstart" right="rptend" n="1">
+              <staff n="1">
+                <layer>
+                  <tuplet num="7" numbase="9" num.format="ratio">
+                    <note dur="8" pname="c" fontsize="150%" stem.visible="false" head.color="#ABCDEF" head.rotation="0" stem.dir="down"/>
+                    <note dur="8" pname="c" fontsize="150%" stem.visible="false" head.color="#FABCDE" head.rotation="30"/>
+                    <note dur="8" pname="c" fontsize="150%" stem.visible="false" head.color="#EFABCD" head.rotation="60"/>
+                    <note dur="8" pname="c" fontsize="150%" stem.visible="false" head.color="#DEFABC" head.rotation="90"/>
+                    <note dur="8" pname="c" fontsize="150%" stem.visible="false" head.color="#CDEFAB" head.rotation="120"/>
+                    <note dur="8" pname="c" fontsize="150%" stem.visible="false" head.color="#BCDEFA" head.rotation="150"/>
+                    <note dur="8" pname="c" fontsize="150%" stem.visible="false" head.color="#ABCDEF" head.rotation="180"/>
+                  </tuplet>
+                </layer>
+              </staff>
+            </measure>
+          </section>
+        </score>
+      </mdiv>
+    </body>
+  </music>
+</mei>
