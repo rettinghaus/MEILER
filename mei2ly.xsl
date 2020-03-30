@@ -3574,8 +3574,7 @@
     </xsl:if>
     <xsl:if test="@color">
       <!-- not available in MEI -->
-      <xsl:value-of select="concat(' \override StaffGroup.', $object, '.color = ')" />
-      <xsl:text>#&apos;</xsl:text>
+      <xsl:value-of select="concat(' \override StaffGroup.', $object, '.color = #')" />
       <xsl:call-template name="setColor" />
     </xsl:if>
     <xsl:if test="@ho or @vo">
