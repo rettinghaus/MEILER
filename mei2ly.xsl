@@ -904,6 +904,10 @@
         </xsl:when>
       </xsl:choose>
     </xsl:if>
+    <xsl:if test="number(@head.rotation)">
+      <xsl:text>\tweak rotation #'</xsl:text>
+      <xsl:value-of select="concat('(', @head.rotation, ' 0 0) ')" />
+    </xsl:if>
     <xsl:if test="@head.visible = false()">
       <xsl:text>\tweak transparent ##t </xsl:text>
     </xsl:if>

@@ -340,6 +340,7 @@ List of supported MEI elements and attributes
   * `@grace`
   * `@head.color`
   * `@head.mod`
+  * `@head.rotation`
   * `@head.shape`
   * `@head.visible`
   * `@ho`
