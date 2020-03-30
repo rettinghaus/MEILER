@@ -800,7 +800,7 @@
     </xsl:if>
     <xsl:if test="@ho or @vo">
       <!-- not available in MEI -->
-      <xsl:text>\once \override Staff.Clef.extra-offset = #'</xsl:text>
+      <xsl:text>\once \override Staff.Clef.extra-offset = #&apos;</xsl:text>
       <xsl:call-template name="setOffset" />
     </xsl:if>
     <xsl:if test="@cautionary">
@@ -3586,7 +3586,7 @@
     <xsl:if test="not($object ='SystemStartBar') and ((count(descendant::mei:staffDef) = 1) or (count(self::mei:grpSym/following-sibling::mei:staffDef) = 1))">
       <xsl:value-of select="concat('\override StaffGroup.', $object, '.collapse-height = #1&#10;')" />
     </xsl:if>
-    <xsl:text> \set StaffGroup.systemStartDelimiter = #'</xsl:text>
+    <xsl:text> \set StaffGroup.systemStartDelimiter = #&apos;</xsl:text>
     <xsl:value-of select="$object" />
     <xsl:text>&#10;</xsl:text>
   </xsl:template>
