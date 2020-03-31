@@ -1131,19 +1131,22 @@
     <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:rest[@xml:id = substring-after(current()/@copyof,'#')]" />
   </xsl:template>
   <xsl:template match="mei:rest[@sameas]">
-    <xsl:apply-templates select="ancestor::mei:measure/descendant::mei:rest[@xml:id = substring-after(current()/@sameas,'#')]" />
+    <xsl:if test="$useSvgBackend">
+      <xsl:text>\tweak output-attributes #&apos;</xsl:text>
+      <xsl:call-template name="setSvgAttr" />
+    </xsl:if>
+    <xsl:apply-templates select="ancestor::mei:measure/descendant::mei:rest[@xml:id = substring-after(current()/@sameas,'#')]">
+      <xsl:with-param name="selfID" select="false()" />
+    </xsl:apply-templates>
   </xsl:template>
   <xsl:template match="mei:rest">
+    <xsl:param name="selfID" select="true()" as="xs:boolean" />
     <xsl:variable name="restKey" select="concat('#',./@xml:id)" />
     <xsl:apply-templates select="mei:dot|ancestor::mei:measure/mei:*[@startid = $restKey]" mode="pre" />
     <xsl:if test="@staff and @staff != ancestor::mei:staff/@n">
       <xsl:value-of select="concat('\change Staff = &quot;staff ',@staff,'&quot;&#32;')" />
     </xsl:if>
-    <xsl:if test="@fontsize">
-      <xsl:text>\tweak font-size #</xsl:text>
-      <xsl:call-template name="setRelFontsizeNum" />
-    </xsl:if>
-    <xsl:if test="$useSvgBackend">
+    <xsl:if test="$useSvgBackend and $selfID">
       <xsl:text>\tweak output-attributes #&apos;</xsl:text>
       <xsl:call-template name="setSvgAttr" />
     </xsl:if>
@@ -1154,6 +1157,10 @@
         <xsl:text>\tweak Dots.color #</xsl:text>
         <xsl:call-template name="setColor" />
       </xsl:if>
+    </xsl:if>
+    <xsl:if test="@fontsize">
+      <xsl:text>\tweak font-size #</xsl:text>
+      <xsl:call-template name="setRelFontsizeNum" />
     </xsl:if>
     <xsl:if test="@ho or @vo">
       <xsl:text>\tweak extra-offset #&apos;</xsl:text>

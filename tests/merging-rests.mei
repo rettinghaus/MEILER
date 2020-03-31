@@ -44,17 +44,17 @@
               <staff n="1">
                 <layer n="1">
                   <rest dur="4" xml:id="rest01a" />
-                  <rest dur="4" sameas="#rest02b" />
+                  <rest dur="4" xml:id="rest01b" sameas="#rest02b" />
                   <rest dur="4" xml:id="rest01c" />
                 </layer>
                 <layer n="2">
-                  <rest sameas="#rest01a" />
+                  <rest xml:id="rest02a" sameas="#rest01a" />
                   <rest dur="4" xml:id="rest02b" loc="6" color="darkgray"/>
                   <rest dur="4" xml:id="rest02c" />
                 </layer>
                 <layer n="3">
-                  <rest sameas="#rest01a" />
-                  <rest sameas="#rest02b" />
+                  <rest xml:id="rest03a" sameas="#rest01a" />
+                  <rest xml:id="rest03b" sameas="#rest02b" />
                   <space dur="4" xml:id="space03" />
                 </layer>
               </staff>
