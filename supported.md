@@ -248,6 +248,7 @@ List of supported MEI elements and attributes
   * `@fermata`
   * `@ho`
   * `@loc`
+  * `@sameas`
   * `@visible`
   * `@vo`
   * `@xml:id`
@@ -401,6 +402,7 @@ List of supported MEI elements and attributes
   * `@numbase`
   * `@oloc`
   * `@ploc`
+  * `@sameas`
   * `@staff`
   * `@visible`
   * `@vo`

@@ -1077,7 +1077,7 @@
     <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:rest[@xml:id = substring-after(current()/@copyof,'#')]" />
   </xsl:template>
   <xsl:template match="mei:rest[@sameas]">
-    <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:rest[@xml:id = substring-after(current()/@copyof,'#')]" />
+    <xsl:apply-templates select="ancestor::mei:measure/descendant::mei:rest[@xml:id = substring-after(current()/@sameas,'#')]" />
   </xsl:template>
   <xsl:template match="mei:rest">
     <xsl:variable name="restKey" select="concat('#',./@xml:id)" />
@@ -1107,6 +1107,12 @@
       <xsl:if test="@dots">
         <xsl:text>\tweak Dots.extra-offset #&apos;</xsl:text>
         <xsl:call-template name="setOffset" />
+      </xsl:if>
+    </xsl:if>
+    <xsl:if test="ancestor::mei:staff/descendant::mei:rest/@sameas = $restKey">
+      <xsl:text>\tweak staff-position #0 </xsl:text>
+      <xsl:if test="@dots">
+        <xsl:text>\tweak Dots.staff-position #0 </xsl:text>
       </xsl:if>
     </xsl:if>
     <xsl:if test="@loc">
@@ -1165,6 +1171,7 @@
     <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:mRest[@xml:id = substring-after(current()/@copyof,'#')]" />
   </xsl:template>
   <xsl:template name="setMeasureRest" match="mei:mRest">
+    <xsl:variable name="restKey" select="concat('#',./@xml:id)" />
     <xsl:if test="$useSvgBackend">
       <xsl:text>\tweak output-attributes #&apos;</xsl:text>
       <xsl:call-template name="setSvgAttr" />
@@ -1180,11 +1187,14 @@
       <xsl:text>\tweak extra-offset #&apos;</xsl:text>
       <xsl:call-template name="setOffset" />
     </xsl:if>
+    <xsl:if test="@sameas or (ancestor::mei:staff/descendant::mei:mRest/@sameas = $restKey)">
+      <xsl:text>\tweak staff-position #0 </xsl:text>
+    </xsl:if>
     <xsl:if test="@loc">
       <xsl:value-of select="concat('\tweak staff-position #',@loc - 4,' ')" />
     </xsl:if>
     <xsl:if test="@ploc or @oloc">
-      <xsl:message>WARNING: @ploc and @oloc on <xsl:value-of select="local-name(.)"/> <xsl:if test="@xml:id"><xsl:value-of select="concat('[',@xml:id,']')"/></xsl:if> not supported, use @loc instead</xsl:message>
+      <xsl:message>WARNING: @ploc and @oloc on <xsl:value-of select="local-name(.)"/><xsl:if test="@xml:id"><xsl:value-of select="concat(' [',@xml:id,']')"/></xsl:if> not supported, use @loc instead</xsl:message>
     </xsl:if>
     <xsl:text>R</xsl:text>
     <xsl:choose>
