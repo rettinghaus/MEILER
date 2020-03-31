@@ -2704,16 +2704,6 @@
   <xsl:template match="mei:lem">
     <xsl:apply-templates/>
   </xsl:template>
-  <!-- MEI reading -->
-  <xsl:template match="mei:rdg">
-    <xsl:call-template name="tag" />
-    <xsl:call-template name="tag">
-      <xsl:with-param name="tagList" select="@resp" />
-    </xsl:call-template>
-    <xsl:text>{&#32;</xsl:text>
-    <xsl:apply-templates/>
-    <xsl:text>}&#32;</xsl:text>
-  </xsl:template>
   <!-- MEI original -->
   <xsl:template match="mei:orig">
     <xsl:call-template name="tag" />
@@ -2723,7 +2713,13 @@
   </xsl:template>
   <!-- MEI reading -->
   <xsl:template match="mei:rdg">
+    <xsl:call-template name="tag" />
+    <xsl:call-template name="tag">
+      <xsl:with-param name="tagList" select="@resp" />
+    </xsl:call-template>
+    <xsl:text>{&#32;</xsl:text>
     <xsl:apply-templates/>
+    <xsl:text>}&#32;</xsl:text>
   </xsl:template>
   <!-- MEI regularization -->
   <xsl:template match="mei:reg">
