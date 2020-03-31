@@ -1131,7 +1131,7 @@
     <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:rest[@xml:id = substring-after(current()/@copyof,'#')]" />
   </xsl:template>
   <xsl:template match="mei:rest[@sameas]">
-    <xsl:apply-templates select="ancestor::measure/descendant::mei:rest[@xml:id = substring-after(current()/@copyof,'#')]" />
+    <xsl:apply-templates select="ancestor::measure/descendant::mei:rest[@xml:id = substring-after(current()/@sameas,'#')]" />
   </xsl:template>
   <xsl:template match="mei:rest">
     <xsl:variable name="restKey" select="concat('#',./@xml:id)" />
