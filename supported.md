@@ -306,6 +306,7 @@ List of supported MEI elements and attributes
   * `@fontsize`
   * `@ho`
   * `@loc`
+  * `@sameas` (will revert staff position)
   * `@visible`
   * `@vo`
   * `@xml:id`
