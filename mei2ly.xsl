@@ -1091,7 +1091,15 @@
     </xsl:if>
     <xsl:if test="$useSvgBackend">
       <xsl:text>\tweak output-attributes #&apos;</xsl:text>
-      <xsl:call-template name="setSvgAttr" />
+      <xsl:choose>
+        <xsl:when test="ancestor::mei:staff/descendant::mei:rest/@sameas = $restKey">
+          <!-- no IDs -->
+          <xsl:text>((class . rest)) </xsl:text>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:call-template name="setSvgAttr" />
+        </xsl:otherwise>
+      </xsl:choose>
     </xsl:if>
     <xsl:if test="@color">
       <xsl:text>\tweak color #</xsl:text>
