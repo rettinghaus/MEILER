@@ -250,7 +250,8 @@
             </xsl:if>
           </xsl:if>
           <!-- set bar number -->
-          <xsl:if test="(ancestor::mei:measure[@n and not(@metcon='false')]/@n != preceding::mei:measure[@n and not(@metcon='false')][1]/@n + 1)">
+          <xsl:if test="(ancestor::mei:measure[number(@n) and not(@metcon='false')]/@n != preceding::mei:measure[number(@n) and not(@metcon='false')][1]/@n + 1)">
+            <!-- This only works with numbers -->
             <xsl:call-template name="setBarNumber" />
           </xsl:if>
           <!-- add clef change -->
