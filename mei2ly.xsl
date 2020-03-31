@@ -2886,7 +2886,7 @@
     <xsl:apply-templates select="mei:dot"/>
   </xsl:template>
   <!-- set accidental -->
-  <xsl:template mode="setAccidental" match="@accid | @accid.ges">
+  <xsl:template mode="setAccidental" match="@accid | @accid.ges | @key.accid">
     <xsl:param name="accidental" select="."/>
     <!-- data.ACCIDENTAL.EXPLICIT -->
     <xsl:if test="$accidental = 's'">
