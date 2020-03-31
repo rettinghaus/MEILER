@@ -1335,6 +1335,9 @@
   </xsl:template>
   <!-- MEI spaces -->
   <xsl:template match="mei:space">
+    <xsl:if test="$useSvgBackend">
+      <!-- no container for space in the output -->
+    </xsl:if>
     <xsl:text>s</xsl:text>
     <xsl:call-template name="setDuration" />
     <xsl:value-of select="' '" />
