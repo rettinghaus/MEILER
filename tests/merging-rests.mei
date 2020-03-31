@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="https://music-encoding.org/schema/3.0.0/mei-all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<mei xmlns="http://www.music-encoding.org/ns/mei" meiversion="3.0.0" xmlns:meiler="NS:MEILER_TEST">
+  <meiHead>
+    <fileDesc>
+      <titleStmt>
+        <title>Rests in mulitple layers</title>
+      </titleStmt>
+      <pubStmt>
+        <respStmt>
+          <persName>Klaus Rettinghaus</persName>
+        </respStmt>
+      </pubStmt>
+      <seriesStmt>
+        <title>MEILER test files</title>
+      </seriesStmt>
+    </fileDesc>
+  </meiHead>
+  <music>
+    <body>
+      <mdiv>
+        <score>
+          <scoreDef meter.count="3" meter.unit="4">
+            <staffGrp>
+              <staffDef n="1" clef.line="2" clef.shape="G" lines="5" />
+            </staffGrp>
+          </scoreDef>
+          <section>
+            <measure n="1" label="three distinct measure rest">
+              <staff n="1">
+                <layer n="1">
+                  <mRest />
+                </layer>
+                <layer n="2">
+                  <mRest />
+                </layer>
+                <layer n="3">
+                  <mRest />
+                  <annot>LilyPond will merge this one with layer one.</annot>
+                </layer>
+              </staff>
+            </measure>
+            <measure n="2">
+              <staff n="1">
+                <layer n="1">
+                  <rest dur="4" xml:id="rest01a" />
+                  <rest dur="4" sameas="#rest02b" />
+                  <rest dur="4" xml:id="rest01c" />
+                </layer>
+                <layer n="2">
+                  <rest sameas="#rest01a" />
+                  <rest dur="4" xml:id="rest02b" loc="6" color="gray"/>
+                  <rest dur="4" xml:id="rest02c" />
+                </layer>
+                <layer n="3">
+                  <rest sameas="#rest01a" />
+                  <rest sameas="#rest02b" />
+                  <space dur="4" xml:id="space03" />
+                </layer>
+              </staff>
+            </measure>
+            <measure n="3" label="three merged measure rest">
+              <staff n="1">
+                <layer n="1">
+                  <mRest xml:id="mrest01" />
+                </layer>
+                <layer n="2">
+                  <mRest sameas="#mrest01" xml:id="mrest02" />
+                </layer>
+                <layer n="3">
+                  <mRest sameas="#mrest02" xml:id="mrest03" />
+                </layer>
+              </staff>
+            </measure>
+          </section>
+        </score>
+      </mdiv>
+    </body>
+  </music>
+</mei>
