@@ -1170,7 +1170,7 @@
         <xsl:call-template name="setOffset" />
       </xsl:if>
     </xsl:if>
-    <xsl:if test="@sameas or (ancestor::mei:staff/descendant::mei:rest/@sameas = $restKey)">
+    <xsl:if test="not(@loc) and (ancestor::mei:staff/descendant::mei:rest/@sameas = $restKey)">
       <xsl:text>\tweak staff-position #0 </xsl:text>
     </xsl:if>
     <xsl:if test="@loc">
