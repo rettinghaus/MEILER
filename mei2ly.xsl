@@ -1854,10 +1854,19 @@
       <xsl:text>-\tweak extra-offset #&apos;</xsl:text>
       <xsl:call-template name="setOffset" />
     </xsl:if>
+    <xsl:if test="@lform">
+      <xsl:text>-\tweak style #&apos;</xsl:text>
+      <xsl:call-template name="setLineForm" />
+    </xsl:if>
+    <xsl:if test="@lwidth">
+      <xsl:text>-\tweak thickness #</xsl:text>
+      <xsl:call-template name="setLineWidth" />
+    </xsl:if>
     <xsl:if test="@place">
       <xsl:text>-\tweak direction #</xsl:text>
       <xsl:call-template name="setDirection" />
     </xsl:if>
+    <xsl:apply-templates select="@lendsym" />
     <xsl:choose>
       <xsl:when test="@endid and @endid != @startid">
         <xsl:text>\startTrillSpan</xsl:text>
@@ -2283,6 +2292,7 @@
       <xsl:text>-\tweak thickness #</xsl:text>
       <xsl:call-template name="setLineWidth" />
     </xsl:if>
+    <xsl:apply-templates select="@lendsym" />
     <xsl:text>\glissando</xsl:text>
   </xsl:template>
   <!-- MEI hairpin -->
@@ -3369,6 +3379,11 @@
       </xsl:otherwise>
     </xsl:choose>
     <xsl:text>}</xsl:text>
+  </xsl:template>
+  <xsl:template match="@lendsym">
+    <xsl:if test=". = 'arrow'">
+      <xsl:text>-\tweak bound-details.right.arrow ##t&#32;</xsl:text>
+    </xsl:if>
   </xsl:template>
   <!-- set grace notes -->
   <xsl:template name="setGraceNote">
