@@ -70,7 +70,7 @@
                     </beam>
                   </tuplet>
                   <beam>
-                    <tuplet num="3" numbase="2" num.place="below" bracket.visible="true">
+                    <tuplet num="3" numbase="2" bracket.visible="true">
                       <note pname="g" oct="4" dur="8"/>
                       <note pname="g" oct="4" dur="8"/>
                       <note pname="g" oct="4" dur="8"/>

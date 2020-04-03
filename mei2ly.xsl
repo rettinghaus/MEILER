@@ -1494,17 +1494,7 @@
       <xsl:call-template name="setSvgAttr" />
     </xsl:if>
     <xsl:if test="@num">
-      <xsl:if test="@num.visible=false()">
-        <xsl:value-of select="'\once \omit TupletNumber '" />
-      </xsl:if>
-      <xsl:choose>
-        <xsl:when test="@num.place = 'above'">
-          <xsl:value-of select="'\once \tupletUp '" />
-        </xsl:when>
-        <xsl:when test="@num.place = 'below'">
-          <xsl:value-of select="'\once \tupletDown '" />
-        </xsl:when>
-      </xsl:choose>
+      <xsl:apply-templates select="@num.place|@num.visible" />
       <xsl:value-of select="'\tuplet '" />
       <xsl:value-of select="concat(@num,'/',local:slash2dur(substring(child::*/@stem.mod,1,1)) div child::*/@dur,' ')" />
     </xsl:if>
@@ -1550,15 +1540,12 @@
       <xsl:value-of select="'\tweak TupletNumber.color #'" />
       <xsl:call-template name="setColor" />
     </xsl:if>
+    <xsl:apply-templates select="@num.place|@num.visible" />
     <xsl:if test="@bracket.place">
-      <xsl:choose>
-        <xsl:when test="@bracket.place = 'above'">
-          <xsl:text>\tweak TupletBracket.direction #UP </xsl:text>
-        </xsl:when>
-        <xsl:when test="@bracket.place = 'below'">
-          <xsl:text>\tweak TupletBracket.direction #DOWN </xsl:text>
-        </xsl:when>
-      </xsl:choose>
+      <xsl:text>\tweak TupletBracket.direction #</xsl:text>
+      <xsl:call-template name="setDirection">
+        <xsl:with-param name="direction" select="@bracket.place" />
+      </xsl:call-template>
     </xsl:if>
     <xsl:if test="@bracket.visible">
       <xsl:value-of select="concat('\tweak TupletBracket.bracket-visibility ##',substring(@bracket.visible,1,1),' ')" />
@@ -1572,19 +1559,6 @@
           <xsl:value-of select="'\tweak TupletNumber.text #tuplet-number::calc-fraction-text '" />
         </xsl:when>
       </xsl:choose>
-    </xsl:if>
-    <xsl:if test="@num.place">
-      <xsl:choose>
-        <xsl:when test="@num.place = 'above'">
-          <xsl:text>\tweak TupletNumber.direction #UP </xsl:text>
-        </xsl:when>
-        <xsl:when test="@num.place = 'below'">
-          <xsl:text>\tweak TupletNumber.direction #DOWN </xsl:text>
-        </xsl:when>
-      </xsl:choose>
-    </xsl:if>
-    <xsl:if test="@num.visible=false()">
-      <xsl:value-of select="'\single \omit TupletNumber '" />
     </xsl:if>
     <xsl:value-of select="concat('\tuplet ', @num, '/', @numbase, ' { ')" />
     <xsl:if test="self::mei:tuplet">
@@ -1676,7 +1650,7 @@
       <xsl:call-template name="setColor" />
     </xsl:if>
     <xsl:if test="@lform">
-      <xsl:text>\tweak LigatureBracket.style #&apos;</xsl:text>
+      <xsl:text>\tweak LigatureBracket.style #</xsl:text>
       <xsl:call-template name="setLineForm" />
     </xsl:if>
     <xsl:if test="@lwidth">
@@ -1700,10 +1674,6 @@
           <xsl:text>-\tweak output-attributes #&apos;</xsl:text>
           <xsl:call-template name="setSvgAttr" />
         </xsl:if>
-        <xsl:if test="@color">
-          <xsl:text>-\tweak color #</xsl:text>
-          <xsl:call-template name="setColor" />
-        </xsl:if>
         <xsl:if test="@fontsize">
           <xsl:text>-\tweak font-size #</xsl:text>
           <xsl:call-template name="setRelFontsizeNum" />
@@ -1712,6 +1682,7 @@
           <xsl:text>-\tweak extra-offset #&apos;</xsl:text>
           <xsl:call-template name="setOffset" />
         </xsl:if>
+        <xsl:apply-templates select="@color" mode="tweak" />
         <xsl:call-template name="setMarkupDirection" />
       </xsl:when>
       <xsl:otherwise>
@@ -1765,10 +1736,6 @@
       <xsl:text>-\tweak output-attributes #&apos;</xsl:text>
       <xsl:call-template name="setSvgAttr" />
     </xsl:if>
-    <xsl:if test="@color">
-      <xsl:text>-\tweak color #</xsl:text>
-      <xsl:call-template name="setColor" />
-    </xsl:if>
     <xsl:if test="@fontsize">
       <xsl:text>-\tweak font-size #</xsl:text>
       <xsl:call-template name="setRelFontsizeNum" />
@@ -1777,6 +1744,7 @@
       <xsl:text>-\tweak extra-offset #&apos;</xsl:text>
       <xsl:call-template name="setOffset" />
     </xsl:if>
+    <xsl:apply-templates select="@color" mode="tweak" />
     <xsl:call-template name="setMarkupDirection" />
     <xsl:choose>
       <xsl:when test="not(@glyph.name or @glyph.num)">
@@ -1809,10 +1777,7 @@
       <xsl:text>-\tweak output-attributes #&apos;</xsl:text>
       <xsl:call-template name="setSvgAttr" />
     </xsl:if>
-    <xsl:if test="@color">
-      <xsl:text>-\tweak color #</xsl:text>
-      <xsl:call-template name="setColor" />
-    </xsl:if>
+    <xsl:apply-templates select="@color" mode="tweak" />
     <xsl:if test="@accidlower or @accidupper">
       <xsl:call-template name="addOrnamentAccid" />
     </xsl:if>
@@ -1842,10 +1807,6 @@
       <xsl:text>-\tweak output-attributes #&apos;</xsl:text>
       <xsl:call-template name="setSvgAttr" />
     </xsl:if>
-    <xsl:if test="@color">
-      <xsl:text>-\tweak color #</xsl:text>
-      <xsl:call-template name="setColor" />
-    </xsl:if>
     <xsl:if test="@fontsize">
       <xsl:text>-\tweak font-size #</xsl:text>
       <xsl:call-template name="setRelFontsizeNum" />
@@ -1854,21 +1815,12 @@
       <xsl:text>-\tweak extra-offset #&apos;</xsl:text>
       <xsl:call-template name="setOffset" />
     </xsl:if>
-    <xsl:if test="@lform">
-      <xsl:text>-\tweak style #&apos;</xsl:text>
-      <xsl:call-template name="setLineForm" />
-    </xsl:if>
-    <xsl:if test="@lwidth">
-      <xsl:text>-\tweak thickness #</xsl:text>
-      <xsl:call-template name="setLineWidth" />
-    </xsl:if>
-    <xsl:if test="@place">
-      <xsl:text>-\tweak direction #</xsl:text>
-      <xsl:call-template name="setDirection" />
-    </xsl:if>
-    <xsl:apply-templates select="@lendsym" />
+    <xsl:apply-templates select="@*" mode="tweak" />
     <xsl:choose>
       <xsl:when test="@endid and @endid != @startid">
+        <xsl:if test="@extender = 'false'">
+          <xsl:text>-\tweak style #&apos;none </xsl:text>
+        </xsl:if>
         <xsl:text>\startTrillSpan</xsl:text>
       </xsl:when>
       <xsl:when test="not(@glyph.name or @glyph.num)">
@@ -1891,10 +1843,6 @@
       <xsl:text>-\tweak output-attributes #&apos;</xsl:text>
       <xsl:call-template name="setSvgAttr" />
     </xsl:if>
-    <xsl:if test="@color">
-      <xsl:text>-\tweak color #</xsl:text>
-      <xsl:call-template name="setColor" />
-    </xsl:if>
     <xsl:if test="@fontsize">
       <xsl:text>-\tweak font-size #</xsl:text>
       <xsl:call-template name="setRelFontsizeNum" />
@@ -1903,6 +1851,7 @@
       <xsl:text>-\tweak extra-offset #&apos;</xsl:text>
       <xsl:call-template name="setOffset" />
     </xsl:if>
+    <xsl:apply-templates select="@color" mode="tweak" />
     <xsl:call-template name="setMarkupDirection" />
     <xsl:choose>
       <xsl:when test="not(@glyph.name or @glyph.num)">
@@ -1952,14 +1901,11 @@
       <xsl:text>-\tweak output-attributes #&apos;</xsl:text>
       <xsl:call-template name="setSvgAttr" />
     </xsl:if>
-    <xsl:if test="@color">
-      <xsl:text>-\tweak color #</xsl:text>
-      <xsl:call-template name="setColor" />
-    </xsl:if>
     <xsl:if test="@lwidth">
       <xsl:text>-\tweak thickness #</xsl:text>
       <xsl:call-template name="setLineWidth" />
     </xsl:if>
+    <xsl:apply-templates select="@color" mode="tweak" />
     <xsl:call-template name="setMarkupDirection" />
     <xsl:text>\laissezVibrer</xsl:text>
   </xsl:template>
@@ -1989,7 +1935,7 @@
       <xsl:call-template name="setOffset" />
     </xsl:if>
     <xsl:if test="@lform">
-      <xsl:text>\once \override Staff.OttavaBracket.style = #&apos;</xsl:text>
+      <xsl:text>\once \override Staff.OttavaBracket.style = #</xsl:text>
       <xsl:call-template name="setLineForm" />
     </xsl:if>
     <xsl:if test="@lwidth">
@@ -2019,10 +1965,6 @@
       <xsl:text>-\tweak output-attributes #&apos;</xsl:text>
       <xsl:call-template name="setSvgAttr" />
     </xsl:if>
-    <xsl:if test="@color">
-      <xsl:text>-\tweak color #</xsl:text>
-      <xsl:call-template name="setColor" />
-    </xsl:if>
     <!--     <xsl:if test="(@startvo or @endvo or @startho or @endho)">
     <xsl:text>\once \override PhrasingSlur.positions = #&apos;</xsl:text>
     <xsl:call-template name="setOffset2" />
@@ -2034,6 +1976,7 @@
       <xsl:text>-\tweak thickness #</xsl:text>
       <xsl:call-template name="setLineWidth" />
     </xsl:if>
+    <xsl:apply-templates select="@color" mode="tweak" />
     <xsl:call-template name="setMarkupDirection" />
     <xsl:text>\(</xsl:text>
   </xsl:template>
@@ -2057,10 +2000,6 @@
       <xsl:text>-\tweak output-attributes #&apos;</xsl:text>
       <xsl:call-template name="setSvgAttr" />
     </xsl:if>
-    <xsl:if test="@color">
-      <xsl:text>-\tweak color #</xsl:text>
-      <xsl:call-template name="setColor" />
-    </xsl:if>
     <xsl:if test="@lform">
       <xsl:value-of select="concat('-\single \slur',translate(substring(@lform,1,1),'ds','DS'),substring(@lform,2),' ')" />
     </xsl:if>
@@ -2068,6 +2007,7 @@
       <xsl:text>-\tweak thickness #</xsl:text>
       <xsl:call-template name="setLineWidth" />
     </xsl:if>
+    <xsl:apply-templates select="@color" mode="tweak" />
     <xsl:call-template name="setMarkupDirection" />
     <xsl:text>\=#&apos;</xsl:text>
     <xsl:choose>
@@ -2093,10 +2033,6 @@
       <xsl:text>-\tweak output-attributes #&apos;</xsl:text>
       <xsl:call-template name="setSvgAttr" />
     </xsl:if>
-    <xsl:if test="@color">
-      <xsl:text>-\tweak color #</xsl:text>
-      <xsl:call-template name="setColor" />
-    </xsl:if>
     <xsl:if test="@lform">
       <xsl:value-of select="concat('-\single \tie',translate(substring(@lform,1,1),'ds','DS'),substring(@lform,2),' ')" />
     </xsl:if>
@@ -2104,6 +2040,7 @@
       <xsl:text>-\tweak thickness #</xsl:text>
       <xsl:call-template name="setLineWidth" />
     </xsl:if>
+    <xsl:apply-templates select="@color" mode="tweak" />
     <xsl:call-template name="setMarkupDirection" />
     <xsl:text>~</xsl:text>
   </xsl:template>
@@ -2136,10 +2073,6 @@
         <xsl:text>-\tweak output-attributes #&apos;</xsl:text>
         <xsl:call-template name="setSvgAttr" />
       </xsl:if>
-      <xsl:if test="@color">
-        <xsl:text>-\tweak color #</xsl:text>
-        <xsl:call-template name="setColor" />
-      </xsl:if>
       <xsl:if test="@fontsize">
         <xsl:text>-\tweak font-size #</xsl:text>
         <xsl:call-template name="setRelFontsizeNum" />
@@ -2148,6 +2081,7 @@
         <xsl:text>-\tweak extra-offset #&apos;</xsl:text>
         <xsl:call-template name="setOffset" />
       </xsl:if>
+      <xsl:apply-templates select="@color" mode="tweak" />
       <xsl:choose>
         <xsl:when test="@order = 'up' and not(@arrow = 'false')">
           <xsl:text>-\tweak arpeggio-direction #UP </xsl:text>
@@ -2160,29 +2094,13 @@
         </xsl:when>
       </xsl:choose>
     </xsl:if>
-    <xsl:text>\arpeggio</xsl:text>
+    <xsl:text>\arpeggio </xsl:text>
   </xsl:template>
   <!-- MEI bend -->
   <xsl:template match="mei:bend">
   </xsl:template>
   <!-- MEI dynamic -->
-  <xsl:template match="mei:dynam" mode="pre">
-    <xsl:if test="@endid or @tstamp2">
-      <xsl:if test="@lform">
-        <xsl:text>\once \override DynamicTextSpanner.style = #&apos;</xsl:text>
-        <xsl:call-template name="setLineForm" />
-      </xsl:if>
-      <xsl:if test="@lwidth">
-        <xsl:text>\once \override DynamicTextSpanner.thickness = #</xsl:text>
-        <xsl:call-template name="setLineWidth">
-          <xsl:with-param name="thickness" select="@lwidth" />
-        </xsl:call-template>
-      </xsl:if>
-      <xsl:if test="@extender = 'false'">
-        <xsl:text>\once \override DynamicTextSpanner.style = #&apos;none </xsl:text>
-      </xsl:if>
-    </xsl:if>
-  </xsl:template>
+  <xsl:template match="mei:dynam" mode="pre" />
   <xsl:template match="mei:dynam">
     <xsl:variable name="dynamicMarks" select="('ppppp', 'pppp', 'ppp', 'pp', 'p', 'mp', 'mf', 'f', 'ff', 'fff', 'ffff', 'fffff', 'fp', 'sf', 'sff', 'sp', 'spp', 'sfz', 'rfz')" />
     <xsl:if test="$useSvgBackend">
@@ -2193,6 +2111,12 @@
       <xsl:text>-\tweak extra-offset #&apos;</xsl:text>
       <xsl:call-template name="setOffset" />
     </xsl:if>
+    <xsl:if test="@endid or @tstamp2">
+      <xsl:if test="@extender = 'false'">
+        <xsl:text>-\tweak style #&apos;none </xsl:text>
+      </xsl:if>
+    </xsl:if>
+    <xsl:apply-templates select="@*[name() != 'place']" mode="tweak" />
     <xsl:call-template name="setMarkupDirection" />
     <xsl:choose>
       <xsl:when test="normalize-space(.)=$dynamicMarks or contains(.,'cresc') or contains(.,'dim')">
@@ -2272,10 +2196,6 @@
       <xsl:text>-\tweak output-attributes #&apos;</xsl:text>
       <xsl:call-template name="setSvgAttr" />
     </xsl:if>
-    <xsl:if test="@color">
-      <xsl:text>-\tweak color #</xsl:text>
-      <xsl:call-template name="setColor" />
-    </xsl:if>
     <xsl:if test="@fontsize">
       <xsl:text>-\tweak font-size #</xsl:text>
       <xsl:call-template name="setRelFontsizeNum" />
@@ -2284,16 +2204,8 @@
       <xsl:text>-\tweak extra-offset #&apos;</xsl:text>
       <xsl:call-template name="setOffset" />
     </xsl:if>
-    <xsl:if test="@lform">
-      <xsl:text>-\tweak style #&apos;</xsl:text>
-      <xsl:call-template name="setLineForm" />
-    </xsl:if>
-    <xsl:if test="@lwidth">
-      <xsl:text>-\tweak thickness #</xsl:text>
-      <xsl:call-template name="setLineWidth" />
-    </xsl:if>
-    <xsl:apply-templates select="@lendsym" />
-    <xsl:text>\glissando</xsl:text>
+    <xsl:apply-templates select="@*" mode="tweak" />
+    <xsl:text>\glissando </xsl:text>
   </xsl:template>
   <!-- MEI hairpin -->
   <xsl:template match="mei:hairpin">
@@ -2301,18 +2213,7 @@
       <xsl:text>-\tweak output-attributes #&apos;</xsl:text>
       <xsl:call-template name="setSvgAttr" />
     </xsl:if>
-    <xsl:if test="@color">
-      <xsl:text>-\tweak color #</xsl:text>
-      <xsl:call-template name="setColor" />
-    </xsl:if>
-    <xsl:if test="@lform">
-      <xsl:text>-\tweak style #&apos;</xsl:text>
-      <xsl:call-template name="setLineForm" />
-    </xsl:if>
-    <xsl:if test="@lwidth">
-      <xsl:text>-\tweak thickness #</xsl:text>
-      <xsl:call-template name="setLineWidth" />
-    </xsl:if>
+    <xsl:apply-templates select="@*" mode="tweak" />
     <xsl:call-template name="setMarkupDirection" />
     <xsl:choose>
       <xsl:when test="@form = 'cres'">
@@ -2332,14 +2233,11 @@
       <xsl:text>-\tweak output-attributes #&apos;</xsl:text>
       <xsl:call-template name="setSvgAttr" />
     </xsl:if>
-    <xsl:if test="@color">
-      <xsl:text>-\tweak color #</xsl:text>
-      <xsl:call-template name="setColor" />
-    </xsl:if>
     <xsl:if test="@ho or @vo">
       <xsl:text>-\tweak extra-offset #&apos;</xsl:text>
       <xsl:call-template name="setOffset" />
     </xsl:if>
+    <xsl:apply-templates select="@color" mode="tweak" />
     <xsl:choose>
       <!-- by default harp pedals should be under the system  -->
       <xsl:when test="not(@place)">
@@ -2415,10 +2313,6 @@
       <xsl:text>-\tweak output-attributes #&apos;</xsl:text>
       <xsl:call-template name="setSvgAttr" />
     </xsl:if>
-    <xsl:if test="@color">
-      <xsl:text>-\tweak color #</xsl:text>
-      <xsl:call-template name="setColor" />
-    </xsl:if>
     <xsl:if test="@fontsize">
       <xsl:text>-\tweak font-size #</xsl:text>
       <xsl:call-template name="setRelFontsizeNum" />
@@ -2427,14 +2321,7 @@
       <xsl:text>-\tweak extra-offset #&apos;</xsl:text>
       <xsl:call-template name="setOffset" />
     </xsl:if>
-    <xsl:if test="@lform">
-      <xsl:text>-\tweak style #&apos;</xsl:text>
-      <xsl:call-template name="setLineForm" />
-    </xsl:if>
-    <xsl:if test="@lwidth">
-      <xsl:text>-\tweak thickness #&apos;</xsl:text>
-      <xsl:call-template name="setLineWidth" />
-    </xsl:if>
+    <xsl:apply-templates select="@*" mode="tweak" /> 
     <xsl:if test="@place">
       <!-- this doesn't work -->
       <xsl:text>-\tweak direction #</xsl:text>
@@ -2792,7 +2679,7 @@
       </xsl:choose>
     </xsl:if>
     <xsl:if test="@color">
-      <!-- not in MEI yet -->
+      <!-- not available in MEI -->
       <xsl:value-of select="'\tweak color #'" />
       <xsl:call-template name="setColor" />
     </xsl:if>
@@ -3122,9 +3009,14 @@
   <xsl:template match="mei:supplied">
     <xsl:apply-templates/>
   </xsl:template>
+  <!-- MEI annotation -->
+  <xsl:template match="mei:annot">
+    <xsl:text>%{ </xsl:text>
+    <xsl:apply-templates/>
+    <xsl:text> %} </xsl:text>
+  </xsl:template>
   <!-- excluded elements -->
   <xsl:template match="comment()" />
-  <xsl:template match="mei:annot" />
   <xsl:template match="mei:back" />
   <xsl:template match="mei:encodingDesc" />
   <xsl:template match="mei:expansion" />
@@ -3380,11 +3272,56 @@
     </xsl:choose>
     <xsl:text>}</xsl:text>
   </xsl:template>
-  <xsl:template match="@lendsym">
+  <!-- att.color -->
+  <xsl:template match="@color" mode="tweak">
+    <xsl:text>-\tweak color #</xsl:text>
+    <xsl:call-template name="setColor" />
+  </xsl:template>
+  <!-- att.line.vis -->
+  <xsl:template match="@lendsym" mode="tweak">
+    <!-- data.LINESTARTENDSYMBOL -->
     <xsl:if test=". = 'arrow'">
       <xsl:text>-\tweak bound-details.right.arrow ##t&#32;</xsl:text>
     </xsl:if>
   </xsl:template>
+  <xsl:template match="@lform" mode="tweak">
+    <xsl:text>-\tweak style #</xsl:text>
+    <xsl:call-template name="setLineForm">
+      <xsl:with-param name="form" select="." />
+    </xsl:call-template>
+  </xsl:template>
+  <xsl:template match="@lwidth" mode="tweak">
+    <xsl:text>-\tweak thickness #</xsl:text>
+    <xsl:call-template name="setLineWidth">
+      <xsl:with-param name="thickness" select="." />
+    </xsl:call-template>
+  </xsl:template>
+  <xsl:template match="@lstartsym" mode="tweak">
+    <xsl:if test=". = 'none'">
+      <xsl:text>-\tweak bound-details.left.text #'none&#32;</xsl:text>
+    </xsl:if>
+  </xsl:template>
+  <!-- att.numberPlacement -->
+  <xsl:template match="@num.place">
+    <xsl:text>\tweak direction #</xsl:text>
+    <xsl:call-template name="setDirection">
+      <xsl:with-param name="direction" select="." />
+    </xsl:call-template>
+  </xsl:template>
+  <xsl:template match="@num.visible">
+    <xsl:if test=". = false()">
+      <xsl:text>\tweak TupletNumber.stencil ##f </xsl:text>
+    </xsl:if>
+  </xsl:template>
+  <!-- att.placement -->
+  <xsl:template match="@place" mode="tweak">
+    <xsl:text>-\tweak direction #</xsl:text>
+    <xsl:call-template name="setDirection">
+      <xsl:with-param name="direction" select="." />
+    </xsl:call-template>
+  </xsl:template>
+  <!-- exclude untweaked attributes -->
+  <xsl:template match="@*" mode="tweak" />
   <!-- set grace notes -->
   <xsl:template name="setGraceNote">
     <xsl:text>\grace </xsl:text>
@@ -4187,6 +4124,7 @@
   <!-- set line form -->
   <xsl:template name="setLineForm">
     <xsl:param name="form" select="@lform" />
+    <xsl:text>&apos;</xsl:text>
     <!-- data.LINEFORM -->
     <xsl:choose>
       <xsl:when test="$form = 'dashed'">
@@ -4973,7 +4911,7 @@
     </xsl:choose>
   </xsl:template>
   <!-- If you use OpenLilyLib, then this would come in handy -->
-  <!-- Not active for now -->
+  <!-- not active for now -->
   <xsl:template name="setSmuflGlyphNative">
     <xsl:choose>
       <xsl:when test="@glyph.name">

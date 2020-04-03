@@ -123,6 +123,7 @@ List of supported MEI elements and attributes
   * `@endid`
   * `@extender`
   * `@ho`
+  * `@lendsym` (for values 'arrow' and 'none')
   * `@lform`
   * `@lwidth`
   * `@place`
@@ -172,8 +173,9 @@ List of supported MEI elements and attributes
 * `<gliss>`
   * `@color`
   * `@ho`
-  * `@lendsym` (for value 'arrow')
+  * `@lendsym` (for values 'arrow' and 'none')
   * `@lform`
+  * `@lstartsym` (for value 'none')
   * `@lwidth`
   * __`@startid`__
   * `@vo`
@@ -396,7 +398,7 @@ List of supported MEI elements and attributes
 * `<pedal>`
   * `@color`
   * `@dir`
-  * __`@endid`__
+  * `@endid`
   * `@fontsize`
   * `@form`
   * `@func`
@@ -642,8 +644,9 @@ List of supported MEI elements and attributes
   * `@glyph.name`
   * `@glyph.num`
   * `@ho`
-  * `@lendsym` (for value 'arrow')
+  * `@lendsym` (for values 'arrow' and 'none')
   * `@lform`
+  * `@lstartsym` (for value 'none')
   * `@lwidth`
   * `@place`
   * __`@startid`__
