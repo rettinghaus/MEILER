@@ -172,7 +172,7 @@ List of supported MEI elements and attributes
 * `<gliss>`
   * `@color`
   * `@ho`
-  * `@lendsym` (for value 'arrow'
+  * `@lendsym` (for value 'arrow')
   * `@lform`
   * `@lwidth`
   * __`@startid`__
@@ -642,7 +642,7 @@ List of supported MEI elements and attributes
   * `@glyph.name`
   * `@glyph.num`
   * `@ho`
-  * `@lendsym` (for value 'arrow'
+  * `@lendsym` (for value 'arrow')
   * `@lform`
   * `@lwidth`
   * `@place`
