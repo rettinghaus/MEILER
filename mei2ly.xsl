@@ -2115,11 +2115,11 @@
       <xsl:call-template name="setOffset" />
     </xsl:if>
     <xsl:if test="@endid or @tstamp2">
+      <xsl:apply-templates select="@*[name() != 'place']" mode="tweak" />
       <xsl:if test="@extender = 'false'">
         <xsl:text>-\tweak style #&apos;none </xsl:text>
       </xsl:if>
     </xsl:if>
-    <xsl:apply-templates select="@*[name() != 'place']" mode="tweak" />
     <xsl:call-template name="setMarkupDirection" />
     <xsl:choose>
       <xsl:when test="normalize-space(.)=$dynamicMarks or contains(.,'cresc') or contains(.,'dim')">
