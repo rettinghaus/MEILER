@@ -402,6 +402,9 @@
   </xsl:template>
   <!-- MEI score -->
   <xsl:template match="mei:score">
+    <xsl:if test="@label">
+      <xsl:value-of select="concat('% ', @label, '&#10;')" />
+    </xsl:if>
     <xsl:apply-templates select="descendant::mei:scoreDef[1]" mode="score-setup" />
   </xsl:template>
   <!-- MEI score definition -->
