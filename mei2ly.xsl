@@ -1130,7 +1130,7 @@
   <xsl:template match="mei:rest[@copyof]">
     <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:rest[@xml:id = substring-after(current()/@copyof,'#')]" />
   </xsl:template>
-  <xsl:template match="mei:rest[@sameas]">
+  <xsl:template match="mei:rest[@sameas][not(@dur)]">
     <xsl:if test="$useSvgBackend">
       <xsl:text>\tweak output-attributes #&apos;</xsl:text>
       <xsl:call-template name="setSvgAttr" />
@@ -2321,7 +2321,7 @@
       <xsl:text>-\tweak extra-offset #&apos;</xsl:text>
       <xsl:call-template name="setOffset" />
     </xsl:if>
-    <xsl:apply-templates select="@*" mode="tweak" /> 
+    <xsl:apply-templates select="@*" mode="tweak" />
     <xsl:if test="@place">
       <!-- this doesn't work -->
       <xsl:text>-\tweak direction #</xsl:text>
