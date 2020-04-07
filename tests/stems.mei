@@ -4,7 +4,7 @@
   <meiHead>
     <fileDesc>
       <titleStmt>
-        <title/>
+        <title>Different stem lengths</title>
       </titleStmt>
       <pubStmt>
         <respStmt>
@@ -29,11 +29,12 @@
             <measure n="1" right="dbl">
               <staff n="1">
                 <layer n="1">
-                  <note dur="4" oct="4" pname="c" accid.ges="n" stem.len="0"/>
+                  <note dur="4" oct="4" pname="c" accid.ges="n" stem.visible="false"/>
                   <note dur="4" oct="4" pname="d" accid.ges="n" stem.len="2" stem.dir="down"/>
                   <note dur="4" oct="4" pname="e" accid.ges="n" stem.len="3" stem.dir="down"/>
                   <note dur="4" oct="4" pname="f" accid.ges="n" stem.len="4" stem.dir="down"/>
                   <note dur="4" oct="4" pname="g" accid.ges="n" stem.len="5" stem.dir="down"/>
+                  <note dur="4" oct="4" pname="a" accid.ges="n" stem.visible="true" stem.dir="down"/>
                 </layer>
               </staff>
             </measure>
