@@ -877,10 +877,7 @@
       <xsl:call-template name="setOffset" />
     </xsl:if>
     <xsl:apply-templates mode="setStemDir" select="." />
-    <xsl:if test="@stem.len">
-      <xsl:value-of select="concat('\tweak Stem.length #', local:VU2LY(@stem.len) * 2, ' ')" />
-    </xsl:if>
-    <xsl:call-template name="setStemVisibility" />
+    <xsl:apply-templates select="@stem.len|@stem.visible" />
     <!-- att.noteheads -->
     <xsl:if test="@head.color">
       <xsl:text>\tweak color #</xsl:text>
@@ -1054,10 +1051,7 @@
       <xsl:text>\tweak Flag.stroke-style #"grace" </xsl:text>
     </xsl:if>
     <xsl:apply-templates mode="setStemDir" select="." />
-    <xsl:if test="@stem.len">
-      <xsl:value-of select="concat('\tweak Stem.length #', local:VU2LY(@stem.len) * 2, ' ')" />
-    </xsl:if>
-    <xsl:call-template name="setStemVisibility" />
+    <xsl:apply-templates select="@stem.len|@stem.visible" />
     <xsl:apply-templates select="mei:note" />
     <xsl:text>&gt;</xsl:text>
     <xsl:call-template name="setDuration" />
@@ -3100,7 +3094,7 @@
   </xsl:template>
   <xsl:template mode="setStemDir" match="*[@stem.pos and not(@stem.dir)]">
     <!-- data.STEMPOSITION -->
-    <xsl:value-of select="concat('\tweak Stem.direction #', translate(@stem.pos, 'cefghilntr', 'CEFGHILNTR'), ' ')" />
+    <xsl:value-of select="concat('\tweak Stem.direction #', upper-case(@stem.pos), ' ')" />
   </xsl:template>
   <xsl:template mode="setStemDir" match="*" />
   <!-- set duration -->
@@ -3324,6 +3318,21 @@
     <xsl:call-template name="setDirection">
       <xsl:with-param name="direction" select="." />
     </xsl:call-template>
+  </xsl:template>
+  <!-- att.stems -->
+  <xsl:template match="@stem.len">
+    <xsl:value-of select="concat('\tweak Stem.length #', local:VU2LY(.) * 2, ' ')" />
+  </xsl:template>
+  <xsl:template match="@stem.visible">
+    <xsl:choose>
+      <!-- Stem.stencil won't be sufficant -->
+      <xsl:when test=". = true()">
+        <xsl:value-of select="'\tweak Stem.transparent ##f '" />
+      </xsl:when>
+      <xsl:when test=". = false()">
+        <xsl:value-of select="'\tweak Stem.transparent ##t '" />
+      </xsl:when>
+    </xsl:choose>
   </xsl:template>
   <!-- exclude untweaked attributes -->
   <xsl:template match="@*" mode="tweak" />
@@ -4157,17 +4166,6 @@
       </xsl:when>
       <xsl:when test="@visible = false()">
         <xsl:value-of select="'\tweak transparent ##t '" />
-      </xsl:when>
-    </xsl:choose>
-  </xsl:template>
-  <xsl:template name="setStemVisibility">
-    <!-- att.visibility -->
-    <xsl:choose>
-      <xsl:when test="@stem.visible = true()">
-        <xsl:value-of select="'\tweak Stem.transparent ##f '" />
-      </xsl:when>
-      <xsl:when test="@stem.visible = false()">
-        <xsl:value-of select="'\tweak Stem.transparent ##t '" />
       </xsl:when>
     </xsl:choose>
   </xsl:template>
