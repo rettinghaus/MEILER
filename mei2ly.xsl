@@ -3465,55 +3465,55 @@
     <xsl:choose>
       <!-- data.KEYFIFTHS -->
       <xsl:when test="$accidentals = '1s'">
-        <xsl:text>g\major</xsl:text>
+        <xsl:text>g \major</xsl:text>
       </xsl:when>
       <xsl:when test="$accidentals = '2s'">
-        <xsl:text>d\major</xsl:text>
+        <xsl:text>d \major</xsl:text>
       </xsl:when>
       <xsl:when test="$accidentals = '3s'">
-        <xsl:text>a\major</xsl:text>
+        <xsl:text>a \major</xsl:text>
       </xsl:when>
       <xsl:when test="$accidentals = '4s'">
-        <xsl:text>e\major</xsl:text>
+        <xsl:text>e \major</xsl:text>
       </xsl:when>
       <xsl:when test="$accidentals = '5s'">
-        <xsl:text>b\major</xsl:text>
+        <xsl:text>b \major</xsl:text>
       </xsl:when>
       <xsl:when test="$accidentals = '6s'">
-        <xsl:text>fis\major</xsl:text>
+        <xsl:text>fis \major</xsl:text>
       </xsl:when>
       <xsl:when test="$accidentals = '7s'">
-        <xsl:text>cis\major</xsl:text>
+        <xsl:text>cis \major</xsl:text>
       </xsl:when>
       <xsl:when test="$accidentals = '8s'">
-        <xsl:text>gis\major</xsl:text>
+        <xsl:text>gis \major</xsl:text>
       </xsl:when>
       <xsl:when test="$accidentals = '1f'">
-        <xsl:text>f\major</xsl:text>
+        <xsl:text>f \major</xsl:text>
       </xsl:when>
       <xsl:when test="$accidentals = '2f'">
-        <xsl:text>bes\major</xsl:text>
+        <xsl:text>bes \major</xsl:text>
       </xsl:when>
       <xsl:when test="$accidentals = '3f'">
-        <xsl:text>ees\major</xsl:text>
+        <xsl:text>ees \major</xsl:text>
       </xsl:when>
       <xsl:when test="$accidentals = '4f'">
-        <xsl:text>aes\major</xsl:text>
+        <xsl:text>aes \major</xsl:text>
       </xsl:when>
       <xsl:when test="$accidentals = '5f'">
-        <xsl:text>des\major</xsl:text>
+        <xsl:text>des \major</xsl:text>
       </xsl:when>
       <xsl:when test="$accidentals = '6f'">
-        <xsl:text>ges\major</xsl:text>
+        <xsl:text>ges \major</xsl:text>
       </xsl:when>
       <xsl:when test="$accidentals = '7f'">
-        <xsl:text>ces\major</xsl:text>
+        <xsl:text>ces \major</xsl:text>
       </xsl:when>
       <xsl:when test="$accidentals = '8f'">
-        <xsl:text>fes\major</xsl:text>
+        <xsl:text>fes \major</xsl:text>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:text>c\major</xsl:text>
+        <xsl:text>c \major</xsl:text>
       </xsl:otherwise>
     </xsl:choose>
     <xsl:text>&#10;</xsl:text>
