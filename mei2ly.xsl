@@ -1909,11 +1909,15 @@
       <xsl:text>-\tweak output-attributes #&apos;</xsl:text>
       <xsl:call-template name="setSvgAttr" />
     </xsl:if>
+    <xsl:apply-templates select="@color" mode="tweak" />
     <xsl:if test="@lwidth">
       <xsl:text>-\tweak thickness #</xsl:text>
       <xsl:call-template name="setLineWidth" />
     </xsl:if>
-    <xsl:apply-templates select="@color" mode="tweak" />
+    <xsl:if test="@ho or @vo">
+      <xsl:text>-\tweak extra-offset #&apos;</xsl:text>
+      <xsl:call-template name="setOffset" />
+    </xsl:if>
     <xsl:call-template name="setMarkupDirection" />
     <xsl:text>\laissezVibrer</xsl:text>
   </xsl:template>
@@ -2220,6 +2224,10 @@
     <xsl:if test="$useSvgBackend">
       <xsl:text>-\tweak output-attributes #&apos;</xsl:text>
       <xsl:call-template name="setSvgAttr" />
+    </xsl:if>
+    <xsl:if test="@ho or @vo">
+      <xsl:text>-\tweak extra-offset #&apos;</xsl:text>
+      <xsl:call-template name="setOffset" />
     </xsl:if>
     <xsl:apply-templates select="@*" mode="tweak" />
     <xsl:call-template name="setMarkupDirection" />
