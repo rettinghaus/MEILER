@@ -878,6 +878,9 @@
     </xsl:if>
     <xsl:apply-templates mode="setStemDir" select="." />
     <xsl:apply-templates select="@stem.len|@stem.visible" />
+    <xsl:if test="@enclose='paren'">
+      <xsl:text>\parenthesize </xsl:text>
+    </xsl:if>
     <!-- att.noteheads -->
     <xsl:if test="@head.color">
       <xsl:text>\tweak color #</xsl:text>
@@ -1169,11 +1172,14 @@
         <xsl:call-template name="setOffset" />
       </xsl:if>
     </xsl:if>
-    <xsl:if test="not(@loc) and (ancestor::mei:staff/descendant::mei:rest/@sameas = $restKey)">
+    <xsl:if test="not(@*[contains(name(), 'loc')]) and (ancestor::mei:staff/descendant::mei:rest/@sameas = $restKey)">
       <xsl:text>\tweak staff-position #0 </xsl:text>
     </xsl:if>
     <xsl:if test="@loc">
       <xsl:value-of select="concat('\tweak staff-position #',@loc - 4,' ')" />
+    </xsl:if>
+    <xsl:if test="@enclose='paren'">
+      <xsl:text>\parenthesize </xsl:text>
     </xsl:if>
     <xsl:choose>
       <xsl:when test="@ploc and @oloc">
@@ -1587,7 +1593,7 @@
       <xsl:call-template name="setRelFontsizeNum" />
     </xsl:if>
     <xsl:if test="self::mei:artic">
-      <xsl:if test="$useSvgBackend">
+      <xsl:if test="$useSvgBackend and (count(tokenize(@artic, ' ')) = 1)">
         <xsl:text>-\tweak output-attributes #&apos;</xsl:text>
         <xsl:call-template name="setSvgAttr" />
       </xsl:if>
@@ -1595,10 +1601,13 @@
         <xsl:text>-\tweak extra-offset #&apos;</xsl:text>
         <xsl:call-template name="setOffset" />
       </xsl:if>
+      <xsl:if test="@enclose='paren'">
+        <xsl:text>-\parenthesize </xsl:text>
+      </xsl:if>
       <xsl:call-template name="setMarkupDirection" />
     </xsl:if>
     <xsl:choose>
-      <xsl:when test="contains($articList,' ')">
+      <xsl:when test="contains($articList, ' ')">
         <xsl:call-template name="setArticulation">
           <xsl:with-param name="articulation" select="substring-before($articList,' ')" />
         </xsl:call-template>

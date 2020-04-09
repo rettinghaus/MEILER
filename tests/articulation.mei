@@ -22,37 +22,37 @@
         <score>
           <scoreDef meter.count="9" meter.unit="4">
             <staffGrp>
-              <staffDef n="1" clef.line="2" clef.shape="G" lines="5"/>
+              <staffDef n="1" clef.line="2" clef.shape="G" lines="5" />
             </staffGrp>
           </scoreDef>
           <section>
             <measure n="1">
               <staff n="1">
                 <layer n="1">
-                  <note artic="acc stacc ten stacciss" dur="4" oct="4" pname="g"> </note>
+                  <note artic="acc stacc ten stacciss" dur="4" oct="4" pname="g" />
                   <note artic="acc" dur="4" oct="4" pname="g">
-                    <artic artic="acc"/>
+                    <artic artic="acc" />
                   </note>
                   <note dur="4" oct="4" pname="g">
-                    <artic artic="stacc" place="above"/>
+                    <artic artic="stacc" place="above" />
                   </note>
                   <note dur="4" oct="4" pname="g">
-                    <artic artic="ten" place="above"/>
+                    <artic artic="ten" place="above" />
                   </note>
                   <note dur="4" oct="4" pname="g">
-                    <artic artic="stacciss" place="above"/>
+                    <artic artic="stacciss" enclose="paren" place="above" />
                   </note>
                   <note dur="4" oct="4" pname="g">
-                    <artic fontsize="xx-small" artic="marc" place="above"/>
+                    <artic fontsize="xx-small" artic="marc" place="above" />
                   </note>
                   <note dur="4" oct="4" pname="g">
-                    <artic artic="spicc"/>
+                    <artic artic="spicc" />
                   </note>
                   <note dur="4" oct="4" pname="g">
-                    <artic artic="snap" place="above"/>
+                    <artic artic="snap" place="above" />
                   </note>
                   <note dur="4" oct="4" pname="g">
-                    <artic fontsize="x-large" artic="open"/>
+                    <artic fontsize="x-large" artic="open" />
                   </note>
                 </layer>
               </staff>
@@ -61,13 +61,13 @@
               <staff n="1">
                 <layer n="1">
                   <note dur="4" oct="4" pname="g">
-                    <artic artic="acc"/>
-                    <artic artic="stacc"/>
-                    <artic artic="marc"/>
-                    <artic artic="harm"/>
+                    <artic xml:id="accent" artic="acc" />
+                    <artic xml:id="staccato" artic="stacc" />
+                    <artic xml:id="marcato" artic="marc" />
+                    <artic xml:id="harmonic" artic="harm" />
                   </note>
                   <note dur="4" oct="4" pname="g">
-                    <artic artic="acc stacc marc harm" place="above"/>
+                    <artic xml:id="multiple-artics" ho="-1" artic="acc stacc marc harm" place="above" />
                   </note>
                 </layer>
               </staff>
