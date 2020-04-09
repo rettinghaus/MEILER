@@ -1656,7 +1656,7 @@
   <xsl:template match="mei:bracketSpan[not(@endid)]" mode="pre">
     <xsl:message>ERROR: @endid is missing on bracketSpan <xsl:if test="@xml:id"><xsl:value-of select="concat('[',@xml:id,']')" /></xsl:if> </xsl:message>
   </xsl:template>
-  <xsl:template match="mei:bracketSpan" mode="pre">
+  <xsl:template match="mei:bracketSpan[@func='ligature']" mode="pre">
     <!-- only ligature brackets for now -->
     <xsl:if test="$useSvgBackend">
       <xsl:text>\tweak LigatureBracket.output-attributes #&apos;</xsl:text>
@@ -1679,6 +1679,9 @@
       <xsl:call-template name="setOffset" />
     </xsl:if>
     <xsl:text>\[ </xsl:text>
+  </xsl:template>
+  <xsl:template match="mei:bracketSpan[not(@func='ligature')]">
+    <xsl:message select="concat('INFO: bracketSpan with function &quot;', @func,'&quot; not supported')" />
   </xsl:template>
   <!-- MEI fermata -->
   <xsl:template match="mei:fermata[@copyof]">
