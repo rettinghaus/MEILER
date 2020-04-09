@@ -65,10 +65,10 @@
                   <mRest xml:id="mrest01" />
                 </layer>
                 <layer n="2">
-                  <mRest sameas="#mrest01" xml:id="mrest02" />
+                  <mRest xml:id="mrest02" sameas="#mrest01" />
                 </layer>
                 <layer n="3">
-                  <mRest sameas="#mrest02" xml:id="mrest03" />
+                  <mRest xml:id="mrest03" sameas="#mrest02" />
                 </layer>
               </staff>
             </measure>

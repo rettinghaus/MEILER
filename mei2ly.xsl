@@ -920,6 +920,9 @@
     <xsl:if test="@head.visible = false()">
       <xsl:text>\tweak transparent ##t </xsl:text>
     </xsl:if>
+    <xsl:if test="@dots.ges">
+      <xsl:value-of select="concat('\tweak Dots.dot-count #', number(@dots), ' ')" />
+    </xsl:if>
     <xsl:if test="following-sibling::*[1]/@attach = 'pre'">
       <xsl:text>\afterGrace </xsl:text>
     </xsl:if>
@@ -1049,6 +1052,9 @@
       <xsl:value-of select="'\once \override Stem.color = #'" />
       <xsl:call-template name="setColor" />
     </xsl:if>
+    <xsl:if test="@dots.ges">
+      <xsl:value-of select="concat('\once \override Dots.dot-count = #', number(@dots), ' ')" />
+    </xsl:if>
     <xsl:text>&lt; </xsl:text>
     <xsl:if test="@stem.mod = '1slash'">
       <xsl:text>\tweak Flag.stroke-style #"grace" </xsl:text>
@@ -1171,6 +1177,9 @@
         <xsl:text>\tweak Dots.extra-offset #&apos;</xsl:text>
         <xsl:call-template name="setOffset" />
       </xsl:if>
+    </xsl:if>
+    <xsl:if test="@dots.ges">
+      <xsl:value-of select="concat('\tweak Dots.dot-count #', number(@dots), ' ')" />
     </xsl:if>
     <xsl:if test="not(@*[contains(name(), 'loc')]) and (ancestor::mei:staff/descendant::mei:rest/@sameas = $restKey)">
       <xsl:text>\tweak staff-position #0 </xsl:text>
@@ -3177,8 +3186,8 @@
   </xsl:template>
   <!-- set dots -->
   <xsl:template name="setDots">
-    <xsl:param name="dots" select="@dots" />
-    <xsl:if test="number($dots) gt 0">
+    <xsl:param name="dots" select="if (not(@dots.ges)) then xs:integer(@dots) else xs:integer(@dots.ges)" />
+    <xsl:if test="$dots gt 0">
       <xsl:text>.</xsl:text>
       <xsl:call-template name="setDots">
         <xsl:with-param name="dots" select="$dots - 1" />
