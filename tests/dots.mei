@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="https://music-encoding.org/schema/4.0.0/mei-all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<mei xmlns="http://www.music-encoding.org/ns/mei" meiversion="4.0.0">
+  <meiHead>
+    <fileDesc>
+      <titleStmt>
+        <title>Visible and invisible dots</title>
+      </titleStmt>
+      <pubStmt>
+        <respStmt>
+          <persName>Klaus Rettinghaus</persName>
+        </respStmt>
+      </pubStmt>
+      <seriesStmt>
+        <title>MEILER test files</title>
+      </seriesStmt>
+    </fileDesc>
+  </meiHead>
+  <music>
+    <body>
+      <mdiv>
+        <score>
+          <scoreDef system.leftline="false">
+            <staffGrp>
+              <staffDef clef.shape="G" clef.line="2" n="1" lines="5">
+                <meterSig count="9" unit="8"/>
+              </staffDef>
+            </staffGrp>
+          </scoreDef>
+          <section>
+            <measure n="1">
+              <staff n="1">
+                <layer n="1">
+                  <note dur="4" dots.ges="1" oct="4" pname="b" />
+                  <note dur="4" dots="3" dots.ges="1" oct="4" pname="b" />
+                  <note dur="4" dots="1" oct="4" pname="b" />
+                </layer>
+              </staff>
+            </measure>
+            <measure n="1" metcon="false" right="end">
+              <staff n="1">
+                <layer n="1">
+                  <chord dur="2" dots="4" dots.ges="1">
+                    <note oct="4" pname="b" />
+                    <note oct="4" pname="g" dots="3" dots.ges="1" />
+                    <note oct="4" pname="e" dots="2" dots.ges="1" />
+                  </chord>
+                </layer>
+              </staff>
+            </measure>
+          </section>
+        </score>
+      </mdiv>
+    </body>
+  </music>
+</mei>
