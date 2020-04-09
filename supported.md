@@ -81,6 +81,7 @@ List of supported MEI elements and attributes
   * `@beam`
   * `@copyof`
   * `@dots`
+  * `@dots.ges`
   * `@dur`
   * `@dur.ges`
   * `@fermata`
@@ -197,10 +198,12 @@ List of supported MEI elements and attributes
   * `@color`
   * __`@endid`__
   * `@form`
+  * `@ho`
   * `@lform`
   * `@lwidth`
   * `@place`
   * __`@startid`__
+  * `@vo`
   * `@xml:id`
 
 * `<harm>`
@@ -253,6 +256,15 @@ List of supported MEI elements and attributes
 * `<lg>`
 
 * `<ligature>`
+
+* `<lv>`
+  * `@curvedir`
+  * `@ho`
+  * `@lform`
+  * `@lwidth`
+  * __`@startid`__
+  * `@vo`
+  * `@xml:id`
 
 * `<mdiv>`
   * `@label`
@@ -335,6 +347,7 @@ List of supported MEI elements and attributes
   * `@color`
   * `@copyof`
   * `@dots`
+  * `@dots.ges`
   * `@dur`
   * `@dur.ges`
   * `@enclose`
@@ -462,6 +475,7 @@ List of supported MEI elements and attributes
   * `@color`
   * `@copyof`
   * `@dots`
+  * `@dots.ges`
   * `@dur`
   * `@dur.ges`
   * `@fermata`

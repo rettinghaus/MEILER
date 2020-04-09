@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="https://music-encoding.org/schema/4.0.0/mei-all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<mei xmlns="http://www.music-encoding.org/ns/mei" meiversion="4.0.0">
+  <meiHead>
+    <fileDesc>
+      <titleStmt>
+        <title/>
+      </titleStmt>
+      <pubStmt>
+        <respStmt>
+          <persName>Klaus Rettinghaus</persName>
+        </respStmt>
+      </pubStmt>
+      <seriesStmt>
+        <title>MEILER test files</title>
+      </seriesStmt>
+    </fileDesc>
+  </meiHead>
+  <music>
+    <body>
+      <mdiv>
+        <score>
+          <scoreDef meter.count="4" meter.unit="4">
+            <staffGrp>
+              <staffDef n="1" clef.line="2" clef.shape="G" lines="5"/>
+            </staffGrp>
+          </scoreDef>
+          <section>
+            <measure>
+              <staff n="1">
+                <layer n="1">
+                    <note pname="g" oct="4" dur="1" xml:id="firstNote"/>
+                </layer>
+              </staff>
+              <gliss startid="#firstNote" endid="#middleNote" lendsym="arrow" lform="dashed" />
+              <trill startid="#firstNote" endid="#lastNote" color="darkcyan" lform="solid" lwidth="wide" lendsym="arrow" />
+            </measure>
+            <measure>
+              <staff n="1">
+                <layer n="1">
+                    <note pname="g" oct="3" dur="1" xml:id="middleNote"/>
+                </layer>
+              </staff>
+              <line startid="#middleNote" endid="#lastNote" />
+              <trill startid="#middleNote" endid="#lastNote" place="below" lstartsym="none" />
+            </measure>
+            <measure>
+              <staff n="1">
+                <layer n="1">
+                    <note pname="g" oct="4" dur="1" xml:id="lastNote"/>
+                </layer>
+              </staff>
+            </measure>
+          </section>
+        </score>
+      </mdiv>
+    </body>
+  </music>
+</mei>
