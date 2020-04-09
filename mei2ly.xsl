@@ -3055,6 +3055,7 @@
   <xsl:template match="mei:front" />
   <xsl:template match="mei:handShift" />
   <xsl:template match="mei:incip" />
+  <xsl:template match="mei:line" />
   <xsl:template match="mei:midi" />
   <xsl:template match="mei:orig" />
   <xsl:template match="mei:pad" />

@@ -41,7 +41,6 @@
                     <note pname="g" oct="3" dur="1" xml:id="middleNote"/>
                 </layer>
               </staff>
-              <line startid="#middleNote" endid="#lastNote" />
               <trill startid="#middleNote" endid="#lastNote" place="below" lstartsym="none" />
             </measure>
             <measure>
