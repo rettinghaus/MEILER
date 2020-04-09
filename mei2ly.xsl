@@ -2117,6 +2117,9 @@
     </xsl:if>
     <xsl:text>\arpeggio </xsl:text>
   </xsl:template>
+  <!-- MEI attacca -->
+  <xsl:template match="mei:attacca">
+  </xsl:template>
   <!-- MEI bend -->
   <xsl:template match="mei:bend">
   </xsl:template>
