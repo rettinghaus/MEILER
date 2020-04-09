@@ -12,6 +12,7 @@
   <xsl:strip-space elements="*" />
   <xsl:output method="text" indent="no" encoding="UTF-8" />
   <xsl:param name="LilyPondVersion" select="'2.20.0'"/>
+  <xsl:param name="include" select="''" as="xs:string"/>
   <xsl:param name="useSvgBackend" select="false()" as="xs:boolean"/>
   <xsl:param name="generateHeader" select="true()" as="xs:boolean"/>
   <xsl:param name="forceLayout" select="false()" as="xs:boolean"/>
@@ -74,7 +75,10 @@
       </xsl:if>
     </xsl:if>
     <xsl:value-of select="concat('\version &quot;', $LilyPondVersion,'&quot;&#10;')"/>
-    <xsl:text>% automatically converted by mei2ly.xsl&#10;&#10;</xsl:text>
+    <xsl:text>% automatically converted from MEI by mei2ly.xsl&#10;&#10;</xsl:text>
+    <xsl:if test="$include">
+      <xsl:value-of select="concat('\include &quot;', $include,'&quot;&#10;&#10;')"/>
+    </xsl:if>
     <xsl:apply-templates>
       <xsl:with-param name="layerNs" tunnel="yes">
         <xsl:if test="$forceContinueVoices">
