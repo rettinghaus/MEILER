@@ -1843,6 +1843,9 @@
         </xsl:if>
         <xsl:text>\startTrillSpan</xsl:text>
       </xsl:when>
+      <xsl:when test="@extender = 'true'">
+        <xsl:text>\startTrillSpan</xsl:text>
+      </xsl:when>
       <xsl:when test="not(@glyph.name or @glyph.num)">
         <xsl:text>\trill</xsl:text>
       </xsl:when>
@@ -1852,6 +1855,9 @@
     </xsl:choose>
     <xsl:if test="@accidlower or @accidupper">
       <xsl:call-template name="addOrnamentAccid" />
+    </xsl:if>
+    <xsl:if test="@extender = 'true' and not(@endid)">
+      <xsl:text>\startTrillSpan</xsl:text>
     </xsl:if>
   </xsl:template>
   <!-- MEI turn -->

@@ -33,7 +33,7 @@
                 </layer>
               </staff>
               <gliss startid="#firstNote" endid="#middleNote" lendsym="arrow" lform="dashed" />
-              <trill startid="#firstNote" endid="#lastNote" color="darkcyan" lform="solid" lwidth="wide" lendsym="arrow" />
+              <trill startid="#firstNote" endid="#lastNote" extender="true" color="darkcyan" lform="solid" lwidth="wide" lendsym="arrow" />
             </measure>
             <measure>
               <staff n="1">
@@ -41,7 +41,7 @@
                     <note pname="g" oct="3" dur="1" xml:id="middleNote"/>
                 </layer>
               </staff>
-              <trill startid="#middleNote" endid="#lastNote" place="below" lstartsym="none" />
+              <trill startid="#middleNote" endid="#lastNote" place="below" lstartsym="none" vo="2.5" ho="1.5" />
             </measure>
             <measure>
               <staff n="1">
@@ -49,6 +49,7 @@
                     <note pname="g" oct="4" dur="1" xml:id="lastNote"/>
                 </layer>
               </staff>
+              <trill startid="#lastNote" fontsize="small" extender="true" ho="-6" vo="-3" lstartsym.size="1" />
             </measure>
           </section>
         </score>
