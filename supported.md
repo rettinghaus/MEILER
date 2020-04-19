@@ -655,6 +655,7 @@ List of supported MEI elements and attributes
   * `@accidupper`
   * `@color`
   * `@endid`
+  * `@fontsize`
   * `@glyph.name`
   * `@glyph.num`
   * `@ho`
