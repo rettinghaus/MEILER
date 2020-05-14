@@ -539,7 +539,7 @@ List of supported MEI elements and attributes
     * `@page.topmar`
     * `@page.width`
     * `@pedal.style` (for values 'line' and 'pedstar')
-    * `@spacing.packfact`
+    * `@spacing.packexp`
     * `@spacing.staff` (for single values)
     * `@spacing.system` (for single values)
     * `@system.leftline`
