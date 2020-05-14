@@ -2524,7 +2524,7 @@
     <xsl:if test="@mm.unit and @mm">
       <xsl:value-of select="@mm.unit" />
       <xsl:call-template name="setDots">
-        <xsl:with-param name="dots" select="@mm.dots" />
+        <xsl:with-param name="dots" select="xs:integer(@mm.dots)" />
       </xsl:call-template>
       <xsl:value-of select="concat(' = ',@mm)" />
     </xsl:if>
@@ -3314,6 +3314,14 @@
   <xsl:template match="@color" mode="tweak">
     <xsl:text>-\tweak color #</xsl:text>
     <xsl:call-template name="setColor" />
+  </xsl:template>
+  <!-- att.hairpin.log -->
+  <xsl:template match="@niente" mode="tweak">
+    <xsl:value-of select="concat('-\tweak circled-tip ##',substring(.,1,1),' ')" />
+  </xsl:template>
+  <!-- att.hairpin.vis -->
+  <xsl:template match="@opening" mode="tweak">
+    <xsl:value-of select="concat('-\tweak height #', local:VU2LY(.) div 2, ' ')" />
   </xsl:template>
   <!-- att.line.vis -->
   <xsl:template match="@lendsym" mode="tweak">

@@ -201,6 +201,8 @@ List of supported MEI elements and attributes
   * `@ho`
   * `@lform`
   * `@lwidth`
+  * `@niente`
+  * `@opening`
   * `@place`
   * __`@startid`__
   * `@vo`
