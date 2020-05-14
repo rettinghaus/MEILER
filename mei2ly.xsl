@@ -495,7 +495,7 @@
       </xsl:if>
       <xsl:if test="@spacing.staff">
         <xsl:text>\override StaffGrouper.staff-staff-spacing = #&apos;</xsl:text>
-        <xsl:value-of select="concat('((basic-distance . ', local:VU2LY(@spacing.staff), ') (padding . ', local:VU2LY(@spacing.staff), ')) ')" />
+        <xsl:value-of select="concat('((basic-distance . ', local:VU2LY(@spacing.staff) + 4, ') (minimum-distance . ', local:VU2LY(@spacing.staff) + 4, ')) ')" />
       </xsl:if>
       <xsl:text>}&#10;</xsl:text>
     </xsl:if>
