@@ -601,6 +601,9 @@
         <xsl:when test="ancestor-or-self::*/@pedal.style = 'pedstar'">
           <xsl:text>\set Staff.pedalSustainStyle = #'text&#10; </xsl:text>
         </xsl:when>
+        <xsl:when test="ancestor-or-self::*/@pedal.style = 'altpedstar'">
+          <xsl:text>\set Staff.pedalSustainStrings = #'("Ped" "Ped" "*")&#10; </xsl:text>
+        </xsl:when>
       </xsl:choose>
     </xsl:if>
     <xsl:call-template name="setBeaming" />
