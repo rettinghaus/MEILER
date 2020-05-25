@@ -45,6 +45,7 @@ List of supported MEI elements and attributes
   * `@color`
   * `@form` (for values 'acc' and 'rit')
   * `@place`
+  * `@staff`
   * `@xml:id`
 
 * `<beamSpan>`
