@@ -1498,7 +1498,16 @@
     <xsl:if test="@place = 'mixed'">
       <xsl:text>\once \override Beam.auto-knee-gap = #0 </xsl:text>
     </xsl:if>
+    <xsl:if test="descendant::*/@breaksec">
+      <xsl:text>\once \set subdivideBeams = ##t </xsl:text>
+    </xsl:if>
+    <xsl:if test="@staff and @staff != ancestor::mei:staff/@n">
+      <xsl:value-of select="concat('\change Staff = &quot;staff ',@staff,'&quot;&#32;')" />
+    </xsl:if>
     <xsl:apply-templates/>
+    <xsl:if test="@staff and @staff != ancestor::mei:staff/@n">
+      <xsl:value-of select="concat('\change Staff = &quot;staff ',ancestor::mei:staff/@n,'&quot;&#32;')" />
+    </xsl:if>
   </xsl:template>
   <!-- MEI beam span-->
   <xsl:template match="mei:beamSpan" mode="pre">
