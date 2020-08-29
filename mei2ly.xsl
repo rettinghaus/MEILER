@@ -515,7 +515,7 @@
     <xsl:if test="@vu.height">
       <xsl:choose>
         <xsl:when test="contains(@vu.height,'pt')">
-          <xsl:value-of select="concat('&#10;#(set-global-staff-size ',8 * number(substring-before(@vu.height,'pt')),')&#10;')" />
+          <xsl:value-of select="concat('&#10;#(set-global-staff-size ', 8 * number(substring-before(@vu.height,'pt')),')&#10;')" />
         </xsl:when>
         <xsl:otherwise>
           <xsl:message select="'INFO: Use point values (pt) for @vu.height'" />
@@ -535,9 +535,14 @@
     <xsl:if test="@bar.thru">
       <xsl:value-of select="concat(' \override StaffGroup.BarLine.allow-span-bar = ##',substring(@bar.thru,1,1),'&#10;')" />
     </xsl:if>
-    <xsl:if test="not(mei:grpSym)">
-      <xsl:call-template name="setStaffGrpStyle" />
-    </xsl:if>
+    <xsl:choose>
+      <xsl:when test="@symbol">
+        <xsl:call-template name="setStaffGrpStyle" />
+      </xsl:when>
+      <xsl:when test="not(mei:grpSym)">
+        <xsl:text> \omit StaffGroup.SystemStartBracket &#10;</xsl:text>
+      </xsl:when>
+    </xsl:choose>
     <xsl:apply-templates select="mei:grpSym|mei:staffGrp|mei:staffDef" mode="score-setup" />
     <xsl:text>&gt;&gt;&#10;</xsl:text>
   </xsl:template>
@@ -3589,7 +3594,7 @@
     <xsl:text>&#10;</xsl:text>
   </xsl:template>
   <!-- MEI group symbol -->
-  <xsl:template name="setStaffGrpStyle" match="mei:grpSym[not(@symbol = 'line')]" mode="score-setup">
+  <xsl:template name="setStaffGrpStyle" match="mei:grpSym[@symbol]" mode="score-setup">
     <!-- att.staffGroupingSym -->
     <xsl:variable name="object">
       <xsl:choose>
@@ -3605,9 +3610,6 @@
         <xsl:when test="@symbol = 'line'">
           <xsl:text>SystemStartBar</xsl:text>
         </xsl:when>
-        <xsl:otherwise>
-          <xsl:text>SystemStartBar</xsl:text>
-        </xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
     <xsl:if test="$useSvgBackend">
@@ -3615,7 +3617,7 @@
       <xsl:text>#'((class . grpSym))</xsl:text>
     </xsl:if>
     <xsl:if test="@color">
-      <!-- not available in MEI -->
+      <!-- available in MEI dev -->
       <xsl:value-of select="concat(' \override StaffGroup.', $object, '.color = #')" />
       <xsl:call-template name="setColor" />
     </xsl:if>
@@ -3623,6 +3625,7 @@
       <xsl:value-of select="concat(' \override StaffGroup.', $object, '.extra-offset = ')" />
       <xsl:text>#&apos;</xsl:text>
       <xsl:call-template name="setOffset" />
+      <xsl:text>&#10;</xsl:text>
     </xsl:if>
     <xsl:if test="not($object ='SystemStartBar') and ((count(descendant::mei:staffDef) = 1) or (count(self::mei:grpSym/following-sibling::mei:staffDef) = 1))">
       <xsl:value-of select="concat('\override StaffGroup.', $object, '.collapse-height = #1&#10;')" />
