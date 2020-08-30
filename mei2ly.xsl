@@ -526,6 +526,14 @@
   <!-- MEI staff group -->
   <xsl:template match="mei:staffGrp" mode="score-setup">
     <xsl:text>\new StaffGroup </xsl:text>
+    <xsl:choose>
+      <xsl:when test="@n">
+        <xsl:value-of select="concat('= &quot;staffGrp ', @n, '&quot;&#32;')" />
+      </xsl:when>
+      <xsl:when test="@label">
+        <xsl:value-of select="concat('= &quot;', @label, '&quot;&#32;')" />
+      </xsl:when>
+    </xsl:choose>
     <xsl:if test="child::mei:label">
       <xsl:text>\with { </xsl:text>
       <xsl:call-template name="setInstrumentName" />
