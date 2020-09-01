@@ -434,7 +434,7 @@
     <xsl:if test="$forceLayout">
       <xsl:text> \context { \Score \override NonMusicalPaperColumn.line-break-permission = ##f \override NonMusicalPaperColumn.page-break-permission = ##f }&#10;</xsl:text>
     </xsl:if>
-    <xsl:if test="@bar.method or @clef.color or @multi.number or @system.leftline">
+    <xsl:if test="@bar.method or @clef.color or @multi.number or @slur.lwidth or @system.leftline  or @tie.lwidth">
       <xsl:text> \context { \Score </xsl:text>
       <xsl:if test="@bar.method = 'takt'">
         <xsl:text>defaultBarType = #"'" </xsl:text>
@@ -442,6 +442,18 @@
       <xsl:if test="@multi.number">
         <!-- att.multinummeasures -->
         <xsl:value-of select="concat('countPercentRepeats = ##',substring(@multi.number,1,1),' ')" />
+      </xsl:if>
+      <xsl:if test="@slur.lwidth">
+        <xsl:text>\override Slur.thickness = #</xsl:text>
+        <xsl:call-template name="setLineWidth">
+          <xsl:with-param name="thickness" select="@slur.lwidth" />
+        </xsl:call-template>
+      </xsl:if>
+      <xsl:if test="@tie.lwidth">
+        <xsl:text>\override Tie.thickness = #</xsl:text>
+        <xsl:call-template name="setLineWidth">
+          <xsl:with-param name="thickness" select="@tie.lwidth" />
+        </xsl:call-template>
       </xsl:if>
       <xsl:if test="@system.leftline">
         <xsl:choose>
@@ -623,10 +635,10 @@
       </xsl:choose>
     </xsl:if>
     <xsl:call-template name="setBeaming" />
-    <xsl:if test="ancestor-or-self::*/@slur.lform">
+    <xsl:if test="@slur.lform">
       <xsl:value-of select="concat('\slur',translate(substring(@lform,1,1),'ds','DS'),substring(@lform,2),' ')" />
     </xsl:if>
-    <xsl:if test="ancestor-or-self::*/@slur.lwidth">
+    <xsl:if test="@slur.lwidth">
       <xsl:text>\override Slur.thickness = #</xsl:text>
       <xsl:call-template name="setLineWidth">
         <xsl:with-param name="thickness" select="@slur.lwidth" />
