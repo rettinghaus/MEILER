@@ -572,6 +572,9 @@
       <xsl:text>Rhythmic</xsl:text>
     </xsl:if>
     <xsl:value-of select="concat('Staff = &quot;staff ',$staffNumber,'&quot;&#32;')" />
+    <xsl:if test="@notationtype = 'tab' and @clef.shape = 'TAB'">
+      <xsl:text>\tabFullNotation </xsl:text>
+    </xsl:if>
     <xsl:if test="@scale or child::mei:label or ((position() = 1) and (count(ancestor::mei:staffGrp) &gt; 1) and ancestor::mei:scoreDef/@ending.rend = 'grouped')">
       <xsl:text>\with { </xsl:text>
       <xsl:call-template name="setInstrumentName" />
@@ -1029,8 +1032,10 @@
     <xsl:if test="contains(@gliss,'i')">
       <xsl:text>\glissando</xsl:text>
     </xsl:if>
+    <xsl:apply-templates select="@*[starts-with(name(), 'tab.')]" />
     <!-- add control elements -->
     <xsl:apply-templates select="ancestor::mei:measure/mei:arpeg[not(@startid)][tokenize(@plist,' ') = $noteKey]" />
+    <xsl:apply-templates select="ancestor::mei:measure/mei:fingGrp//mei:fing[@startid = $noteKey]" />
     <xsl:apply-templates select="ancestor::mei:measure/*[@startid = $noteKey]" />
     <xsl:if test="key('spannerEnd',$noteKey)[self::mei:tupletSpan]">
       <xsl:value-of select="' }'" />
@@ -3408,6 +3413,16 @@
   </xsl:template>
   <!-- exclude untweaked attributes -->
   <xsl:template match="@*" mode="tweak" />
+  <!-- att.stringtab -->
+  <xsl:template match="@tab.fing">
+    <!-- not supported -->
+  </xsl:template>
+  <xsl:template match="@tab.fret">
+    <!-- not supported -->
+  </xsl:template>
+  <xsl:template match="@tab.string">
+    <xsl:value-of select="concat('\', .)" />
+  </xsl:template>
   <!-- set grace notes -->
   <xsl:template name="setGraceNote">
     <xsl:text>\grace </xsl:text>
