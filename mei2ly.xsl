@@ -636,13 +636,16 @@
     </xsl:if>
     <xsl:call-template name="setBeaming" />
     <xsl:if test="@slur.lform">
-      <xsl:value-of select="concat('\slur',translate(substring(@lform,1,1),'ds','DS'),substring(@lform,2),' ')" />
+      <xsl:value-of select="concat('\slur',translate(substring(@slur.lform,1,1),'ds','DS'),substring(@slur.lform,2),' ')" />
     </xsl:if>
     <xsl:if test="@slur.lwidth">
       <xsl:text>\override Slur.thickness = #</xsl:text>
       <xsl:call-template name="setLineWidth">
         <xsl:with-param name="thickness" select="@slur.lwidth" />
       </xsl:call-template>
+    </xsl:if>
+    <xsl:if test="@tie.lform">
+      <xsl:value-of select="concat('\slur',translate(substring(@tie.lform,1,1),'ds','DS'),substring(@tie.lform,2),' ')" />
     </xsl:if>
     <xsl:if test="@tie.lwidth">
       <xsl:text>\override Tie.thickness = #</xsl:text>
