@@ -623,10 +623,10 @@
       </xsl:choose>
     </xsl:if>
     <xsl:call-template name="setBeaming" />
-    <xsl:if test="ancestor-or-self::*@slur.lform">
+    <xsl:if test="ancestor-or-self::*/@slur.lform">
       <xsl:value-of select="concat('\slur',translate(substring(@lform,1,1),'ds','DS'),substring(@lform,2),' ')" />
     </xsl:if>
-    <xsl:if test="ancestor-or-self::*@slur.lwidth">
+    <xsl:if test="ancestor-or-self::*/@slur.lwidth">
       <xsl:text>\override Slur.thickness = #</xsl:text>
       <xsl:call-template name="setLineWidth">
         <xsl:with-param name="thickness" select="@slur.lwidth" />
