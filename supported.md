@@ -540,12 +540,14 @@ List of supported MEI elements and attributes
     * `@page.topmar`
     * `@page.width`
     * `@pedal.style` (for values 'line' and 'pedstar')
+    * `@slur.lwidth`
     * `@spacing.packexp`
     * `@spacing.staff` (for single values)
     * `@spacing.system` (for single values)
     * `@system.leftline`
     * `@system.leftmar` (affects only first system)
     * `@text.dist`
+    * `@tie.lwidth`
     * `@vu.height` (for values in 'pt')
 
 * `<section>`
@@ -612,6 +614,8 @@ List of supported MEI elements and attributes
 
 * `<staffGrp>`
   * `@barthru`
+  * `@label`
+  * `@n`
   * `@symbol`
 
 * `<syl>`
