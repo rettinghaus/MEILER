@@ -5061,7 +5061,7 @@
     </xsl:if>
     <xsl:if test="@spacing.system">
       <xsl:text>  system-system-spacing.basic-distance = #</xsl:text>
-      <xsl:value-of select="concat(local:VU2LY(@spacing.system),' ')" />
+      <xsl:value-of select="concat(local:VU2LY(@spacing.system) + 2,' ')" />
     </xsl:if>
     <!-- <xsl:value-of select="@page.panels" />
   <xsl:value-of select="@page.scale" /> -->
