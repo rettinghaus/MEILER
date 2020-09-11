@@ -955,7 +955,17 @@
       <xsl:text>\tweak transparent ##t </xsl:text>
     </xsl:if>
     <xsl:if test="@dots.ges">
-      <xsl:value-of select="concat('\tweak Dots.dot-count #', number(@dots), ' ')" />
+      <xsl:variable name="visualDots">
+        <xsl:choose>
+          <xsl:when test="@dots">
+            <xsl:value-of select="number(@dots)" />
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="0" />
+          </xsl:otherwise>
+        </xsl:choose>
+      </xsl:variable>
+      <xsl:value-of select="concat('\tweak Dots.dot-count #', $visualDots, ' ')" />
     </xsl:if>
     <xsl:if test="following-sibling::*[1]/@attach = 'pre'">
       <xsl:text>\afterGrace </xsl:text>
@@ -1088,8 +1098,18 @@
       <xsl:value-of select="'\once \override Stem.color = #'" />
       <xsl:call-template name="setColor" />
     </xsl:if>
-    <xsl:if test="@dots.ges">
-      <xsl:value-of select="concat('\once \override Dots.dot-count = #', number(@dots), ' ')" />
+    <xsl:if test="@dots and @dots.ges">
+      <xsl:variable name="visualDots">
+        <xsl:choose>
+          <xsl:when test="@dots">
+            <xsl:value-of select="number(@dots)" />
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="0" />
+          </xsl:otherwise>
+        </xsl:choose>
+      </xsl:variable>
+      <xsl:value-of select="concat('\once \override Dots.dot-count = #', $visualDots, ' ')" />
     </xsl:if>
     <xsl:text>&lt; </xsl:text>
     <xsl:if test="@stem.mod = '1slash'">
