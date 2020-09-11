@@ -1,3 +1,5 @@
+.DS_Store
+
 ## Ignore test file outputs
 *.log
 *.ly
