@@ -872,6 +872,9 @@
     <xsl:if test="@staff and not(parent::mei:chord) and @staff != ancestor::mei:staff/@n">
       <xsl:value-of select="concat('\change Staff = &quot;staff ',@staff,'&quot;&#32;')" />
     </xsl:if>
+    <xsl:if test="@breaksec">
+      <xsl:value-of select="concat('\set stemRightBeamCount = #', @breaksec, '&#32;')" />
+    </xsl:if>
     <xsl:if test="@grace and not(ancestor::*/@grace)">
       <xsl:call-template name="setGraceNote" />
     </xsl:if>
@@ -1072,6 +1075,9 @@
     <xsl:if test="@staff and not(parent::mei:chord) and @staff != ancestor::mei:staff/@n">
       <xsl:value-of select="concat('\change Staff = &quot;staff ',ancestor::mei:staff/@n,'&quot;&#32;')" />
     </xsl:if>
+    <xsl:if test="@breaksec">
+      <xsl:value-of select="concat('\set stemLeftBeamCount = #', @breaksec, '&#32;')" />
+    </xsl:if>
   </xsl:template>
   <!-- MEI chord -->
   <xsl:template match="mei:chord[@copyof]">
@@ -1083,6 +1089,9 @@
     <xsl:apply-templates select="ancestor::mei:measure/*[@startid = $chordKey or tokenize(@plist,' ') = $subChordKeys]" mode="pre" />
     <xsl:if test="@staff and @staff != ancestor::mei:staff/@n">
       <xsl:value-of select="concat('\change Staff = &quot;staff ',@staff,'&quot;&#32;')" />
+    </xsl:if>
+    <xsl:if test="@breaksec">
+      <xsl:value-of select="concat('\set stemRightBeamCount = #', @breaksec, '&#32;')" />
     </xsl:if>
     <xsl:if test="@visible=false()">
       <xsl:text>\once \hideNotes </xsl:text>
@@ -1188,6 +1197,9 @@
     <xsl:value-of select="' '" />
     <xsl:if test="@staff and @staff != ancestor::mei:staff/@n">
       <xsl:value-of select="concat('\change Staff = &quot;staff ',ancestor::mei:staff/@n,'&quot;&#32;')" />
+    </xsl:if>
+    <xsl:if test="@breaksec">
+      <xsl:value-of select="concat('\set stemLeftBeamCount = #', @breaksec, '&#32;')" />
     </xsl:if>
   </xsl:template>
   <!-- MEI rest -->
@@ -1550,9 +1562,6 @@
     </xsl:choose>
     <xsl:if test="@place = 'mixed'">
       <xsl:text>\once \override Beam.auto-knee-gap = #0 </xsl:text>
-    </xsl:if>
-    <xsl:if test="descendant::*/@breaksec">
-      <xsl:text>\once \set subdivideBeams = ##t </xsl:text>
     </xsl:if>
     <xsl:if test="@staff and @staff != ancestor::mei:staff/@n">
       <xsl:value-of select="concat('\change Staff = &quot;staff ',@staff,'&quot;&#32;')" />
