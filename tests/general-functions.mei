@@ -61,7 +61,7 @@
                 place="above" staff="1" tstamp="3" startid="#testnote2" endid="#testnote3"/>
               <gliss xml:id="dashed-glissando" color="green" lform="dashed" lwidth="medium"
                 staff="1" tstamp="3" startid="#testnote2" endid="#testnote3"/>
-              <phrase xml:id="whole-phrase" color="gray" bezier="-10 10 5 -5" startvo="2" endvo="-6"
+              <phrase xml:id="whole-phrase" color="gray" bezier="19 45 -32 118" startvo="2" endvo="-6"
                 curvedir="above" lform="solid" lwidth="medium" staff="1" tstamp="1"
                 startid="#testnote1" endid="#testnote7"/>
             </measure>

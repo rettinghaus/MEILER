@@ -1,6 +1,6 @@
 #--        MEILER         --#
 #-- simple testing script --#
-#--        v0.2.7         --#
+#--        v0.2.8         --#
 #--                       --#
 #--     programmed by     --#
 #--   Klaus Rettinghaus   --#
@@ -14,9 +14,9 @@ lilyversion="$(lilypond -v)"
 find . -type f -name "*.mei"|while read file;
 do
   fname=$(basename "$file")
-  saxonb-xslt -s:$file -o:${file%.mei}.ly -xsl:../mei2ly.xsl LilyPondVersion="2.20.0" && lilypond -dno-print-pages -dpreview --formats=png --loglevel=BASIC_PROGRESS ${file%.mei}.ly >> tests.log 2>&1
+  saxon -s:$file -o:${file%.mei}.ly -xsl:../mei2ly.xsl LilyPondVersion="2.20.0" && lilypond -dno-print-pages -dpreview --formats=png --loglevel=BASIC_PROGRESS ${file%.mei}.ly >> tests.log 2>&1
   #-- next line for SVG output
-  saxonb-xslt -s:$file -o:${file%.mei}.ly -xsl:../mei2ly.xsl useSvgBackend=true forceLayout=true && lilypond -dno-print-pages -dno-point-and-click -dbackend=svg -dpreview --loglevel=BASIC_PROGRESS ${file%.mei}.ly >> tests.log 2>&1
+  saxon -s:$file -o:${file%.mei}.ly -xsl:../mei2ly.xsl useSvgBackend=true forceLayout=true && lilypond -dno-print-pages -dno-point-and-click -dbackend=svg -dpreview --loglevel=BASIC_PROGRESS ${file%.mei}.ly >> tests.log 2>&1
   rm ${file%.mei}.ly
 
   #-- add output to README.md
