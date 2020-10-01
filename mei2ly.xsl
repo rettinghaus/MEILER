@@ -1429,6 +1429,7 @@
     </xsl:if>
     <xsl:text>s</xsl:text>
     <xsl:call-template name="setDuration" />
+    <xsl:apply-templates mode="addBeamMarkup" select="." />
     <xsl:value-of select="' '" />
   </xsl:template>
   <!-- MEI measure repeats -->
