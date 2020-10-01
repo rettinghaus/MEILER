@@ -36,10 +36,10 @@
                   <note xml:id="note05" dur="4" oct="4" pname="g"/>
                 </layer>
               </staff>
-              <dynam startid="#note01">cresc.</dynam>
+              <dynam startid="#note01" extender="false">cresc.</dynam>
               <dynam startid="#note02" place="above">ff</dynam>
               <dynam startid="#note03" place="below">sfz</dynam>
-              <dynam startid="#note04" place="above">dim.</dynam>
+              <dynam startid="#note04" extender="false" place="above">dim.</dynam>
               <dynam startid="#note05" place="below">piano</dynam>
             </measure>
             <measure n="2">

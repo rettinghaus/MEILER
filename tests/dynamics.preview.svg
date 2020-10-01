@@ -47,7 +47,6 @@ c32 0 62 -22 94 -22c8 0 15 -1 23 -1c11 0 22 1 30 9c3 3 7 4 10 4c7 0 14 -7 14 -14
 </g>
 <rect transform="translate(35.2588, 5.4479)" x="-0.0650" y="-2.5000" width="0.1300" height="3.3139" ry="0.0400" fill="currentColor"/>
 <g class="dynam">
-<line transform="translate(31.2912, 1.4809)" stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0" y1="0" x2="0.8998" y2="-0.0000" stroke-dasharray="0.6,2.4"/>
 <text transform="translate(26.1473, 2.0421)" font-family="serif" font-style="italic" font-size="2.4696" text-anchor="start" fill="currentColor">
 <tspan>dim.</tspan>
 </text>
