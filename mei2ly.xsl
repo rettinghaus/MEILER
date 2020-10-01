@@ -2220,9 +2220,9 @@
     </xsl:if>
     <xsl:if test="@endid or @tstamp2">
       <xsl:apply-templates select="@*[name() != 'place']" mode="tweak" />
-      <xsl:if test="@extender = 'false'">
-        <xsl:text>-\tweak style #&apos;none </xsl:text>
-      </xsl:if>
+    </xsl:if>
+    <xsl:if test="@extender = 'false'">
+      <xsl:text>-\tweak style #&apos;none </xsl:text>
     </xsl:if>
     <xsl:call-template name="setMarkupDirection" />
     <xsl:choose>
