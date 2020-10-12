@@ -569,6 +569,7 @@ List of supported MEI elements and attributes
   * `@xml:id`
 
 * `<space>`
+  * `@cutout`
   * `@dur`
 
 * `<staff>`

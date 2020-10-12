@@ -1423,7 +1423,12 @@
     <xsl:value-of select="' '" />
   </xsl:template>
   <!-- MEI spaces -->
-  <xsl:template match="mei:space">
+  <xsl:template match="mei:space[@cutout='cutout']">
+    <xsl:text>\stopStaff </xsl:text>
+    <xsl:call-template name="space" />
+    <xsl:text>\startStaff </xsl:text>
+  </xsl:template>
+  <xsl:template match="mei:space" name="space">
     <xsl:if test="$useSvgBackend">
       <!-- no container for space in the output -->
     </xsl:if>
