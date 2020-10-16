@@ -1389,8 +1389,17 @@
         </xsl:when>
       </xsl:choose>
     </xsl:if>
+    <xsl:if test="@color">
+      <!-- not available in MEI4 -->
+      <xsl:value-of select="'\tweak color #'" />
+      <xsl:call-template name="setColor" />
+    </xsl:if>
+    <xsl:if test="@width">
+      <!-- not available in MEI4 -->
+      <xsl:value-of select="concat('\tweak minimum-length #', local:VU2LY(@width), ' ')" />
+    </xsl:if>
     <xsl:if test="@loc">
-      <xsl:value-of select="concat('\tweak staff-position #',@loc - 4,' ')" />
+      <xsl:value-of select="concat('\tweak staff-position #', @loc - 4, ' ')" />
     </xsl:if>
     <xsl:if test="@ploc or @oloc">
       <xsl:message>WARNING: @ploc and @oloc on <xsl:value-of select="local-name(.)" /><xsl:if test="@xml:id"><xsl:value-of select="concat(' [',@xml:id,']')" /></xsl:if> not supported, use @loc instead</xsl:message>
@@ -2796,7 +2805,7 @@
       </xsl:choose>
     </xsl:if>
     <xsl:if test="@color">
-      <!-- not available in MEI -->
+      <!-- not available in MEI4 -->
       <xsl:value-of select="'\tweak color #'" />
       <xsl:call-template name="setColor" />
     </xsl:if>

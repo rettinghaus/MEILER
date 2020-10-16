@@ -336,8 +336,10 @@ List of supported MEI elements and attributes
 
 * `<multiRest>`
   * `@block`
+  * *`@color`*
   * `@loc`
   * __`@num`__
+  * *`@width`* (will set minimum length)
   * `@xml:id`
 
 * `<music>`
