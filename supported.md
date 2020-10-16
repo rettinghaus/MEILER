@@ -88,6 +88,7 @@ List of supported MEI elements and attributes
   * `@fermata`
   * `@fontsize`
   * `@grace`
+  * *`@ho`*
   * `@lv`
   * `@oct`
   * `@ornam`
@@ -99,6 +100,7 @@ List of supported MEI elements and attributes
   * `stem.visible`
   * `@tie`
   * `@visible`
+  * *`@vo`*
 
 * `<clef>`
   * `@color`
@@ -316,7 +318,7 @@ List of supported MEI elements and attributes
   * `@xml:id`
 
 * `<mRest>`
-  * `@color`
+  * *`@color`*
   * `@copyof`
   * `@dur`
   * `@dur.ges`

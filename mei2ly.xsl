@@ -838,7 +838,7 @@
       <xsl:call-template name="setRelFontsizeNum" />
     </xsl:if>
     <xsl:if test="@ho or @vo">
-      <!-- not available in MEI -->
+      <!-- not available in MEI4 -->
       <xsl:text>\once \override Staff.Clef.extra-offset = #&apos;</xsl:text>
       <xsl:call-template name="setOffset" />
     </xsl:if>
@@ -1326,6 +1326,7 @@
       <xsl:call-template name="setVisibility" />
     </xsl:if>
     <xsl:if test="@color">
+      <!-- not available in MEI4 -->
       <xsl:text>\tweak color #</xsl:text>
       <xsl:call-template name="setColor" />
     </xsl:if>
