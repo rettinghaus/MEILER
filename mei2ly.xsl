@@ -2436,6 +2436,9 @@
     </xsl:if>
   </xsl:template>
   <xsl:template match="mei:pedal">
+    <xsl:if test="@dir = 'bounce'">
+      <xsl:text>\sustainOff</xsl:text>
+    </xsl:if>
     <xsl:if test="$useSvgBackend">
       <xsl:text>-\tweak output-attributes #&apos;</xsl:text>
       <xsl:call-template name="setSvgAttr" />
@@ -2485,7 +2488,7 @@
         <xsl:message select="'INFO: Half pedal not supported'" />
       </xsl:when>
       <xsl:when test="@dir = 'bounce'">
-        <xsl:text>\sustainOff\sustainOn</xsl:text>
+        <xsl:text>\sustainOn</xsl:text>
       </xsl:when>
     </xsl:choose>
   </xsl:template>
