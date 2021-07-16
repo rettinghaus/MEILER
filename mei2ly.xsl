@@ -911,9 +911,9 @@
     </xsl:if>
     <xsl:apply-templates mode="setStemDir" select="." />
     <xsl:apply-templates select="@stem.len|@stem.visible" />
-    <xsl:if test="@enclose='paren'">
-      <xsl:text>\parenthesize </xsl:text>
+    <xsl:if test="@head.mod">
     </xsl:if>
+    <xsl:apply-templates select="@enclose"/>
     <!-- att.noteheads -->
     <xsl:if test="@head.color">
       <xsl:text>\tweak color #</xsl:text>
@@ -1046,7 +1046,7 @@
     <xsl:if test="@artic">
       <xsl:call-template name="artic" />
     </xsl:if>
-    <xsl:apply-templates select="mei:artic" />
+    <xsl:apply-templates select="descendant::mei:artic" />
     <xsl:if test="@ornam">
       <xsl:call-template name="setOrnament" />
     </xsl:if>
@@ -1175,7 +1175,7 @@
     <xsl:if test="@artic">
       <xsl:call-template name="artic" />
     </xsl:if>
-    <xsl:apply-templates select="mei:artic" />
+    <xsl:apply-templates select="descendant::mei:artic" />
     <xsl:if test="@ornam">
       <xsl:call-template name="setOrnament" />
     </xsl:if>
@@ -1251,9 +1251,7 @@
     <xsl:if test="@loc">
       <xsl:value-of select="concat('\tweak staff-position #',@loc - 4,' ')" />
     </xsl:if>
-    <xsl:if test="@enclose='paren'">
-      <xsl:text>\parenthesize </xsl:text>
-    </xsl:if>
+    <xsl:apply-templates select="@enclose"/>
     <xsl:choose>
       <xsl:when test="@ploc and @oloc">
         <xsl:value-of select="@ploc" />
@@ -1688,9 +1686,7 @@
         <xsl:text>-\tweak extra-offset #&apos;</xsl:text>
         <xsl:call-template name="setOffset" />
       </xsl:if>
-      <xsl:if test="@enclose='paren'">
-        <xsl:text>-\parenthesize </xsl:text>
-      </xsl:if>
+      <xsl:apply-templates select="@enclose"/>
       <xsl:call-template name="setMarkupDirection" />
     </xsl:if>
     <xsl:choose>
@@ -1781,6 +1777,7 @@
           <xsl:call-template name="setOffset" />
         </xsl:if>
         <xsl:apply-templates select="@color" mode="tweak" />
+        <xsl:apply-templates select="@enclose"/>
         <xsl:call-template name="setMarkupDirection" />
       </xsl:when>
       <xsl:otherwise>
@@ -1843,6 +1840,7 @@
       <xsl:call-template name="setOffset" />
     </xsl:if>
     <xsl:apply-templates select="@color" mode="tweak" />
+    <xsl:apply-templates select="@enclose"/>
     <xsl:call-template name="setMarkupDirection" />
     <xsl:choose>
       <xsl:when test="not(@glyph.name or @glyph.num)">
@@ -1953,6 +1951,7 @@
       <xsl:call-template name="setOffset" />
     </xsl:if>
     <xsl:apply-templates select="@color" mode="tweak" />
+    <xsl:apply-templates select="@enclose"/>
     <xsl:call-template name="setMarkupDirection" />
     <xsl:choose>
       <xsl:when test="not(@glyph.name or @glyph.num)">
@@ -5102,7 +5101,25 @@
     <xsl:value-of select="concat('\override Score.MetronomeMark.padding = #',local:VU2LY(.),' ')" />
     <xsl:value-of select="concat('\override Staff.TextScript.staff-padding = #',local:VU2LY(.),' ')" />
   </xsl:template>
-  <!-- page layout -->
+  <!-- att.enclosingChars -->
+  <xsl:template match="@enclose">
+    <xsl:choose>
+      <xsl:when test=".='paren'">
+        <xsl:if test="not(ancestor::mei:note or ancestor::mei:rest)">
+          <xsl:text>-</xsl:text>
+        </xsl:if>
+        <xsl:text>\parenthesize </xsl:text>
+      </xsl:when>
+      <xsl:when test=".='brack'">
+        <xsl:message>WARNING: value 'brack' not yet supported</xsl:message>
+      </xsl:when>
+      <xsl:when test=".='box'">
+        <xsl:message>WARNING: value 'box' not yet supported</xsl:message>
+      </xsl:when>
+      <xsl:otherwise />
+    </xsl:choose>
+  </xsl:template>
+<!-- page layout -->
   <xsl:template match="mei:scoreDef" mode="makePageLayout">
     <xsl:text>\paper {&#10;</xsl:text>
     <xsl:if test="@page.height">
