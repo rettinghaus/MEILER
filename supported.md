@@ -506,53 +506,53 @@ List of supported MEI elements and attributes
 * `<score>`
 
 * `<scoreDef>`
-    * `@bar.method` (for value 'takt')
-    * `@beam.group`
-    * `@clef.color`
-    * `@clef.dis`
-    * `@clef.dis.place`
-    * `@clef.line`
-    * `@clef.shape`
-    * `@dynam.dist`
-    * `@ending.rend` (for values 'top' and 'grouped')
-    * `@harm.dist`
-    * `@key.accid`
-    * `@key.mode`
-    * `@key.pname`
-    * `@key.sig` (unsupported for value 'mixed')
-    * `@lyric.fam`
-    * `@lyric.name`
-    * `@lyric.style`
-    * `@lyric.weight`
-    * `@mensur.color`
-    * `@mensur.dot`
-    * `@mensur.sign`
-    * `@mensur.slash` (for value '1')
-    * `@meter.count`
-    * `@meter.form`
-    * `@meter.showchange`
-    * `@meter.sym`
-    * `@meter.unit`
-    * `@midi.bpm`
-    * `@mnum.visible`
-    * `@optimize`
-    * `@page.botmar`
-    * `@page.height`
-    * `@page.leftmar`
-    * `@page.rightmar`
-    * `@page.scale`
-    * `@page.topmar`
-    * `@page.width`
-    * `@pedal.style` (for values 'line' and 'pedstar')
-    * `@slur.lwidth`
-    * `@spacing.packexp`
-    * `@spacing.staff` (for single values)
-    * `@spacing.system` (for single values)
-    * `@system.leftline`
-    * `@system.leftmar` (affects only first system)
-    * `@text.dist`
-    * `@tie.lwidth`
-    * `@vu.height` (for values in 'pt')
+  * `@bar.method` (for value 'takt')
+  * `@beam.group`
+  * `@clef.color`
+  * `@clef.dis`
+  * `@clef.dis.place`
+  * `@clef.line`
+  * `@clef.shape`
+  * `@dynam.dist`
+  * `@ending.rend` (for values 'top' and 'grouped')
+  * `@harm.dist`
+  * `@key.accid`
+  * `@key.mode`
+  * `@key.pname`
+  * `@key.sig` (unsupported for value 'mixed')
+  * `@lyric.fam`
+  * `@lyric.name`
+  * `@lyric.style`
+  * `@lyric.weight`
+  * `@mensur.color`
+  * `@mensur.dot`
+  * `@mensur.sign`
+  * `@mensur.slash` (for value '1')
+  * `@meter.count`
+  * `@meter.form`
+  * `@meter.showchange`
+  * `@meter.sym`
+  * `@meter.unit`
+  * `@midi.bpm`
+  * `@mnum.visible`
+  * `@optimize`
+  * `@page.botmar`
+  * `@page.height`
+  * `@page.leftmar`
+  * `@page.rightmar`
+  * `@page.scale`
+  * `@page.topmar`
+  * `@page.width`
+  * `@pedal.style` (for values 'line' and 'pedstar')
+  * `@slur.lwidth`
+  * `@spacing.packexp`
+  * `@spacing.staff` (for single values)
+  * `@spacing.system` (for single values)
+  * `@system.leftline`
+  * `@system.leftmar` (affects only first system)
+  * `@text.dist`
+  * `@tie.lwidth`
+  * `@vu.height` (for values in 'pt')
 
 * `<section>`
 
