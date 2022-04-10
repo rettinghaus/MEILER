@@ -361,7 +361,7 @@
             <xsl:if test="not(descendant::mei:harm[@staff=$staffNumber])">
               <xsl:call-template name="setMeasureSpace" />
             </xsl:if>
-            <xsl:apply-templates select="mei:harm[@staff=$staffNumber]" />
+            <xsl:apply-templates select="mei:harm[@staff=$staffNumber]" mode="figuremode" />
             <xsl:value-of select="concat('%',@n,'&#10;')" />
           </xsl:for-each>
           <xsl:text>}&#10;&#10;</xsl:text>
@@ -2496,7 +2496,9 @@
   <xsl:template match="mei:harm[@copyof]">
     <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:harm[@xml:id = substring-after(current()/@copyof,'#')]" />
   </xsl:template>
-  <xsl:template match="mei:harm[child::mei:fb]">
+  <xsl:template match="mei:harm" mode="pre" />
+  <xsl:template match="mei:harm" />
+  <xsl:template match="mei:harm" mode="figuremode">
     <xsl:param name="meterCount">
       <xsl:choose>
         <xsl:when test="preceding::*/@meter.count">
