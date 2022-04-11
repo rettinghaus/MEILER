@@ -1364,11 +1364,15 @@
     </xsl:choose>
     <xsl:if test="@fermata">
       <xsl:call-template name="fermata" />
-      <xsl:value-of select="'Markup'" />
+      <xsl:if test="$LilyPondVersion &lt; '2.22.0'">
+        <xsl:value-of select="'Markup'" />
+      </xsl:if>
     </xsl:if>
     <xsl:if test="ancestor::mei:measure/mei:fermata/@startid = concat('#',@xml:id)">
       <xsl:apply-templates select="ancestor::mei:measure/mei:fermata[@startid = concat('#',current()/@xml:id)]" />
-      <xsl:value-of select="'Markup'" />
+      <xsl:if test="$LilyPondVersion &lt; '2.22.0'">
+        <xsl:value-of select="'Markup'" />
+      </xsl:if>
     </xsl:if>
     <xsl:value-of select="' '" />
   </xsl:template>
@@ -1428,7 +1432,9 @@
     </xsl:if>
     <xsl:if test="ancestor::mei:measure/mei:fermata/@startid = concat('#',@xml:id)">
       <xsl:apply-templates select="ancestor::mei:measure/mei:fermata[@startid = concat('#',current()/@xml:id)]" />
-      <xsl:value-of select="'Markup'" />
+      <xsl:if test="$LilyPondVersion &lt; '2.22.0'">
+        <xsl:value-of select="'Markup'" />
+      </xsl:if>
     </xsl:if>
     <xsl:value-of select="' '" />
   </xsl:template>
