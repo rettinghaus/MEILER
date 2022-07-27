@@ -437,8 +437,16 @@
     </xsl:if>
     <xsl:if test="@bar.method or @clef.color or @multi.number or @slur.lwidth or @system.leftline  or @tie.lwidth">
       <xsl:text> \context { \Score </xsl:text>
-      <xsl:if test="@bar.method = 'takt'">
-        <xsl:text>defaultBarType = #"'" </xsl:text>
+      <xsl:if test="@bar.method">
+        <xsl:choose>
+          <xsl:when test="@bar.method = 'mensur'">
+            <xsl:text>\hide BarLine </xsl:text>
+          </xsl:when>
+          <xsl:when test="@bar.method = 'takt'">
+            <xsl:text>defaultBarType = #"'" </xsl:text>
+          </xsl:when>
+          <xsl:otherwise></xsl:otherwise>
+        </xsl:choose>
       </xsl:if>
       <xsl:if test="@multi.number">
         <!-- att.multinummeasures -->
@@ -3516,6 +3524,9 @@
       <!-- ly:Articulation scripts -->
       <xsl:when test="$articulation = 'acc'">
         <xsl:text>\accent</xsl:text>
+      </xsl:when>
+      <xsl:when test="$articulation = 'acc-soft'">
+        <xsl:text>\espressivo</xsl:text>
       </xsl:when>
       <xsl:when test="$articulation = 'stacc'">
         <xsl:text>\staccato</xsl:text>
