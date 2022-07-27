@@ -361,7 +361,7 @@
             <xsl:if test="not(descendant::mei:harm[@staff=$staffNumber])">
               <xsl:call-template name="setMeasureSpace" />
             </xsl:if>
-            <xsl:apply-templates select="mei:harm[@staff=$staffNumber]" />
+            <xsl:apply-templates select="mei:harm[@staff=$staffNumber]" mode="figuremode" />
             <xsl:value-of select="concat('%',@n,'&#10;')" />
           </xsl:for-each>
           <xsl:text>}&#10;&#10;</xsl:text>
@@ -1362,11 +1362,15 @@
     </xsl:choose>
     <xsl:if test="@fermata">
       <xsl:call-template name="fermata" />
-      <xsl:value-of select="'Markup'" />
+      <xsl:if test="$LilyPondVersion &lt; '2.22.0'">
+        <xsl:value-of select="'Markup'" />
+      </xsl:if>
     </xsl:if>
     <xsl:if test="ancestor::mei:measure/mei:fermata/@startid = concat('#',@xml:id)">
       <xsl:apply-templates select="ancestor::mei:measure/mei:fermata[@startid = concat('#',current()/@xml:id)]" />
-      <xsl:value-of select="'Markup'" />
+      <xsl:if test="$LilyPondVersion &lt; '2.22.0'">
+        <xsl:value-of select="'Markup'" />
+      </xsl:if>
     </xsl:if>
     <xsl:value-of select="' '" />
   </xsl:template>
@@ -1426,7 +1430,9 @@
     </xsl:if>
     <xsl:if test="ancestor::mei:measure/mei:fermata/@startid = concat('#',@xml:id)">
       <xsl:apply-templates select="ancestor::mei:measure/mei:fermata[@startid = concat('#',current()/@xml:id)]" />
-      <xsl:value-of select="'Markup'" />
+      <xsl:if test="$LilyPondVersion &lt; '2.22.0'">
+        <xsl:value-of select="'Markup'" />
+      </xsl:if>
     </xsl:if>
     <xsl:value-of select="' '" />
   </xsl:template>
@@ -2495,7 +2501,9 @@
   <xsl:template match="mei:harm[@copyof]">
     <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:harm[@xml:id = substring-after(current()/@copyof,'#')]" />
   </xsl:template>
-  <xsl:template match="mei:harm[child::mei:fb]">
+  <xsl:template match="mei:harm" mode="pre" />
+  <xsl:template match="mei:harm" />
+  <xsl:template match="mei:harm" mode="figuremode">
     <xsl:param name="meterCount">
       <xsl:choose>
         <xsl:when test="preceding::*/@meter.count">

@@ -23,3 +23,9 @@ for [Debussy_Golliwogg'sCakewalk.mei](/examples/Debussy_Golliwogg'sCakewalk.mei)
 
 
 (See more tests [here](https://github.com/rettinghaus/mei-test-set/).)
+
+### Setting up
+On macOS you can use [Homebrew](https://brew.sh) to install required packages. Just open a terminal and type:
+```shell
+brew install lilypond saxon
+```
