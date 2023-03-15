@@ -1937,9 +1937,6 @@
     <xsl:if test="@accidlower or @accidupper">
       <xsl:call-template name="addOrnamentAccid" />
     </xsl:if>
-    <xsl:if test="@extender = 'true' and not(@endid)">
-      <xsl:text>\startTrillSpan</xsl:text>
-    </xsl:if>
   </xsl:template>
   <!-- MEI turn -->
   <xsl:template match="mei:turn[@copyof]">
