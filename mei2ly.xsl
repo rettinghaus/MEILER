@@ -2017,6 +2017,29 @@
     </xsl:if>
     <xsl:text>\breathe</xsl:text>
   </xsl:template>
+  <!-- MEI caesura -->
+  <xsl:template match="mei:caesura[@copyof]">
+    <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:breath[@xml:id = substring-after(current()/@copyof,'#')]" />
+  </xsl:template>
+  <xsl:template match="mei:caesura">
+    <xsl:if test="$useSvgBackend">
+      <xsl:text>\tweak output-attributes #&apos;</xsl:text>
+      <xsl:call-template name="setSvgAttr" />
+    </xsl:if>
+    <xsl:if test="@color">
+      <xsl:text>\tweak color #</xsl:text>
+      <xsl:call-template name="setColor" />
+    </xsl:if>
+    <xsl:if test="@fontsize">
+      <xsl:text>\tweak font-size #</xsl:text>
+      <xsl:call-template name="setRelFontsizeNum" />
+    </xsl:if>
+    <xsl:if test="@ho or @vo">
+      <xsl:text>\tweak extra-offset #&apos;</xsl:text>
+      <xsl:call-template name="setOffset" />
+    </xsl:if>
+    <xsl:text>\caesura</xsl:text>
+  </xsl:template>
   <!-- MEI laissez vibrer-->
   <xsl:template match="mei:lv">
     <xsl:if test="$useSvgBackend">
