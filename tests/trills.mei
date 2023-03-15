@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-model href="https://music-encoding.org/schema/4.0.0/mei-all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
-<mei xmlns="http://www.music-encoding.org/ns/mei" meiversion="4.0.0">
+<?xml-model href="https://music-encoding.org/schema/4.0.1/mei-all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<mei xmlns="http://www.music-encoding.org/ns/mei" meiversion="4.0.1">
   <meiHead>
     <fileDesc>
       <titleStmt>
@@ -33,7 +33,7 @@
                 </layer>
               </staff>
               <gliss startid="#firstNote" endid="#middleNote" lendsym="arrow" lform="dashed" />
-              <trill startid="#firstNote" endid="#lastNote" extender="true" color="darkcyan" lform="solid" lwidth="wide" lendsym="arrow" />
+              <trill startid="#firstNote" endid="#middleNote" extender="true" color="darkcyan" lform="solid" lwidth="wide" lendsym="arrow" />
             </measure>
             <measure>
               <staff n="1">
@@ -41,7 +41,7 @@
                     <note pname="g" oct="3" dur="1" xml:id="middleNote"/>
                 </layer>
               </staff>
-              <trill startid="#middleNote" endid="#lastNote" place="below" lstartsym="none" vo="2.5" ho="1.5" />
+              <trill startid="#middleNote" endid="#lastNote" place="below" lstartsym="none" vo="2.5" ho="2.0" />
             </measure>
             <measure>
               <staff n="1">
@@ -49,7 +49,7 @@
                     <note pname="g" oct="4" dur="1" xml:id="lastNote"/>
                 </layer>
               </staff>
-              <trill startid="#lastNote" fontsize="small" extender="true" ho="-6" vo="-3" lstartsym.size="1" />
+              <trill startid="#lastNote" fontsize="small" extender="true" ho="-4" vo="-2" lstartsym.size="1" />
             </measure>
           </section>
         </score>
