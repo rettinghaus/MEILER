@@ -64,11 +64,27 @@ List of supported MEI elements and attributes
   * `@vo`
   * `@xml:id`
 
+* `<breath>`
+  * `@color`
+  * `@fontsize`
+  * `@ho`
+  * __`@startid`__
+  * `@vo`
+  * `@xml:id`
+
 * `<bTrem>`
   * `@num`
   * `@num.place`
   * `@num.visible`
   * `@unitdur`
+  * `@xml:id`
+
+* `<caesura>`
+  * `@color`
+  * `@fontsize`
+  * `@ho`
+  * __`@startid`__
+  * `@vo`
   * `@xml:id`
 
 * `<change>`
