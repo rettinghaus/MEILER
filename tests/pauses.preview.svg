@@ -1,29 +1,35 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.2" width="26.10mm" height="17.28mm" viewBox="8.5358 -0.0210 14.8548 9.8330">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.2" width="54.75mm" height="12.92mm" viewBox="8.5358 -0.0210 31.1549 7.3500">
 <style type="text/css">
 <![CDATA[
 tspan { white-space: pre; }
 ]]>
 </style>
 <g transform="translate(8.5358, 5.7790)">
-<line stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="0" x2="14.8048" y2="0"/>
+<line stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="0" x2="31.1049" y2="0"/>
 </g>
 <g transform="translate(8.5358, 4.7790)">
-<line stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="0" x2="14.8048" y2="0"/>
+<line stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="0" x2="31.1049" y2="0"/>
 </g>
 <g transform="translate(8.5358, 3.7790)">
-<line stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="0" x2="14.8048" y2="0"/>
+<line stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="0" x2="31.1049" y2="0"/>
 </g>
 <g transform="translate(8.5358, 2.7790)">
-<line stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="0" x2="14.8048" y2="0"/>
+<line stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="0" x2="31.1049" y2="0"/>
 </g>
 <g transform="translate(8.5358, 1.7790)">
-<line stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="0" x2="14.8048" y2="0"/>
+<line stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="0" x2="31.1049" y2="0"/>
+</g>
+<g transform="translate(39.5007, 3.7790)">
+<rect x="0.0000" y="-2.0000" width="0.1900" height="4.0000" ry="0.0000" fill="currentColor"/>
+</g>
+<g transform="translate(31.3507, 3.7790)">
+<rect x="0.0000" y="-2.0000" width="0.1900" height="4.0000" ry="0.0000" fill="currentColor"/>
 </g>
 <g transform="translate(23.2006, 3.7790)">
 <rect x="0.0000" y="-2.0000" width="0.1900" height="4.0000" ry="0.0000" fill="currentColor"/>
 </g>
-<g class="note">
-<g transform="translate(17.1406, 4.7790)">
+<g class="note" id="firstNote">
+<g transform="translate(17.1406, 5.2790)">
 <path transform="scale(0.0040, -0.0040)" d="M213 112c-45 0 -69 -34 -69 -88c0 -102 89 -136 134 -136s69 34 69 88c0 102 -89 136 -134 136zM245 136c144 0 246 -65 246 -136s-102 -136 -246 -136s-245 65 -245 136s101 136 245 136z" fill="currentColor"/>
 </g>
 </g>
@@ -45,11 +51,26 @@ l-284 -330h167v131c0 34 34 27 68 72c22 30 23 56 36 56c6 0 13 -5 13 -14v-245h72c1
 l-284 -330h167v131c0 34 34 27 68 72c22 30 23 56 36 56c6 0 13 -5 13 -14v-245h72c10 0 15 -7 15 -14s-5 -15 -15 -15h-72v-8h-117v8h-167c-23 0 -31 14 -31 23z" fill="currentColor"/>
 </g>
 </g>
-<g class="syl">
-<g transform="translate(13.6829, 9.2790)">
-<text font-family="serif" font-size="2.4696" text-anchor="start" fill="currentColor">
-<tspan>testlyrics</tspan>
-</text>
+<g class="breath">
+<g color="rgb(64.7059%, 16.4706%, 16.4706%)">
+<g transform="translate(21.7006, 1.7790)">
+<path transform="scale(0.0050, -0.0050)" d="M57 146c35 0 63 -29 63 -64v-19c0 -101 -95 -152 -107 -152c-7 0 -13 6 -13 13c0 17 63 24 76 114h-25c-28 0 -51 23 -51 51c0 31 26 57 57 57z" fill="currentColor"/>
+</g>
+</g>
+</g>
+<g class="note" id="middleNote">
+<g transform="translate(25.2906, 4.7790)">
+<path transform="scale(0.0040, -0.0040)" d="M213 112c-45 0 -69 -34 -69 -88c0 -102 89 -136 134 -136s69 34 69 88c0 102 -89 136 -134 136zM245 136c144 0 246 -65 246 -136s-102 -136 -246 -136s-245 65 -245 136s101 136 245 136z" fill="currentColor"/>
+</g>
+</g>
+<g class="note" id="lastNote">
+<g transform="translate(33.4407, 4.2790)">
+<path transform="scale(0.0040, -0.0040)" d="M213 112c-45 0 -69 -34 -69 -88c0 -102 89 -136 134 -136s69 34 69 88c0 102 -89 136 -134 136zM245 136c144 0 246 -65 246 -136s-102 -136 -246 -136s-245 65 -245 136s101 136 245 136z" fill="currentColor"/>
+</g>
+</g>
+<g class="caesura">
+<g transform="translate(30.6007, 0.5290)">
+<path transform="scale(0.0040, -0.0040)" d="M149 -182l232 464c5 11 17 18 29 18h32c9 0 15 -10 11 -18l-232 -464c-5 -11 -17 -18 -29 -18h-32c-9 0 -15 10 -11 18zM9 -182l232 464c5 11 17 18 29 18h32c9 0 15 -10 11 -18l-232 -464c-5 -11 -17 -18 -29 -18h-32c-9 0 -15 10 -11 18z" fill="currentColor"/>
 </g>
 </g>
 </svg>
