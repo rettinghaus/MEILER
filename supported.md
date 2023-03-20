@@ -1,6 +1,8 @@
 # MEILER
 List of supported MEI elements and attributes
 
+_Required attributes are shown in bold._
+
 * `<abbr>`
   * `@source`
 
