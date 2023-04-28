@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="https://music-encoding.org/schema/dev/mei-all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="https://music-encoding.org/schema/dev/mei-all.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<mei xmlns="http://www.music-encoding.org/ns/mei" meiversion="5.0.0-dev">
+    <meiHead>
+        <fileDesc>
+            <titleStmt>
+                <title>Hairpin examples</title>
+            </titleStmt>
+            <pubStmt>
+                <date isodate="2023-04-28">2023-04-28</date>
+            </pubStmt>
+            <seriesStmt>
+                <title>MEILER test files</title>
+            </seriesStmt>
+            <notesStmt>
+                <annot></annot>
+            </notesStmt>
+        </fileDesc>
+    </meiHead>
+    <music>
+        <body>
+            <mdiv>
+                <score>
+                    <scoreDef>
+                        <staffGrp>
+                            <staffDef n="1" lines="5" clef.shape="G" clef.line="2" />
+                        </staffGrp>
+                    </scoreDef>
+                    <section xml:id="s1adgvxp">
+                        <measure>
+                            <staff n="1">
+                                <layer n="1">
+                                    <note xml:id="n1me54m7" dur="4" oct="4" pname="e" />
+                                    <note xml:id="n5j9npz" dur="4" oct="4" pname="f" />
+                                    <note xml:id="nw90xio" dur="4" oct="4" pname="e" />
+                                    <note xml:id="n4cjepe" dur="4" oct="4" pname="f" />
+                                </layer>
+                            </staff>
+                            <hairpin staff="1" startid="#n1me54m7" endid="#n4cjepe" form="cres"
+                                opening="4" />
+                        </measure>
+                        <measure>
+                            <staff n="1">
+                                <layer n="1">
+                                    <note xml:id="nfsj276" dur="4" oct="4" pname="e" />
+                                    <note xml:id="nk34ucr" dur="4" oct="4" pname="f" />
+                                    <note xml:id="nf95xb9" dur="4" oct="4" pname="e" />
+                                    <note xml:id="n1cyvkul" dur="4" oct="4" pname="f" />
+                                </layer>
+                            </staff>
+                            <hairpin staff="1" startid="#nfsj276" endid="#n1cyvkul" form="dim"
+                                opening="2" />
+                        </measure>
+                        <measure>
+                            <staff n="1">
+                                <layer n="1">
+                                    <note xml:id="n125jt0r" dur="4" oct="4" pname="e" />
+                                    <note xml:id="n6kdrfv" dur="4" oct="4" pname="f" />
+                                    <note xml:id="n1p0nswc" dur="4" oct="4" pname="e" />
+                                    <note xml:id="nu1qvr9" dur="4" oct="4" pname="f" />
+                                </layer>
+                            </staff>
+                            <hairpin staff="1" startid="#n125jt0r" endid="#nu1qvr9" form="cres"
+                                niente="true" />
+                        </measure>
+                        <measure>
+                            <staff n="1">
+                                <layer n="1">
+                                    <note xml:id="nhk5p9j" dur="4" oct="4" pname="e" />
+                                    <note xml:id="nu2zq2a" dur="4" oct="4" pname="f" />
+                                    <note xml:id="n14ef91u" dur="4" oct="4" pname="e" />
+                                    <note xml:id="n1wyxpx5" dur="4" oct="4" pname="f" />
+                                </layer>
+                            </staff>
+                            <hairpin staff="1" startid="#nhk5p9j" endid="#n1wyxpx5" form="dim"
+                                niente="true" />
+                        </measure>
+                        <measure>
+                            <staff n="1">
+                                <layer n="1">
+                                    <note xml:id="n13snwsc" dur="4" oct="4" pname="e" />
+                                    <note xml:id="n1y2n45e" dur="4" oct="4" pname="f" />
+                                    <note xml:id="nyu10e0" dur="4" oct="4" pname="e" />
+                                    <note xml:id="n10hi0um" dur="4" oct="4" pname="f" />
+                                </layer>
+                            </staff>
+                            <hairpin staff="1" startid="#n13snwsc" endid="#n10hi0um" form="cres"
+                                lform="dashed" />
+                        </measure>
+                        <measure>
+                            <staff n="1">
+                                <layer n="1">
+                                    <note xml:id="n1jb9ym3" dur="4" oct="4" pname="e" />
+                                    <note xml:id="n1o2kjnl" dur="4" oct="4" pname="f" />
+                                    <note xml:id="n1xihdk1" dur="4" oct="4" pname="e" />
+                                    <note xml:id="n1lkr30s" dur="4" oct="4" pname="f" />
+                                </layer>
+                            </staff>
+                            <hairpin staff="1" startid="#n1jb9ym3" endid="#n1lkr30s" form="dim"
+                                lform="dashed" />
+                        </measure>
+                        <measure>
+                            <staff n="1">
+                                <layer n="1">
+                                    <note xml:id="nummxvu" dur="4" oct="4" pname="e" />
+                                    <note xml:id="n8dmh51" dur="4" oct="4" pname="f" />
+                                    <note xml:id="n1d2r74f" dur="4" oct="4" pname="e" />
+                                    <note xml:id="n1uuw946" dur="4" oct="4" pname="f" />
+                                </layer>
+                            </staff>
+                            <hairpin staff="1" startid="#nummxvu" endid="#n1uuw946" form="cres"
+                                lform="dotted" />
+                        </measure>
+                        <measure>
+                            <staff n="1">
+                                <layer n="1">
+                                    <note xml:id="n1pbz9vg" dur="4" oct="4" pname="e" />
+                                    <note xml:id="ng8b230" dur="4" oct="4" pname="f" />
+                                    <note xml:id="n1bi23g1" dur="4" oct="4" pname="e" />
+                                    <note xml:id="nrx9y1k" dur="4" oct="4" pname="f" />
+                                </layer>
+                            </staff>
+                            <hairpin staff="1" startid="#n1pbz9vg" endid="#nrx9y1k" form="dim"
+                                lform="dotted" />
+                        </measure>
+                    </section>
+                </score>
+            </mdiv>
+        </body>
+    </music>
+</mei>
