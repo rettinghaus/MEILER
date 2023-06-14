@@ -268,7 +268,7 @@
                 <xsl:with-param name="keyTonic" select="ancestor::mei:measure/preceding::*[@*[starts-with(name(),'key')]][1]/@key.pname" />
                 <xsl:with-param name="keyAccid" select="ancestor::mei:measure/preceding::*[@*[starts-with(name(),'key')]][1]/@key.accid" />
                 <xsl:with-param name="keyMode" select="ancestor::mei:measure/preceding::*[@*[starts-with(name(),'key')]][1]/@key.mode" />
-                <xsl:with-param name="keySig" select="ancestor::mei:measure/preceding::*[@*[starts-with(name(),'key')]][1]/@key.sig" />
+                <xsl:with-param name="keysig" select="ancestor::mei:measure/preceding::*[@*[starts-with(name(),'key')]][1]/@keysig" />
               </xsl:call-template>
               <xsl:text>&#32;&#32;</xsl:text>
             </xsl:if>
@@ -668,7 +668,7 @@
     <xsl:apply-templates select="ancestor-or-self::*/@*[contains(name(),'.dist')]" />
     <!-- set MEILER default styles -->
     <xsl:text>\set tieWaitForNote = ##t&#10; </xsl:text>
-    <xsl:apply-templates select="(mei:keySig, ancestor-or-self::*/@*[starts-with(name(),'key.')])[1]" />
+    <xsl:apply-templates select="(mei:keySig, ancestor-or-self::*/@*[starts-with(name(),'key')])[1]" />
     <xsl:choose>
       <xsl:when test="ancestor-or-self::*/@*[starts-with(name(),'mensur.')]">
         <xsl:if test="ancestor-or-self::*/@mensur.color">
@@ -2806,7 +2806,7 @@
     <xsl:param name="keyTonic" select="(@pname|ancestor-or-self::*/@key.pname)[1]" />
     <xsl:param name="keyAccid" select="(@accid|ancestor-or-self::*/@key.accid)[1]" />
     <xsl:param name="keyMode" select="(@mode|ancestor-or-self::*/@key.mode)[1]" />
-    <xsl:param name="keySig" select="(@sig|ancestor-or-self::*/@key.sig)[1]" />
+    <xsl:param name="keysig" select="(@sig|ancestor-or-self::*/@keysig)[1]" />
     <xsl:if test="$useSvgBackend">
       <xsl:text>\tweak output-attributes #&apos;</xsl:text>
       <xsl:choose>
@@ -2830,9 +2830,9 @@
       </xsl:choose>
     </xsl:if>
     <xsl:choose>
-      <xsl:when test="$keySig != 'mixed'">
+      <xsl:when test="$keysig != 'mixed'">
         <xsl:call-template name="transformKey">
-          <xsl:with-param name="accidentals" select="$keySig" />
+          <xsl:with-param name="accidentals" select="$keysig" />
         </xsl:call-template>
       </xsl:when>
       <!-- if there is no explicit key try implicit -->
