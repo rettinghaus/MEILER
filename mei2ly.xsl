@@ -248,9 +248,11 @@
           </xsl:if>
           <xsl:if test="ancestor::mei:measure/preceding-sibling::*[1][mei:scoreDef]">
             <xsl:if test="preceding::mei:scoreDef[1]/@meter.showchange">
-              <xsl:variable name="showchangeVal" select="substring(preceding::mei:scoreDef[1]/@meter.showchange,1,1)" />
+              <xsl:variable name="showchangeVal"
+                select="substring(preceding::mei:scoreDef[1]/@meter.showchange,1,1)" />
               <xsl:text>\override Staff.TimeSignature.break-visibility = #'#</xsl:text>
-              <xsl:value-of select="concat('(#',$showchangeVal,' #',$showchangeVal,' #',$showchangeVal,')&#10;&#32;&#32;')" />
+              <xsl:value-of
+                select="concat('(#',$showchangeVal,' #',$showchangeVal,' #',$showchangeVal,')&#10;&#32;&#32;')" />
             </xsl:if>
           </xsl:if>
           <!-- set bar number -->
