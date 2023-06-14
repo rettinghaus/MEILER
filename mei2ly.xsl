@@ -263,6 +263,7 @@
           <xsl:apply-templates select="(key('staffDefByFirstAffectedElement', generate-id())/mei:keySig)[last()]" />
           <xsl:if test="generate-id(ancestor::mei:score/descendant::mei:measure[1]) != $currentMeasure">
             <xsl:if test="generate-id(ancestor::mei:measure/preceding::*[@*[starts-with(name(),'key')]][1]/following::mei:measure[1]) = $currentMeasure">
+            <xsl:apply-templates select="ancestor::mei:measure/preceding::*[contains(name(),'Def')][1]/@keysig.cancelaccid" />
               <xsl:call-template name="setKey">
                 <xsl:with-param name="keyTonic" select="ancestor::mei:measure/preceding::*[@*[starts-with(name(),'key')]][1]/@key.pname" />
                 <xsl:with-param name="keyAccid" select="ancestor::mei:measure/preceding::*[@*[starts-with(name(),'key')]][1]/@key.accid" />
@@ -781,7 +782,7 @@
   <!-- MEI staffDef (inside musical flow) -->
   <xsl:template match="mei:staffDef[ancestor::mei:layer]">
     <xsl:apply-templates select="(mei:clef, @clef.shape)[1]" />
-    <xsl:apply-templates select="(mei:keySig, @*[starts-with(name(),'key.')])[1]" />
+    <xsl:apply-templates select="(mei:keySig, @*[starts-with(name(),'key')])[1]" />
   </xsl:template>
   <!-- MEI clef -->
   <xsl:template match="mei:clef|@clef.shape">
@@ -2826,7 +2827,7 @@
   <xsl:template match="mei:keySig[@copyof]">
     <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:keySig[@xml:id = substring-after(current()/@copyof,'#')]" />
   </xsl:template>
-  <xsl:template name="setKey" match="mei:keySig|@*[starts-with(name(),'key')]">
+  <xsl:template name="setKey" match="mei:keySig|@*[starts-with(name(),'key') and not(name() = 'keysig.cancelaccid')]">
     <xsl:param name="keyTonic" select="(@pname|ancestor-or-self::*/@key.pname)[1]" />
     <xsl:param name="keyAccid" select="(@accid|ancestor-or-self::*/@key.accid)[1]" />
     <xsl:param name="keyMode" select="(@mode|ancestor-or-self::*/@key.mode)[1]" />
@@ -2843,10 +2844,16 @@
         </xsl:otherwise>
       </xsl:choose>
     </xsl:if>
-    <xsl:if test="@color">
-      <!-- not available in MEI4 -->
-      <xsl:value-of select="'\tweak color #'" />
-      <xsl:call-template name="setColor" />
+    <xsl:apply-templates select="@color" mode="tweak" />
+    <xsl:if test="@cancelaccid">
+      <xsl:choose>
+        <xsl:when test="@cancelaccid = 'none'">
+          <xsl:value-of select="'\tweak KeyCancellation.break-visibility #all-invisible '" />
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="'\tweak KeyCancellation.break-visibility #begin-of-line-visible '" />
+        </xsl:otherwise>
+      </xsl:choose>
     </xsl:if>
     <xsl:choose>
       <xsl:when test="$keysig != 'mixed'">
@@ -3440,7 +3447,7 @@
   </xsl:template>
   <!-- att.color -->
   <xsl:template match="@color" mode="tweak">
-    <xsl:text>-\tweak color #</xsl:text>
+    <xsl:text>\tweak color #</xsl:text>
     <xsl:call-template name="setColor" />
   </xsl:template>
   <!-- att.hairpin.log -->
@@ -3450,6 +3457,17 @@
   <!-- att.hairpin.vis -->
   <xsl:template match="@opening" mode="tweak">
     <xsl:value-of select="concat('-\tweak height #', local:VU2LY(.) div 2, ' ')" />
+  </xsl:template>
+  <!-- att.keySigDefault.vis -->
+  <xsl:template match="@keysig.cancelaccid">
+    <xsl:choose>
+      <xsl:when test=". = 'none'">
+        <xsl:value-of select="'\set Staff.printKeyCancellation = ##f '" />
+      </xsl:when>
+      <xsl:when test="not(. = '')">
+        <xsl:value-of select="'\set Staff.printKeyCancellation = ##t '" />
+      </xsl:when>
+    </xsl:choose>
   </xsl:template>
   <!-- att.line.vis -->
   <xsl:template match="@lendsym" mode="tweak">
