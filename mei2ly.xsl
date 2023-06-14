@@ -897,9 +897,7 @@
       <xsl:text>\tweak font-size #</xsl:text>
       <xsl:call-template name="setRelFontsizeNum" />
     </xsl:if>
-    <xsl:if test="@visible">
-      <xsl:call-template name="setVisibility" />
-    </xsl:if>
+    <xsl:apply-templates select="@visible" mode="tweak" />
     <xsl:if test="ancestor-or-self::*/@color">
       <xsl:value-of select="'\tweak color #'" />
       <xsl:call-template name="setColor" />
@@ -1331,14 +1329,7 @@
       <xsl:text>\tweak output-attributes #&apos;</xsl:text>
       <xsl:call-template name="setSvgAttr" />
     </xsl:if>
-    <xsl:if test="@visible">
-      <xsl:call-template name="setVisibility" />
-    </xsl:if>
-    <xsl:if test="@color">
-      <!-- not available in MEI4 -->
-      <xsl:text>\tweak color #</xsl:text>
-      <xsl:call-template name="setColor" />
-    </xsl:if>
+    <xsl:apply-templates select="@color" mode="tweak" />
     <xsl:if test="@fontsize">
       <xsl:text>\tweak font-size #</xsl:text>
       <xsl:call-template name="setRelFontsizeNum" />
@@ -1403,11 +1394,7 @@
         </xsl:when>
       </xsl:choose>
     </xsl:if>
-    <xsl:if test="@color">
-      <!-- not available in MEI4 -->
-      <xsl:value-of select="'\tweak color #'" />
-      <xsl:call-template name="setColor" />
-    </xsl:if>
+    <xsl:apply-templates select="@color|@visible" mode="tweak" />
     <xsl:if test="@width">
       <!-- not available in MEI4 -->
       <xsl:value-of select="concat('\tweak minimum-length #', local:VU2LY(@width), ' ')" />
@@ -1916,10 +1903,7 @@
       <xsl:text>-\tweak output-attributes #&apos;</xsl:text>
       <xsl:call-template name="setSvgAttr" />
     </xsl:if>
-    <xsl:if test="@color">
-      <xsl:text>-\tweak color #</xsl:text>
-      <xsl:call-template name="setColor" />
-    </xsl:if>
+    <xsl:apply-templates select="@color" mode="tweak" />
     -->
     <xsl:call-template name="setSmuflGlyph" />
   </xsl:template>
@@ -2010,10 +1994,7 @@
       <xsl:text>\tweak output-attributes #&apos;</xsl:text>
       <xsl:call-template name="setSvgAttr" />
     </xsl:if>
-    <xsl:if test="@color">
-      <xsl:text>\tweak color #</xsl:text>
-      <xsl:call-template name="setColor" />
-    </xsl:if>
+    <xsl:apply-templates select="@color" mode="tweak" />
     <xsl:if test="@fontsize">
       <xsl:text>\tweak font-size #</xsl:text>
       <xsl:call-template name="setRelFontsizeNum" />
@@ -2033,10 +2014,7 @@
       <xsl:text>\tweak output-attributes #&apos;</xsl:text>
       <xsl:call-template name="setSvgAttr" />
     </xsl:if>
-    <xsl:if test="@color">
-      <xsl:text>\tweak color #</xsl:text>
-      <xsl:call-template name="setColor" />
-    </xsl:if>
+    <xsl:apply-templates select="@color" mode="tweak" />
     <xsl:if test="@fontsize">
       <xsl:text>\tweak font-size #</xsl:text>
       <xsl:call-template name="setRelFontsizeNum" />
@@ -2733,10 +2711,7 @@
       <xsl:text>\tweak output-attributes #&apos;</xsl:text>
       <xsl:call-template name="setSvgAttr" />
     </xsl:if>
-    <xsl:if test="@color">
-      <xsl:text>\tweak color #</xsl:text>
-      <xsl:call-template name="setColor" />
-    </xsl:if>
+    <xsl:apply-templates select="@color" mode="tweak" />
     <xsl:if test="@fontsize">
       <xsl:text>\tweak font-size #</xsl:text>
       <xsl:call-template name="setRelFontsizeNum" />
@@ -3526,6 +3501,18 @@
       </xsl:when>
       <xsl:when test=". = false()">
         <xsl:value-of select="'\tweak Stem.transparent ##t '" />
+      </xsl:when>
+    </xsl:choose>
+  </xsl:template>
+  <!-- att.visibility-->
+  <xsl:template match="@visible" mode="tweak">
+    <!-- att.visibility -->
+    <xsl:choose>
+      <xsl:when test=". = true()">
+        <xsl:value-of select="'\tweak transparent ##f '" />
+      </xsl:when>
+      <xsl:when test=". = false()">
+        <xsl:value-of select="'\tweak transparent ##t '" />
       </xsl:when>
     </xsl:choose>
   </xsl:template>
@@ -4362,18 +4349,6 @@
       <xsl:otherwise/>
     </xsl:choose>
     <xsl:text>&#32;</xsl:text>
-  </xsl:template>
-  <!-- set visibility-->
-  <xsl:template name="setVisibility">
-    <!-- att.visibility -->
-    <xsl:choose>
-      <xsl:when test="@visible = true()">
-        <xsl:value-of select="'\tweak transparent ##f '" />
-      </xsl:when>
-      <xsl:when test="@visible = false()">
-        <xsl:value-of select="'\tweak transparent ##t '" />
-      </xsl:when>
-    </xsl:choose>
   </xsl:template>
   <!-- modify note head -->
   <xsl:template name="modifyNotehead">
