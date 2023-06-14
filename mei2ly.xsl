@@ -263,6 +263,7 @@
           <xsl:apply-templates select="(key('staffDefByFirstAffectedElement', generate-id())/mei:keySig)[last()]" />
           <xsl:if test="generate-id(ancestor::mei:score/descendant::mei:measure[1]) != $currentMeasure">
             <xsl:if test="generate-id(ancestor::mei:measure/preceding::*[@*[starts-with(name(),'key')]][1]/following::mei:measure[1]) = $currentMeasure">
+            <xsl:apply-templates select="ancestor::mei:measure/preceding::*[contains(name(),'Def')][1]/@keysig.showchange" />
               <xsl:call-template name="setKey">
                 <xsl:with-param name="keyTonic" select="ancestor::mei:measure/preceding::*[@*[starts-with(name(),'key')]][1]/@key.pname" />
                 <xsl:with-param name="keyAccid" select="ancestor::mei:measure/preceding::*[@*[starts-with(name(),'key')]][1]/@key.accid" />
@@ -837,11 +838,6 @@
       <xsl:text>\once \override Staff.Clef.font-size = #</xsl:text>
       <xsl:call-template name="setRelFontsizeNum" />
     </xsl:if>
-    <xsl:if test="@ho or @vo">
-      <!-- not available in MEI4 -->
-      <xsl:text>\once \override Staff.Clef.extra-offset = #&apos;</xsl:text>
-      <xsl:call-template name="setOffset" />
-    </xsl:if>
     <xsl:if test="@cautionary">
       <xsl:value-of select="concat('\set Staff.forceClef = ##',substring(@cautionary,1,1),' ')" />
     </xsl:if>
@@ -1325,11 +1321,6 @@
     <xsl:if test="@visible">
       <xsl:call-template name="setVisibility" />
     </xsl:if>
-    <xsl:if test="@color">
-      <!-- not available in MEI4 -->
-      <xsl:text>\tweak color #</xsl:text>
-      <xsl:call-template name="setColor" />
-    </xsl:if>
     <xsl:if test="@fontsize">
       <xsl:text>\tweak font-size #</xsl:text>
       <xsl:call-template name="setRelFontsizeNum" />
@@ -1394,16 +1385,7 @@
         </xsl:when>
       </xsl:choose>
     </xsl:if>
-    <xsl:if test="@color">
-      <!-- not available in MEI4 -->
-      <xsl:value-of select="'\tweak color #'" />
-      <xsl:call-template name="setColor" />
-    </xsl:if>
-    <xsl:if test="@width">
-      <!-- not available in MEI4 -->
-      <xsl:value-of select="concat('\tweak minimum-length #', local:VU2LY(@width), ' ')" />
-    </xsl:if>
-    <xsl:if test="@loc">
+   <xsl:if test="@loc">
       <xsl:value-of select="concat('\tweak staff-position #', @loc - 4, ' ')" />
     </xsl:if>
     <xsl:if test="@ploc or @oloc">
@@ -1907,10 +1889,7 @@
       <xsl:text>-\tweak output-attributes #&apos;</xsl:text>
       <xsl:call-template name="setSvgAttr" />
     </xsl:if>
-    <xsl:if test="@color">
-      <xsl:text>-\tweak color #</xsl:text>
-      <xsl:call-template name="setColor" />
-    </xsl:if>
+    <xsl:apply-templates select="@color" mode="tweak" />
     -->
     <xsl:call-template name="setSmuflGlyph" />
   </xsl:template>
@@ -2003,10 +1982,7 @@
       <xsl:text>\tweak output-attributes #&apos;</xsl:text>
       <xsl:call-template name="setSvgAttr" />
     </xsl:if>
-    <xsl:if test="@color">
-      <xsl:text>\tweak color #</xsl:text>
-      <xsl:call-template name="setColor" />
-    </xsl:if>
+    <xsl:apply-templates select="@color" mode="tweak" />
     <xsl:if test="@fontsize">
       <xsl:text>\tweak font-size #</xsl:text>
       <xsl:call-template name="setRelFontsizeNum" />
@@ -2822,7 +2798,7 @@
   <xsl:template match="mei:keySig[@copyof]">
     <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:keySig[@xml:id = substring-after(current()/@copyof,'#')]" />
   </xsl:template>
-  <xsl:template name="setKey" match="mei:keySig|@*[starts-with(name(),'key')]">
+  <xsl:template name="setKey" match="mei:keySig|@*[starts-with(name(),'key.') and not(name() = 'keysig.showchange')]">
     <xsl:param name="keyTonic" select="(@pname|ancestor-or-self::*/@key.pname)[1]" />
     <xsl:param name="keyAccid" select="(@accid|ancestor-or-self::*/@key.accid)[1]" />
     <xsl:param name="keyMode" select="(@mode|ancestor-or-self::*/@key.mode)[1]" />
@@ -2839,10 +2815,15 @@
         </xsl:otherwise>
       </xsl:choose>
     </xsl:if>
-    <xsl:if test="@color">
-      <!-- not available in MEI4 -->
-      <xsl:value-of select="'\tweak color #'" />
-      <xsl:call-template name="setColor" />
+    <xsl:if test="@showchange">
+      <xsl:choose>
+        <xsl:when test="@sig.showchange = 'false'">
+          <xsl:value-of select="'\tweak KeyCancellation.break-visibility #all-invisible '" />
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="'\tweak KeyCancellation.break-visibility #begin-of-line-visible '" />
+        </xsl:otherwise>
+      </xsl:choose>
     </xsl:if>
     <xsl:choose>
       <xsl:when test="$keySig != 'mixed'">
@@ -3436,7 +3417,7 @@
   </xsl:template>
   <!-- att.color -->
   <xsl:template match="@color" mode="tweak">
-    <xsl:text>-\tweak color #</xsl:text>
+    <xsl:text>\tweak color #</xsl:text>
     <xsl:call-template name="setColor" />
   </xsl:template>
   <!-- att.hairpin.log -->
@@ -3446,6 +3427,10 @@
   <!-- att.hairpin.vis -->
   <xsl:template match="@opening" mode="tweak">
     <xsl:value-of select="concat('-\tweak height #', local:VU2LY(.) div 2, ' ')" />
+  </xsl:template>
+  <!-- att.keySigDefault.vis -->
+  <xsl:template match="@keysig.showchange">
+    <xsl:value-of select="concat('\set Staff.printKeyCancellation = ##',substring(.,1,1),' ')" />
   </xsl:template>
   <!-- att.line.vis -->
   <xsl:template match="@lendsym" mode="tweak">
