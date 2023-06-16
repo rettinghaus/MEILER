@@ -4734,7 +4734,7 @@
       <xsl:when test="@midi.instrname = 'Kalimba' or @midi.instrnum = '108'">
         <xsl:text>kalimba</xsl:text>
       </xsl:when>
-      <xsl:when test="@midi.instrname = 'Bagpipe' or @midi.instrnum = '109'">
+      <xsl:when test="@midi.instrname = 'Bag_pipe' or @midi.instrnum = '109'">
         <xsl:text>bagpipe</xsl:text>
       </xsl:when>
       <xsl:when test="@midi.instrname = 'Fiddle' or @midi.instrnum = '110'">
