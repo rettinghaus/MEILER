@@ -100,11 +100,11 @@
   <!-- MEI.header -->
   <!-- MEI access restriction -->
   <xsl:template match="mei:accessRestrict">
-    <xsl:apply-templates/>
+    <xsl:apply-templates />
   </xsl:template>
   <!-- MEI availability -->
   <xsl:template match="mei:availability">
-    <xsl:apply-templates/>
+    <xsl:apply-templates />
   </xsl:template>
   <!-- MEI change -->
   <xsl:template match="mei:change">
@@ -112,12 +112,12 @@
     <xsl:if test="@n">
       <xsl:value-of select="concat(@n, '. ')" />
     </xsl:if>
-    <xsl:apply-templates/>
+    <xsl:apply-templates />
     <xsl:text>&#10;</xsl:text>
   </xsl:template>
   <!-- MEI change description -->
   <xsl:template match="mei:changeDesc">
-    <xsl:apply-templates/>
+    <xsl:apply-templates />
   </xsl:template>
   <!-- MEI edition statement -->
   <xsl:template match="mei:editionStmt">
@@ -131,7 +131,7 @@
   <xsl:template match="mei:meiHead">
     <xsl:if test="$generateHeader">
       <xsl:text>\header {&#10;</xsl:text>
-      <xsl:apply-templates/>
+      <xsl:apply-templates />
       <xsl:text>}&#10;&#10;</xsl:text>
     </xsl:if>
   </xsl:template>
@@ -182,28 +182,28 @@
   <!-- MEI revision description -->
   <xsl:template match="mei:revisionDesc">
     <xsl:text>&#10;&#32;&#32;% Revision Description&#10;</xsl:text>
-    <xsl:apply-templates/>
+    <xsl:apply-templates />
   </xsl:template>
   <!-- MEI usage restrictions-->
   <xsl:template match="mei:useRestrict">
-    <xsl:apply-templates/>
+    <xsl:apply-templates />
   </xsl:template>
   <!-- MEI.shared -->
   <!-- MEI body -->
   <xsl:template match="mei:body">
-    <xsl:apply-templates/>
+    <xsl:apply-templates />
   </xsl:template>
   <!-- MEI date -->
   <xsl:template match="mei:date">
-    <xsl:apply-templates/>
+    <xsl:apply-templates />
   </xsl:template>
   <!-- MEI distributor -->
   <xsl:template match="mei:distributor">
-    <xsl:apply-templates/>
+    <xsl:apply-templates />
   </xsl:template>
   <!-- MEI group -->
   <xsl:template match="mei:group">
-    <xsl:apply-templates/>
+    <xsl:apply-templates />
   </xsl:template>
   <!-- MEI layer -->
   <xsl:template match="mei:layer">
@@ -216,7 +216,7 @@
       <xsl:text>\oneVoice </xsl:text>
     </xsl:if>
     <xsl:text>{ </xsl:text>
-    <xsl:apply-templates/>
+    <xsl:apply-templates />
     <xsl:text>} </xsl:text>
   </xsl:template>
   <!-- MEI musical division -->
@@ -331,7 +331,7 @@
               </xsl:for-each>
             </xsl:when>
             <xsl:otherwise>
-              <xsl:apply-templates/>
+              <xsl:apply-templates />
             </xsl:otherwise>
           </xsl:choose>
           <xsl:text>&gt;&gt;&#32;</xsl:text>
@@ -378,32 +378,32 @@
       </xsl:for-each>
       <xsl:text>&#10;</xsl:text>
     </xsl:if>
-    <xsl:apply-templates/>
+    <xsl:apply-templates />
   </xsl:template>
   <!-- MEI music -->
   <xsl:template match="mei:music">
     <xsl:if test="descendant::mei:scoreDef[1]/@*[starts-with(name(),'page') or name()='spacing.system'] and not(ancestor::mei:music)">
       <xsl:apply-templates select="descendant::mei:scoreDef[1]" mode="makePageLayout" />
     </xsl:if>
-    <xsl:apply-templates/>
+    <xsl:apply-templates />
   </xsl:template>
   <!-- MEI parts -->
   <xsl:template match="mei:parts">
-    <xsl:apply-templates/>
+    <xsl:apply-templates />
   </xsl:template>
   <!-- MEI page header -->
   <xsl:template match="mei:pgHead" mode="score-setup">
     <xsl:text>\markup{</xsl:text>
-    <xsl:apply-templates/>
+    <xsl:apply-templates />
     <xsl:text>}&#10;&#10;</xsl:text>
   </xsl:template>
   <!-- MEI publisher -->
   <xsl:template match="mei:publisher">
-    <xsl:apply-templates/>
+    <xsl:apply-templates />
   </xsl:template>
   <!-- MEI publication place -->
   <xsl:template match="mei:pubPace">
-    <xsl:apply-templates/>
+    <xsl:apply-templates />
   </xsl:template>
   <!-- MEI score -->
   <xsl:template match="mei:score">
@@ -747,13 +747,13 @@
   <!-- MEI section -->
   <xsl:template match="mei:section">
     <xsl:text>{&#32;</xsl:text>
-    <xsl:apply-templates/>
+    <xsl:apply-templates />
     <xsl:text>}&#32;&#10;</xsl:text>
   </xsl:template>
   <!-- MEI ending -->
   <xsl:template match="mei:ending">
     <xsl:text>{&#32;</xsl:text>
-    <xsl:apply-templates/>
+    <xsl:apply-templates />
     <xsl:text>}&#32;</xsl:text>
   </xsl:template>
   <!-- MEI measure -->
@@ -770,7 +770,7 @@
     <xsl:if test="@metcon = 'false'">
       <xsl:apply-templates select="descendant::mei:layer[1]" mode="setPartial" />
     </xsl:if>
-    <xsl:apply-templates/>
+    <xsl:apply-templates />
     <xsl:if test="@right">
       <xsl:call-template name="barLine">
         <xsl:with-param name="barLineStyle" select="@right" />
@@ -921,7 +921,7 @@
     <xsl:apply-templates select="@stem.len|@stem.visible" />
     <xsl:if test="@head.mod">
     </xsl:if>
-    <xsl:apply-templates select="@enclose"/>
+    <xsl:apply-templates select="@enclose" />
     <!-- att.noteheads -->
     <xsl:if test="@head.color">
       <xsl:text>\tweak color #</xsl:text>
