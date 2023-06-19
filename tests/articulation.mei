@@ -21,18 +21,21 @@
     <body>
       <mdiv>
         <score>
-          <scoreDef meter.count="9" meter.unit="4">
+          <scoreDef meter.count="7" meter.unit="4">
             <staffGrp>
               <staffDef n="1" clef.line="2" clef.shape="G" lines="5" />
             </staffGrp>
           </scoreDef>
           <section>
-            <measure n="1">
+            <measure>
               <staff n="1">
                 <layer n="1">
                   <note artic="acc stacc ten stacciss" dur="4" oct="4" pname="g" />
                   <note artic="acc" dur="4" oct="4" pname="g">
                     <artic artic="acc" />
+                  </note>
+                  <note dur="4" oct="4" pname="g">
+                    <artic artic="acc-soft" />
                   </note>
                   <note dur="4" oct="4" pname="g">
                     <artic artic="stacc" place="above" />
@@ -46,6 +49,12 @@
                   <note dur="4" oct="4" pname="g">
                     <artic fontsize="xx-small" artic="marc" place="above" />
                   </note>
+                </layer>
+              </staff>
+            </measure>
+            <measure>
+              <staff n="1">
+                <layer n="1">
                   <note dur="4" oct="4" pname="g">
                     <artic artic="spicc" />
                   </note>
@@ -55,10 +64,22 @@
                   <note dur="4" oct="4" pname="g">
                     <artic fontsize="x-large" artic="open" />
                   </note>
+                  <note dur="4" oct="4" pname="g">
+                    <artic artic="doit" />
+                  </note>
+                  <note dur="4" oct="4" pname="g">
+                    <artic artic="fall" />
+                  </note>
+                  <note dur="4" oct="4" pname="g">
+                    <artic artic="longfall" />
+                  </note>
+                  <note dur="4" oct="4" pname="g">
+                    <artic artic="stop" />
+                  </note>
                 </layer>
               </staff>
             </measure>
-            <measure n="2">
+            <measure>
               <staff n="1">
                 <layer n="1">
                   <note dur="4" oct="4" pname="g">
