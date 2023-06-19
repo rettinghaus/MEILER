@@ -3554,7 +3554,7 @@
       <xsl:when test="$articulation = 'marc'">
         <xsl:text>\marcato</xsl:text>
       </xsl:when>
-      <xsl:when test="$articulation = 'spiccato'">
+      <xsl:when test="$articulation = 'spicc'">
         <xsl:text>\staccato</xsl:text>
       </xsl:when>
       <xsl:when test="$articulation = 'ten-stacc'">
