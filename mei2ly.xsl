@@ -1688,11 +1688,16 @@
       <xsl:text>-\tweak font-size #</xsl:text>
       <xsl:call-template name="setRelFontsizeNum" />
     </xsl:if>
-    <xsl:if test="self::mei:artic">
-      <xsl:if test="$useSvgBackend and (count(tokenize(@artic, ' ')) = 1)">
-        <xsl:text>-\tweak output-attributes #&apos;</xsl:text>
-        <xsl:call-template name="setSvgAttr" />
+    <xsl:if test="$useSvgBackend">
+      <xsl:text>-\tweak output-attributes #&apos;</xsl:text>
+      <xsl:text>(</xsl:text>
+      <xsl:value-of select="'(class . artic)'" />
+      <xsl:if test="@xml:id and (count(tokenize(@artic, ' ')) = 1)">
+        <xsl:value-of select="concat(' (id . ', @xml:id, ')')" />
       </xsl:if>
+      <xsl:text>) </xsl:text>
+    </xsl:if>
+    <xsl:if test="self::mei:artic">
       <xsl:if test="@ho or @vo">
         <xsl:text>-\tweak extra-offset #&apos;</xsl:text>
         <xsl:call-template name="setOffset" />
