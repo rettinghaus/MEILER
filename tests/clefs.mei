@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-model href="https://music-encoding.org/schema/dev/mei-CMN.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
-<?xml-model href="https://music-encoding.org/schema/dev/mei-CMN.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-<mei xmlns="http://www.music-encoding.org/ns/mei" meiversion="5.0.0-dev" xmlns:meiler="NS:MEILER_TEST">
+<?xml-model href="https://music-encoding.org/schema/5.0/mei-CMN.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="https://music-encoding.org/schema/5.0/mei-CMN.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<mei xmlns="http://www.music-encoding.org/ns/mei" meiversion="5.0" xmlns:meiler="NS:MEILER_TEST">
   <meiHead>
     <fileDesc>
       <titleStmt>
@@ -58,14 +58,14 @@
               <staff n="1">
                 <layer n="1">
                   <note dur="2" oct="5" pname="c" color="rgb(2,0,0)"/>
-                  <clef shape="F" line="4" color="rgb(3,0,255)"/>
+                  <clef shape="F" line="4" color="rgb(3,0,255)" dis="15" dis.place="above" />
                   <rest dur="2" color="rgb(4,0,0)"/>
                 </layer>
               </staff>
               <staff n="2">
                 <layer n="1">
                   <note dur="2" oct="3" pname="f" color="rgb(101,0,0)"/>
-                  <clef shape="C" line="3" n="2" color="rgb(102,0,255)"/>
+                  <clef shape="C" line="3" n="2" color="rgb(102,0,255)" dis="8" dis.place="below"/>
                   <rest dur="2" color="rgb(103,0,0)"/>
                 </layer>
               </staff>
