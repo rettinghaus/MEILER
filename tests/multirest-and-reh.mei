@@ -21,9 +21,9 @@
     <body>
       <mdiv>
         <score>
-          <scoreDef meter.count="4" meter.unit="4">
+          <scoreDef>
             <staffGrp>
-              <staffDef n="1" clef.line="2" clef.shape="G" lines="5"/>
+              <staffDef n="1" clef.line="2" clef.shape="G" lines="5"  meter.count="4" meter.unit="4" meter.visible="false"/>
             </staffGrp>
           </scoreDef>
           <section>
