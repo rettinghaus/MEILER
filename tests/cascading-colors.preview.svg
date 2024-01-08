@@ -47,9 +47,11 @@ tspan { white-space: pre; }
 </g>
 </g>
 </g>
+<g class="artic" id="chord">
 <g color="rgb(0.0000%, 0.0000%, 100.0000%)">
 <g transform="translate(20.3006, 8.5214)">
 <path transform="scale(0.0040, -0.0040)" d="M-50 0c0 28 22 50 50 50s50 -22 50 -50s-22 -50 -50 -50s-50 22 -50 50z" fill="currentColor"/>
+</g>
 </g>
 </g>
 <g class="artic" id="artic-colord">
