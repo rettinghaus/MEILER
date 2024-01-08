@@ -265,12 +265,13 @@
           <xsl:apply-templates select="(key('staffDefByFirstAffectedElement', generate-id())/mei:keySig)[last()]" />
           <xsl:if test="generate-id(ancestor::mei:score/descendant::mei:measure[1]) != $currentMeasure">
             <xsl:if test="generate-id(ancestor::mei:measure/preceding::*[@*[starts-with(name(),'key')]][1]/following::mei:measure[1]) = $currentMeasure">
-            <xsl:apply-templates select="ancestor::mei:measure/preceding::*[contains(name(),'Def')][1]/@keysig.cancelaccid" />
+              <xsl:apply-templates select="ancestor::mei:measure/preceding::*[contains(name(),'Def')][1]/@*[starts-with(name(),'keysig.')]" />
               <xsl:call-template name="setKey">
                 <xsl:with-param name="keyTonic" select="ancestor::mei:measure/preceding::*[@*[starts-with(name(),'key')]][1]/@key.pname" />
                 <xsl:with-param name="keyAccid" select="ancestor::mei:measure/preceding::*[@*[starts-with(name(),'key')]][1]/@key.accid" />
                 <xsl:with-param name="keyMode" select="ancestor::mei:measure/preceding::*[@*[starts-with(name(),'key')]][1]/@key.mode" />
                 <xsl:with-param name="keysig" select="ancestor::mei:measure/preceding::*[@*[starts-with(name(),'key')]][1]/@keysig" />
+                <xsl:with-param name="visible" select="ancestor::mei:measure/preceding::*[@*[starts-with(name(),'key')]][1]/@keysig.visible" />
               </xsl:call-template>
               <xsl:text>&#32;&#32;</xsl:text>
             </xsl:if>
@@ -626,10 +627,10 @@
       <xsl:value-of select="concat('\override Staff.StaffSymbol.line-count = #',@lines,'&#10;    ')" />
     </xsl:if>
     <xsl:choose>
-      <xsl:when test="@lines.visible = true()">
+      <xsl:when test="@lines.visible=true()">
         <xsl:value-of select="'\override Staff.StaffSymbol.transparent = ##f&#10;    '" />
       </xsl:when>
-      <xsl:when test="@lines.visible = false()">
+      <xsl:when test="@lines.visible=false()">
         <xsl:value-of select="'\override Staff.StaffSymbol.transparent = ##t&#10;    '" />
       </xsl:when>
     </xsl:choose>
@@ -960,7 +961,7 @@
       <xsl:text>\tweak rotation #'</xsl:text>
       <xsl:value-of select="concat('(', @head.rotation, ' 0 0) ')" />
     </xsl:if>
-    <xsl:if test="@head.visible = false()">
+    <xsl:if test="@head.visible=false()">
       <xsl:text>\tweak transparent ##t </xsl:text>
     </xsl:if>
     <xsl:if test="@dots.ges">
@@ -1383,10 +1384,10 @@
     <!-- att.multiRest.vis -->
     <xsl:if test="@block">
       <xsl:choose>
-        <xsl:when test="@block = true()">
+        <xsl:when test="@block=true()">
           <xsl:value-of select="'\tweak expand-limit #0 '" />
         </xsl:when>
-        <xsl:when test="@block = false()">
+        <xsl:when test="@block=false()">
           <xsl:value-of select="concat('\tweak expand-limit #', @num + 1, ' ')" />
         </xsl:when>
       </xsl:choose>
@@ -2829,6 +2830,7 @@
     <xsl:param name="keyAccid" select="(@accid|ancestor-or-self::*/@key.accid)[1]" />
     <xsl:param name="keyMode" select="(@mode|ancestor-or-self::*/@key.mode)[1]" />
     <xsl:param name="keysig" select="(@sig|ancestor-or-self::*/@keysig)[1]" />
+    <xsl:param name="visible" select="(@visible|ancestor-or-self::*/@keysig.visible)[1]" />
     <xsl:if test="$useSvgBackend">
       <xsl:text>\tweak output-attributes #&apos;</xsl:text>
       <xsl:choose>
@@ -2842,13 +2844,21 @@
       </xsl:choose>
     </xsl:if>
     <xsl:apply-templates select="@color" mode="tweak" />
+    <xsl:choose>
+      <xsl:when test="$visible=true()">
+        <xsl:value-of select="'\set Staff.explicitKeySignatureVisibility = #all-visible '" />
+      </xsl:when>
+      <xsl:when test="$visible=false()">
+        <xsl:value-of select="'\set Staff.explicitKeySignatureVisibility = #all-invisible '" />
+      </xsl:when>
+    </xsl:choose>
     <xsl:if test="@cancelaccid">
       <xsl:choose>
         <xsl:when test="@cancelaccid = 'none'">
-          <xsl:value-of select="'\tweak KeyCancellation.break-visibility #all-invisible '" />
+          <xsl:value-of select="'\set Staff.printKeyCancellation = ##f '" />
         </xsl:when>
         <xsl:otherwise>
-          <xsl:value-of select="'\tweak KeyCancellation.break-visibility #begin-of-line-visible '" />
+          <xsl:value-of select="'\set Staff.printKeyCancellation = ##t '" />
         </xsl:otherwise>
       </xsl:choose>
     </xsl:if>
