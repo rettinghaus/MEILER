@@ -271,7 +271,6 @@
                 <xsl:with-param name="keyAccid" select="ancestor::mei:measure/preceding::*[@*[starts-with(name(),'key')]][1]/@key.accid" />
                 <xsl:with-param name="keyMode" select="ancestor::mei:measure/preceding::*[@*[starts-with(name(),'key')]][1]/@key.mode" />
                 <xsl:with-param name="keysig" select="ancestor::mei:measure/preceding::*[@*[starts-with(name(),'key')]][1]/@keysig" />
-                <xsl:with-param name="visible" select="ancestor::mei:measure/preceding::*[@*[starts-with(name(),'key')]][1]/@keysig.visible" />
               </xsl:call-template>
               <xsl:text>&#32;&#32;</xsl:text>
             </xsl:if>
@@ -672,7 +671,16 @@
     <xsl:apply-templates select="ancestor-or-self::*/@*[contains(name(),'.dist')]" />
     <!-- set MEILER default styles -->
     <xsl:text>\set tieWaitForNote = ##t&#10; </xsl:text>
-    <xsl:apply-templates select="(mei:keySig, ancestor-or-self::*/@*[starts-with(name(),'key')])[1]" />
+    <xsl:apply-templates select="ancestor-or-self::*/@*[starts-with(name(),'keysig.')]" />
+    <xsl:if test="ancestor-or-self::*/@*[starts-with(name(),'key')]">
+      <xsl:call-template name="setKey">
+        <xsl:with-param name="keyTonic" select="ancestor-or-self::*[@key.pname][1]/@key.pname" />
+        <xsl:with-param name="keyAccid" select="ancestor-or-self::*[@key.accid][1]/@key.accid" />
+        <xsl:with-param name="keyMode" select="ancestor-or-self::*[@key.mode][1]/@key.mode" />
+        <xsl:with-param name="keysig" select="ancestor-or-self::*[@keysig][1]/@keysig" />
+      </xsl:call-template>
+      <xsl:text>&#32;&#32;</xsl:text>
+    </xsl:if>
     <xsl:choose>
       <xsl:when test="ancestor-or-self::*/@*[starts-with(name(),'mensur.')]">
         <xsl:if test="ancestor-or-self::*/@mensur.color">
@@ -2825,12 +2833,11 @@
   <xsl:template match="mei:keySig[@copyof]">
     <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:keySig[@xml:id = substring-after(current()/@copyof,'#')]" />
   </xsl:template>
-  <xsl:template name="setKey" match="mei:keySig|@*[starts-with(name(),'key') and not(name() = 'keysig.cancelaccid')]">
+  <xsl:template name="setKey" match="mei:keySig">
     <xsl:param name="keyTonic" select="(@pname|ancestor-or-self::*/@key.pname)[1]" />
     <xsl:param name="keyAccid" select="(@accid|ancestor-or-self::*/@key.accid)[1]" />
     <xsl:param name="keyMode" select="(@mode|ancestor-or-self::*/@key.mode)[1]" />
     <xsl:param name="keysig" select="(@sig|ancestor-or-self::*/@keysig)[1]" />
-    <xsl:param name="visible" select="(@visible|ancestor-or-self::*/@keysig.visible)[1]" />
     <xsl:if test="$useSvgBackend">
       <xsl:text>\tweak output-attributes #&apos;</xsl:text>
       <xsl:choose>
@@ -2844,14 +2851,16 @@
       </xsl:choose>
     </xsl:if>
     <xsl:apply-templates select="@color" mode="tweak" />
-    <xsl:choose>
-      <xsl:when test="$visible=true()">
-        <xsl:value-of select="'\set Staff.explicitKeySignatureVisibility = #all-visible '" />
-      </xsl:when>
-      <xsl:when test="$visible=false()">
-        <xsl:value-of select="'\set Staff.explicitKeySignatureVisibility = #all-invisible '" />
-      </xsl:when>
-    </xsl:choose>
+    <xsl:if test="self::mei:keySig and @visible">
+      <xsl:choose>
+        <xsl:when test="@visible=true()">
+          <xsl:value-of select="'\set Staff.explicitKeySignatureVisibility = #all-visible '" />
+        </xsl:when>
+        <xsl:when test="@visible=false()">
+          <xsl:value-of select="'\set Staff.explicitKeySignatureVisibility = #all-invisible '" />
+        </xsl:when>
+      </xsl:choose>
+    </xsl:if>
     <xsl:if test="@cancelaccid">
       <xsl:choose>
         <xsl:when test="@cancelaccid = 'none'">
@@ -3478,6 +3487,16 @@
       </xsl:when>
       <xsl:when test="not(. = '')">
         <xsl:value-of select="'\set Staff.printKeyCancellation = ##t '" />
+      </xsl:when>
+    </xsl:choose>
+  </xsl:template>
+  <xsl:template match="@keysig.visible">
+    <xsl:choose>
+      <xsl:when test=".=true()">
+        <xsl:value-of select="'\set Staff.explicitKeySignatureVisibility = #all-visible '" />
+      </xsl:when>
+      <xsl:when test=".=false()">
+        <xsl:value-of select="'\set Staff.explicitKeySignatureVisibility = #all-invisible '" />
       </xsl:when>
     </xsl:choose>
   </xsl:template>
