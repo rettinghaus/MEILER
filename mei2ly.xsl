@@ -2235,6 +2235,25 @@
   </xsl:template>
   <!-- MEI bend -->
   <xsl:template match="mei:bend">
+    <xsl:if test="$useSvgBackend">
+      <xsl:text>\tweak output-attributes #&apos;</xsl:text>
+      <xsl:call-template name="setSvgAttr" />
+    </xsl:if>
+    <xsl:apply-templates select="@color" mode="tweak" />
+    <xsl:variable name="direction">
+      <xsl:choose>
+        <xsl:when test="@curvedir = 'above'">
+          <xsl:value-of select="'+'" />
+        </xsl:when>
+        <xsl:when test="@curvedir = 'below'">
+          <xsl:value-of select="'-'" />
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="''" />
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+    <xsl:value-of select="concat('-\bendAfter #',$direction,@amount,'&#32;')" />
   </xsl:template>
   <!-- MEI dynamic -->
   <xsl:template match="mei:dynam" mode="pre" />

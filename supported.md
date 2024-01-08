@@ -55,6 +55,11 @@ _Required attributes are shown in bold._
   * `@form` (for values 'acc' and 'rit')
   * `@xml:id`
 
+* `<bend>`
+  * `@color`
+  * `@curvedir`
+  * `@xml:id`
+
 * `<bracketSpan>`
   * `@color`
   * __`@endid`__
