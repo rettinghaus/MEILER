@@ -281,6 +281,7 @@
                 <xsl:with-param name="meterCount" select="ancestor::mei:measure/preceding::*[@*[starts-with(name(),'meter')]][1]/@meter.count" />
                 <xsl:with-param name="meterUnit" select="ancestor::mei:measure/preceding::*[@*[starts-with(name(),'meter')]][1]/@meter.unit" />
                 <xsl:with-param name="meterForm" select="ancestor::mei:measure/preceding::*[@*[starts-with(name(),'meter')]][1]/@meter.form" />
+                <xsl:with-param name="meterVisible" select="ancestor::mei:measure/preceding::*[@*[starts-with(name(),'meter')]][1]/@meter.visible" />
               </xsl:call-template>
               <xsl:text>&#10;&#32;&#32;</xsl:text>
             </xsl:if>
@@ -691,6 +692,7 @@
           <xsl:with-param name="meterCount" select="ancestor-or-self::*[@meter.count][1]/@meter.count" />
           <xsl:with-param name="meterUnit" select="ancestor-or-self::*[@meter.unit][1]/@meter.unit" />
           <xsl:with-param name="meterForm" select="ancestor-or-self::*[@meter.form][1]/@meter.form" />
+          <xsl:with-param name="meterVisible" select="ancestor-or-self::*[@meter.visible][1]/@meter.visible" />
         </xsl:call-template>
         <xsl:apply-templates select="mei:meterSigGrp|mei:meterSig" />
       </xsl:when>
@@ -1391,7 +1393,6 @@
     </xsl:if>
     <xsl:apply-templates select="@color|@visible" mode="tweak" />
     <xsl:if test="@width">
-      <!-- not available in MEI4 -->
       <xsl:value-of select="concat('\tweak minimum-length #', local:VU2LY(@width), ' ')" />
     </xsl:if>
     <xsl:if test="@loc">
@@ -2959,6 +2960,7 @@
     <xsl:param name="meterCount" select="@count" />
     <xsl:param name="meterUnit" select="@unit" />
     <xsl:param name="meterForm" select="@form" />
+    <xsl:param name="meterVisible" select="@visible" />
     <xsl:if test="$useSvgBackend">
       <!-- no IDs -->
       <xsl:text>\tweak TimeSignature.output-attributes #&apos;((class . meterSig)) </xsl:text>
@@ -2995,9 +2997,13 @@
           <xsl:text>\tweak TimeSignature.style #'numbered </xsl:text>
         </xsl:when>
         <xsl:when test="$meterForm = 'invis'">
+          <!-- MEI4 legacy value -->
           <xsl:text>\tweak TimeSignature.transparent ##t </xsl:text>
         </xsl:when>
       </xsl:choose>
+    </xsl:if>
+    <xsl:if test="$meterVisible = 'false'">
+      <xsl:text>\tweak TimeSignature.transparent ##t </xsl:text>
     </xsl:if>
     <xsl:choose>
       <xsl:when test="$meterSymbol">
@@ -5156,7 +5162,7 @@
       <xsl:otherwise />
     </xsl:choose>
   </xsl:template>
-<!-- page layout -->
+  <!-- page layout -->
   <xsl:template match="mei:scoreDef" mode="makePageLayout">
     <xsl:text>\paper {&#10;</xsl:text>
     <xsl:if test="@page.height">

@@ -320,6 +320,7 @@ _Required attributes are shown in bold._
   * `@form`
   * `@sym`
   * `@unit`
+  * `@visible`
 
 * `<meterSigGrp>`
   * `@copyof`
@@ -556,6 +557,7 @@ _Required attributes are shown in bold._
   * `@meter.showchange`
   * `@meter.sym`
   * `@meter.unit`
+  * `@meter.visible`
   * `@midi.bpm`
   * `@mnum.visible`
   * `@optimize`
