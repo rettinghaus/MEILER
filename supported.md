@@ -264,9 +264,11 @@ _Required attributes are shown in bold._
 
 * `<keySig>`
   * `@accid`
+  * `@cancelaccid`
   * `@mode`
   * `@pname`
   * `@sig`
+  * `@visible`
   * `@xml:id`
 
 * `<l>`
@@ -616,7 +618,9 @@ _Required attributes are shown in bold._
   * `@key.accid`
   * `@key.mode`
   * `@key.pname`
-  * `@key.sig` (unsupported for value 'mixed')
+  * `@keysig`
+  * `@keysig.cancelaccid`
+  * `@keysig.visible`
   * `@lines`
   * `@lines.visible`
   * `@lyric.fam`
