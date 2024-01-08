@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="https://music-encoding.org/schema/5.0/mei-all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="https://music-encoding.org/schema/5.0/mei-all.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<mei xmlns="http://www.music-encoding.org/ns/mei" meiversion="5.0">
+   <meiHead>
+      <fileDesc>
+         <titleStmt>
+            <title>Bends</title>
+         </titleStmt>
+         <pubStmt>
+            <respStmt>
+               <persName>Klaus Rettinghaus</persName>
+            </respStmt>
+         </pubStmt>
+         <seriesStmt>
+            <title>MEILER test files</title>
+         </seriesStmt>
+      </fileDesc>
+   </meiHead>
+   <music>
+      <body>
+         <mdiv xml:id="m1bhkykd">
+            <score xml:id="svqdysz">
+               <scoreDef xml:id="s19yqj7w">
+                  <staffGrp xml:id="s5oi58y">
+                     <staffDef xml:id="srrujst" n="1" lines="5">
+                        <clef xml:id="c382to8" shape="C" line="3" />
+                     </staffDef>
+                  </staffGrp>
+               </scoreDef>
+               <section xml:id="se6f1kg">
+                  <measure xml:id="m1l2aqps" metcon="false">
+                     <staff xml:id="s99k8l7" n="1">
+                        <layer xml:id="lpk5br7" n="1">
+                           <note xml:id="npc3jqt" oct="4" dur="4" pname="c" />
+                           <note xml:id="nkd95dm" oct="4" dur="4" pname="c" />
+                           <note xml:id="nkl5de2" oct="4" dur="4" pname="c" />
+                           <note xml:id="n1nwavfz" oct="4" dur="4" pname="c" />
+                           <note xml:id="nx2oc18" oct="4" dur="4" pname="c" />
+                           <note xml:id="nevzfwb" oct="4" dur="4" pname="c" />
+                           <note xml:id="n6wh5s0" oct="4" dur="4" pname="c" />
+                           <note xml:id="n1gu1kqx" oct="4" dur="4" pname="c" />
+                        </layer>
+                     </staff>
+                     <bend startid="#npc3jqt" amount="0" />
+                     <bend startid="#nkd95dm" amount="1" />
+                     <bend startid="#nkl5de2" amount="2" />
+                     <bend startid="#n1nwavfz" amount="3" />
+                     <bend startid="#nx2oc18" amount="4" />
+                     <bend startid="#nevzfwb" amount="5" />
+                     <bend startid="#n6wh5s0" amount="8" />
+                  </measure>
+                  <measure xml:id="mvit2ai" metcon="false">
+                     <staff xml:id="suimorn" n="1">
+                        <layer xml:id="lx0g8iv" n="1">
+                           <note xml:id="nx61883" oct="4" dur="4" pname="c" />
+                           <note xml:id="n3enjwv" oct="4" dur="4" pname="c" />
+                           <note xml:id="nave4rd" oct="4" dur="4" pname="c" />
+                           <note xml:id="n1xko79x" oct="4" dur="4" pname="c" />
+                           <note xml:id="n1n5altg" oct="4" dur="4" pname="c" />
+                           <note xml:id="n10xhd7t" oct="4" dur="4" pname="c" />
+                           <note xml:id="n160ybv5" oct="4" dur="4" pname="c" />
+                           <note xml:id="n7j0t4m" oct="4" dur="4" pname="c" />
+                        </layer>
+                     </staff>
+                     <bend startid="#nx61883" amount="2.5" curvedir="above" />
+                     <bend startid="#n3enjwv" amount="0.75" curvedir="below" />
+                     <bend startid="#nave4rd" amount="1.5" curvedir="above" />
+                     <bend startid="#n1xko79x" amount="3" curvedir="below" />
+                     <bend startid="#n1n5altg" amount="4.25" curvedir="above" />
+                     <bend xml:id="bigbend" startid="#n10xhd7t" amount="7.75" color="green" />
+                     <bend xml:id="touch" startid="#n160ybv5" amount="0.25" color="orange" />
+                     <bend xml:id="violetdown" startid="#n7j0t4m" amount="1" color="blueviolet" curvedir="below" />
+                  </measure>
+               </section>
+            </score>
+         </mdiv>
+      </body>
+   </music>
+</mei>
