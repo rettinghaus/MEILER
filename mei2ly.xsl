@@ -696,7 +696,7 @@
       </xsl:when>
       <xsl:when test="not(descendant::*[starts-with(local-name(),'meter')])">
         <xsl:text>\once \omit Staff.TimeSignature </xsl:text>
-        <xsl:text>\set Score.automaticBars = ##f </xsl:text>
+        <!--<xsl:text>\override Score.BarLine.stencil = ##f </xsl:text>-->
       </xsl:when>
     </xsl:choose>
     <xsl:if test="ancestor::mei:scoreDef/@meter.showchange=false()">
