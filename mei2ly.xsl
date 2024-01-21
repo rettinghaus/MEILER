@@ -4050,6 +4050,7 @@
       <valItem ident="plum" r="221" g="160" b="221" />
       <valItem ident="powderblue" r="176" g="224" b="230" />
       <valItem ident="purple" r="128" g="0" b="128" />
+      <valItem ident="rebeccapurple" r="102" g="51" b="153" />
       <valItem ident="red" r="255" g="0" b="0" />
       <valItem ident="rosybrown" r="188" g="143" b="143" />
       <valItem ident="royalblue" r="65" g="105" b="225" />
