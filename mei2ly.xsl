@@ -3072,6 +3072,10 @@
       </xsl:when>
     </xsl:choose>
   </xsl:template>
+  <!-- MEI repeat mark -->
+  <xsl:template match="mei:repeatMark">
+    <xsl:apply-templates />
+  </xsl:template>
   <!-- MEI system break -->
   <xsl:template match="mei:sb">
     <xsl:text>&#32;&#32;</xsl:text>
