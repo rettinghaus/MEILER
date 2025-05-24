@@ -4,11 +4,8 @@
 tspan { white-space: pre; }
 ]]>
 </style>
-<g transform="translate(0.0000, 7.6500)">
-<rect x="24.8001" y="-0.1000" width="2.9430" height="0.2000" ry="0.1000" fill="currentColor"/>
-</g>
-<g transform="translate(0.0000, 8.6500)">
-<rect x="24.8001" y="-0.1000" width="2.9430" height="0.2000" ry="0.1000" fill="currentColor"/>
+<g transform="translate(23.2006, 4.6500)">
+<rect x="0.0000" y="-2.0000" width="0.1900" height="4.0000" ry="0.0000" fill="currentColor"/>
 </g>
 <g transform="translate(8.5358, 6.6500)">
 <line stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="0" x2="31.1049" y2="0"/>
@@ -31,8 +28,11 @@ tspan { white-space: pre; }
 <g transform="translate(31.3507, 4.6500)">
 <rect x="0.0000" y="-2.0000" width="0.1900" height="4.0000" ry="0.0000" fill="currentColor"/>
 </g>
-<g transform="translate(23.2006, 4.6500)">
-<rect x="0.0000" y="-2.0000" width="0.1900" height="4.0000" ry="0.0000" fill="currentColor"/>
+<g transform="translate(0.0000, 7.6500)">
+<rect x="24.8001" y="-0.1000" width="2.9430" height="0.2000" ry="0.1000" fill="currentColor"/>
+</g>
+<g transform="translate(0.0000, 8.6500)">
+<rect x="24.8001" y="-0.1000" width="2.9430" height="0.2000" ry="0.1000" fill="currentColor"/>
 </g>
 <<<<<<< HEAD
 <g transform="rotate(-0.0000, 35.5297, 1.1000)">
@@ -131,6 +131,11 @@ l-284 -330h167v131c0 34 34 27 68 72c22 30 23 56 36 56c6 0 13 -5 13 -14v-245h72c1
 <path transform="scale(0.0040, -0.0040)" d="M213 112c-45 0 -69 -34 -69 -88c0 -102 89 -136 134 -136s69 34 69 88c0 102 -89 136 -134 136zM245 136c144 0 246 -65 246 -136s-102 -136 -246 -136s-245 65 -245 136s101 136 245 136z" fill="currentColor"/>
 </g>
 </g>
+<g class="note" id="lastNote">
+<g transform="translate(33.4407, 5.6500)">
+<path transform="scale(0.0040, -0.0040)" d="M213 112c-45 0 -69 -34 -69 -88c0 -102 89 -136 134 -136s69 34 69 88c0 102 -89 136 -134 136zM245 136c144 0 246 -65 246 -136s-102 -136 -246 -136s-245 65 -245 136s101 136 245 136z" fill="currentColor"/>
+</g>
+</g>
 <g class="trill">
 <<<<<<< HEAD
 <g transform="rotate(-0.0000, 27.0216, 9.3450)">
@@ -166,11 +171,6 @@ c-6 -8 -13 -11 -20 -11z" fill="currentColor"/>
 <path transform="scale(0.0040, -0.0040)" d="M175 -1c-42 0 -65 91 -131 91c-17 0 -33 -5 -47 -17l-25 -31c-3 -4 -8 -6 -12 -6c-8 0 -16 7 -16 16c0 3 1 7 4 10l107 128c6 8 13 11 20 11c42 0 65 -91 131 -91c17 0 33 5 47 17l25 31c3 4 8 6 12 6c8 0 16 -7 16 -16c0 -3 -1 -7 -4 -10l-107 -128
 c-6 -8 -13 -11 -20 -11z" fill="currentColor"/>
 </g>
-</g>
-</g>
-<g class="note" id="lastNote">
-<g transform="translate(33.4407, 5.6500)">
-<path transform="scale(0.0040, -0.0040)" d="M213 112c-45 0 -69 -34 -69 -88c0 -102 89 -136 134 -136s69 34 69 88c0 102 -89 136 -134 136zM245 136c144 0 246 -65 246 -136s-102 -136 -246 -136s-245 65 -245 136s101 136 245 136z" fill="currentColor"/>
 </g>
 </g>
 </svg>

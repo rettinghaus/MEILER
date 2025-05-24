@@ -4,6 +4,9 @@
 tspan { white-space: pre; }
 ]]>
 </style>
+<g transform="translate(27.0992, 2.0500)">
+<rect x="0.0000" y="-2.0000" width="0.1900" height="4.0000" ry="0.0000" fill="currentColor"/>
+</g>
 <g transform="translate(8.5358, 4.0500)">
 <line stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="0" x2="37.8285" y2="0"/>
 </g>
@@ -20,9 +23,6 @@ tspan { white-space: pre; }
 <line stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="0" x2="37.8285" y2="0"/>
 </g>
 <g transform="translate(39.4246, 2.0500)">
-<rect x="0.0000" y="-2.0000" width="0.1900" height="4.0000" ry="0.0000" fill="currentColor"/>
-</g>
-<g transform="translate(27.0992, 2.0500)">
 <rect x="0.0000" y="-2.0000" width="0.1900" height="4.0000" ry="0.0000" fill="currentColor"/>
 </g>
 <g class="note">
@@ -112,7 +112,7 @@ c-12 0 -47 67 -160 172c-2 2 -3 4 -3 7z" fill="currentColor"/>
 </g>
 <g color="rgb(100.0000%, 100.0000%, 100.0000%)">
 <g transform="translate(43.6248, 3.3674)">
-<text font-family="sans-serif" font-weight="bold" font-size="0.8730" text-anchor="start" fill="currentColor">
+<text font-family="sans-serif" font-weight="bold" font-size="0.8729" text-anchor="start" fill="currentColor">
 <tspan>A</tspan>
 </text>
 </g>
@@ -176,7 +176,7 @@ c-3 3 -5 8 -5 12s2 9 5 12l20 16c3 2 7 3 10 3s6 -1 9 -3z" fill="currentColor"/>
 </g>
 <g color="rgb(100.0000%, 100.0000%, 100.0000%)">
 <g transform="translate(40.8438, 2.3674)">
-<text font-family="sans-serif" font-weight="bold" font-size="0.8730" text-anchor="start" fill="currentColor">
+<text font-family="sans-serif" font-weight="bold" font-size="0.8729" text-anchor="start" fill="currentColor">
 <tspan>C</tspan>
 </text>
 </g>

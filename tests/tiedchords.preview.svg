@@ -34,6 +34,16 @@ tspan { white-space: pre; }
 <g transform="translate(35.5267, 3.7790)">
 <rect x="0.0000" y="-2.0000" width="0.1900" height="4.0000" ry="0.0000" fill="currentColor"/>
 </g>
+<g class="note" id="note-e4">
+<g transform="translate(26.0108, 5.7790)">
+<path transform="scale(0.0040, -0.0040)" d="M218 136c66 0 108 -36 108 -89c0 -89 -113 -183 -218 -183c-66 0 -108 36 -108 89c0 89 113 183 218 183z" fill="currentColor"/>
+</g>
+</g>
+<g class="tie" id="tie-2">
+<g transform="translate(17.0040, 3.7790)">
+<path stroke-width="0.0800" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor" fill="currentColor" d="M1.6392 2.5000C1.9551 2.9679 2.4863 2.9679 2.8023 2.5000L2.8023 2.5000C2.4863 2.7279 1.9551 2.7279 1.6392 2.5000z"/>
+</g>
+</g>
 <g class="tie" id="tie-5">
 <g transform="translate(29.1850, 3.7790)">
 <path stroke-width="0.0800" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor" fill="currentColor" d="M3.3729 1.4649C3.4681 1.4041 3.5536 1.3339 3.6263 1.2544L3.6263 1.2544C3.5536 1.3198 3.4681 1.3775 3.3729 1.4275z"/>
@@ -144,11 +154,6 @@ c0 -151 -150 -159 -246 -220c9 2 18 3 27 3c83 0 111 -59 171 -59c48 0 38 38 55 38c
 <path transform="scale(0.0040, -0.0040)" d="M218 136c66 0 108 -36 108 -89c0 -89 -113 -183 -218 -183c-66 0 -108 36 -108 89c0 89 113 183 218 183z" fill="currentColor"/>
 </g>
 </g>
-<g class="note" id="note-e4">
-<g transform="translate(26.0108, 5.7790)">
-<path transform="scale(0.0040, -0.0040)" d="M218 136c66 0 108 -36 108 -89c0 -89 -113 -183 -218 -183c-66 0 -108 36 -108 89c0 89 113 183 218 183z" fill="currentColor"/>
-</g>
-</g>
 <g class="note" id="note-g4">
 <g transform="translate(26.0108, 4.7790)">
 <path transform="scale(0.0040, -0.0040)" d="M218 136c66 0 108 -36 108 -89c0 -89 -113 -183 -218 -183c-66 0 -108 36 -108 89c0 89 113 183 218 183z" fill="currentColor"/>
@@ -218,11 +223,6 @@ c-13 0 -23 11 -23 25z" fill="currentColor"/>
 </g>
 <g transform="translate(17.0040, 3.7790)">
 <path stroke-width="0.0800" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor" fill="currentColor" d="M0.8521 4.0000C0.9217 4.0773 1.0027 4.1454 1.0925 4.2045L1.0925 4.1671C1.0027 4.1188 0.9217 4.0631 0.8521 4.0000z"/>
-</g>
-</g>
-<g class="tie" id="tie-2">
-<g transform="translate(17.0040, 3.7790)">
-<path stroke-width="0.0800" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor" fill="currentColor" d="M1.6392 2.5000C1.9551 2.9679 2.4863 2.9679 2.8023 2.5000L2.8023 2.5000C2.4863 2.7279 1.9551 2.7279 1.6392 2.5000z"/>
 </g>
 </g>
 </svg>

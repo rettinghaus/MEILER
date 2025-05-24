@@ -4,13 +4,16 @@
 tspan { white-space: pre; }
 ]]>
 </style>
+<g transform="translate(27.1306, 6.4523)">
+<rect x="0.0000" y="-2.0000" width="0.1900" height="4.0000" ry="0.0000" fill="currentColor"/>
+</g>
+<g transform="translate(26.6406, 6.4523)">
+<rect x="0.0000" y="-2.0000" width="0.1900" height="4.0000" ry="0.0000" fill="currentColor"/>
+</g>
 <g transform="translate(95.7005, 6.4523)">
 <rect x="0.0000" y="-2.0000" width="0.6000" height="4.0000" ry="0.0000" fill="currentColor"/>
 </g>
 <g transform="translate(95.2105, 6.4523)">
-<rect x="0.0000" y="-2.0000" width="0.1900" height="4.0000" ry="0.0000" fill="currentColor"/>
-</g>
-<g transform="translate(79.2506, 6.4523)">
 <rect x="0.0000" y="-2.0000" width="0.1900" height="4.0000" ry="0.0000" fill="currentColor"/>
 </g>
 <g transform="translate(8.5358, 8.4523)">
@@ -27,6 +30,9 @@ tspan { white-space: pre; }
 </g>
 <g transform="translate(8.5358, 4.4523)">
 <line stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="0" x2="87.7147" y2="0"/>
+</g>
+<g transform="translate(79.2506, 6.4523)">
+<rect x="0.0000" y="-2.0000" width="0.1900" height="4.0000" ry="0.0000" fill="currentColor"/>
 </g>
 <g transform="translate(72.4606, 6.4523)">
 <rect x="0.0000" y="-2.0000" width="0.1900" height="4.0000" ry="0.0000" fill="currentColor"/>
@@ -49,22 +55,14 @@ tspan { white-space: pre; }
 <g transform="translate(37.9206, 6.4523)">
 <rect x="0.0000" y="-2.0000" width="0.1900" height="4.0000" ry="0.0000" fill="currentColor"/>
 </g>
-<g transform="translate(27.1306, 6.4523)">
-<rect x="0.0000" y="-2.0000" width="0.1900" height="4.0000" ry="0.0000" fill="currentColor"/>
-</g>
-<g transform="translate(26.6406, 6.4523)">
-<rect x="0.0000" y="-2.0000" width="0.1900" height="4.0000" ry="0.0000" fill="currentColor"/>
-</g>
 <g class="multiRest">
-<g transform="translate(81.9061, 6.4523)">
-<rect x="-0.1000" y="-1.0000" width="0.2000" height="2.0000" ry="0.0800" fill="currentColor"/>
+<g transform="translate(20.5906, 6.4523)">
+<path transform="scale(0.0040, -0.0040)" d="M140 -250h-130c-6 0 -10 4 -10 10v480c0 6 4 10 10 10h130c6 0 10 -4 10 -10v-480c0 -6 -4 -10 -10 -10z" fill="currentColor"/>
 </g>
-<g transform="translate(92.7450, 6.4523)">
-<rect x="-0.1000" y="-1.0000" width="0.2000" height="2.0000" ry="0.0800" fill="currentColor"/>
 </g>
-<g transform="translate(82.0061, 6.4523)">
-<rect x="0.0000" y="-0.3300" width="10.6389" height="0.6600" ry="0.0000" fill="currentColor"/>
-</g>
+<g transform="translate(56.3465, 4.0023)">
+<path transform="scale(0.0040, -0.0040)" d="M261 287c25 30 44 64 44 103c0 54 -55 87 -114 87c-46 0 -73 -36 -73 -71c0 -21 10 -42 31 -54zM292 269c23 -13 80 -54 80 -125c0 -73 -66 -144 -189 -144c-94 0 -183 54 -183 140c0 50 36 87 72 123c-37 28 -55 66 -55 103c0 68 60 134 174 134c80 0 157 -39 157 -110
+c0 -46 -25 -86 -56 -121zM103 244c-31 -30 -59 -61 -59 -104c0 -69 66 -117 139 -117c54 0 86 42 86 83c0 24 -10 48 -35 62z" fill="currentColor"/>
 </g>
 <g transform="translate(85.7891, 4.0023)">
 <g>
@@ -107,7 +105,7 @@ c93 2 153 92 159 191c1 18 2 37 2 55c0 31 -1 61 -4 92c-5 -1 -44 -8 -89 -8c-193 0 
 </g>
 <g class="reh">
 <g transform="translate(48.6138, 2.6023)">
-<text font-family="serif" font-size="3.1115" text-anchor="start" fill="currentColor">
+<text font-family="serif" font-size="3.1116" text-anchor="start" fill="currentColor">
 <tspan>A</tspan>
 </text>
 </g>
@@ -121,12 +119,8 @@ l-64 -136c-3 -6 -7 -9 -12 -9c-8 0 -16 6 -16 14c0 2 1 5 2 7z" fill="currentColor"
 <path transform="scale(0.0040, -0.0040)" d="M-67 -48c0 37 30 67 67 67s67 -30 67 -67s-30 -67 -67 -67s-67 30 -67 67zM0 -363c-255 0 -332 331 -332 366c0 9 10 15 19 15s17 -5 19 -18c26 -148 146 -262 294 -262s268 114 294 262c2 13 10 18 19 18s19 -6 19 -15c0 -35 -77 -366 -332 -366z" fill="currentColor"/>
 </g>
 </g>
-<g transform="translate(20.0882, 4.0023)">
-<path transform="scale(0.0040, -0.0040)" d="M-2 148c0 12 140 143 140 336c0 10 7 19 16 16c23 -7 47 -13 71 -13s48 6 71 13c14 4 23 -9 17 -16l-284 -330h167v2c0 34 34 27 68 72c22 30 23 57 36 57c6 0 13 -5 13 -14v-117h72c10 0 15 -7 15 -14s-5 -15 -15 -15h-72v-8c0 -48 27 -94 72 -94c8 0 12 -5 12 -11
-s-4 -12 -12 -12c-44 0 -87 13 -131 13s-87 -13 -131 -13c-8 0 -12 6 -12 12s4 11 12 11c45 0 73 46 73 94v8h-167c-23 0 -31 14 -31 23z" fill="currentColor"/>
-</g>
 <g class="reh">
-<g transform="translate(77.9457, 2.7377)">
+<g transform="translate(77.9457, 2.7378)">
 <text font-family="serif" font-size="2.7719" text-anchor="start" fill="currentColor">
 <tspan>21</tspan>
 </text>
@@ -140,10 +134,9 @@ s-4 -12 -12 -12c-44 0 -87 13 -131 13s-87 -13 -131 -13c-8 0 -12 6 -12 12s4 11 12 
 <path transform="scale(0.0040, -0.0040)" d="M365 -156h-355c-6 0 -10 4 -10 10v136c0 6 4 10 10 10h355c6 0 10 -4 10 -10v-136c0 -6 -4 -10 -10 -10z" fill="currentColor"/>
 </g>
 </g>
-<g class="multiRest">
-<g transform="translate(20.5906, 6.4523)">
-<path transform="scale(0.0040, -0.0040)" d="M140 -250h-130c-6 0 -10 4 -10 10v480c0 6 4 10 10 10h130c6 0 10 -4 10 -10v-480c0 -6 -4 -10 -10 -10z" fill="currentColor"/>
-</g>
+<g transform="translate(20.0882, 4.0023)">
+<path transform="scale(0.0040, -0.0040)" d="M-2 148c0 12 140 143 140 336c0 10 7 19 16 16c23 -7 47 -13 71 -13s48 6 71 13c14 4 23 -9 17 -16l-284 -330h167v2c0 34 34 27 68 72c22 30 23 57 36 57c6 0 13 -5 13 -14v-117h72c10 0 15 -7 15 -14s-5 -15 -15 -15h-72v-8c0 -48 27 -94 72 -94c8 0 12 -5 12 -11
+s-4 -12 -12 -12c-44 0 -87 13 -131 13s-87 -13 -131 -13c-8 0 -12 6 -12 12s4 11 12 11c45 0 73 46 73 94v8h-167c-23 0 -31 14 -31 23z" fill="currentColor"/>
 </g>
 <g class="multiRest">
 <g transform="translate(29.0106, 6.4523)">
@@ -174,8 +167,15 @@ s-4 -12 -12 -12c-44 0 -87 13 -131 13s-87 -13 -131 -13c-8 0 -12 6 -12 12s4 11 12 
 <path transform="scale(0.0040, -0.0040)" d="M440 -250h-130c-6 0 -10 4 -10 10v480c0 6 4 10 10 10h130c6 0 10 -4 10 -10v-480c0 -6 -4 -10 -10 -10zM140 -250h-130c-6 0 -10 4 -10 10v480c0 6 4 10 10 10h130c6 0 10 -4 10 -10v-480c0 -6 -4 -10 -10 -10z" fill="currentColor"/>
 </g>
 </g>
-<g transform="translate(56.3465, 4.0023)">
-<path transform="scale(0.0040, -0.0040)" d="M261 287c25 30 44 64 44 103c0 54 -55 87 -114 87c-46 0 -73 -36 -73 -71c0 -21 10 -42 31 -54zM292 269c23 -13 80 -54 80 -125c0 -73 -66 -144 -189 -144c-94 0 -183 54 -183 140c0 50 36 87 72 123c-37 28 -55 66 -55 103c0 68 60 134 174 134c80 0 157 -39 157 -110
-c0 -46 -25 -86 -56 -121zM103 244c-31 -30 -59 -61 -59 -104c0 -69 66 -117 139 -117c54 0 86 42 86 83c0 24 -10 48 -35 62z" fill="currentColor"/>
+<g class="multiRest">
+<g transform="translate(81.9061, 6.4523)">
+<rect x="-0.1000" y="-1.0000" width="0.2000" height="2.0000" ry="0.0800" fill="currentColor"/>
+</g>
+<g transform="translate(92.7450, 6.4523)">
+<rect x="-0.1000" y="-1.0000" width="0.2000" height="2.0000" ry="0.0800" fill="currentColor"/>
+</g>
+<g transform="translate(82.0061, 6.4523)">
+<rect x="0.0000" y="-0.3300" width="10.6389" height="0.6600" ry="0.0000" fill="currentColor"/>
+</g>
 </g>
 </svg>

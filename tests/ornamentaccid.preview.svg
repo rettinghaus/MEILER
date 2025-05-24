@@ -4,23 +4,8 @@
 tspan { white-space: pre; }
 ]]>
 </style>
-<g transform="translate(0.0000, 10.4666)">
-<rect x="45.3667" y="-0.1000" width="1.9563" height="0.2000" ry="0.1000" fill="currentColor"/>
-</g>
-<g transform="translate(0.0000, 11.4666)">
-<rect x="45.3667" y="-0.1000" width="1.9563" height="0.2000" ry="0.1000" fill="currentColor"/>
-</g>
-<g transform="translate(0.0000, 10.4666)">
-<rect x="32.3421" y="-0.1000" width="1.9563" height="0.2000" ry="0.1000" fill="currentColor"/>
-</g>
-<g transform="translate(0.0000, 11.4666)">
-<rect x="32.3421" y="-0.1000" width="1.9563" height="0.2000" ry="0.1000" fill="currentColor"/>
-</g>
-<g transform="translate(0.0000, 10.4666)">
-<rect x="19.3175" y="-0.1000" width="1.9563" height="0.2000" ry="0.1000" fill="currentColor"/>
-</g>
-<g transform="translate(0.0000, 11.4666)">
-<rect x="19.3175" y="-0.1000" width="1.9563" height="0.2000" ry="0.1000" fill="currentColor"/>
+<g transform="translate(26.0990, 7.4666)">
+<rect x="0.0000" y="-2.0000" width="0.1900" height="4.0000" ry="0.0000" fill="currentColor"/>
 </g>
 <g transform="translate(8.5358, 9.4666)">
 <line stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="0" x2="47.8261" y2="0"/>
@@ -43,8 +28,34 @@ tspan { white-space: pre; }
 <g transform="translate(39.1236, 7.4666)">
 <rect x="0.0000" y="-2.0000" width="0.1900" height="4.0000" ry="0.0000" fill="currentColor"/>
 </g>
-<g transform="translate(26.0990, 7.4666)">
-<rect x="0.0000" y="-2.0000" width="0.1900" height="4.0000" ry="0.0000" fill="currentColor"/>
+<g transform="translate(0.0000, 10.4666)">
+<rect x="45.3667" y="-0.1000" width="1.9563" height="0.2000" ry="0.1000" fill="currentColor"/>
+</g>
+<g transform="translate(0.0000, 11.4666)">
+<rect x="45.3667" y="-0.1000" width="1.9563" height="0.2000" ry="0.1000" fill="currentColor"/>
+</g>
+<g transform="translate(0.0000, 10.4666)">
+<rect x="32.3421" y="-0.1000" width="1.9563" height="0.2000" ry="0.1000" fill="currentColor"/>
+</g>
+<g transform="translate(0.0000, 11.4666)">
+<rect x="32.3421" y="-0.1000" width="1.9563" height="0.2000" ry="0.1000" fill="currentColor"/>
+</g>
+<g transform="translate(0.0000, 10.4666)">
+<rect x="19.3175" y="-0.1000" width="1.9563" height="0.2000" ry="0.1000" fill="currentColor"/>
+</g>
+<g transform="translate(0.0000, 11.4666)">
+<rect x="19.3175" y="-0.1000" width="1.9563" height="0.2000" ry="0.1000" fill="currentColor"/>
+</g>
+<g class="turn">
+<g transform="translate(33.3202, 4.6886)">
+<path transform="scale(0.0040, -0.0040)" d="M137 -132c-133 0 -201 186 -319 186c-33 0 -61 -23 -61 -54s23 -53 50 -57c9 21 28 31 48 31c29 0 54 -22 54 -53c0 -32 -33 -53 -68 -53c-67 0 -114 62 -114 132c0 74 61 132 136 132c133 0 201 -186 319 -186c33 0 61 23 61 54s-23 53 -50 57c-9 -21 -28 -31 -48 -31
+c-29 0 -54 22 -54 53c0 32 33 53 68 53c67 0 114 -62 114 -132c0 -74 -61 -132 -136 -132z" fill="currentColor"/>
+</g>
+</g>
+<g transform="translate(54.0618, 3.7215)">
+<path transform="scale(0.0040, -0.0040)" d="M319 46c4 6 10 9 17 9c11 0 20 -9 20 -20c0 -4 -2 -8 -4 -11l-23 -35l-33 22zM129 1l-8 -12l-33 22l70 105c4 6 9 9 16 9c6 0 12 -2 16 -7l98 -119l8 12l33 -22l-70 -105c-4 -6 -9 -9 -16 -9c-6 0 -12 2 -16 7zM-80 1l-8 -12l-33 22l70 105c4 6 10 9 17 9
+c6 0 11 -2 15 -7l99 -119l8 12l33 -22l-70 -105c-4 -6 -10 -9 -17 -9c-6 0 -11 2 -15 7zM-329 11l70 105c4 6 10 9 17 9c6 0 11 -2 15 -7l98 -119l8 12l33 -22l-70 -105c-4 -6 -9 -9 -16 -9c-6 0 -12 2 -16 7l-98 119c-48 -72 -65 -99 -65 -161c0 -75 37 -111 37 -125
+c0 -19 -25 -27 -36 -11c-27 41 -41 89 -41 136s14 95 41 136z" fill="currentColor"/>
 </g>
 <g class="note" id="n1">
 <g transform="translate(14.3358, 4.9666)">
@@ -172,12 +183,6 @@ c-11 7 -24 11 -38 11s-29 -4 -43 -11l54 270v7c0 16 -12 26 -29 26c-7 0 -16 -3 -24 
 l-40 -15v-154c0 -12 -9 -21 -21 -21s-21 9 -21 21v138l-79 -30v-154c0 -12 -9 -21 -21 -21s-21 9 -21 21v138l-22 -8c-3 -1 -6 -2 -9 -2c-13 0 -25 11 -25 25v54c0 10 6 20 16 24l40 15v155l-22 -9c-3 -1 -6 -1 -9 -1c-13 0 -25 11 -25 25v54zM177 92l-79 -30v-154l79 30
 v154z" fill="currentColor"/>
 </g>
-<g class="turn">
-<g transform="translate(33.3202, 4.6886)">
-<path transform="scale(0.0040, -0.0040)" d="M137 -132c-133 0 -201 186 -319 186c-33 0 -61 -23 -61 -54s23 -53 50 -57c9 21 28 31 48 31c29 0 54 -22 54 -53c0 -32 -33 -53 -68 -53c-67 0 -114 62 -114 132c0 74 61 132 136 132c133 0 201 -186 319 -186c33 0 61 23 61 54s-23 53 -50 57c-9 -21 -28 -31 -48 -31
-c-29 0 -54 22 -54 53c0 32 33 53 68 53c67 0 114 -62 114 -132c0 -74 -61 -132 -136 -132z" fill="currentColor"/>
-</g>
-</g>
 <g transform="translate(33.9073, 7.4666)">
 <rect x="-0.0650" y="-0.0000" width="0.1300" height="4.3139" ry="0.0400" fill="currentColor"/>
 </g>
@@ -284,10 +289,5 @@ c-29 0 -54 22 -54 53c0 32 33 53 68 53c67 0 114 -62 114 -132c0 -74 -61 -132 -136 
 l-40 -15v-154c0 -12 -9 -21 -21 -21s-21 9 -21 21v138l-79 -30v-154c0 -12 -9 -21 -21 -21s-21 9 -21 21v138l-22 -8c-3 -1 -6 -2 -9 -2c-13 0 -25 11 -25 25v54c0 10 6 20 16 24l40 15v155l-22 -9c-3 -1 -6 -1 -9 -1c-13 0 -25 11 -25 25v54zM177 92l-79 -30v-154l79 30
 v154z" fill="currentColor"/>
 </g>
-</g>
-<g transform="translate(54.0618, 3.7215)">
-<path transform="scale(0.0040, -0.0040)" d="M319 46c4 6 10 9 17 9c11 0 20 -9 20 -20c0 -4 -2 -8 -4 -11l-23 -35l-33 22zM129 1l-8 -12l-33 22l70 105c4 6 9 9 16 9c6 0 12 -2 16 -7l98 -119l8 12l33 -22l-70 -105c-4 -6 -9 -9 -16 -9c-6 0 -12 2 -16 7zM-80 1l-8 -12l-33 22l70 105c4 6 10 9 17 9
-c6 0 11 -2 15 -7l99 -119l8 12l33 -22l-70 -105c-4 -6 -10 -9 -17 -9c-6 0 -11 2 -15 7zM-329 11l70 105c4 6 10 9 17 9c6 0 11 -2 15 -7l98 -119l8 12l33 -22l-70 -105c-4 -6 -9 -9 -16 -9c-6 0 -12 2 -16 7l-98 119c-48 -72 -65 -99 -65 -161c0 -75 37 -111 37 -125
-c0 -19 -25 -27 -36 -11c-27 41 -41 89 -41 136s14 95 41 136z" fill="currentColor"/>
 </g>
 </svg>

@@ -4,8 +4,17 @@
 tspan { white-space: pre; }
 ]]>
 </style>
-<g transform="translate(8.5358, 5.1002)">
-<line stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="0" x2="56.9494" y2="0"/>
+<g transform="translate(13.3940, 4.6502)">
+<path transform="scale(0.0040, -0.0040)" d="M0 0c0 31 25 56 56 56s56 -25 56 -56s-25 -56 -56 -56s-56 25 -56 56z" fill="currentColor"/>
+</g>
+<g transform="translate(13.3940, 5.5502)">
+<path transform="scale(0.0040, -0.0040)" d="M0 0c0 31 25 56 56 56s56 -25 56 -56s-25 -56 -56 -56s-56 25 -56 56z" fill="currentColor"/>
+</g>
+<g transform="translate(12.9040, 5.1002)">
+<rect x="0.0000" y="-1.0000" width="0.1900" height="2.0000" ry="0.0000" fill="currentColor"/>
+</g>
+<g transform="translate(12.0040, 5.1002)">
+<rect x="0.0000" y="-1.0000" width="0.6000" height="2.0000" ry="0.0000" fill="currentColor"/>
 </g>
 <g transform="translate(63.6952, 4.6502)">
 <path transform="scale(0.0040, -0.0040)" d="M0 0c0 31 25 56 56 56s56 -25 56 -56s-25 -56 -56 -56s-56 25 -56 56z" fill="currentColor"/>
@@ -19,17 +28,15 @@ tspan { white-space: pre; }
 <g transform="translate(64.4452, 5.1002)">
 <rect x="0.0000" y="-1.0000" width="0.1900" height="2.0000" ry="0.0000" fill="currentColor"/>
 </g>
-<g transform="translate(13.3940, 4.6502)">
-<path transform="scale(0.0040, -0.0040)" d="M0 0c0 31 25 56 56 56s56 -25 56 -56s-25 -56 -56 -56s-56 25 -56 56z" fill="currentColor"/>
+<g transform="translate(8.5358, 5.1002)">
+<line stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="0" x2="56.9494" y2="0"/>
 </g>
-<g transform="translate(13.3940, 5.5502)">
-<path transform="scale(0.0040, -0.0040)" d="M0 0c0 31 25 56 56 56s56 -25 56 -56s-25 -56 -56 -56s-56 25 -56 56z" fill="currentColor"/>
+<g class="tuplet">
+<g transform="translate(35.7761, 1.1800)">
+<text font-family="serif" font-style="italic" font-size="1.7459" text-anchor="start" fill="currentColor">
+<tspan>7:9</tspan>
+</text>
 </g>
-<g transform="translate(12.9040, 5.1002)">
-<rect x="0.0000" y="-1.0000" width="0.1900" height="2.0000" ry="0.0000" fill="currentColor"/>
-</g>
-<g transform="translate(12.0040, 5.1002)">
-<rect x="0.0000" y="-1.0000" width="0.6000" height="2.0000" ry="0.0000" fill="currentColor"/>
 </g>
 <g transform="translate(15.1843, 0.6002)">
 <line stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1600" stroke="currentColor" x1="43.7395" y1="-0.0000" x2="43.7395" y2="0.7000"/>
@@ -76,13 +83,6 @@ c0 -46 -25 -86 -56 -121zM103 244c-31 -30 -59 -61 -59 -104c0 -69 66 -117 139 -117
 <path transform="scale(0.0060, -0.0060)" d="M222 135c64 0 104 -35 104 -86c0 -89 -114 -184 -221 -184c-64 0 -105 35 -105 86c0 89 115 184 222 184z" fill="currentColor"/>
 </g>
 </g>
-</g>
-</g>
-<g class="tuplet">
-<g transform="translate(35.7761, 1.1799)">
-<text font-family="serif" font-style="italic" font-size="1.7461" text-anchor="start" fill="currentColor">
-<tspan>7:9</tspan>
-</text>
 </g>
 </g>
 <g class="note">

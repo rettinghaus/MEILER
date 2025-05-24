@@ -4,6 +4,9 @@
 tspan { white-space: pre; }
 ]]>
 </style>
+<g transform="translate(25.9463, 6.4820)">
+<rect x="0.0000" y="-2.0000" width="0.1900" height="4.0000" ry="0.0000" fill="currentColor"/>
+</g>
 <g transform="translate(8.5358, 8.4820)">
 <line stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="0" x2="65.9995" y2="0"/>
 </g>
@@ -31,8 +34,8 @@ tspan { white-space: pre; }
 <g transform="translate(35.9458, 6.4820)">
 <rect x="0.0000" y="-2.0000" width="0.1900" height="4.0000" ry="0.0000" fill="currentColor"/>
 </g>
-<g transform="translate(25.9463, 6.4820)">
-<rect x="0.0000" y="-2.0000" width="0.1900" height="4.0000" ry="0.0000" fill="currentColor"/>
+<g transform="translate(63.0226, 6.4820)">
+<rect x="-0.0650" y="-0.3139" width="0.1300" height="3.3139" ry="0.0400" fill="currentColor"/>
 </g>
 <g class="note" id="m01-n01">
 <g transform="translate(17.1406, 6.4820)">
@@ -58,8 +61,8 @@ l-284 -330h167v131c0 34 34 27 68 72c22 30 23 56 36 56c6 0 13 -5 13 -14v-245h72c1
 </g>
 </g>
 <g class="tempo" id="m01-t01">
-<g transform="translate(13.5358, 11.3099)">
-<text font-family="serif" font-weight="bold" font-size="2.2001" text-anchor="start" fill="currentColor">
+<g transform="translate(13.5358, 11.3098)">
+<text font-family="serif" font-weight="bold" font-size="2.2000" text-anchor="start" fill="currentColor">
 <tspan>Adagio</tspan>
 </text>
 </g>
@@ -91,7 +94,7 @@ l-284 -330h167v131c0 34 34 27 68 72c22 30 23 56 36 56c6 0 13 -5 13 -14v-245h72c1
 <g class="tempo" id="m02-t01">
 <g color="rgb(100.0000%, 0.0000%, 0.0000%)">
 <g transform="translate(27.1400, 2.6019)">
-<text font-family="serif" font-weight="bold" font-size="2.2001" text-anchor="start" fill="currentColor">
+<text font-family="serif" font-weight="bold" font-size="2.2000" text-anchor="start" fill="currentColor">
 <tspan>Presto</tspan>
 </text>
 </g>
@@ -154,8 +157,8 @@ l-284 -330h167v131c0 34 34 27 68 72c22 30 23 56 36 56c6 0 13 -5 13 -14v-245h72c1
 <g transform="translate(47.1389, 12.0047)">
 <path transform="scale(0.0036, -0.0036)" d="M215 137c67 0 111 -37 111 -92c0 -90 -111 -182 -215 -182c-67 0 -111 37 -111 92c0 90 111 182 215 182z" fill="currentColor"/>
 </g>
-<g transform="translate(48.2995, 12.4934)">
-<text font-family="serif" font-size="2.2001" text-anchor="start" fill="currentColor">
+<g transform="translate(48.2995, 12.4935)">
+<text font-family="serif" font-size="2.2000" text-anchor="start" fill="currentColor">
 <tspan> = 66</tspan>
 </text>
 </g>
@@ -194,12 +197,12 @@ l-284 -330h167v131c0 34 34 27 68 72c22 30 23 56 36 56c6 0 13 -5 13 -14v-245h72c1
 </g>
 <g class="tempo" id="m05-t01">
 <g transform="translate(57.1383, 3.1615)">
-<text font-family="serif" font-weight="bold" font-size="2.2001" text-anchor="start" fill="currentColor">
+<text font-family="serif" font-weight="bold" font-size="2.2000" text-anchor="start" fill="currentColor">
 <tspan>Speed-up</tspan>
 </text>
 </g>
 <g transform="translate(65.9814, 3.1615)">
-<text font-family="serif" font-size="2.2001" text-anchor="start" fill="currentColor">
+<text font-family="serif" font-size="2.2000" text-anchor="start" fill="currentColor">
 <tspan> (</tspan>
 </text>
 </g>
@@ -210,7 +213,7 @@ l-284 -330h167v131c0 34 34 27 68 72c22 30 23 56 36 56c6 0 13 -5 13 -14v-245h72c1
 <path transform="scale(0.0036, -0.0036)" d="M215 137c67 0 111 -37 111 -92c0 -90 -111 -182 -215 -182c-67 0 -111 37 -111 92c0 90 111 182 215 182z" fill="currentColor"/>
 </g>
 <g transform="translate(68.4054, 3.1615)">
-<text font-family="serif" font-size="2.2001" text-anchor="start" fill="currentColor">
+<text font-family="serif" font-size="2.2000" text-anchor="start" fill="currentColor">
 <tspan> = 111)</tspan>
 </text>
 </g>
@@ -222,8 +225,5 @@ l-284 -330h167v131c0 34 34 27 68 72c22 30 23 56 36 56c6 0 13 -5 13 -14v-245h72c1
 <g transform="translate(62.9576, 5.9820)">
 <path transform="scale(0.0040, -0.0040)" d="M218 136c66 0 108 -36 108 -89c0 -89 -113 -183 -218 -183c-66 0 -108 36 -108 89c0 89 113 183 218 183z" fill="currentColor"/>
 </g>
-</g>
-<g transform="translate(63.0226, 6.4820)">
-<rect x="-0.0650" y="-0.3139" width="0.1300" height="3.3139" ry="0.0400" fill="currentColor"/>
 </g>
 </svg>

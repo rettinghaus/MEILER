@@ -4,8 +4,8 @@
 tspan { white-space: pre; }
 ]]>
 </style>
-<g transform="translate(0.0000, 1.0450)">
-<rect x="16.7962" y="-0.1000" width="2.0660" height="0.2000" ry="0.1000" fill="currentColor"/>
+<g transform="translate(28.6453, 4.0450)">
+<rect x="0.0000" y="-2.0000" width="0.1900" height="4.0500" ry="0.0000" fill="currentColor"/>
 </g>
 <g transform="translate(8.5358, 6.0450)">
 <line stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="0" x2="39.2398" y2="0"/>
@@ -61,11 +61,11 @@ tspan { white-space: pre; }
 <g transform="translate(28.6453, -0.0000)">
 <rect x="0.0000" y="6.0950" width="0.1900" height="4.9500" ry="0.0000" fill="currentColor"/>
 </g>
+<g transform="translate(0.0000, 1.0450)">
+<rect x="16.7962" y="-0.1000" width="2.0660" height="0.2000" ry="0.1000" fill="currentColor"/>
+</g>
 <g transform="translate(28.6453, 13.0450)">
 <rect x="0.0000" y="-2.0500" width="0.1900" height="4.0500" ry="0.0000" fill="currentColor"/>
-</g>
-<g transform="translate(28.6453, 4.0450)">
-<rect x="0.0000" y="-2.0000" width="0.1900" height="4.0500" ry="0.0000" fill="currentColor"/>
 </g>
 <g class="note">
 <g color="rgb(0.7843%, 0.0000%, 0.0000%)">
@@ -148,7 +148,7 @@ c150 98 307 217 307 393c0 92 -38 185 -119 185c-52 0 -87 -38 -104 -90c5 1 10 2 15
 </g>
 <g color="rgb(1.1765%, 0.0000%, 100.0000%)">
 <g transform="translate(20.5498, 1.7552)">
-<text font-family="serif" font-style="italic" font-size="1.3860" text-anchor="start" fill="currentColor">
+<text font-family="serif" font-style="italic" font-size="1.3862" text-anchor="start" fill="currentColor">
 <tspan>15</tspan>
 </text>
 </g>
@@ -172,7 +172,7 @@ c0 6 4 10 10 10h92c6 0 10 -4 10 -10v-780c0 -6 -4 -10 -10 -10z" fill="currentColo
 </g>
 <g color="rgb(40.0000%, 0.0000%, 100.0000%)">
 <g transform="translate(21.1305, 16.2552)">
-<text font-family="serif" font-style="italic" font-size="1.3860" text-anchor="start" fill="currentColor">
+<text font-family="serif" font-style="italic" font-size="1.3862" text-anchor="start" fill="currentColor">
 <tspan>8</tspan>
 </text>
 </g>
@@ -201,9 +201,6 @@ c0 23 -1 46 -3 69c-4 -1 -34 -6 -67 -6c-155 0 -266 144 -266 302c0 144 101 254 191
 </g>
 </g>
 </g>
-<g transform="translate(8.4758, 8.5450)">
-<rect x="0.0000" y="-6.5500" width="0.1600" height="13.1000" ry="0.0500" fill="currentColor"/>
-</g>
 <g class="clef">
 <g color="rgb(40.7843%, 0.0000%, 100.0000%)">
 <g transform="translate(25.7986, 12.0450)">
@@ -217,10 +214,8 @@ c150 98 307 217 307 393c0 92 -38 185 -119 185c-52 0 -87 -38 -104 -90c5 1 10 2 15
 <rect x="-0.0650" y="-2.8139" width="0.1300" height="5.6454" ry="0.0400" fill="currentColor"/>
 </g>
 </g>
-<g class="beam">
-<g transform="translate(29.9667, 15.8550)">
-<polygon stroke-linejoin="round" stroke-linecap="round" stroke-width="0.0800" fill="currentColor" stroke="currentColor" points="10.1547 3.1800 10.1547 3.5800 0.0400 0.2000 0.0400 -0.2000"/>
-</g>
+<g transform="translate(8.4758, 8.5450)">
+<rect x="0.0000" y="-6.5500" width="0.1600" height="13.1000" ry="0.0500" fill="currentColor"/>
 </g>
 <g class="note">
 <g color="rgb(41.5686%, 0.0000%, 0.0000%)">
@@ -287,6 +282,11 @@ c0 23 -1 46 -3 69c-4 -1 -34 -6 -67 -6c-155 0 -266 144 -266 302c0 144 101 254 191
 <g transform="translate(42.5356, 13.0450)">
 <path transform="scale(0.0040, -0.0040)" d="M365 0h-355c-6 0 -10 4 -10 10v136c0 6 4 10 10 10h355c6 0 10 -4 10 -10v-136c0 -6 -4 -10 -10 -10z" fill="currentColor"/>
 </g>
+</g>
+</g>
+<g class="beam">
+<g transform="translate(29.9667, 15.8550)">
+<polygon stroke-linejoin="round" stroke-linecap="round" stroke-width="0.0800" fill="currentColor" stroke="currentColor" points="10.1547 3.1800 10.1547 3.5800 0.0400 0.2000 0.0400 -0.2000"/>
 </g>
 </g>
 </svg>

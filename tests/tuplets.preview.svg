@@ -1,9 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.2" width="124.01mm" height="17.57mm" viewBox="8.5358 0.0000 70.5662 10.0004">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.2" width="124.01mm" height="17.57mm" viewBox="8.5358 0.0000 70.5662 10.0005">
 <style type="text/css">
 <![CDATA[
 tspan { white-space: pre; }
 ]]>
 </style>
+<g transform="translate(47.5705, 4.8812)">
+<rect x="0.0000" y="-2.0000" width="0.1900" height="4.0000" ry="0.0000" fill="currentColor"/>
+</g>
 <g transform="translate(8.5358, 6.8812)">
 <line stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="0" x2="70.5162" y2="0"/>
 </g>
@@ -22,12 +25,9 @@ tspan { white-space: pre; }
 <g transform="translate(78.9120, 4.8812)">
 <rect x="0.0000" y="-2.0000" width="0.1900" height="4.0000" ry="0.0000" fill="currentColor"/>
 </g>
-<g transform="translate(47.5705, 4.8812)">
-<rect x="0.0000" y="-2.0000" width="0.1900" height="4.0000" ry="0.0000" fill="currentColor"/>
-</g>
 <g class="tuplet">
 <g transform="translate(73.9108, 8.8610)">
-<text font-family="serif" font-style="italic" font-size="1.7461" text-anchor="start" fill="currentColor">
+<text font-family="serif" font-style="italic" font-size="1.7459" text-anchor="start" fill="currentColor">
 <tspan>3</tspan>
 </text>
 </g>
@@ -79,7 +79,7 @@ l-284 -330h167v131c0 34 34 27 68 72c22 30 23 56 36 56c6 0 13 -5 13 -14v-245h72c1
 </g>
 <g class="tuplet">
 <g transform="translate(66.9853, 2.1210)">
-<text font-family="serif" font-style="italic" font-size="1.7461" text-anchor="start" fill="currentColor">
+<text font-family="serif" font-style="italic" font-size="1.7459" text-anchor="start" fill="currentColor">
 <tspan>3</tspan>
 </text>
 </g>
@@ -174,7 +174,7 @@ l-284 -330h167v131c0 34 34 27 68 72c22 30 23 56 36 56c6 0 13 -5 13 -14v-245h72c1
 </g>
 <g class="tuplet">
 <g transform="translate(51.3729, 8.8610)">
-<text font-family="serif" font-style="italic" font-size="1.7461" text-anchor="start" fill="currentColor">
+<text font-family="serif" font-style="italic" font-size="1.7459" text-anchor="start" fill="currentColor">
 <tspan>3</tspan>
 </text>
 </g>
@@ -219,7 +219,7 @@ l-284 -330h167v131c0 34 34 27 68 72c22 30 23 56 36 56c6 0 13 -5 13 -14v-245h72c1
 </g>
 <g class="tuplet">
 <g transform="translate(42.1832, 9.9800)">
-<text font-family="serif" font-style="italic" font-size="1.7461" text-anchor="start" fill="currentColor">
+<text font-family="serif" font-style="italic" font-size="1.7459" text-anchor="start" fill="currentColor">
 <tspan>3</tspan>
 </text>
 </g>
@@ -265,7 +265,7 @@ l-284 -330h167v131c0 34 34 27 68 72c22 30 23 56 36 56c6 0 13 -5 13 -14v-245h72c1
 </g>
 <g class="tuplet">
 <g transform="translate(27.5553, 2.0610)">
-<text font-family="serif" font-style="italic" font-size="1.7461" text-anchor="start" fill="currentColor">
+<text font-family="serif" font-style="italic" font-size="1.7459" text-anchor="start" fill="currentColor">
 <tspan>3</tspan>
 </text>
 </g>
@@ -300,7 +300,7 @@ l-284 -330h167v131c0 34 34 27 68 72c22 30 23 56 36 56c6 0 13 -5 13 -14v-245h72c1
 </g>
 <g class="tuplet">
 <g transform="translate(19.9162, 8.8610)">
-<text font-family="serif" font-style="italic" font-size="1.7461" text-anchor="start" fill="currentColor">
+<text font-family="serif" font-style="italic" font-size="1.7459" text-anchor="start" fill="currentColor">
 <tspan>3</tspan>
 </text>
 </g>
