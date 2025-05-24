@@ -2645,6 +2645,10 @@
       <xsl:text>\once \override Score.MetronomeMark.output-attributes = #&apos;</xsl:text>
       <xsl:call-template name="setSvgAttr" />
     </xsl:if>
+    <xsl:if test="@color">
+      <xsl:value-of select="'\once \override Score.MetronomeMark.color = #'" />
+      <xsl:call-template name="setColor" />
+    </xsl:if>
     <xsl:if test="@place">
       <xsl:text>\once \override Score.MetronomeMark.direction = #</xsl:text>
       <xsl:call-template name="setDirection" />

@@ -666,6 +666,7 @@ _Required attributes are shown in bold._
   * `@xml:id`
 
 * `<tempo>`
+  * `@color`
   * `@ho`
   * `@midi.bpm`
   * `@mm`
