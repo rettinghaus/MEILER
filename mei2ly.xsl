@@ -2277,6 +2277,7 @@
       <xsl:text>-\tweak extra-offset #&apos;</xsl:text>
       <xsl:call-template name="setOffset" />
     </xsl:if>
+    <xsl:apply-templates select="@color" mode="tweak" />
     <xsl:if test="@endid or @tstamp2">
       <xsl:apply-templates select="@*[name() != 'place']" mode="tweak" />
     </xsl:if>
@@ -2318,6 +2319,7 @@
       <xsl:text>-\tweak extra-offset #&apos;</xsl:text>
       <xsl:call-template name="setOffset" />
     </xsl:if>
+    <xsl:apply-templates select="@color" mode="tweak" />
     <xsl:call-template name="setMarkupDirection">
       <xsl:with-param name="direction" select="ancestor-or-self::*/@place[1]" />
     </xsl:call-template>

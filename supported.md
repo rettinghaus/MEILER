@@ -147,6 +147,7 @@ _Required attributes are shown in bold._
   * `@vo`
 
 * `<dynam>`
+  * `@color`
   * `@endid`
   * `@extender`
   * `@ho`
@@ -184,6 +185,7 @@ _Required attributes are shown in bold._
 * `<fileDesc>`
 
 * `<fing>`
+  * `@color`
   * `@place`
   * __`@startid`__
   * `@xml:id`
