@@ -5084,6 +5084,12 @@
       <xsl:when test="@glyph.name = 'fermataBelow' or contains(@glyph.num,'E4C1')">
         <xsl:text>\markup {\musicglyph #"scripts.dfermata"}</xsl:text>
       </xsl:when>
+      <xsl:when test="@glyph.name = 'fermataVeryShortAbove' or contains(@glyph.num,'E4C2')">
+        <xsl:text>\markup {\musicglyph #"scripts.uveryshortfermata"}</xsl:text>
+      </xsl:when>
+      <xsl:when test="@glyph.name = 'fermataVeryShortBelow' or contains(@glyph.num,'E4C3')">
+        <xsl:text>\markup {\musicglyph #"scripts.dveryshortfermata"}</xsl:text>
+      </xsl:when>
       <xsl:when test="@glyph.name = 'fermataShortAbove' or contains(@glyph.num,'E4C4')">
         <xsl:text>\markup {\musicglyph #"scripts.ushortfermata"}</xsl:text>
       </xsl:when>
@@ -5101,6 +5107,18 @@
       </xsl:when>
       <xsl:when test="@glyph.name = 'fermataVeryLongBelow' or contains(@glyph.num,'E4C9')">
         <xsl:text>\markup {\musicglyph #"scripts.dverylongfermata"}</xsl:text>
+      </xsl:when>
+      <xsl:when test="@glyph.name = 'fermataLongHenzeAbove' or contains(@glyph.num,'E4CA')">
+        <xsl:text>\markup {\musicglyph #"scripts.uhenzelongfermata"}</xsl:text>
+      </xsl:when>
+      <xsl:when test="@glyph.name = 'fermataLongHenzeBelow' or contains(@glyph.num,'E4CB')">
+        <xsl:text>\markup {\musicglyph #"scripts.dhenzelongfermata"}</xsl:text>
+      </xsl:when>
+      <xsl:when test="@glyph.name = 'fermataShortHenzeAbove' or contains(@glyph.num,'E4CC')">
+        <xsl:text>\markup {\musicglyph #"scripts.uhenzeshortfermata"}</xsl:text>
+      </xsl:when>
+      <xsl:when test="@glyph.name = 'fermataShortHenzeBelow' or contains(@glyph.num,'E4CD')">
+        <xsl:text>\markup {\musicglyph #"scripts.dhenzeshortfermata"}</xsl:text>
       </xsl:when>
       <!-- Common ornaments (U+E560 – U+E56F) -->
       <xsl:when test="@glyph.name = 'ornamentTrill' or contains(@glyph.num,'E566')">
