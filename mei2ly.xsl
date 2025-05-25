@@ -2542,7 +2542,11 @@
     <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:harm[@xml:id = substring-after(current()/@copyof,'#')]" />
   </xsl:template>
   <xsl:template match="mei:harm" mode="pre" />
-  <xsl:template match="mei:harm" />
+  <xsl:template match="mei:harm">
+    <xsl:if test="text() and not(mei:fb)">
+      <xsl:call-template name="staffText" />
+    </xsl:if>
+  </xsl:template>
   <xsl:template match="mei:harm" mode="figuremode">
     <xsl:param name="meterCount">
       <xsl:choose>
@@ -2680,18 +2684,7 @@
   <!-- MEI directive -->
   <xsl:template match="mei:dir" mode="pre" />
   <xsl:template match="mei:dir">
-    <xsl:if test="$useSvgBackend">
-      <xsl:text>-\tweak output-attributes #&apos;</xsl:text>
-      <xsl:call-template name="setSvgAttr" />
-    </xsl:if>
-    <xsl:if test="@ho or @vo">
-      <xsl:text>-\tweak extra-offset #&apos;</xsl:text>
-      <xsl:call-template name="setOffset" />
-    </xsl:if>
-    <xsl:call-template name="setMarkupDirection" />
-    <xsl:text>\markup {</xsl:text>
-    <xsl:apply-templates/>
-    <xsl:text>}&#32;</xsl:text>
+    <xsl:call-template name="staffText" />
   </xsl:template>
   <!-- MEI line -->
   <xsl:template match="mei:l">
@@ -5356,6 +5349,22 @@
   </xsl:template>
   <xsl:template mode="addBeamMarkup" match="*[key('isBeamEnd', generate-id()) and key('isBeamStart', generate-id())]" priority="10">
     <xsl:message>WARNING: <xsl:value-of select="local-name(.)" /> element <xsl:if test="@xml:id"><xsl:value-of select="concat('[',@xml:id,']')" /></xsl:if> both starts and ends a beam</xsl:message>
+  </xsl:template>
+  <!-- generic staff text -->
+  <xsl:template name="staffText">
+    <xsl:if test="$useSvgBackend">
+      <xsl:text>-\tweak output-attributes #&apos;</xsl:text>
+      <xsl:call-template name="setSvgAttr" />
+    </xsl:if>
+    <xsl:if test="@ho or @vo">
+      <xsl:text>-\tweak extra-offset #&apos;</xsl:text>
+      <xsl:call-template name="setOffset" />
+    </xsl:if>
+    <xsl:apply-templates select="@color" mode="tweak" />
+    <xsl:call-template name="setMarkupDirection" />
+    <xsl:text>\markup {</xsl:text>
+    <xsl:apply-templates/>
+    <xsl:text>}&#32;</xsl:text>
   </xsl:template>
   <!--               -->
   <!-- Make fraction -->

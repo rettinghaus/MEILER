@@ -136,6 +136,7 @@ _Required attributes are shown in bold._
 * `<corr>`
 
 * `<dir>`
+  * `@color`
   * `@ho`
   * `@place`
   * __`@startid`__
@@ -237,9 +238,11 @@ _Required attributes are shown in bold._
   * `@xml:id`
 
 * `<harm>`
+  * `@color`
   * `@place`
   * `@staff`
-  * __`@tstamp`__
+  * __`@startid`__ (for harmonic symbols)
+  * __`@tstamp`__ (for figured bass)
 
 * `<harpPedal>`
   * `@a`
