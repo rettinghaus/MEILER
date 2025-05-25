@@ -2347,7 +2347,7 @@
     <xsl:if test="string-length() = string-length(translate(.,'123456789',''))">
       <xsl:text>_</xsl:text>
     </xsl:if>
-    <xsl:value-of select="translate(replace(.,'(.*)(\d+)','$2$1'),'♭♮♯hb#&lt;&gt;-','-!+-!+')" />
+    <xsl:value-of select="translate(replace(.,'(.*)(\d+)','$2$1'),'♭♮♯bh#&lt;&gt;-','-!+-!+')" />
     <xsl:if test="contains(.,'\')">
       <xsl:text>\</xsl:text>
     </xsl:if>
@@ -2590,6 +2590,7 @@
       </xsl:if>
       <xsl:text>&#32;</xsl:text>
     </xsl:if>
+    <xsl:apply-templates select="@color" mode="tweak" />
     <xsl:apply-templates select="mei:fb" />
     <xsl:value-of select="$meterUnit" />
     <xsl:choose>

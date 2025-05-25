@@ -240,7 +240,7 @@ _Required attributes are shown in bold._
 * `<harm>`
   * `@color`
   * `@place`
-  * `@staff`
+  * __`@staff`__ (for figured bass)
   * __`@startid`__ (for harmonic symbols)
   * __`@tstamp`__ (for figured bass)
 
