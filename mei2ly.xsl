@@ -2347,7 +2347,7 @@
     <xsl:if test="string-length() = string-length(translate(.,'123456789',''))">
       <xsl:text>_</xsl:text>
     </xsl:if>
-    <xsl:value-of select="translate(replace(.,'(.*)(\d+)','$2$1'),'♭♮♯&lt;&gt;-','-!+')" />
+    <xsl:value-of select="translate(replace(.,'(.*)(\d+)','$2$1'),'♭♮♯b#&lt;&gt;-','-!+-+')" />
     <xsl:if test="contains(.,'\')">
       <xsl:text>\</xsl:text>
     </xsl:if>
