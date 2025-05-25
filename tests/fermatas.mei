@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="https://music-encoding.org/schema/5.1/mei-CMN.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="https://music-encoding.org/schema/5.1/mei-CMN.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<mei xmlns="http://www.music-encoding.org/ns/mei" meiversion="5.1">
+  <meiHead>
+    <fileDesc>
+      <titleStmt>
+        <title type="main">Fermatas</title>
+        <respStmt>
+          <persName role="composer">Klaus Rettinghaus</persName>
+        </respStmt>
+      </titleStmt>
+      <pubStmt>
+        <date isodate="2025-05-25" />
+      </pubStmt>
+      <seriesStmt>
+        <title>MEILER test files</title>
+      </seriesStmt>
+    </fileDesc>
+  </meiHead>
+  <music>
+    <body>
+      <mdiv>
+        <score>
+          <scoreDef>
+            <staffGrp>
+              <staffDef n="1" lines="5" meter.count="4" meter.unit="4">
+                <label>Oboe</label>
+                <labelAbbr>Ob.</labelAbbr>
+                <instrDef midi.instrnum="68" />
+                <clef shape="G" line="2" />
+              </staffDef>
+            </staffGrp>
+          </scoreDef>
+          <section xml:id="s1">
+            <pb />
+            <measure n="1">
+              <staff n="1">
+                <layer n="1">
+                  <note xml:id="mscore-vSPKbK0a0WL_eR4PehrSF1N" dur="4" pname="b" oct="4" />
+                  <note xml:id="mscore-85j2fBLnsbM_hbaZ5fD4LWB" dur="4" pname="b" oct="4" />
+                  <note xml:id="mscore-JrAqhVT7pBB_1OY1Z.oGzBM" dur="4" pname="b" oct="4" />
+                  <note xml:id="mscore-dfuZPkxsD0H_q8nTZ9v8mOK" dur="4" pname="b" oct="4" />
+                </layer>
+              </staff>
+              <fermata startid="#mscore-vSPKbK0a0WL_eR4PehrSF1N" place="above" />
+              <fermata startid="#mscore-85j2fBLnsbM_hbaZ5fD4LWB" place="below" />
+              <fermata startid="#mscore-JrAqhVT7pBB_1OY1Z.oGzBM" shape="angular" place="above" />
+              <fermata startid="#mscore-dfuZPkxsD0H_q8nTZ9v8mOK" shape="angular" place="below" />
+            </measure>
+            <measure n="2">
+              <staff n="1">
+                <layer n="1">
+                  <note xml:id="mscore-Z1xyFJeWUsL_34HRj1zSzSK" dur="4" pname="b" oct="4" />
+                  <note xml:id="mscore-lFhthh0MF1D_YNRc9R5yjUD" dur="4" pname="b" oct="4" />
+                  <note xml:id="mscore-f07oX.up3tO_eunFswETq5J" dur="4" pname="b" oct="4" />
+                  <note xml:id="mscore-.4qNoh9JSfC_t0mLSGdvohN" dur="4" pname="b" oct="4" />
+                </layer>
+              </staff>
+              <fermata startid="#mscore-Z1xyFJeWUsL_34HRj1zSzSK" shape="square" place="above" />
+              <fermata startid="#mscore-lFhthh0MF1D_YNRc9R5yjUD" shape="square" place="below" />
+              <fermata startid="#mscore-f07oX.up3tO_eunFswETq5J" glyph.auth="smufl" glyph.name="fermataLongHenzeAbove" place="above" />
+              <fermata startid="#mscore-.4qNoh9JSfC_t0mLSGdvohN" glyph.auth="smufl" glyph.name="fermataLongHenzeBelow" place="below" />
+            </measure>
+            <measure n="3">
+              <staff n="1">
+                <layer n="1">
+                  <note xml:id="mscore-bYy5sjB8qvH_JDBd492H25" dur="4" pname="b" oct="4" />
+                  <note xml:id="mscore-XmAoIwgeemJ_KaQQ9WLd80N" dur="4" pname="b" oct="4" />
+                  <note xml:id="mscore-kbwlTEAM4MJ_ZtpKZBHqdLL" dur="4" pname="b" oct="4" />
+                  <note xml:id="mscore-20fVqFBxswG_4yxFh7qTHwG" dur="4" pname="b" oct="4" />
+                </layer>
+              </staff>
+              <fermata startid="#mscore-bYy5sjB8qvH_JDBd492H25" glyph.auth="smufl" glyph.name="fermataShortHenzeAbove" place="above" />
+              <fermata startid="#mscore-XmAoIwgeemJ_KaQQ9WLd80N" glyph.auth="smufl" glyph.name="fermataShortHenzeBelow" place="below" />
+              <fermata startid="#mscore-kbwlTEAM4MJ_ZtpKZBHqdLL" glyph.auth="smufl" glyph.name="fermataVeryLongAbove" place="above" />
+              <fermata startid="#mscore-20fVqFBxswG_4yxFh7qTHwG" glyph.auth="smufl" glyph.name="fermataVeryLongBelow" place="below" />
+            </measure>
+            <measure right="end" n="4">
+              <staff n="1">
+                <layer n="1">
+                  <note xml:id="mscore-pE9NqoKdLU_naYoV6G218O" dur="4" pname="b" oct="4" />
+                  <note xml:id="mscore-r5won3E-0XK_b7hDqVGS3DO" dur="4" pname="b" oct="4" />
+                  <note xml:id="mscore-z.qC3WE9dx_KZfNV66QXl" dur="4" pname="b" oct="4" />
+                  <note xml:id="mscore-UuZGpD.KsCP_4z0fLOeHV4G" dur="4" pname="b" oct="4" />
+                </layer>
+              </staff>
+              <fermata startid="#mscore-pE9NqoKdLU_naYoV6G218O" glyph.auth="smufl" glyph.name="fermataVeryShortAbove" place="above" />
+              <fermata startid="#mscore-r5won3E-0XK_b7hDqVGS3DO" glyph.auth="smufl" glyph.name="fermataVeryShortBelow" place="below" />
+              <fermata startid="#mscore-z.qC3WE9dx_KZfNV66QXl" glyph.auth="smufl" glyph.name="fermataVeryShortBelow" place="above" />
+              <fermata startid="#mscore-UuZGpD.KsCP_4z0fLOeHV4G" glyph.auth="smufl" glyph.name="fermataVeryShortAbove" place="below" />
+            </measure>
+          </section>
+        </score>
+      </mdiv>
+    </body>
+  </music>
+</mei>
