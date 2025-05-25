@@ -771,3 +771,6 @@ _Required attributes are shown in bold._
 data.LINEWIDTH (`@lwidth`) works for values from data.LINEWIDTHTERM
 data.STEMDIRECTION (`@stem.dir`) works for values from data.STEMDIRECTION.basic
 data.STEMPOSITION (`@stem.pos`) will only affect stem direction
+
+`fb` is printed by default above its connected staff
+`fb` is not shown by default on rhythmic staves
