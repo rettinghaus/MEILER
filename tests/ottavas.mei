@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-model href="https://music-encoding.org/schema/5.1/mei-CMN.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
-<?xml-model href="https://music-encoding.org/schema/5.1/mei-CMN.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<?xml-model href="https://music-encoding.org/schema/5.1/mei-basic.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="https://music-encoding.org/schema/5.1/mei-basic.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <mei xmlns="http://www.music-encoding.org/ns/mei" meiversion="5.1">
   <meiHead>
     <fileDesc>
@@ -17,38 +17,119 @@
       </seriesStmt>
     </fileDesc>
   </meiHead>
-  <music>
-    <body>
-      <mdiv>
-        <score>
-          <scoreDef meter.count="4" meter.unit="4">
-            <staffGrp>
-              <staffDef n="1" clef.line="2" clef.shape="G" lines="5"/>
-              <staffDef n="2" clef.line="4" clef.shape="F" lines="5"/>
-            </staffGrp>
-          </scoreDef>
-          <section>
-            <measure n="1">
-              <staff n="1">
-                <layer n="1">
-                  <note pname="c" oct="4" dur="2" oct.ges="3" xml:id="note1"/>
-                  <note pname="c" oct="4" dur="2" oct.ges="3" xml:id="note2"/>
-                </layer>
-              </staff>
-              <staff n="2">
-                <layer n="1">
-                  <note pname="c" oct="4" dur="2" oct.ges="3" xml:id="note3"/>
-                  <note pname="c" oct="4" dur="2" oct.ges="3" xml:id="note4"/>
-                </layer>
-              </staff>
-              <octave dis="8" dis.place="below" startid="#note1" endid="#note1" staff="1"/>
-              <octave dis="8" dis.place="above" startid="#note2" endid="#note2" staff="1"/>
-              <octave dis="8" dis.place="below" startid="#note3" endid="#note3" staff="2"/>
-              <octave dis="8" dis.place="above" startid="#note4" endid="#note4" staff="2"/>
-            </measure>
-          </section>
-        </score>
-      </mdiv>
-    </body>
-  </music>
+   <music>
+      <body>
+         <mdiv>
+            <score>
+               <scoreDef>
+                  <staffGrp>
+                     <staffDef n="1" lines="5" meter.count="4" meter.unit="4">
+                        <clef shape="F" line="4" />
+                     </staffDef>
+                  </staffGrp>
+               </scoreDef>
+               <section xml:id="s1">
+                  <measure xml:id="ex-lWu7JwsBF-N_nR49HxzOodC" n="1">
+                     <staff xml:id="m1s1" n="1">
+                        <layer xml:id="m1s1l1" n="1">
+                           <note xml:id="ex-fzDNeov2N8C_M0SlxhCwISO" dur="2" pname="f" oct="3" />
+                           <note xml:id="ex-sPna47nSMnK_K3AwPNJq5DB" dur="2" pname="b" oct="3" />
+                        </layer>
+                     </staff>
+                  </measure>
+                  <measure xml:id="ex-wwOQvAgS6uP_gEXTy6WkTzH" n="2">
+                     <staff xml:id="m2s1" n="1">
+                        <layer xml:id="m2s1l1" n="1">
+                           <note xml:id="ex-EEhukVBFWhP_rD6dOHab-1B" oct.ges="4" dur="2" pname="f" oct="3" />
+                           <note xml:id="ex-tDPrGlQU1yK_5al5MqX648B" oct.ges="4" dur="2" pname="b" oct="3" />
+                        </layer>
+                     </staff>
+                     <octave staff="1" dis="8" dis.place="above" startid="#ex-EEhukVBFWhP_rD6dOHab-1B" endid="#ex-tDPrGlQU1yK_5al5MqX648B" />
+                  </measure>
+                  <measure xml:id="ex-qkD6beme-zD_t86tmisM-tK" n="3">
+                     <staff xml:id="m3s1" n="1">
+                        <layer xml:id="m3s1l1" n="1">
+                           <note xml:id="ex-z2Ca7KH1XmJ_ZW7aMrqAhBP" oct.ges="2" dur="2" pname="f" oct="3" />
+                           <note xml:id="ex-KMrktcpFCiD_J-Xw.P-oHSE" oct.ges="2" dur="2" pname="b" oct="3" />
+                        </layer>
+                     </staff>
+                     <octave staff="1" dis="8" dis.place="below" startid="#ex-z2Ca7KH1XmJ_ZW7aMrqAhBP" endid="#ex-KMrktcpFCiD_J-Xw.P-oHSE" />
+                  </measure>
+                  <measure xml:id="ex-73JcmCNbhjF_ibelqwLTO5L" n="4">
+                     <staff xml:id="m4s1" n="1">
+                        <layer xml:id="m4s1l1" n="1">
+                           <note xml:id="ex-3X07jf-wbp_3KO46MX3d-M" oct.ges="5" dur="2" pname="f" oct="3" />
+                           <note xml:id="ex-IkI1Hx427v_nEXxw59qFRJ" oct.ges="5" dur="2" pname="b" oct="3" />
+                        </layer>
+                     </staff>
+                     <octave staff="1" dis="15" dis.place="above" startid="#ex-3X07jf-wbp_3KO46MX3d-M" endid="#ex-IkI1Hx427v_nEXxw59qFRJ" />
+                  </measure>
+                  <measure xml:id="ex-WRAUfBina1D_XQMu0BmtGQP" n="5">
+                     <staff xml:id="m5s1" n="1">
+                        <layer xml:id="m5s1l1" n="1">
+                           <note xml:id="ex-NlfQX0xW.kJ_ck8BGJiBTWF" oct.ges="1" dur="2" pname="f" oct="3" />
+                           <note xml:id="ex-f6BLWVj2zBG_mZGvAcMgvfG" oct.ges="1" dur="2" pname="b" oct="3" />
+                        </layer>
+                     </staff>
+                     <octave staff="1" dis="15" dis.place="below" startid="#ex-NlfQX0xW.kJ_ck8BGJiBTWF" endid="#ex-f6BLWVj2zBG_mZGvAcMgvfG" />
+                  </measure>
+                  <measure xml:id="ex-Vt2hRIKgYmH_KyT2AcdVndE" n="6">
+                     <staff xml:id="m6s1" n="1">
+                        <layer xml:id="m6s1l1" n="1">
+                           <note xml:id="ex-Y2Zfsl3ydXN_cLvuMi7xXfE" oct.ges="6" dur="2" pname="f" oct="3" />
+                           <note xml:id="ex-QhJEzBaCWAI_iFyZ9KqrBPH" oct.ges="6" dur="2" pname="b" oct="3" />
+                        </layer>
+                     </staff>
+                     <octave staff="1" dis="22" dis.place="above" startid="#ex-Y2Zfsl3ydXN_cLvuMi7xXfE" endid="#ex-QhJEzBaCWAI_iFyZ9KqrBPH" />
+                  </measure>
+                  <measure xml:id="ex-CtPjNjAaWDD_Tqz6vla2v2J" right="dbl" n="7">
+                     <staff xml:id="m7s1" n="1">
+                        <layer xml:id="m7s1l1" n="1">
+                           <note xml:id="ex-haxSE49JMsP_jX0O8kpVBlK" oct.ges="0" dur="2" pname="f" oct="3" />
+                           <note xml:id="ex-hZPakgTIAR_x7j56E2psB" oct.ges="0" dur="2" pname="b" oct="3" />
+                        </layer>
+                     </staff>
+                     <octave staff="1" dis="22" dis.place="below" startid="#ex-haxSE49JMsP_jX0O8kpVBlK" endid="#ex-hZPakgTIAR_x7j56E2psB" />
+                  </measure>
+                  <measure xml:id="ex-o9YbHTqI.9E_UoiMyWtbYHJ" n="8">
+                     <staff xml:id="m8s1" n="1">
+                        <layer xml:id="m8s1l1" n="1">
+                           <note xml:id="ex-g.w3VkSz9GE_ZYwdCclg-RM" oct.ges="4" dur="2" pname="f" oct="3" />
+                           <note xml:id="ex-YBgdHTimxUM_2FepUiTJtBD" oct.ges="4" dur="2" pname="b" oct="3" />
+                        </layer>
+                     </staff>
+                     <octave staff="1" dis="8" dis.place="above" startid="#ex-g.w3VkSz9GE_ZYwdCclg-RM" lform="solid" endid="#ex-YBgdHTimxUM_2FepUiTJtBD" />
+                  </measure>
+                  <measure xml:id="ex-X.tvKO-aU8H_gqcfjoREl5H" n="9">
+                     <staff xml:id="m9s1" n="1">
+                        <layer xml:id="m9s1l1" n="1">
+                           <note xml:id="ex-EYWf6xrxIBP_kxaMfv3UirD" oct.ges="2" dur="2" pname="f" oct="3" />
+                           <note xml:id="ex-6iybmiCKWnH_-aMSmUt5OBM" oct.ges="2" dur="2" pname="b" oct="3" />
+                        </layer>
+                     </staff>
+                     <octave staff="1" dis="8" dis.place="below" startid="#ex-EYWf6xrxIBP_kxaMfv3UirD" lform="dotted" endid="#ex-6iybmiCKWnH_-aMSmUt5OBM" />
+                  </measure>
+                  <measure xml:id="ex-JixShBXXj2K_U6Oqvbm79wK" n="10">
+                     <staff xml:id="m10s1" n="1">
+                        <layer xml:id="m10s1l1" n="1">
+                           <note xml:id="ex-3jPRimASzpB_TsaKen91B0F" oct.ges="4" dur="2" pname="f" oct="3" />
+                           <note xml:id="ex-l-GF.tVDOAP_7X8xR0P0M8M" oct.ges="4" dur="2" pname="b" oct="3" />
+                        </layer>
+                     </staff>
+                     <octave staff="1" dis="8" dis.place="above" startid="#ex-3jPRimASzpB_TsaKen91B0F" endid="#ex-l-GF.tVDOAP_7X8xR0P0M8M" lwidth="wide" />
+                  </measure>
+                  <measure xml:id="ex-S6PeErVGspN_6BLaV8vm3oN" right="end" n="11">
+                     <staff xml:id="m11s1" n="1">
+                        <layer xml:id="m11s1l1" n="1">
+                           <note xml:id="ex-62i8UayQqbG_DKLUt5iJKYJ" oct.ges="2" dur="2" pname="f" oct="3" />
+                           <note xml:id="ex-94Cs0nPK2MD_bO2wDzk6kWK" oct.ges="2" dur="2" pname="b" oct="3" />
+                        </layer>
+                     </staff>
+                     <octave staff="1" dis="8" dis.place="below" startid="#ex-62i8UayQqbG_DKLUt5iJKYJ" endid="#ex-94Cs0nPK2MD_bO2wDzk6kWK" extender="false" color="#558899">getting low</octave>
+                  </measure>
+               </section>
+            </score>
+         </mdiv>
+      </body>
+   </music>
 </mei>
