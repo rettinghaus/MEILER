@@ -777,3 +777,5 @@ data.STEMPOSITION (`@stem.pos`) will only affect stem direction
 
 `fb` is printed by default above its connected staff
 `fb` is not shown by default on rhythmic staves
+
+`octave` needs corresponding `@oct.ges` information on notes to work as expected
