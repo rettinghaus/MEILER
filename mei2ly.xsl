@@ -990,7 +990,16 @@
     </xsl:if>
     <xsl:value-of select="@pname" />
     <xsl:apply-templates mode="setAccidental" select="(mei:accid, .[not(mei:accid)])/(@accid, @accid.ges)[1]" />
-    <xsl:call-template name="setOctave" />
+    <xsl:choose>
+      <xsl:when test="@oct.ges">
+        <xsl:call-template name="setOctave">
+          <xsl:with-param name="oct" select="@oct.ges - 3" />
+        </xsl:call-template>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:call-template name="setOctave" />
+      </xsl:otherwise>
+    </xsl:choose>
     <xsl:if test="descendant-or-self::*/@accid or child::mei:accid/@func = 'caution'">
       <xsl:text>!</xsl:text>
     </xsl:if>
@@ -1084,7 +1093,7 @@
       <xsl:value-of select="' }'" />
     </xsl:if>
     <xsl:if test="key('spannerEnd',$noteKey)[self::mei:octave]">
-      <xsl:value-of select="'\unset Staff.ottavation'" />
+      <xsl:value-of select="'\ottava 0 '" />
     </xsl:if>
     <xsl:value-of select="' '" />
     <xsl:if test="@staff and not(parent::mei:chord) and @staff != ancestor::mei:staff/@n">
@@ -1207,7 +1216,7 @@
       <xsl:value-of select="' }'" />
     </xsl:if>
     <xsl:if test="key('spannerEnd',$chordKey)[self::mei:octave]">
-      <xsl:value-of select="'\unset Staff.ottavation'" />
+      <xsl:value-of select="'\ottava 0 '" />
     </xsl:if>
     <xsl:value-of select="' '" />
     <xsl:if test="@staff and @staff != ancestor::mei:staff/@n">
@@ -1318,7 +1327,7 @@
       <xsl:value-of select="' }'" />
     </xsl:if>
     <xsl:if test="key('spannerEnd',$restKey)[self::mei:octave]">
-      <xsl:value-of select="'\unset Staff.ottavation'" />
+      <xsl:value-of select="'\ottava 0 '" />
     </xsl:if>
     <xsl:value-of select="' '" />
     <xsl:if test="@staff and @staff != ancestor::mei:staff/@n">
@@ -2058,14 +2067,6 @@
     <xsl:apply-templates select="ancestor::mei:mdiv[1]//mei:measure/mei:octave[@xml:id = substring-after(current()/@copyof,'#')]" mode="pre" />
   </xsl:template>
   <xsl:template match="mei:octave" mode="pre">
-    <xsl:choose>
-      <xsl:when test="text()">
-        <xsl:value-of select="concat('\set Staff.ottavation = #&quot;', text(), '&quot; ')" />
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:value-of select="concat('\set Staff.ottavation = #&quot;', @dis, '&quot; ')" />
-      </xsl:otherwise>
-    </xsl:choose>
     <xsl:if test="$useSvgBackend">
       <xsl:text>\once \override Staff.OttavaBracket.output-attributes = #&apos;</xsl:text>
       <xsl:call-template name="setSvgAttr" />
@@ -2086,9 +2087,18 @@
       <xsl:text>\once \override Staff.OttavaBracket.thickness = #</xsl:text>
       <xsl:call-template name="setLineWidth" />
     </xsl:if>
-    <xsl:if test="@dis.place = 'below'">
-      <!-- default is 'above' -->
-      <xsl:text>\once \override Staff.OttavaBracket.direction = #DOWN </xsl:text>
+    <xsl:choose>
+      <xsl:when test="@dis.place = 'below'">
+        <xsl:text>\set Staff.clefTransposition = #0 </xsl:text>
+        <xsl:value-of select="concat('\ottava -', round((xs:integer(@dis) + 3) div 8))" />
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:text>\set Staff.clefTransposition = #0 </xsl:text>        
+        <xsl:value-of select="concat('\ottava ', round((xs:integer(@dis) + 3) div 8))" />
+      </xsl:otherwise>
+    </xsl:choose>
+    <xsl:if test="text()">
+      <xsl:value-of select="concat('\set Staff.ottavation = #&quot;', text(), '&quot; ')" />
     </xsl:if>
   </xsl:template>
   <xsl:template match="mei:octave">
