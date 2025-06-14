@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--          -->
-<!--  MEILER  -->
-<!--  mei2ly  -->
-<!-- v 2 dev  -->
-<!--          -->
-<!-- programmed by -->
+<!--                   -->
+<!--      MEILER.      -->
+<!--      mei2ly       -->
+<!--      v3.0.0       -->
+<!--                   -->
+<!--   programmed by   -->
 <!-- Klaus Rettinghaus -->
-<!-- and others -->
-<!--          -->
+<!--    and others.    -->
+<!--                   -->
 <xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:saxon="http://saxon.sf.net/" xmlns:local="NS:LOCAL" exclude-result-prefixes="saxon">
   <xsl:strip-space elements="*" />
   <xsl:output method="text" indent="no" encoding="UTF-8" />

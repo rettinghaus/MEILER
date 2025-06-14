@@ -1,0 +1,14 @@
+cff-version: 1.2.0
+title: MEILER
+abstract: MEI Lilypond Engraving Refinement
+message: "If you use this software, please cite it as below."
+type: software
+authors:
+  - given-names: Klaus
+    family-names: Rettinghaus
+    email: klaus.rettinghaus@gmail.com
+    orcid: 'https://orcid.org/0000-0003-1898-2543'
+url: 'https://github.com/rettinghaus/MEILER'
+license: MIT
+version: 3.0.0
+date-released: 2025-06-14
