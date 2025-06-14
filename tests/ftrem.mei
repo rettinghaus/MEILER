@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-model href="https://music-encoding.org/schema/4.0.0/mei-all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
-<mei xmlns="http://www.music-encoding.org/ns/mei" meiversion="4.0.0">
+<?xml-model href="https://music-encoding.org/schema/5.1/mei-CMN.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="https://music-encoding.org/schema/5.1/mei-CMN.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<mei xmlns="http://www.music-encoding.org/ns/mei" meiversion="5.1">
     <meiHead>
         <fileDesc>
             <titleStmt>
@@ -20,7 +21,7 @@
         <body>
             <mdiv>
                 <score>
-                    <scoreDef meter.count="4" meter.unit="4" key.sig="1f" system.leftline="true">
+                    <scoreDef meter.count="4" meter.unit="4" keysig="1f" system.leftline="true">
                         <staffGrp symbol="bracket">
                             <staffDef n="1" clef.line="4" clef.shape="F" lines="5"/>
                         </staffGrp>

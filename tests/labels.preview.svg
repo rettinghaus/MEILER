@@ -4,8 +4,20 @@
 tspan { white-space: pre; }
 ]]>
 </style>
-<g transform="translate(22.6655, -0.0000)">
-<rect x="0.0000" y="24.5708" width="0.1520" height="4.9500" ry="0.0000" fill="currentColor"/>
+<g transform="translate(8.5358, 33.5208)">
+<line stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="0" x2="14.2697" y2="0"/>
+</g>
+<g transform="translate(8.5358, 32.5208)">
+<line stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="0" x2="14.2697" y2="0"/>
+</g>
+<g transform="translate(8.5358, 31.5208)">
+<line stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="0" x2="14.2697" y2="0"/>
+</g>
+<g transform="translate(8.5358, 30.5208)">
+<line stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="0" x2="14.2697" y2="0"/>
+</g>
+<g transform="translate(8.5358, 29.5208)">
+<line stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="0" x2="14.2697" y2="0"/>
 </g>
 <g transform="translate(8.5358, 4.6208)">
 <line stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="0" x2="14.2697" y2="0"/>
@@ -23,13 +35,13 @@ tspan { white-space: pre; }
 <line stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="0" x2="14.2697" y2="0"/>
 </g>
 <g transform="translate(22.6655, -0.0000)">
+<rect x="0.0000" y="24.5708" width="0.1520" height="4.9500" ry="0.0000" fill="currentColor"/>
+</g>
+<g transform="translate(22.6655, -0.0000)">
 <rect x="0.0000" y="24.5208" width="0.1900" height="5.0000" ry="0.0000" fill="currentColor"/>
 </g>
 <g transform="translate(22.6655, 31.5208)">
 <rect x="0.0000" y="-2.0500" width="0.1900" height="4.0500" ry="0.0000" fill="currentColor"/>
-</g>
-<g transform="translate(22.6655, 22.5208)">
-<rect x="0.0000" y="-2.0500" width="0.1900" height="4.1000" ry="0.0000" fill="currentColor"/>
 </g>
 <g transform="translate(8.5358, 13.6208)">
 <line stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="0" x2="14.2697" y2="0"/>
@@ -46,11 +58,11 @@ tspan { white-space: pre; }
 <g transform="translate(8.5358, 10.4208)">
 <line stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="0" x2="14.2697" y2="0"/>
 </g>
+<g transform="translate(22.6655, 22.5208)">
+<rect x="0.0000" y="-2.0500" width="0.1900" height="4.1000" ry="0.0000" fill="currentColor"/>
+</g>
 <g transform="translate(22.6655, 12.0208)">
 <rect x="0.0000" y="-1.6500" width="0.1520" height="3.3000" ry="0.0000" fill="currentColor"/>
-</g>
-<g transform="translate(22.6655, 3.0208)">
-<rect x="0.0000" y="-1.6000" width="0.1520" height="3.2500" ry="0.0000" fill="currentColor"/>
 </g>
 <g transform="translate(0.0000, 19.5208)">
 <rect x="16.2826" y="-0.1000" width="2.0660" height="0.2000" ry="0.1000" fill="currentColor"/>
@@ -70,25 +82,18 @@ tspan { white-space: pre; }
 <g transform="translate(8.5358, 20.5208)">
 <line stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="0" x2="14.2697" y2="0"/>
 </g>
-<g transform="translate(8.5358, 33.5208)">
-<line stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="0" x2="14.2697" y2="0"/>
+<g transform="translate(22.6655, 3.0208)">
+<rect x="0.0000" y="-1.6000" width="0.1520" height="3.2500" ry="0.0000" fill="currentColor"/>
 </g>
-<g transform="translate(8.5358, 32.5208)">
-<line stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="0" x2="14.2697" y2="0"/>
+<g class="mRest">
+<g transform="translate(18.2230, 2.2208)">
+<path transform="scale(0.0032, -0.0032)" d="M362 -156h-349c-7 0 -13 5 -13 12v131c0 7 6 13 13 13h349c7 0 13 -6 13 -13v-131c0 -7 -6 -12 -13 -12z" fill="currentColor"/>
 </g>
-<g transform="translate(8.5358, 31.5208)">
-<line stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="0" x2="14.2697" y2="0"/>
-</g>
-<g transform="translate(8.5358, 30.5208)">
-<line stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="0" x2="14.2697" y2="0"/>
-</g>
-<g transform="translate(8.5358, 29.5208)">
-<line stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="0" x2="14.2697" y2="0"/>
 </g>
 <g color="rgb(0.0000%, 0.0000%, 100.0000%)">
 <g transform="rotate(-60.0000, 1.5455, 27.0208)">
 <g transform="translate(-1.1347, 27.7513)">
-<text font-family="serif" font-weight="bold" font-size="2.2001" text-anchor="start" fill="currentColor">
+<text font-family="serif" font-weight="bold" font-size="2.2000" text-anchor="start" fill="currentColor">
 <tspan>Piano</tspan>
 </text>
 </g>
@@ -220,7 +225,7 @@ l-284 -330h167v131c0 34 34 27 68 72c22 30 23 56 36 56c6 0 13 -5 13 -14v-245h72c1
 <rect x="-0.0650" y="0.1861" width="0.1300" height="3.1472" ry="0.0400" fill="currentColor"/>
 </g>
 <g transform="translate(-2.5087, 12.6185)">
-<text font-family="serif" font-size="1.7600" text-anchor="start" fill="currentColor">
+<text font-family="serif" font-size="1.7601" text-anchor="start" fill="currentColor">
 <tspan>Violoncello</tspan>
 </text>
 </g>
@@ -237,20 +242,15 @@ l-284 -330h167v131c0 34 34 27 68 72c22 30 23 56 36 56c6 0 13 -5 13 -14v-245h72c1
 <rect x="-0.2600" y="-0.1000" width="6.3926" height="0.1000" ry="0.0000" fill="currentColor"/>
 </g>
 <g transform="translate(-1.5908, 3.6761)">
-<rect x="0" y="-1.4971" width="0.1000" height="1.6837" ry="0.0000" fill="currentColor"/>
+<rect x="0" y="-1.4972" width="0.1000" height="1.6838" ry="0.0000" fill="currentColor"/>
 </g>
 <g transform="translate(4.7019, 3.6761)">
-<rect x="0" y="-1.4971" width="0.1000" height="1.6837" ry="0.0000" fill="currentColor"/>
+<rect x="0" y="-1.4972" width="0.1000" height="1.6838" ry="0.0000" fill="currentColor"/>
 </g>
 <g transform="translate(-1.3308, 3.6761)">
-<text font-family="sans-serif" font-style="italic" font-size="1.7600" text-anchor="start" fill="currentColor">
+<text font-family="sans-serif" font-style="italic" font-size="1.7601" text-anchor="start" fill="currentColor">
 <tspan>Violino</tspan>
 </text>
-</g>
-</g>
-<g class="mRest">
-<g transform="translate(18.2230, 2.2208)">
-<path transform="scale(0.0032, -0.0032)" d="M362 -156h-349c-7 0 -13 5 -13 12v131c0 7 6 13 13 13h349c7 0 13 -6 13 -13v-131c0 -7 -6 -12 -13 -12z" fill="currentColor"/>
 </g>
 </g>
 </svg>

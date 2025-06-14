@@ -10,6 +10,15 @@ tspan { white-space: pre; }
 <g transform="translate(0.0000, 6.7790)">
 <rect x="19.2845" y="-0.1000" width="1.9563" height="0.2000" ry="0.1000" fill="currentColor"/>
 </g>
+<g transform="translate(32.3463, 3.7790)">
+<rect x="0.0000" y="-2.0000" width="0.1900" height="4.0000" ry="0.0000" fill="currentColor"/>
+</g>
+<g transform="translate(31.8563, 3.7790)">
+<rect x="0.0000" y="-2.0000" width="0.1900" height="4.0000" ry="0.0000" fill="currentColor"/>
+</g>
+<g transform="translate(56.2054, 3.7790)">
+<rect x="0.0000" y="-2.0000" width="0.1900" height="4.0000" ry="0.0000" fill="currentColor"/>
+</g>
 <g transform="translate(8.5358, 5.7790)">
 <line stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="0" x2="47.8096" y2="0"/>
 </g>
@@ -24,15 +33,6 @@ tspan { white-space: pre; }
 </g>
 <g transform="translate(8.5358, 1.7790)">
 <line stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="0" x2="47.8096" y2="0"/>
-</g>
-<g transform="translate(56.2054, 3.7790)">
-<rect x="0.0000" y="-2.0000" width="0.1900" height="4.0000" ry="0.0000" fill="currentColor"/>
-</g>
-<g transform="translate(32.3463, 3.7790)">
-<rect x="0.0000" y="-2.0000" width="0.1900" height="4.0000" ry="0.0000" fill="currentColor"/>
-</g>
-<g transform="translate(31.8563, 3.7790)">
-<rect x="0.0000" y="-2.0000" width="0.1900" height="4.0000" ry="0.0000" fill="currentColor"/>
 </g>
 <g class="note" id="m01-n01">
 <g transform="translate(19.6106, 6.7790)">

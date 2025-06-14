@@ -4,6 +4,9 @@
 tspan { white-space: pre; }
 ]]>
 </style>
+<g transform="translate(38.2427, 3.7790)">
+<rect x="0.0000" y="-2.0000" width="0.1900" height="4.0000" ry="0.0000" fill="currentColor"/>
+</g>
 <g transform="translate(8.5358, 5.7790)">
 <line stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="0" x2="73.2411" y2="0"/>
 </g>
@@ -25,17 +28,14 @@ tspan { white-space: pre; }
 <g transform="translate(59.4777, 3.7790)">
 <rect x="0.0000" y="-2.0000" width="0.1900" height="4.0000" ry="0.0000" fill="currentColor"/>
 </g>
-<g transform="translate(38.2427, 3.7790)">
-<rect x="0.0000" y="-2.0000" width="0.1900" height="4.0000" ry="0.0000" fill="currentColor"/>
+<g class="beamSpan">
+<g transform="translate(72.4862, 0.2790)">
+<polygon stroke-linejoin="round" stroke-linecap="round" stroke-width="0.0800" fill="currentColor" stroke="currentColor" points="7.8526 -0.2000 7.8526 0.2000 0.0400 0.2000 0.0400 -0.2000"/>
+</g>
 </g>
 <g class="beam">
 <g transform="translate(61.7420, 3.9690)">
 <polygon stroke-linejoin="round" stroke-linecap="round" stroke-width="0.0800" fill="currentColor" stroke="currentColor" points="7.6026 0.8000 7.6026 1.2000 0.0400 0.2000 0.0400 -0.2000"/>
-</g>
-</g>
-<g class="beam">
-<g transform="translate(50.3270, 0.2790)">
-<polygon stroke-linejoin="round" stroke-linecap="round" stroke-width="0.0800" fill="currentColor" stroke="currentColor" points="7.8526 -0.2000 7.8526 0.2000 0.0400 0.2000 0.0400 -0.2000"/>
 </g>
 </g>
 <g class="note">
@@ -163,11 +163,6 @@ c0 -22 -50 -174 -183 -174c-59 0 -250 19 -250 263c0 62 18 262 250 262z" fill="cur
 <g transform="translate(47.1604, 3.7790)">
 <rect x="-0.0650" y="-0.8139" width="0.1300" height="5.8139" ry="0.0400" fill="currentColor"/>
 </g>
-<g class="beamSpan">
-<g transform="translate(72.4862, 0.2790)">
-<polygon stroke-linejoin="round" stroke-linecap="round" stroke-width="0.0800" fill="currentColor" stroke="currentColor" points="7.8526 -0.2000 7.8526 0.2000 0.0400 0.2000 0.0400 -0.2000"/>
-</g>
-</g>
 <g class="note">
 <g transform="translate(49.1528, 6.2790)">
 <path transform="scale(0.0040, -0.0040)" d="M218 136c66 0 108 -36 108 -89c0 -89 -113 -183 -218 -183c-66 0 -108 36 -108 89c0 89 113 183 218 183z" fill="currentColor"/>
@@ -175,6 +170,11 @@ c0 -22 -50 -174 -183 -174c-59 0 -250 19 -250 263c0 62 18 262 250 262z" fill="cur
 </g>
 <g transform="translate(50.3920, 3.7790)">
 <rect x="-0.0650" y="-3.5000" width="0.1300" height="5.8139" ry="0.0400" fill="currentColor"/>
+</g>
+<g class="beam">
+<g transform="translate(50.3270, 0.2790)">
+<polygon stroke-linejoin="round" stroke-linecap="round" stroke-width="0.0800" fill="currentColor" stroke="currentColor" points="7.8526 -0.2000 7.8526 0.2000 0.0400 0.2000 0.0400 -0.2000"/>
+</g>
 </g>
 <g class="note">
 <g transform="translate(51.9070, 2.7790)">

@@ -4,6 +4,9 @@
 tspan { white-space: pre; }
 ]]>
 </style>
+<g transform="translate(32.3528, 3.7790)">
+<rect x="0.0000" y="-2.0000" width="0.1900" height="4.0000" ry="0.0000" fill="currentColor"/>
+</g>
 <g transform="translate(8.5358, 5.7790)">
 <line stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="0" x2="40.8933" y2="0"/>
 </g>
@@ -20,9 +23,6 @@ tspan { white-space: pre; }
 <line stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="0" x2="40.8933" y2="0"/>
 </g>
 <g transform="translate(49.2891, 3.7790)">
-<rect x="0.0000" y="-2.0000" width="0.1900" height="4.0000" ry="0.0000" fill="currentColor"/>
-</g>
-<g transform="translate(32.3528, 3.7790)">
 <rect x="0.0000" y="-2.0000" width="0.1900" height="4.0000" ry="0.0000" fill="currentColor"/>
 </g>
 <g class="note" id="note01">
@@ -55,8 +55,8 @@ l-284 -330h167v131c0 34 34 27 68 72c22 30 23 56 36 56c6 0 13 -5 13 -14v-245h72c1
 <g transform="translate(23.6843, 6.9591)">
 <line stroke-linejoin="round" stroke-linecap="round" stroke-width="0.4000" stroke="currentColor" x1="0" y1="0" x2="14.9212" y2="-0.0000" stroke-dasharray="0.0,2.984233213317019"/>
 </g>
-<g transform="translate(17.1406, 7.5204)">
-<text font-family="serif" font-style="italic" font-size="2.4696" text-anchor="start" fill="currentColor">
+<g transform="translate(17.1406, 7.5203)">
+<text font-family="serif" font-style="italic" font-size="2.4697" text-anchor="start" fill="currentColor">
 <tspan>cresc.</tspan>
 </text>
 </g>

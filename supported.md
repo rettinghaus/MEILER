@@ -55,6 +55,11 @@ _Required attributes are shown in bold._
   * `@form` (for values 'acc' and 'rit')
   * `@xml:id`
 
+* `<bend>`
+  * `@color`
+  * `@curvedir`
+  * `@xml:id`
+
 * `<bracketSpan>`
   * `@color`
   * __`@endid`__
@@ -131,6 +136,7 @@ _Required attributes are shown in bold._
 * `<corr>`
 
 * `<dir>`
+  * `@color`
   * `@ho`
   * `@place`
   * __`@startid`__
@@ -142,6 +148,7 @@ _Required attributes are shown in bold._
   * `@vo`
 
 * `<dynam>`
+  * `@color`
   * `@endid`
   * `@extender`
   * `@ho`
@@ -179,6 +186,7 @@ _Required attributes are shown in bold._
 * `<fileDesc>`
 
 * `<fing>`
+  * `@color`
   * `@place`
   * __`@startid`__
   * `@xml:id`
@@ -230,9 +238,11 @@ _Required attributes are shown in bold._
   * `@xml:id`
 
 * `<harm>`
+  * `@color`
   * `@place`
-  * `@staff`
-  * __`@tstamp`__
+  * __`@staff`__ (for figured bass)
+  * __`@startid`__ (for harmonic symbols)
+  * __`@tstamp`__ (for figured bass)
 
 * `<harpPedal>`
   * `@a`
@@ -259,9 +269,11 @@ _Required attributes are shown in bold._
 
 * `<keySig>`
   * `@accid`
+  * `@cancelaccid`
   * `@mode`
   * `@pname`
   * `@sig`
+  * `@visible`
   * `@xml:id`
 
 * `<l>`
@@ -315,6 +327,7 @@ _Required attributes are shown in bold._
   * `@form`
   * `@sym`
   * `@unit`
+  * `@visible`
 
 * `<meterSigGrp>`
   * `@copyof`
@@ -551,6 +564,7 @@ _Required attributes are shown in bold._
   * `@meter.showchange`
   * `@meter.sym`
   * `@meter.unit`
+  * `@meter.visible`
   * `@midi.bpm`
   * `@mnum.visible`
   * `@optimize`
@@ -609,7 +623,9 @@ _Required attributes are shown in bold._
   * `@key.accid`
   * `@key.mode`
   * `@key.pname`
-  * `@key.sig` (unsupported for value 'mixed')
+  * `@keysig`
+  * `@keysig.cancelaccid`
+  * `@keysig.visible`
   * `@lines`
   * `@lines.visible`
   * `@lyric.fam`
@@ -653,6 +669,7 @@ _Required attributes are shown in bold._
   * `@xml:id`
 
 * `<tempo>`
+  * `@color`
   * `@ho`
   * `@midi.bpm`
   * `@mm`
@@ -757,3 +774,6 @@ _Required attributes are shown in bold._
 data.LINEWIDTH (`@lwidth`) works for values from data.LINEWIDTHTERM
 data.STEMDIRECTION (`@stem.dir`) works for values from data.STEMDIRECTION.basic
 data.STEMPOSITION (`@stem.pos`) will only affect stem direction
+
+`fb` is printed by default above its connected staff
+`fb` is not shown by default on rhythmic staves

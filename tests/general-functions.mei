@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-model href="https://music-encoding.org/schema/4.0.0/mei-all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
-<mei xmlns="http://www.music-encoding.org/ns/mei" meiversion="4.0.0">
+<?xml-model href="https://music-encoding.org/schema/5.1/mei-CMN.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="https://music-encoding.org/schema/5.1/mei-CMN.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<mei xmlns="http://www.music-encoding.org/ns/mei" meiversion="5.1">
   <meiHead>
     <fileDesc>
       <titleStmt>
@@ -18,7 +19,7 @@
     <encodingDesc> </encodingDesc>
     <workList>
       <work>
-         <title>MEILER test</title>
+        <title>MEILER test</title>
       </work>
     </workList>
   </meiHead>
@@ -26,15 +27,15 @@
     <body>
       <mdiv>
         <score>
-          <scoreDef meter.count="2" meter.unit="2" meter.sym="cut" key.sig="3f">
+          <scoreDef meter.count="2" meter.unit="2" meter.sym="cut" keysig="3f">
             <staffGrp>
               <staffDef n="1" xml:id="P1" lines="5" clef.line="2" clef.shape="G">
                 <label>Voice</label>
                 <meterSigGrp xml:id="meterSigGrp1" func="mixed">
-                  <meterSig count="2+3" unit="8"/>
-                  <meterSig count="2" unit="16"/>
-                  <meterSig count="1" unit="8"/>
-                  <meterSig count="2" unit="16"/>
+                  <meterSig count="2+3" unit="8" />
+                  <meterSig count="2" unit="16" />
+                  <meterSig count="1" unit="8" />
+                  <meterSig count="2" unit="16" />
                 </meterSigGrp>
               </staffDef>
             </staffGrp>
@@ -43,55 +44,57 @@
             <measure n="1">
               <staff n="1">
                 <layer n="1">
-                  <note xml:id="testnote1" dur="2" oct="5" pname="c" stem.dir="down"/>
+                  <note xml:id="testnote1" dur="2" oct="5" pname="c" stem.dir="down" />
                   <note xml:id="testnote2" dur="2" oct="5" pname="d" stem.dir="up">
-                    <accid accid="fu"/>
+                    <accid accid="fu" />
                   </note>
                 </layer>
               </staff>
-              <tempo staff="1" tstamp="1"><rend>mäßig</rend></tempo>
+              <tempo staff="1" tstamp="1">
+                <rend>mäßig</rend>
+              </tempo>
               <slur xml:id="blue-dashed-slur" vo="-2" startho="1" startvo="4" color="blue"
                 curvedir="below" lform="dashed" staff="1" tstamp="1" startid="#testnote1"
-                endid="#testnote3"/>
+                endid="#testnote3" />
               <mordent color="red" vo="3.5vu" form="lower" long="true" place="above" staff="1"
-                tstamp="1" startid="#testnote1"/>
+                tstamp="1" startid="#testnote1" />
               <turn xml:id="turns-green" color="green" vo="-2" form="lower" place="above" staff="1"
-                tstamp="1" startid="#testnote1"/>
+                tstamp="1" startid="#testnote1" />
               <trill xml:id="trills-long" color="rgb(32,64,128)" vo="-8vu" lwidth="wide"
-                place="above" staff="1" tstamp="3" startid="#testnote2" endid="#testnote3"/>
+                place="above" staff="1" tstamp="3" startid="#testnote2" endid="#testnote3" />
               <gliss xml:id="dashed-glissando" color="green" lform="dashed" lwidth="medium"
-                staff="1" tstamp="3" startid="#testnote2" endid="#testnote3"/>
+                staff="1" tstamp="3" startid="#testnote2" endid="#testnote3" />
               <phrase xml:id="whole-phrase" color="gray" bezier="-10 10 5 -5" startvo="2" endvo="-6"
                 curvedir="above" lform="solid" lwidth="medium" staff="1" tstamp="1"
-                startid="#testnote1" endid="#testnote7"/>
+                startid="#testnote1" endid="#testnote7" />
             </measure>
             <staffDef n="1">
-              <meterSig count="3" unit="4"/>
+              <meterSig count="3" unit="4" />
             </staffDef>
             <measure n="2">
               <staff n="1">
                 <layer n="1">
                   <note xml:id="testnote3" dur="2" dots="1" oct="5" pname="e" stem.dir="down">
-                    <artic xml:id="tenuto" artic="ten" vo="1"/>
+                    <artic xml:id="tenuto" artic="ten" vo="1" />
                   </note>
                 </layer>
               </staff>
               <trill xml:id="trill-under" color="purple" place="below" staff="1" tstamp="1"
-                startid="#testnote3"/>
+                startid="#testnote3" />
             </measure>
             <measure n="3">
               <staff n="1">
                 <layer n="1">
-                  <multiRest xml:id="multiRest" num="2"/>
+                  <multiRest xml:id="multiRest" num="2" />
                 </layer>
               </staff>
             </measure>
             <staffDef n="1">
               <meterSigGrp xml:id="meterSigGrp2" func="mixed">
-                <meterSig count="2+3" unit="8"/>
-                <meterSig count="2" unit="16"/>
-                <meterSig count="1" unit="8"/>
-                <meterSig count="2" unit="16"/>
+                <meterSig count="2+3" unit="8" />
+                <meterSig count="2" unit="16" />
+                <meterSig count="1" unit="8" />
+                <meterSig count="2" unit="16" />
               </meterSigGrp>
             </staffDef>
             <measure n="6">
@@ -99,31 +102,31 @@
                 <layer n="1">
                   <bTrem unitdur="256">
                     <chord xml:id="testchord4" dur="4" stem.dir="down" stem.mod="6slash">
-                      <note xml:id="testnote4a" oct="4" pname="f" accid="s" head.mod="paren"/>
-                      <note xml:id="testnote4b" oct="5" pname="c"/>
+                      <note xml:id="testnote4a" oct="4" pname="f" accid="s" head.mod="paren" />
+                      <note xml:id="testnote4b" oct="5" pname="c" />
                     </chord>
                   </bTrem>
                   <fTrem unitdur="16">
                     <note xml:id="testnote5" dur="8" oct="5" pname="d" stem.dir="down"
                       stem.mod="3slash">
-                      <accid accid="n" enclose="paren"/>
+                      <accid accid="n" enclose="paren" />
                     </note>
                     <note xml:id="testnote6" dur="8" oct="5" pname="f" stem.dir="down"
-                      stem.mod="3slash"/>
+                      stem.mod="3slash" />
                   </fTrem>
                   <fTrem unitdur="16">
                     <note xml:id="testnote5.1" dur="8" oct="5" pname="g" stem.dir="down"
-                      stem.mod="3slash"/>
+                      stem.mod="3slash" />
                     <note xml:id="testnote6.1" dur="8" oct="5" pname="e" stem.dir="down"
-                      stem.mod="3slash"/>
+                      stem.mod="3slash" />
                   </fTrem>
                   <note xml:id="testnote7" dur="4" oct="5" pname="e" stem.dir="down" fermata="above"
-                    head.shape="x"/>
+                    head.shape="x" />
                 </layer>
               </staff>
-              <tempo tstamp="1" mm="32" mm.unit="4"/>
+              <tempo tstamp="1" mm="32" mm.unit="4" />
               <fermata xml:id="blue-squared-fermata" place="below" color="blue" shape="square"
-                vo="0.4" staff="1" tstamp="3" startid="#testchord4"/>
+                vo="0.4" staff="1" tstamp="3" startid="#testchord4" />
               <dynam xml:id="finale" place="below" startid="#testnote7">sfz</dynam>
             </measure>
           </section>

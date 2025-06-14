@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-model href="https://music-encoding.org/schema/dev/mei-all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
-<?xml-model href="https://music-encoding.org/schema/dev/mei-all.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-<mei xmlns="http://www.music-encoding.org/ns/mei" meiversion="5.0.0-dev">
+<?xml-model href="https://music-encoding.org/schema/5.1/mei-all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="https://music-encoding.org/schema/5.1/mei-all.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<mei xmlns="http://www.music-encoding.org/ns/mei" meiversion="5.1">
     <meiHead>
         <fileDesc>
             <titleStmt>
@@ -37,8 +37,7 @@
                                     <note xml:id="n4cjepe" dur="4" oct="4" pname="f" />
                                 </layer>
                             </staff>
-                            <hairpin staff="1" startid="#n1me54m7" endid="#n4cjepe" form="cres"
-                                opening="4" />
+                            <hairpin staff="1" startid="#n1me54m7" endid="#n4cjepe" form="cres" opening="4" />
                         </measure>
                         <measure>
                             <staff n="1">
@@ -49,8 +48,7 @@
                                     <note xml:id="n1cyvkul" dur="4" oct="4" pname="f" />
                                 </layer>
                             </staff>
-                            <hairpin staff="1" startid="#nfsj276" endid="#n1cyvkul" form="dim"
-                                opening="2" />
+                            <hairpin staff="1" startid="#nfsj276" endid="#n1cyvkul" form="dim" opening="2" />
                         </measure>
                         <measure>
                             <staff n="1">
@@ -61,8 +59,7 @@
                                     <note xml:id="nu1qvr9" dur="4" oct="4" pname="f" />
                                 </layer>
                             </staff>
-                            <hairpin staff="1" startid="#n125jt0r" endid="#nu1qvr9" form="cres"
-                                niente="true" />
+                            <hairpin staff="1" startid="#n125jt0r" endid="#nu1qvr9" form="cres" niente="true" />
                         </measure>
                         <measure>
                             <staff n="1">
@@ -73,8 +70,7 @@
                                     <note xml:id="n1wyxpx5" dur="4" oct="4" pname="f" />
                                 </layer>
                             </staff>
-                            <hairpin staff="1" startid="#nhk5p9j" endid="#n1wyxpx5" form="dim"
-                                niente="true" />
+                            <hairpin staff="1" startid="#nhk5p9j" endid="#n1wyxpx5" form="dim" niente="true" />
                         </measure>
                         <measure>
                             <staff n="1">
@@ -85,8 +81,7 @@
                                     <note xml:id="n10hi0um" dur="4" oct="4" pname="f" />
                                 </layer>
                             </staff>
-                            <hairpin staff="1" startid="#n13snwsc" endid="#n10hi0um" form="cres"
-                                lform="dashed" />
+                            <hairpin staff="1" startid="#n13snwsc" endid="#n10hi0um" form="cres" lform="dashed" />
                         </measure>
                         <measure>
                             <staff n="1">
@@ -97,8 +92,7 @@
                                     <note xml:id="n1lkr30s" dur="4" oct="4" pname="f" />
                                 </layer>
                             </staff>
-                            <hairpin staff="1" startid="#n1jb9ym3" endid="#n1lkr30s" form="dim"
-                                lform="dashed" />
+                            <hairpin staff="1" startid="#n1jb9ym3" endid="#n1lkr30s" form="dim" lform="dashed" />
                         </measure>
                         <measure>
                             <staff n="1">
@@ -109,8 +103,7 @@
                                     <note xml:id="n1uuw946" dur="4" oct="4" pname="f" />
                                 </layer>
                             </staff>
-                            <hairpin staff="1" startid="#nummxvu" endid="#n1uuw946" form="cres"
-                                lform="dotted" />
+                            <hairpin staff="1" startid="#nummxvu" endid="#n1uuw946" form="cres" lform="dotted" />
                         </measure>
                         <measure>
                             <staff n="1">
@@ -121,8 +114,7 @@
                                     <note xml:id="nrx9y1k" dur="4" oct="4" pname="f" />
                                 </layer>
                             </staff>
-                            <hairpin staff="1" startid="#n1pbz9vg" endid="#nrx9y1k" form="dim"
-                                lform="dotted" />
+                            <hairpin staff="1" startid="#n1pbz9vg" endid="#nrx9y1k" form="dim" lform="dotted" />
                         </measure>
                     </section>
                 </score>

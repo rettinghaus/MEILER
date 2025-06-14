@@ -1,9 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.2" width="90.32mm" height="20.08mm" viewBox="8.4758 -0.0000 51.3950 11.4267">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.2" width="90.32mm" height="20.08mm" viewBox="8.4758 0.0000 51.3950 11.4267">
 <style type="text/css">
 <![CDATA[
 tspan { white-space: pre; }
 ]]>
 </style>
+<g transform="translate(30.2509, 5.7467)">
+<rect x="0.0000" y="-2.0000" width="0.1900" height="4.0000" ry="0.0000" fill="currentColor"/>
+</g>
 <g transform="translate(8.5358, 7.7467)">
 <line stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="0" x2="51.2850" y2="0"/>
 </g>
@@ -25,11 +28,8 @@ tspan { white-space: pre; }
 <g transform="translate(44.9659, 5.7467)">
 <rect x="0.0000" y="-2.0000" width="0.1900" height="4.0000" ry="0.0000" fill="currentColor"/>
 </g>
-<g transform="translate(30.2509, 5.7467)">
-<rect x="0.0000" y="-2.0000" width="0.1900" height="4.0000" ry="0.0000" fill="currentColor"/>
-</g>
-<g transform="translate(8.4758, 5.7467)">
-<rect x="0.0000" y="-2.0500" width="0.1600" height="4.1000" ry="0.0500" fill="currentColor"/>
+<g transform="translate(31.3066, 5.2467)">
+<path transform="scale(0.0040, -0.0040)" d="M-7 375c8 4 17 7 25 7s16 -3 24 -7l-2 -183l106 20h3c10 0 18 -7 18 -17l7 -570c-8 -4 -17 -7 -25 -7s-16 3 -24 7l2 183l-106 -20h-3c-10 0 -18 7 -18 17zM131 112l-92 -17l-3 -207l92 17z" fill="currentColor"/>
 </g>
 <g class="note" id="firstNote">
 <g transform="translate(17.6259, 5.2467)">
@@ -123,8 +123,8 @@ v-158c0 -10 -8 -19 -18 -19s-19 9 -19 19v145l-83 -31v-158c0 -10 -9 -19 -19 -19s-1
 </g>
 </g>
 </g>
-<g transform="translate(31.3066, 5.2467)">
-<path transform="scale(0.0040, -0.0040)" d="M-7 375c8 4 17 7 25 7s16 -3 24 -7l-2 -183l106 20h3c10 0 18 -7 18 -17l7 -570c-8 -4 -17 -7 -25 -7s-16 3 -24 7l2 183l-106 -20h-3c-10 0 -18 7 -18 17zM131 112l-92 -17l-3 -207l92 17z" fill="currentColor"/>
+<g transform="translate(8.4758, 5.7467)">
+<rect x="0.0000" y="-2.0500" width="0.1600" height="4.1000" ry="0.0500" fill="currentColor"/>
 </g>
 <g class="note" id="thirdNote">
 <g transform="translate(47.0559, 4.2467)">

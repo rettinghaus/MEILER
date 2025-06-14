@@ -4,6 +4,9 @@
 tspan { white-space: pre; }
 ]]>
 </style>
+<g transform="translate(32.3528, 5.2381)">
+<rect x="0.0000" y="-2.0000" width="0.1900" height="4.0000" ry="0.0000" fill="currentColor"/>
+</g>
 <g transform="translate(8.5358, 7.2381)">
 <line stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="0" x2="48.5912" y2="0"/>
 </g>
@@ -20,9 +23,6 @@ tspan { white-space: pre; }
 <line stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1000" stroke="currentColor" x1="0.0500" y1="0" x2="48.5912" y2="0"/>
 </g>
 <g transform="translate(56.9870, 5.2381)">
-<rect x="0.0000" y="-2.0000" width="0.1900" height="4.0000" ry="0.0000" fill="currentColor"/>
-</g>
-<g transform="translate(32.3528, 5.2381)">
 <rect x="0.0000" y="-2.0000" width="0.1900" height="4.0000" ry="0.0000" fill="currentColor"/>
 </g>
 <g class="note" id="note01">
@@ -76,7 +76,7 @@ c0 -39 -17 -77 -52 -77c-24 0 -44 19 -44 43c0 30 38 25 38 55c0 10 -10 11 -22 11h-
 </g>
 </g>
 <g class="dynam">
-<g transform="translate(22.1924, 10.5514)">
+<g transform="translate(22.1924, 10.5513)">
 <g>
 <path transform="scale(0.0040, -0.0040)" d="M124 223c0 -41 99 -50 99 -117c0 -61 -56 -106 -120 -106c-43 0 -81 28 -81 68c0 21 12 42 31 42c18 0 32 -14 32 -32c0 -13 -21 -16 -21 -29c0 -15 18 -22 35 -22c33 0 64 20 64 51c0 58 -100 63 -100 117s45 97 99 97c56 0 79 -34 79 -62c0 -19 -11 -36 -30 -36
 c-18 0 -31 11 -31 22c0 8 9 13 9 29c0 13 -6 23 -18 23c-26 0 -47 -20 -47 -45z" fill="currentColor"/>
@@ -102,7 +102,7 @@ c42 0 83 -11 125 -11c20 0 35 17 35 38c0 11 -4 16 -4 21c0 8 8 13 15 13c21 0 22 -6
 </g>
 <g class="dynam">
 <g transform="translate(26.1473, 1.8573)">
-<text font-family="serif" font-style="italic" font-size="2.4696" text-anchor="start" fill="currentColor">
+<text font-family="serif" font-style="italic" font-size="2.4697" text-anchor="start" fill="currentColor">
 <tspan>dim.</tspan>
 </text>
 </g>
@@ -113,8 +113,8 @@ c42 0 83 -11 125 -11c20 0 35 17 35 38c0 11 -4 16 -4 21c0 8 8 13 15 13c21 0 22 -6
 </g>
 </g>
 <g class="dynam">
-<g transform="translate(29.1496, 9.2758)">
-<text font-family="serif" font-size="2.2001" text-anchor="start" fill="currentColor">
+<g transform="translate(29.1496, 9.2757)">
+<text font-family="serif" font-size="2.2000" text-anchor="start" fill="currentColor">
 <tspan>piano</tspan>
 </text>
 </g>
@@ -150,7 +150,7 @@ c42 0 83 -11 125 -11c20 0 35 17 35 38c0 11 -4 16 -4 21c0 8 8 13 15 13c21 0 22 -6
 </g>
 </g>
 <g class="dynam">
-<g transform="translate(35.6766, 9.0562)">
+<g transform="translate(35.6766, 9.0561)">
 <g>
 <path transform="scale(0.0040, -0.0040)" d="M124 223c0 -41 99 -50 99 -117c0 -61 -56 -106 -120 -106c-43 0 -81 28 -81 68c0 21 12 42 31 42c18 0 32 -14 32 -32c0 -13 -21 -16 -21 -29c0 -15 18 -22 35 -22c33 0 64 20 64 51c0 58 -100 63 -100 117s45 97 99 97c56 0 79 -34 79 -62c0 -19 -11 -36 -30 -36
 c-18 0 -31 11 -31 22c0 8 9 13 9 29c0 13 -6 23 -18 23c-26 0 -47 -20 -47 -45z" fill="currentColor"/>
@@ -167,8 +167,8 @@ c-1 -2 -1 -5 -1 -7c0 -37 57 -18 57 -42c0 -7 -4 -14 -13 -14c-3 0 -50 5 -116 5s-11
 <rect x="-0.0650" y="-2.5000" width="0.1300" height="3.3139" ry="0.0400" fill="currentColor"/>
 </g>
 <g class="dynam">
-<g transform="translate(17.1406, 8.9795)">
-<text font-family="serif" font-style="italic" font-size="2.4696" text-anchor="start" fill="currentColor">
+<g transform="translate(17.1406, 8.9794)">
+<text font-family="serif" font-style="italic" font-size="2.4697" text-anchor="start" fill="currentColor">
 <tspan>cresc.</tspan>
 </text>
 </g>
@@ -199,7 +199,7 @@ c0 -39 -17 -77 -52 -77c-24 0 -44 19 -44 43c0 30 38 25 38 55c0 10 -10 11 -22 11h-
 </g>
 </g>
 <g class="dynam">
-<g transform="translate(43.2760, 9.9316)">
+<g transform="translate(43.2760, 9.9315)">
 <g>
 <path transform="scale(0.0040, -0.0040)" d="M161 32c78 0 97 176 97 178c0 18 -7 33 -25 33c-61 0 -102 -124 -102 -173c0 -22 8 -38 30 -38zM-53 141c0 2 51 151 134 151c35 0 59 -21 66 -52c29 31 67 52 103 52c69 0 107 -49 107 -114c0 -118 -105 -186 -159 -186c-53 0 -70 20 -84 20c-7 0 -14 -3 -16 -9l-29 -86
 c-1 -2 -1 -5 -1 -7c0 -37 57 -18 57 -42c0 -7 -4 -14 -13 -14c-3 0 -50 5 -116 5s-112 -5 -115 -5c-9 0 -14 7 -14 14c0 31 87 -1 102 41l102 300c2 7 4 14 4 20c0 8 -2 14 -11 14c-33 0 -63 -60 -79 -97c-5 -12 -15 -17 -24 -17c-8 0 -14 4 -14 12z" fill="currentColor"/>
